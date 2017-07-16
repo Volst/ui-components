@@ -1,12 +1,18 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 const Wrapper = styled.div`
     width: 350px;
     margin: 30px;
 `;
 
+const theme = {
+    primary: '#006b94',
+};
+
 export default story =>
-    <Wrapper>
-        {story()}
-    </Wrapper>;
+    <ThemeProvider theme={theme}>
+        <Wrapper>
+            {story()}
+        </Wrapper>
+    </ThemeProvider>;

@@ -4,9 +4,6 @@ import { observable } from 'mobx';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-// TODO: Make this dynamic somewhere
-const COLOR_PRIMARY = '#006b94';
-
 const StyledDiv = styled.div`
     display: flex;
     align-items: stretch;
@@ -15,7 +12,7 @@ const StyledDiv = styled.div`
     ${props =>
         props.focus &&
         `
-        border-color: ${COLOR_PRIMARY};
+        border-color: ${props => props.theme.primary};
     `};
 `;
 
@@ -56,10 +53,10 @@ const StyledInput = styled.input`
     left: -999999px;
     opacity: 0;
     &:checked + label {
-        background: ${COLOR_PRIMARY};
-        border-color: ${COLOR_PRIMARY};
+        background: ${props => props.theme.primary};
+        border-color: ${props => props.theme.primary};
         color: #fff;
-        box-shadow: -1px 0 ${COLOR_PRIMARY};
+        box-shadow: -1px 0 ${props => props.theme.primary};
     }
 `;
 
