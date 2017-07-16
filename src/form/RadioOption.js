@@ -80,7 +80,9 @@ export default observer(
         @observable hasFocus = false;
 
         handleChange = value => {
-            this.props.onChange(this.props.name, value);
+            if (!this.props.disabled) {
+                this.props.onChange(this.props.name, value);
+            }
         };
 
         renderItem = item => {
