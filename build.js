@@ -14,13 +14,13 @@ rollup
     .then(bundle => {
         bundle.write({
             format: 'es',
-            dest: 'dist/cy-components.es.js',
+            dest: 'dist/re-cy-cle.es.js',
         });
         bundle.write({
             format: 'umd',
-            moduleId: 'cy-components',
-            moduleName: 'cyComponents',
-            dest: 'dist/cy-components.umd.js',
+            moduleId: 're-cy-cle',
+            moduleName: 'reCyCle',
+            dest: 'dist/re-cy-cle.umd.js',
             globals: {
                 react: 'React',
                 'styled-components': 'styled',

@@ -1,14 +1,14 @@
 {
-  "name": "cy-components",
+  "name": "re-cy-cle",
   "version": "0.1.0",
   "license": "ISC",
   "author": "Kees Kluskens <kees@codeyellow.nl>",
   "description": "React component library for Code Yellow",
-  "module": "dist/cy-components.es.js",
-  "main": "dist/cy-components.umd.js",
+  "module": "dist/re-cy-cle.es.js",
+  "main": "dist/re-cy-cle.umd.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/CodeYellowBV/cy-components.git"
+    "url": "git://github.com/CodeYellowBV/re-cy-cle.git"
   },
   "scripts": {
     "start": "start-storybook -p 9001 -c storybook",
@@ -17,7 +17,8 @@
     "version": "git add -A dist",
     "build": "rm -f dist/** && node build.js",
     "precommit": "lint-staged",
-    "deploy-storybook": "storybook-to-ghpages"
+    "build-storybook": "build-storybook -c storybook -o .out",
+    "deploy-storybook": "storybook-to-ghpages -c storybook"
   },
   "lint-staged": {
     "*.js": [
