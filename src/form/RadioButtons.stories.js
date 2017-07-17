@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, action } from '@storybook/react';
-import RadioOption from './RadioOption';
+import RadioButtons from './RadioButtons';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
 const SOME_OPTIONS = [
@@ -14,11 +14,11 @@ const SOME_OPTIONS = [
     },
 ];
 
-storiesOf('RadioOption', module)
+storiesOf('RadioButtons', module)
     .addDecorator(CenterDecorator)
     .addWithInfo('standard', () => {
         return (
-            <RadioOption
+            <RadioButtons
                 onChange={action('change')}
                 name="myname"
                 options={SOME_OPTIONS}
@@ -28,7 +28,7 @@ storiesOf('RadioOption', module)
     })
     .add('disabled', () => {
         return (
-            <RadioOption
+            <RadioButtons
                 disabled
                 onChange={action('change')}
                 name="myname"

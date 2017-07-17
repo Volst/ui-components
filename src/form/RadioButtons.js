@@ -61,7 +61,7 @@ const StyledInput = styled.input`
 `;
 
 export default observer(
-    class RadioOption extends Component {
+    class RadioButtons extends Component {
         static propTypes = {
             onChange: PropTypes.func,
             name: PropTypes.string,

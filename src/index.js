@@ -1,1 +1,1 @@
-export { default as RadioOption } from './form/RadioOption';
+export { default as RadioButtons } from './form/RadioButtons';
