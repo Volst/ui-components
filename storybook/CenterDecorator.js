@@ -1,5 +1,6 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
+import ReCyCleTheme from '../src/ReCyCleTheme';
 
 const Wrapper = styled.div`
     width: 350px;
@@ -11,8 +12,8 @@ const theme = {
 };
 
 export default story =>
-    <ThemeProvider theme={theme}>
+    <ReCyCleTheme theme={theme}>
         <Wrapper>
             {story()}
         </Wrapper>
-    </ThemeProvider>;
+    </ReCyCleTheme>;
