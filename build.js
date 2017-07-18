@@ -1,10 +1,25 @@
 const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
 
+const external = [
+    'styled-components',
+    'react',
+    'prop-types',
+    'mobx',
+    'mobx-react',
+];
+const globals = {
+    react: 'React',
+    'styled-components': 'styled',
+    'prop-types': 'PropTypes',
+    'mobx-react': 'mobxReact',
+    mobx: 'mobx',
+};
+
 rollup
     .rollup({
         entry: './src/index.js',
-        external: ['styled-components', 'react', 'prop-types'],
+        external,
         plugins: [
             babel({
                 exclude: 'node_modules/**',
@@ -18,14 +33,9 @@ rollup
         });
         bundle.write({
             format: 'umd',
-            moduleId: 're-cy-cle',
             moduleName: 'reCyCle',
             dest: 'dist/re-cy-cle.umd.js',
-            globals: {
-                react: 'React',
-                'styled-components': 'styled',
-                'prop-types': 'PropTypes',
-            },
+            globals,
         });
     })
     .catch(err => {

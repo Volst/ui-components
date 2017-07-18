@@ -1,0 +1,8 @@
+{
+    "presets": [
+        "react-cy-app"
+    ],
+    "plugins": [
+        "external-helpers"
+    ]
+}
