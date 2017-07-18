@@ -1,11 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled, { ThemeProvider, injectGlobal } from 'styled-components';
+import React, { Component } from 'react';
+import { ThemeProvider, injectGlobal } from 'styled-components';
 
 export const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
 
-// TODO: hmm this is a weird side effect, because this module also exports a React component.
-injectGlobal`
+const injectGlobalStyles = () => injectGlobal`
     html {
         box-sizing: border-box;
         font-family: Roboto, Arial, sans-serif;
@@ -34,4 +32,11 @@ injectGlobal`
     }
 `;
 
-export default ThemeProvider;
+export default class ReCyCleTheme extends Component {
+    componentDidMount() {
+        injectGlobalStyles();
+    }
+    render() {
+        return <ThemeProvider {...this.props} />;
+    }
+}
