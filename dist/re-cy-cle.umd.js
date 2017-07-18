@@ -3,8 +3,8 @@
         ? factory(
               exports,
               require('react'),
-              require('prop-types'),
               require('styled-components'),
+              require('prop-types'),
               require('mobx-react'),
               require('mobx')
           )
@@ -13,8 +13,8 @@
                 [
                     'exports',
                     'react',
-                    'prop-types',
                     'styled-components',
+                    'prop-types',
                     'mobx-react',
                     'mobx',
                 ],
@@ -23,20 +23,69 @@
           : factory(
                 (global.reCyCle = {}),
                 global.React,
-                global.PropTypes,
                 global.styled,
+                global.PropTypes,
                 global.mobxReact,
                 global.mobx
             );
-})(this, function(exports, React, PropTypes, styled, mobxReact, mobx) {
+})(this, function(exports, React, styled, PropTypes, mobxReact, mobx) {
     'use strict';
 
     var React__default = 'default' in React ? React['default'] : React;
+    var styled__default = 'default' in styled ? styled['default'] : styled;
     PropTypes =
         PropTypes && PropTypes.hasOwnProperty('default')
             ? PropTypes['default']
             : PropTypes;
-    var styled__default = 'default' in styled ? styled['default'] : styled;
+
+    const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
+
+    const injectGlobalStyles = () => styled.injectGlobal`
+        html {
+            box-sizing: border-box;
+            font-family: Roboto, Arial, sans-serif;
+            color: ${COLOR_TEXT};
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        html,
+        body,
+        #root {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        input,
+        textarea,
+        button {
+            font-family: inherit;
+        }
+
+        input:focus,
+        button:focus {
+            outline: 0;
+        }
+    `;
+
+    let ReCyCleTheme = class ReCyCleTheme extends React.Component {
+        componentDidMount() {
+            injectGlobalStyles();
+        }
+        render() {
+            return React__default.createElement(
+                styled.ThemeProvider,
+                this.props
+            );
+        }
+    };
 
     var _class;
     var _descriptor;
@@ -287,7 +336,7 @@
         _temp2$1
     );
 
-    exports.ReCyCleTheme = styled.ThemeProvider;
+    exports.ReCyCleTheme = ReCyCleTheme;
     exports.RadioButtons = RadioButtons;
     exports.Modal = Modal;
 

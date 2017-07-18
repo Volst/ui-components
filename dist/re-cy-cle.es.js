@@ -1,8 +1,48 @@
 import React, { Component } from 'react';
+import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 import PropTypes from 'prop-types';
-import styled, { ThemeProvider } from 'styled-components';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
+
+const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
+
+const injectGlobalStyles = () => injectGlobal`
+    html {
+        box-sizing: border-box;
+        font-family: Roboto, Arial, sans-serif;
+        color: ${COLOR_TEXT};
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+
+    html, body, #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    input, textarea, button {
+        font-family: inherit;
+    }
+
+    input:focus,
+    button:focus {
+        outline: 0;
+    }
+`;
+
+let ReCyCleTheme = class ReCyCleTheme extends Component {
+    componentDidMount() {
+        injectGlobalStyles();
+    }
+    render() {
+        return React.createElement(ThemeProvider, this.props);
+    }
+};
 
 var _class;
 var _descriptor;
@@ -247,4 +287,4 @@ let Modal = (
     _temp2$1
 );
 
-export { ThemeProvider as ReCyCleTheme, RadioButtons, Modal };
+export { ReCyCleTheme, RadioButtons, Modal };
