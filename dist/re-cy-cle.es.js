@@ -229,6 +229,51 @@ var RadioButtons = observer(
 var _class$1;
 var _temp2$1;
 
+const StyledLabel$1 = styled.label.withConfig({
+    displayName: 'Checkbox__StyledLabel',
+})(['width:100%;display:block;margin-bottom:3px;cursor:pointer;']);
+
+const StyledInput$1 = styled.input.withConfig({
+    displayName: 'Checkbox__StyledInput',
+})(['margin-right:5px;position:relative;top:-1px;']);
+
+let Checkbox = (
+    (_temp2$1 = _class$1 = class Checkbox extends Component {
+        constructor(...args) {
+            var _temp;
+
+            return (_temp = super(...args)), (this.handleChange = e => {
+                this.props.onChange(this.props.name, e.target.checked);
+            }), _temp;
+        }
+
+        render() {
+            return React.createElement(
+                StyledLabel$1,
+                null,
+                React.createElement(StyledInput$1, {
+                    type: 'checkbox',
+                    onChange: this.handleChange,
+                    checked: this.props.value,
+                    disabled: this.props.disabled,
+                }),
+                this.props.label
+            );
+        }
+    }),
+    (_class$1.propTypes = {
+        onChange: PropTypes.func.isRequired,
+        name: PropTypes.string,
+        label: PropTypes.string,
+        value: PropTypes.bool,
+        disabled: PropTypes.bool,
+    }),
+    _temp2$1
+);
+
+var _class$2;
+var _temp2$2;
+
 const Container = styled.div.withConfig({
     displayName: 'Modal__Container',
 })([
@@ -250,7 +295,7 @@ const Content = styled.div.withConfig({
 const ESCAPE_KEY = 27;
 
 let Modal = (
-    (_temp2$1 = _class$1 = class Modal extends Component {
+    (_temp2$2 = _class$2 = class Modal extends Component {
         constructor(...args) {
             var _temp;
 
@@ -280,11 +325,11 @@ let Modal = (
             );
         }
     }),
-    (_class$1.propTypes = {
+    (_class$2.propTypes = {
         children: PropTypes.node.isRequired,
         onClose: PropTypes.func.isRequired,
     }),
-    _temp2$1
+    _temp2$2
 );
 
-export { ReCyCleTheme, RadioButtons, Modal };
+export { ReCyCleTheme, RadioButtons, Checkbox, Modal };

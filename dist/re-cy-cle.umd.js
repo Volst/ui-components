@@ -274,6 +274,51 @@
     var _class$1;
     var _temp2$1;
 
+    const StyledLabel$1 = styled__default.label.withConfig({
+        displayName: 'Checkbox__StyledLabel',
+    })(['width:100%;display:block;margin-bottom:3px;cursor:pointer;']);
+
+    const StyledInput$1 = styled__default.input.withConfig({
+        displayName: 'Checkbox__StyledInput',
+    })(['margin-right:5px;position:relative;top:-1px;']);
+
+    let Checkbox = (
+        (_temp2$1 = _class$1 = class Checkbox extends React.Component {
+            constructor(...args) {
+                var _temp;
+
+                return (_temp = super(...args)), (this.handleChange = e => {
+                    this.props.onChange(this.props.name, e.target.checked);
+                }), _temp;
+            }
+
+            render() {
+                return React__default.createElement(
+                    StyledLabel$1,
+                    null,
+                    React__default.createElement(StyledInput$1, {
+                        type: 'checkbox',
+                        onChange: this.handleChange,
+                        checked: this.props.value,
+                        disabled: this.props.disabled,
+                    }),
+                    this.props.label
+                );
+            }
+        }),
+        (_class$1.propTypes = {
+            onChange: PropTypes.func.isRequired,
+            name: PropTypes.string,
+            label: PropTypes.string,
+            value: PropTypes.bool,
+            disabled: PropTypes.bool,
+        }),
+        _temp2$1
+    );
+
+    var _class$2;
+    var _temp2$2;
+
     const Container = styled__default.div.withConfig({
         displayName: 'Modal__Container',
     })([
@@ -295,7 +340,7 @@
     const ESCAPE_KEY = 27;
 
     let Modal = (
-        (_temp2$1 = _class$1 = class Modal extends React.Component {
+        (_temp2$2 = _class$2 = class Modal extends React.Component {
             constructor(...args) {
                 var _temp;
 
@@ -329,15 +374,16 @@
                 );
             }
         }),
-        (_class$1.propTypes = {
+        (_class$2.propTypes = {
             children: PropTypes.node.isRequired,
             onClose: PropTypes.func.isRequired,
         }),
-        _temp2$1
+        _temp2$2
     );
 
     exports.ReCyCleTheme = ReCyCleTheme;
     exports.RadioButtons = RadioButtons;
+    exports.Checkbox = Checkbox;
     exports.Modal = Modal;
 
     Object.defineProperty(exports, '__esModule', { value: true });
