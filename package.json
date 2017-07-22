@@ -21,7 +21,7 @@
     "deploy-storybook": "storybook-to-ghpages -c storybook"
   },
   "lint-staged": {
-    "*.js": [
+    "src/**/*.js": [
       "prettier --single-quote --trailing-comma es5 --tab-width 4 --write",
       "git add"
     ]
