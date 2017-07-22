@@ -10,7 +10,7 @@ const StyledSvg = styled.svg`
     user-select: none;
 `;
 
-function SvgIcon(props) {
+function Icon(props) {
     const { children, viewBox, ...other } = props;
 
     return (
@@ -20,7 +20,7 @@ function SvgIcon(props) {
     );
 }
 
-SvgIcon.propTypes = {
+Icon.propTypes = {
     children: PropTypes.node,
     /**
    * Allows you to redefine what the coordinates without units mean inside an svg element.
@@ -32,8 +32,8 @@ SvgIcon.propTypes = {
     viewBox: PropTypes.string,
 };
 
-SvgIcon.defaultProps = {
+Icon.defaultProps = {
     viewBox: '0 0 24 24',
 };
 
-export default SvgIcon;
+export default Icon;
