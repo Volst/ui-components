@@ -1,12 +1,18 @@
+
 {
-  "name": "material-ui-icon-builder",
-  "version": "0.1.2",
-  "description": "Material Design Svg Icons converted to React components.",
-  "private": "true",
-  "scripts": {
-    "prebuild": "rimraf js jsx",
-    "build": "node build.js --output-dir ../src/svg-icons --svg-dir ./node_modules/material-design-icons --glob '/**/production/*_24px.svg' --mui-require relative --renameFilter ./filters/rename/material-design-icons.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "private": true,
+  "name": "material-ui-icons-builder",
+  "version": "1.0.0-alpha.19",
+  "description": "Material Design Svg Icons converted to Material-UI React components.",
+  "author": "Material-UI Team",
+  "license": "MIT",
+  "homepage": "http://material-ui.com/",
+  "bugs": {
+    "url": "https://github.com/callemall/material-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "callemall/material-ui"
   },
   "keywords": [
     "Material",
@@ -16,23 +22,29 @@
     "React",
     "react-component"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/callemall/material-ui-icons.git"
+  "scripts": {
+    "build": "NODE_ENV=development babel-node ./builder.js --output-dir ../src/icon --svg-dir ./node_modules/material-design-icons --glob '/**/production/*_24px.svg' --renameFilter ./filters/rename/material-design-icons.js"
   },
-  "author": "Hai Nguyen",
-  "license": "MIT",
+  "peerDependencies": {
+    "material-ui": "^1.0.0-alpha",
+    "react": "^15.3.0 || ^16.0.0-alpha.13",
+    "react-dom": "^15.3.0 || ^16.0.0-alpha.13"
+  },
   "dependencies": {
-    "to-pascal-case": "^1.0.0",
-    "yargs": "^4.3.2"
+    "recompose": "^0.23.5"
   },
-  "peerDependencies": {},
   "devDependencies": {
-    "babel-cli": "^6.6.5",
-    "lodash": "^4.6.1",
-    "material-design-icons": "~2.2.3",
-    "mkdirp": "^0.5.1",
-    "mustache": "^2.1.2",
-    "temp": "^0.8.3"
+    "babel-cli": "^6.24.1",
+    "cross-env": "^5.0.1",
+    "fs-extra": "^3.0.1",
+    "glob": "^7.1.2",
+    "lodash": "^4.0.0",
+    "material-design-icons": "^3.0.0",
+    "mkdirp": "^0.5.0",
+    "mustache": "^2.0.0",
+    "recursive-readdir-sync": "^1.0.6",
+    "rimraf": "^2.0.0",
+    "temp": "^0.8.3",
+    "yargs": "^8.0.2"
   }
 }

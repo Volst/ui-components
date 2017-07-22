@@ -6,7 +6,5 @@ let {{className}} = (props) => (
     {{{paths}}}
   </SvgIcon>
 );
-{{className}} = {{className}};
-{{className}}.displayName = '{{className}}';
 
 export default {{className}};

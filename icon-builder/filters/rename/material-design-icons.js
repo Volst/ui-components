@@ -1,25 +1,18 @@
-'use strict';
+// @flow
 
-const path = require('path');
-const toPascalCase = require('to-pascal-case');
+function myDestRewriter(pathObj) {
+  let fileName = pathObj.base;
 
-function myDestRewriter(pathObj, innerPath) {
-    let fileName = pathObj.base;
+  fileName = fileName
+    .replace('_24px.svg', '.js')
+    .slice(3)
+    .replace(/(^.)|(_)(.)/g, (match, p1, p2, p3) => (p1 || p3).toUpperCase());
 
-    const rewrittenInnerPath = innerPath.replace('/svg/production', '');
+  if (fileName.indexOf('3d') === 0) {
+    fileName = `ThreeD${fileName.slice(2)}`;
+  }
 
-    fileName = fileName.replace('_24px.svg', '');
-    fileName = fileName.slice(3);
-    fileName = toPascalCase(fileName);
-    fileName += '.js';
-
-    if (fileName.indexOf('3d') === 0) {
-        fileName = 'three-d' + fileName.slice(2);
-    }
-
-    console.log('aaa', fileName);
-
-    return path.join(rewrittenInnerPath, fileName);
+  return fileName;
 }
 
 module.exports = myDestRewriter;

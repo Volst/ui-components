@@ -1,36 +1,52 @@
-# Material-UI-Icons
+# material-ui-icons
 
-This tool generates Material-UI SvgIcon components for a set of svg icons.
+This package provides the Google [Material icons](https://material.io/icons/) packaged as a set of [React](https://facebook.github.io/react/) components.
 
-**Copied from https://github.com/callemall/material-ui/tree/master/packages/icon-builder - adjusted so the icons do not have a dependency on material-ui**
+ **Copied from https://github.com/callemall/material-ui/tree/master/packages icon-builder - adjusted so the icons do not have a dependency on material-ui**
 
-## Running the build
-The npm script builds the [material-design-icons](https://github.com/google/material-design-icons) 
-that are included with Material-UI.
+## Installation
 
-```sh
-npm install
-npm run build
+Install the package in your project directory with:
+
+```
+npm i -S material-ui-icons
 ```
 
-## Generated folders
-The npm build script walks through all of the svg icons in the material-design-icons package
- and generates the appropriate `.js` files in the `svg-icons` folder.
+These components use the Material-UI [SvgIcon](http://material-ui.com/#/style/icons) component to
+render the SVG path for each icon, and so a have a peer-dependency on the `next` release of Material-UI.
 
-## Advanced usage and Custom builds
+If you are not already using Material-UI in your project, you can add it with:
 
-`node build.js --help` can be used to pull up options available for building.
+```
+npm i -S material-ui@next
+```
 
-You can build your own SVG icons as well as collections like [game-icons](http://game-icons.net/) 
-through environmental variables.
+## Usage
 
-* `--output-dir` - directory to output jsx components
-* `--svg-dir` - SVG directory
-* `--inner-path` - "Reach into" subdirs, since libraries like material-design-icons
-  use arbitrary build directories to organize icons
-  e.g. "action/svg/production/icon_3d_rotation_24px.svg"
-* `--file-suffix` - Filter only files ending with a suffix
+The import path for each Material icon component includes the icon name in PascalCase.
 
-If you experience any issues building icons or would like a feature added,
-[file an issue](https://github.com/callemall/material-ui/issues) and let us
-know.
+For example to use the 'access alarm' icon component, import `material-ui-icons/AccessAlarm`.
+
+Note: One exception is '3d rotation', which is named `ThreeDRotation`.
+
+### Examples
+
+- If your environment doesn't support tree-shaking, the **recommended** way to import the icons is the following:
+```jsx
+import AccessAlarmIcon from 'material-ui-icons/AccessAlarm';
+import ThreeDRotation from 'material-ui-icons/ThreeDRotation';
+```
+
+- If your environment support tree-shaking you can also import the icons that way:
+```jsx
+import { AccessAlarm, ThreeDRotation } from 'material-ui-icons';
+```
+
+Note: Importing named exports in this way will result in the code for *every icon* being included in your project, so is not recommended unless you configure [tree-shaking](https://webpack.js.org/guides/tree-shaking/).
+
+## Upgrading
+
+If you are upgrading an existing project from Material-UI 0.x.x, you will need to revise the import paths
+from `material-ui/svg-icons/<category>/<icon-name>` to `material-ui-icons/<IconName>`.
+
+We may provide a [codemod](https://github.com/facebook/codemod) in a future release.
