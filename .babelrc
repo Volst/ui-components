@@ -2,7 +2,11 @@
     "presets": [
         "react-cy-app"
     ],
-    "plugins": [
-        "external-helpers"
-    ]
+    "env": {
+        "production": {
+            "plugins": [
+                "external-helpers"
+            ]
+        }
+    }
 }
