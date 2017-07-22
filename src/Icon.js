@@ -5,19 +5,13 @@ import styled from 'styled-components';
 const StyledSvg = styled.svg`
     display: inline-block;
     fill: currentColor;
-    height: 24px;
-    width: 24px;
+    height: ${props => props.height || 18}px;
+    width: ${props => props.width || 18}px;
     user-select: none;
 `;
 
 function Icon(props) {
-    const { children, viewBox, ...other } = props;
-
-    return (
-        <StyledSvg focusable={false} viewBox={viewBox} {...other}>
-            {children}
-        </StyledSvg>
-    );
+    return <StyledSvg focusable={false} {...props} />;
 }
 
 Icon.propTypes = {
