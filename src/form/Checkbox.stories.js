@@ -30,7 +30,7 @@ storiesOf('Checkbox', module)
                 onChange={action('change')}
                 name="animals"
                 label="Zebra"
-                value="zebra"
+                value={true}
             />
         );
     });
