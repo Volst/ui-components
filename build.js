@@ -7,6 +7,7 @@ const external = [
     'prop-types',
     'mobx',
     'mobx-react',
+    'react-custom-scrollbars',
 ];
 const globals = {
     react: 'React',
@@ -14,6 +15,7 @@ const globals = {
     'prop-types': 'PropTypes',
     'mobx-react': 'mobxReact',
     mobx: 'mobx',
+    'react-custom-scrollbars': 'reactCustomScrollbars',
 };
 
 rollup
