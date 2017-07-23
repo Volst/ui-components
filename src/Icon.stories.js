@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import AccessAlarm from './icons/AccessAlarm';
-import Delete from './icons/Delete';
+import AccessAlarm from './icon/AccessAlarm';
+import Delete from './icon/Delete';
 import CenterDecorator from '../storybook/CenterDecorator';
 
 storiesOf('Icon', module)
