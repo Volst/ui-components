@@ -39,7 +39,7 @@ const StyledLabel = styled.label`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px;
+    padding: 6px 20px;
     text-align: center;
     border: 1px solid #ccc;
     border-left-width: 0;
