@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'mobx-react', 'mobx', 'react-custom-scrollbars'], factory) :
-	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global.mobxReact,global.mobx,global.reactCustomScrollbars));
-}(this, (function (exports,React,styled,PropTypes,mobxReact,mobx,reactCustomScrollbars) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('react-router-dom'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'react-router-dom', 'mobx-react', 'mobx', 'react-custom-scrollbars'], factory) :
+	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global.ReactRouterDom,global.mobxReact,global.mobx,global.reactCustomScrollbars));
+}(this, (function (exports,React,styled,PropTypes,reactRouterDom,mobxReact,mobx,reactCustomScrollbars) { 'use strict';
 
 var React__default = 'default' in React ? React['default'] : React;
 var styled__default = 'default' in styled ? styled['default'] : styled;
@@ -106,7 +106,11 @@ const Button = styled__default.button.attrs({
     type: 'button'
 }).withConfig({
     displayName: 'Button__Button'
-})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:', ';line-height:1;', ';'], props => props.disabled ? 'not-allowed' : 'pointer', props => !props.unstyled && `
+})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:', ';line-height:1;', ' ', ';'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon && `
+        > svg {
+            margin: ${props.unstyled ? '6px' : '0 6px 0 0'};
+        }
+    `, props => !props.unstyled && `
         background: ${props.theme.primary};
         height: 30px;
         color: #fff;
@@ -122,6 +126,9 @@ const Button = styled__default.button.attrs({
             width: 100%;
         `}
     `);
+
+const ExternalLink = Button.withComponent('a');
+const Link$1 = Button.withComponent(reactRouterDom.Link);
 
 var _class$1;
 var _descriptor;
@@ -366,6 +373,7 @@ var Toolbar = styled__default.section.withConfig({
 exports.ReCyCleTheme = ReCyCleTheme;
 exports.Modal = Modal;
 exports.Button = Button;
+exports.ExternalLink = ExternalLink;
 exports.RadioButtons = RadioButtons;
 exports.Checkbox = Checkbox;
 exports.AppContainer = AppContainer;

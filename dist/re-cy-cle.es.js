@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -103,7 +104,11 @@ const Button = styled.button.attrs({
     type: 'button'
 }).withConfig({
     displayName: 'Button__Button'
-})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:', ';line-height:1;', ';'], props => props.disabled ? 'not-allowed' : 'pointer', props => !props.unstyled && `
+})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:', ';line-height:1;', ' ', ';'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon && `
+        > svg {
+            margin: ${props.unstyled ? '6px' : '0 6px 0 0'};
+        }
+    `, props => !props.unstyled && `
         background: ${props.theme.primary};
         height: 30px;
         color: #fff;
@@ -119,6 +124,9 @@ const Button = styled.button.attrs({
             width: 100%;
         `}
     `);
+
+const ExternalLink = Button.withComponent('a');
+const Link$1 = Button.withComponent(Link);
 
 var _class$1;
 var _descriptor;
@@ -360,4 +368,4 @@ var Toolbar = styled.section.withConfig({
     displayName: 'Toolbar'
 })(['height:40px;background-color:#d9ebf3;display:flex;align-items:center;']);
 
-export { ReCyCleTheme, Modal, Button, RadioButtons, Checkbox, AppContainer, Body, Content$1 as Content, ContentContainer, Sidebar, Toolbar };
+export { ReCyCleTheme, Modal, Button, ExternalLink, RadioButtons, Checkbox, AppContainer, Body, Content$1 as Content, ContentContainer, Sidebar, Toolbar };
