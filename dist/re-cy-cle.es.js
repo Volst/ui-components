@@ -176,7 +176,7 @@ const Option = styled.div.withConfig({
 
 const StyledLabel = styled.label.withConfig({
     displayName: 'RadioButtons__StyledLabel'
-})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px;text-align:center;border:1px solid #ccc;border-left-width:0;background:#fff;font-size:14px;color:rgba(0,0,0,0.5);'], props => props.disabled ? 'not-allowed' : 'pointer');
+})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px 20px;text-align:center;border:1px solid #ccc;border-left-width:0;background:#fff;font-size:14px;color:rgba(0,0,0,0.5);'], props => props.disabled ? 'not-allowed' : 'pointer');
 
 const StyledInput = styled.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
