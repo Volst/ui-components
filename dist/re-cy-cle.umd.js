@@ -373,6 +373,7 @@ var Toolbar = styled__default.section.withConfig({
 exports.ReCyCleTheme = ReCyCleTheme;
 exports.Modal = Modal;
 exports.Button = Button;
+exports.Link = Link$1;
 exports.ExternalLink = ExternalLink;
 exports.RadioButtons = RadioButtons;
 exports.Checkbox = Checkbox;

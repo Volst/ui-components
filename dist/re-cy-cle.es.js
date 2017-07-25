@@ -368,4 +368,4 @@ var Toolbar = styled.section.withConfig({
     displayName: 'Toolbar'
 })(['height:40px;background-color:#d9ebf3;display:flex;align-items:center;']);
 
-export { ReCyCleTheme, Modal, Button, ExternalLink, RadioButtons, Checkbox, AppContainer, Body, Content$1 as Content, ContentContainer, Sidebar, Toolbar };
+export { ReCyCleTheme, Modal, Button, Link$1 as Link, ExternalLink, RadioButtons, Checkbox, AppContainer, Body, Content$1 as Content, ContentContainer, Sidebar, Toolbar };
