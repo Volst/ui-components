@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Link as RouterLink } from 'react-router-dom';
 
-const Button = styled.button.attrs({
+export const Button = styled.button.attrs({
     // `type="submit"` is a really nasty default and we forget all the time to set this to type="button" manually...
     type: 'button',
 })`
@@ -43,4 +44,5 @@ const Button = styled.button.attrs({
     `};
 `;
 
-export default Button;
+export const ExternalLink = Button.withComponent('a');
+export const Link = Button.withComponent(RouterLink);

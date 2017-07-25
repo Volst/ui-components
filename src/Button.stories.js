@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Button from './Button';
+import { Button, Link, ExternalLink } from './Button';
 import IconAdd from './icon/AddCircle';
 import IconDelete from './icon/Delete';
 import IconMic from './icon/Mic';
@@ -34,5 +34,19 @@ storiesOf('Button', module)
                     <IconMic />
                 </Button>
             </div>
+        );
+    })
+    .addWithInfo('as React Router link', () => {
+        return (
+            <Link icon to="/">
+                <IconAdd /> Go to something
+            </Link>
+        );
+    })
+    .addWithInfo('as external link', () => {
+        return (
+            <ExternalLink icon href="https://google.com">
+                <IconAdd /> Go to Google
+            </ExternalLink>
         );
     });

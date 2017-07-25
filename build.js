@@ -8,6 +8,7 @@ const external = [
     'mobx',
     'mobx-react',
     'react-custom-scrollbars',
+    'react-router-dom',
 ];
 const globals = {
     react: 'React',
@@ -16,6 +17,7 @@ const globals = {
     'mobx-react': 'mobxReact',
     mobx: 'mobx',
     'react-custom-scrollbars': 'reactCustomScrollbars',
+    'react-router-dom': 'ReactRouterDom',
 };
 
 rollup
