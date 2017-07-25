@@ -1,10 +1,9 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const Button = styled.button.attrs({
-    // `type="submit"` is a really nasty default and we forget all the time to set this to type="button" manually...
-    type: 'button',
-})`
+// `type="submit"` is a really nasty default and we forget all the time to set this to type="button" manually...
+export const Button = styled(props => <button type="button" {...props} />)`
     display: inline-flex;
     align-items: center;
     justify-content: center;

@@ -27,9 +27,9 @@ storiesOf('Button', module)
                 <Button icon unstyled>
                     <IconAdd />
                 </Button>
-                <Button icon unstyled>
+                <Link icon unstyled to="/">
                     <IconDelete />
-                </Button>
+                </Link>
                 <Button icon unstyled>
                     <IconMic />
                 </Button>
