@@ -44,3 +44,31 @@ rollup
         console.log(String(err));
         process.exit(1);
     });
+
+// Icons get their own build for now. Not sure if it's a good idea but hey itworks.
+rollup
+    .rollup({
+        entry: './src/icon/index.js',
+        external,
+        plugins: [
+            babel({
+                exclude: 'node_modules/**',
+            }),
+        ],
+    })
+    .then(bundle => {
+        bundle.write({
+            format: 'es',
+            dest: 'dist/icon.es.js',
+        });
+        bundle.write({
+            format: 'umd',
+            moduleName: 'reCyCle',
+            dest: 'dist/icon.umd.js',
+            globals,
+        });
+    })
+    .catch(err => {
+        console.log(String(err));
+        process.exit(1);
+    });
