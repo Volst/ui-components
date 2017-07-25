@@ -15,6 +15,14 @@ const Button = styled.button.attrs({
     line-height: 1;
 
     ${props =>
+        props.icon &&
+        `
+        > svg {
+            margin: ${props.unstyled ? '6px' : '0 6px 0 0'};
+        }
+    `}
+
+    ${props =>
         !props.unstyled &&
         `
         background: ${props.theme.primary};
