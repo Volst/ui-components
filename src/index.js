@@ -1,6 +1,6 @@
 export { default as ReCyCleTheme } from './ReCyCleTheme';
 export { default as Modal } from './Modal';
-export { Button, ExternalLink } from './Button';
+export { Button, Link, ExternalLink } from './Button';
 
 export { default as RadioButtons } from './form/RadioButtons';
 export { default as Checkbox } from './form/Checkbox';
