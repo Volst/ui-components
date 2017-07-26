@@ -40,6 +40,11 @@ export const Button = styled(props => <button type="button" {...props} />)`
             margin: 5px 0;
             width: 100%;
         `}
+
+        &:disabled {
+            background-color: #cecece;
+            color: #e6e6e6;
+        }
     `};
 `;
 
