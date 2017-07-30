@@ -1,9 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 
-// `type="submit"` is a really nasty default and we forget all the time to set this to type="button" manually...
-export const Button = styled(props => <button type="button" {...props} />)`
+// I really really do not like this hack, but we can't pass made-up properties
+// to DOM elements without React giving a warning.
+const OMIT_PROPS = ['unstyled', 'fullWidth'];
+
+// `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
+export const Button = styled(props =>
+    <button type="button" {...omit(props, OMIT_PROPS)} />
+)`
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -48,5 +55,9 @@ export const Button = styled(props => <button type="button" {...props} />)`
     `};
 `;
 
-export const ExternalLink = Button.withComponent('a');
-export const Link = Button.withComponent(RouterLink);
+export const ExternalLink = Button.withComponent(props =>
+    <a {...omit(props, OMIT_PROPS)} />
+);
+export const Link = Button.withComponent(props =>
+    <RouterLink {...omit(props, OMIT_PROPS)} />
+);

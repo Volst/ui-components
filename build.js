@@ -9,6 +9,7 @@ const external = [
     'mobx-react',
     'react-custom-scrollbars',
     'react-router-dom',
+    'lodash',
 ];
 const globals = {
     react: 'React',
@@ -16,6 +17,7 @@ const globals = {
     'prop-types': 'PropTypes',
     'mobx-react': 'mobxReact',
     mobx: 'mobx',
+    lodash: '_',
     'react-custom-scrollbars': 'reactCustomScrollbars',
     'react-router-dom': 'ReactRouterDom',
 };
