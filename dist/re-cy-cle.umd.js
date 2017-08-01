@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('react-router-dom'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'react-router-dom', 'mobx-react', 'mobx', 'react-custom-scrollbars'], factory) :
-	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global.ReactRouterDom,global.mobxReact,global.mobx,global.reactCustomScrollbars));
-}(this, (function (exports,React,styled,PropTypes,reactRouterDom,mobxReact,mobx,reactCustomScrollbars) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('lodash'), require('react-router-dom'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'lodash', 'react-router-dom', 'mobx-react', 'mobx', 'react-custom-scrollbars'], factory) :
+	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global._,global.ReactRouterDom,global.mobxReact,global.mobx,global.reactCustomScrollbars));
+}(this, (function (exports,React,styled,PropTypes,lodash,reactRouterDom,mobxReact,mobx,reactCustomScrollbars) { 'use strict';
 
 var React__default = 'default' in React ? React['default'] : React;
 var styled__default = 'default' in styled ? styled['default'] : styled;
@@ -101,10 +101,12 @@ let Modal = (_temp2 = _class = class Modal extends React.Component {
     onClose: PropTypes.func.isRequired
 }, _temp2);
 
-const Button = styled__default.button.attrs({
-    // `type="submit"` is a really nasty default and we forget all the time to set this to type="button" manually...
-    type: 'button'
-}).withConfig({
+// I really really do not like this hack, but we can't pass made-up properties
+// to DOM elements without React giving a warning.
+const OMIT_PROPS = ['unstyled', 'fullWidth'];
+
+// `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
+const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, lodash.omit(props, OMIT_PROPS)))).withConfig({
     displayName: 'Button__Button'
 })(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:', ';line-height:1;', ' ', ';'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon && `
         > svg {
@@ -125,15 +127,68 @@ const Button = styled__default.button.attrs({
             margin: 5px 0;
             width: 100%;
         `}
-    `);
 
-const ExternalLink = Button.withComponent('a');
-const Link$1 = Button.withComponent(reactRouterDom.Link);
+        &:disabled {
+            background-color: #cecece;
+            color: #e6e6e6;
+        }
+    `);
+Button.displayName = 'Button';
+
+const ExternalLink = Button.withComponent(props => React__default.createElement('a', lodash.omit(props, OMIT_PROPS)));
+ExternalLink.displayName = 'ExternalLink';
+const Link$1 = Button.withComponent(props => React__default.createElement(reactRouterDom.Link, lodash.omit(props, OMIT_PROPS)));
+Link$1.displayName = 'Link';
 
 var _class$1;
+var _temp2$1;
+
+const StyledForm = styled__default.form.withConfig({
+    displayName: 'Form__StyledForm'
+})(['display:inherit;flex-grow:1;flex-direction:inherit;width:100%;height:100%;']);
+
+let Form = (_temp2$1 = _class$1 = class Form extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.handleKeydown = e => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (String.fromCharCode(e.which).toLowerCase()) {
+                    case 's':
+                        this.handleSubmit(e);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }, this.handleSubmit = e => {
+            e.preventDefault();
+            this.props.onSubmit();
+        }, _temp;
+    }
+
+    // Submit with ctrl+s or <cmd/windows>+s
+
+
+    componentDidMount() {
+        window.addEventListener('keydown', this.handleKeydown, false);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.handleKeydown);
+    }
+
+    render() {
+        return React__default.createElement(StyledForm, Object.assign({}, this.props, { onSubmit: this.handleSubmit }));
+    }
+}, _class$1.propTypes = {
+    onSubmit: PropTypes.func.isRequired
+}, _temp2$1);
+
+var _class$2;
 var _descriptor;
 var _class2;
-var _temp2$1;
+var _temp2$2;
 
 function _initDefineProp(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -192,7 +247,7 @@ const StyledInput = styled__default.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
 })(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:#fff;box-shadow:-1px 0 ', ';}'], props => props.theme.primary, props => props.theme.primary, props => props.theme.primary);
 
-var RadioButtons = mobxReact.observer((_class$1 = (_temp2$1 = _class2 = class RadioButtons extends React.Component {
+var RadioButtons = mobxReact.observer((_class$2 = (_temp2$2 = _class2 = class RadioButtons extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -246,15 +301,15 @@ var RadioButtons = mobxReact.observer((_class$1 = (_temp2$1 = _class2 = class Ra
     disabled: PropTypes.bool,
     options: PropTypes.array.isRequired,
     value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number])
-}, _temp2$1), (_descriptor = _applyDecoratedDescriptor(_class$1.prototype, 'hasFocus', [mobx.observable], {
+}, _temp2$2), (_descriptor = _applyDecoratedDescriptor(_class$2.prototype, 'hasFocus', [mobx.observable], {
     enumerable: true,
     initializer: function () {
         return false;
     }
-})), _class$1));
+})), _class$2));
 
-var _class$2;
-var _temp2$2;
+var _class$3;
+var _temp2$3;
 
 const StyledLabel$1 = styled__default.label.withConfig({
     displayName: 'Checkbox__StyledLabel'
@@ -264,7 +319,7 @@ const StyledInput$1 = styled__default.input.withConfig({
     displayName: 'Checkbox__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let Checkbox = (_temp2$2 = _class$2 = class Checkbox extends React.Component {
+let Checkbox = (_temp2$3 = _class$3 = class Checkbox extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -286,13 +341,13 @@ let Checkbox = (_temp2$2 = _class$2 = class Checkbox extends React.Component {
             this.props.label
         );
     }
-}, _class$2.propTypes = {
+}, _class$3.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.bool,
     disabled: PropTypes.bool
-}, _temp2$2);
+}, _temp2$3);
 
 var AppContainer = styled__default.div.withConfig({
     displayName: 'AppContainer'
@@ -375,6 +430,7 @@ exports.Modal = Modal;
 exports.Button = Button;
 exports.Link = Link$1;
 exports.ExternalLink = ExternalLink;
+exports.Form = Form;
 exports.RadioButtons = RadioButtons;
 exports.Checkbox = Checkbox;
 exports.AppContainer = AppContainer;

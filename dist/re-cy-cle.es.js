@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 import PropTypes from 'prop-types';
+import { omit } from 'lodash';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
@@ -99,10 +100,12 @@ let Modal = (_temp2 = _class = class Modal extends Component {
     onClose: PropTypes.func.isRequired
 }, _temp2);
 
-const Button = styled.button.attrs({
-    // `type="submit"` is a really nasty default and we forget all the time to set this to type="button" manually...
-    type: 'button'
-}).withConfig({
+// I really really do not like this hack, but we can't pass made-up properties
+// to DOM elements without React giving a warning.
+const OMIT_PROPS = ['unstyled', 'fullWidth'];
+
+// `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
+const Button = styled(props => React.createElement('button', Object.assign({ type: 'button' }, omit(props, OMIT_PROPS)))).withConfig({
     displayName: 'Button__Button'
 })(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:', ';line-height:1;', ' ', ';'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon && `
         > svg {
@@ -123,15 +126,68 @@ const Button = styled.button.attrs({
             margin: 5px 0;
             width: 100%;
         `}
-    `);
 
-const ExternalLink = Button.withComponent('a');
-const Link$1 = Button.withComponent(Link);
+        &:disabled {
+            background-color: #cecece;
+            color: #e6e6e6;
+        }
+    `);
+Button.displayName = 'Button';
+
+const ExternalLink = Button.withComponent(props => React.createElement('a', omit(props, OMIT_PROPS)));
+ExternalLink.displayName = 'ExternalLink';
+const Link$1 = Button.withComponent(props => React.createElement(Link, omit(props, OMIT_PROPS)));
+Link$1.displayName = 'Link';
 
 var _class$1;
+var _temp2$1;
+
+const StyledForm = styled.form.withConfig({
+    displayName: 'Form__StyledForm'
+})(['display:inherit;flex-grow:1;flex-direction:inherit;width:100%;height:100%;']);
+
+let Form = (_temp2$1 = _class$1 = class Form extends Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.handleKeydown = e => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (String.fromCharCode(e.which).toLowerCase()) {
+                    case 's':
+                        this.handleSubmit(e);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }, this.handleSubmit = e => {
+            e.preventDefault();
+            this.props.onSubmit();
+        }, _temp;
+    }
+
+    // Submit with ctrl+s or <cmd/windows>+s
+
+
+    componentDidMount() {
+        window.addEventListener('keydown', this.handleKeydown, false);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.handleKeydown);
+    }
+
+    render() {
+        return React.createElement(StyledForm, Object.assign({}, this.props, { onSubmit: this.handleSubmit }));
+    }
+}, _class$1.propTypes = {
+    onSubmit: PropTypes.func.isRequired
+}, _temp2$1);
+
+var _class$2;
 var _descriptor;
 var _class2;
-var _temp2$1;
+var _temp2$2;
 
 function _initDefineProp(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -190,7 +246,7 @@ const StyledInput = styled.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
 })(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:#fff;box-shadow:-1px 0 ', ';}'], props => props.theme.primary, props => props.theme.primary, props => props.theme.primary);
 
-var RadioButtons = observer((_class$1 = (_temp2$1 = _class2 = class RadioButtons extends Component {
+var RadioButtons = observer((_class$2 = (_temp2$2 = _class2 = class RadioButtons extends Component {
     constructor(...args) {
         var _temp;
 
@@ -244,15 +300,15 @@ var RadioButtons = observer((_class$1 = (_temp2$1 = _class2 = class RadioButtons
     disabled: PropTypes.bool,
     options: PropTypes.array.isRequired,
     value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number])
-}, _temp2$1), (_descriptor = _applyDecoratedDescriptor(_class$1.prototype, 'hasFocus', [observable], {
+}, _temp2$2), (_descriptor = _applyDecoratedDescriptor(_class$2.prototype, 'hasFocus', [observable], {
     enumerable: true,
     initializer: function () {
         return false;
     }
-})), _class$1));
+})), _class$2));
 
-var _class$2;
-var _temp2$2;
+var _class$3;
+var _temp2$3;
 
 const StyledLabel$1 = styled.label.withConfig({
     displayName: 'Checkbox__StyledLabel'
@@ -262,7 +318,7 @@ const StyledInput$1 = styled.input.withConfig({
     displayName: 'Checkbox__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let Checkbox = (_temp2$2 = _class$2 = class Checkbox extends Component {
+let Checkbox = (_temp2$3 = _class$3 = class Checkbox extends Component {
     constructor(...args) {
         var _temp;
 
@@ -284,13 +340,13 @@ let Checkbox = (_temp2$2 = _class$2 = class Checkbox extends Component {
             this.props.label
         );
     }
-}, _class$2.propTypes = {
+}, _class$3.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.bool,
     disabled: PropTypes.bool
-}, _temp2$2);
+}, _temp2$3);
 
 var AppContainer = styled.div.withConfig({
     displayName: 'AppContainer'
@@ -368,4 +424,4 @@ var Toolbar = styled.section.withConfig({
     displayName: 'Toolbar'
 })(['height:40px;background-color:#d9ebf3;display:flex;align-items:center;']);
 
-export { ReCyCleTheme, Modal, Button, Link$1 as Link, ExternalLink, RadioButtons, Checkbox, AppContainer, Body, Content$1 as Content, ContentContainer, Sidebar, Toolbar };
+export { ReCyCleTheme, Modal, Button, Link$1 as Link, ExternalLink, Form, RadioButtons, Checkbox, AppContainer, Body, Content$1 as Content, ContentContainer, Sidebar, Toolbar };
