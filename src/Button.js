@@ -24,6 +24,7 @@ export const Button = styled(props =>
     ${props =>
         props.icon &&
         `
+        color: ${props.unstyled ? props.theme.primary : '#fff'};
         > svg {
             margin: ${props.unstyled ? '6px' : '0 6px 0 0'};
         }
