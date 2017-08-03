@@ -38,14 +38,14 @@ storiesOf('Button', module)
     })
     .addWithInfo('as React Router link', () => {
         return (
-            <Link icon to="/">
+            <Link to="/">
                 <IconAdd /> Go to something
             </Link>
         );
     })
     .addWithInfo('as external link', () => {
         return (
-            <ExternalLink icon href="https://google.com">
+            <ExternalLink href="https://google.com">
                 <IconAdd /> Go to Google
             </ExternalLink>
         );

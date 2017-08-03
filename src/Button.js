@@ -21,13 +21,14 @@ export const Button = styled(props =>
     cursor: pointer;
     line-height: 1;
 
+    > svg {
+        margin: ${props => (props.unstyled ? '6px' : '0 6px 0 0')};
+    }
+
     ${props =>
         props.icon &&
         `
         color: ${props.unstyled ? '#000' : '#fff'};
-        > svg {
-            margin: ${props.unstyled ? '6px' : '0 6px 0 0'};
-        }
     `}
 
     ${props =>
