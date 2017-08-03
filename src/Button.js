@@ -18,7 +18,7 @@ export const Button = styled(props =>
     padding: 0;
     border: 0;
     background: transparent;
-    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+    cursor: pointer;
     line-height: 1;
 
     ${props =>
@@ -50,6 +50,7 @@ export const Button = styled(props =>
         `}
 
         &:disabled {
+            cursor: not-allowed;
             background-color: #cecece;
             color: #e6e6e6;
         }
