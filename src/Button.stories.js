@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Button, Link, ExternalLink } from './Button';
-import IconAdd from './icon/AddCircle';
-import IconDelete from './icon/Delete';
-import IconMic from './icon/Mic';
+import IconAdd from './icon/IconAddCircle';
+import IconDelete from './icon/IconDelete';
+import IconMic from './icon/IconMic';
 import CenterDecorator from '../storybook/CenterDecorator';
 
 storiesOf('Button', module)

@@ -1,5 +1,6 @@
 const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
+const multiEntry = require('rollup-plugin-multi-entry');
 
 const external = [
     'styled-components',
@@ -24,9 +25,10 @@ const globals = {
 
 rollup
     .rollup({
-        entry: './src/index.js',
+        entry: ['./src/index.js', './src/icon/index.js'],
         external,
         plugins: [
+            multiEntry(),
             babel({
                 exclude: 'node_modules/**',
             }),
@@ -41,34 +43,6 @@ rollup
             format: 'umd',
             moduleName: 'reCyCle',
             dest: 'dist/re-cy-cle.umd.js',
-            globals,
-        });
-    })
-    .catch(err => {
-        console.log(String(err));
-        process.exit(1);
-    });
-
-// Icons get their own build for now. Not sure if it's a good idea but hey itworks.
-rollup
-    .rollup({
-        entry: './src/icon/index.js',
-        external,
-        plugins: [
-            babel({
-                exclude: 'node_modules/**',
-            }),
-        ],
-    })
-    .then(bundle => {
-        bundle.write({
-            format: 'es',
-            dest: 'dist/icon.es.js',
-        });
-        bundle.write({
-            format: 'umd',
-            moduleName: 'reCyCle',
-            dest: 'dist/icon.umd.js',
             globals,
         });
     })
