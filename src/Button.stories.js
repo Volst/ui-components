@@ -14,6 +14,9 @@ storiesOf('Button', module)
     .addWithInfo('full width', () => {
         return <Button fullWidth>Save thingy</Button>;
     })
+    .addWithInfo('disabled', () => {
+        return <Button disabled>Save thingy</Button>;
+    })
     .addWithInfo('with icon and text', () => {
         return (
             <Button icon>

@@ -44,11 +44,12 @@ export const Button = styled(props =>
         font-size: 16px;
         vertical-align: middle;
 
-        ${props.fullWidth &&
-            `
+        ${props.fullWidth
+            ? `
             margin: 5px 0;
             width: 100%;
-        `}
+        `
+            : ''}
 
         &:disabled {
             cursor: not-allowed;
