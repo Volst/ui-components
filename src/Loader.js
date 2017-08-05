@@ -22,12 +22,5 @@ export default styled.div`
             `;
         }
         return 'box-shadow: 10px 0 0px -10px black;';
-    }}
-`;
-
-export const LoaderContainer = styled.div`
-    padding: 30px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    }};
 `;
