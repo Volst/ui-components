@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { withInfo } from '@storybook/addon-info';
 import { Button, Link, ExternalLink } from './Button';
 import IconAdd from './icon/IconAddCircle';
 import IconDelete from './icon/IconDelete';
@@ -8,48 +9,69 @@ import CenterDecorator from '../storybook/CenterDecorator';
 
 storiesOf('Button', module)
     .addDecorator(CenterDecorator)
-    .addWithInfo('standard', () => {
-        return <Button>Save thingy</Button>;
-    })
-    .addWithInfo('full width', () => {
-        return <Button fullWidth>Save thingy</Button>;
-    })
-    .addWithInfo('disabled', () => {
-        return <Button disabled>Save thingy</Button>;
-    })
-    .addWithInfo('with icon and text', () => {
-        return (
-            <Button icon>
-                <IconAdd /> Create user
-            </Button>
-        );
-    })
-    .addWithInfo('with icons', () => {
-        return (
-            <div>
-                <Button icon unstyled>
-                    <IconAdd />
+    .add(
+        'standard',
+        withInfo()(() => {
+            return <Button>Save thingy</Button>;
+        })
+    )
+    .add(
+        'full width',
+        withInfo()(() => {
+            return <Button fullWidth>Save thingy</Button>;
+        })
+    )
+    .add(
+        'disabled',
+        withInfo()(() => {
+            return <Button disabled>Save thingy</Button>;
+        })
+    )
+    .add(
+        'with icon and text',
+        withInfo()(() => {
+            return (
+                <Button icon>
+                    <IconAdd /> Create user
                 </Button>
-                <Link icon unstyled to="/">
-                    <IconDelete />
+            );
+        })
+    )
+    .add(
+        'with icons',
+        withInfo()(() => {
+            return (
+                <div>
+                    <Button icon unstyled>
+                        <IconAdd />
+                    </Button>
+                    <Link icon unstyled to="/">
+                        <IconDelete />
+                    </Link>
+                    <Button icon unstyled>
+                        <IconMic />
+                    </Button>
+                </div>
+            );
+        })
+    )
+    .add(
+        'as React Router link',
+        withInfo()(() => {
+            return (
+                <Link to="/">
+                    <IconAdd /> Go to something
                 </Link>
-                <Button icon unstyled>
-                    <IconMic />
-                </Button>
-            </div>
-        );
-    })
-    .addWithInfo('as React Router link', () => {
-        return (
-            <Link to="/">
-                <IconAdd /> Go to something
-            </Link>
-        );
-    })
-    .addWithInfo('as external link', () => {
-        return (
-            <ExternalLink href="https://google.com">
-                <IconAdd /> Go to Google
-            </ExternalLink>
-        );
-    });
+            );
+        })
+    )
+    .add(
+        'as external link',
+        withInfo()(() => {
+            return (
+                <ExternalLink href="https://google.com">
+                    <IconAdd /> Go to Google
+                </ExternalLink>
+            );
+        })
+    );

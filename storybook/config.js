@@ -1,8 +1,4 @@
-import { configure, setAddon } from '@storybook/react';
-
-import infoAddon from '@storybook/addon-info';
-
-setAddon(infoAddon);
+import { configure } from '@storybook/react';
 
 const req = require.context('../src', true, /\.stories\.js$/);
 
