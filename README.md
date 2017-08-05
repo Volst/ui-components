@@ -2,7 +2,7 @@
 
 A React component library for Code Yellow.
 
-Note that this library is still experimental; we're using it in one production application in Code Yellow now.
+**Note that this library is still experimental**; we're using it in one production application in Code Yellow now. A lot of components still need to be added and fine-tuned.
 
 [**Demo / overview of all components**](https://codeyellowbv.github.io/re-cy-cle/)
 
