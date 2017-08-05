@@ -9,6 +9,7 @@ const external = [
     'mobx',
     'mobx-react',
     'react-custom-scrollbars',
+    'react-styled-flexboxgrid',
     'react-router-dom',
     'lodash',
 ];
@@ -20,6 +21,7 @@ const globals = {
     mobx: 'mobx',
     lodash: '_',
     'react-custom-scrollbars': 'reactCustomScrollbars',
+    'react-styled-flexboxgrid': 'reactStyledFlexboxgrid',
     'react-router-dom': 'ReactRouterDom',
 };
 
