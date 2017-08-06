@@ -11,7 +11,7 @@ const theme = {
 const Wrapper = styled.div`
     height: 100%;
 
-    > div, > div > div {
+    > div, > div > div[style^="position: relative;"] {
         height: 100%;
     }
 `;
