@@ -12,5 +12,13 @@ export { default as Content } from './layout/Content';
 export { default as ContentContainer } from './layout/ContentContainer';
 export { default as Sidebar } from './layout/Sidebar';
 export { default as Toolbar } from './layout/Toolbar';
+
+export { default as TopMenu } from './topMenu/TopMenu';
+export { default as Logo } from './topMenu/Logo';
+export { default as MenuRow } from './topMenu/MenuRow';
+export { default as NavItem } from './topMenu/NavItem';
+export { default as NavMenu } from './topMenu/NavMenu';
+
 export { default as Loader } from './Loader';
+
 export { Row, Col, Grid } from './Grid';

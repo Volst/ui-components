@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReCyCleTheme from '../src/ReCyCleTheme';
+import { BrowserRouter } from 'react-router-dom';
 
 const theme = {
     primary: '#006b94',
@@ -17,7 +18,9 @@ const Wrapper = styled.div`
 
 export default story =>
     <ReCyCleTheme theme={theme}>
-        <Wrapper>
-            {story()}
-        </Wrapper>
+        <BrowserRouter>
+            <Wrapper>
+                {story()}
+            </Wrapper>
+        </BrowserRouter>
     </ReCyCleTheme>;
