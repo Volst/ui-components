@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('lodash'), require('react-router-dom'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'lodash', 'react-router-dom', 'mobx-react', 'mobx', 'react-custom-scrollbars'], factory) :
-	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global._,global.ReactRouterDom,global.mobxReact,global.mobx,global.reactCustomScrollbars));
-}(this, (function (exports,React,styled,PropTypes,lodash,reactRouterDom,mobxReact,mobx,reactCustomScrollbars) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('lodash'), require('react-router-dom'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars'), require('react-styled-flexboxgrid')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'lodash', 'react-router-dom', 'mobx-react', 'mobx', 'react-custom-scrollbars', 'react-styled-flexboxgrid'], factory) :
+	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global._,global.ReactRouterDom,global.mobxReact,global.mobx,global.reactCustomScrollbars,global.reactStyledFlexboxgrid));
+}(this, (function (exports,React,styled,PropTypes,lodash,reactRouterDom,mobxReact,mobx,reactCustomScrollbars,reactStyledFlexboxgrid) { 'use strict';
 
 var React__default = 'default' in React ? React['default'] : React;
 var styled__default = 'default' in styled ? styled['default'] : styled;
@@ -423,6 +423,273 @@ Sidebar.propTypes = {
 var Toolbar = styled__default.section.withConfig({
     displayName: 'Toolbar'
 })(['height:40px;background-color:#d9ebf3;display:flex;align-items:center;']);
+
+var _class$4;
+var _temp;
+
+const Menu = styled__default.header.withConfig({
+    displayName: 'TopMenu__Menu'
+})(['display:flex;align-items:stretch;flex-direction:column;']);
+
+let TopMenu = (_temp = _class$4 = class TopMenu extends React.Component {
+
+    render() {
+        return React__default.createElement(
+            Menu,
+            null,
+            this.props.children
+        );
+    }
+}, _class$4.propTypes = {
+    children: PropTypes.node.isRequired
+}, _temp);
+
+const StyledNavLink = styled__default(reactRouterDom.NavLink).withConfig({
+    displayName: 'Logo__StyledNavLink'
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;font-size:32px;font-weight:300;text-decoration:none;color:inherit;']);
+
+const Logo = props => React__default.createElement(
+    StyledNavLink,
+    { to: '/' },
+    props.children
+);
+
+Logo.propTypes = {
+    children: PropTypes.node
+};
+
+var MenuRow = styled__default.div.withConfig({
+    displayName: 'MenuRow'
+})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => props.theme.primary, props => props.inContent && `
+        margin: -20px -20px 0 -20px;
+        border-bottom: 1px solid ${props.theme.primary};
+        .nav-item:after {
+            content: '';
+        }
+        .nav-item:before {
+            border-bottom-color: ${props.theme.primary};
+        }
+    `);
+
+var _class$5;
+var _temp2$4;
+
+const Item = styled__default(reactRouterDom.NavLink).withConfig({
+    displayName: 'NavItem__Item'
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primary);
+
+let NavItem = (_temp2$4 = _class$5 = class NavItem extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.checkActive = (match, location) => {
+            return location.pathname.startsWith(this.props.activePath);
+        }, _temp;
+    }
+
+    render() {
+        const { activePath } = this.props;
+        return React__default.createElement(
+            Item,
+            {
+                to: this.props.to,
+                onClick: this.props.onClick,
+                className: 'nav-item',
+                activeClassName: 'active',
+                isActive: activePath ? this.checkActive : null
+            },
+            this.props.title
+        );
+    }
+}, _class$5.propTypes = {
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    to: PropTypes.string,
+    onClick: PropTypes.func,
+    activePath: PropTypes.string
+}, _temp2$4);
+
+var NavMenu = styled__default.nav.withConfig({
+    displayName: 'NavMenu'
+})(['flex:1;display:flex;align-items:stretch;']);
+
+const sweep = styled.keyframes(['to{transform:rotate(360deg);}']);
+
+var Loader = styled__default.div.withConfig({
+    displayName: 'Loader'
+})(['width:18px;height:18px;animation:', ' 0.7s infinite linear;border-radius:8px;margin:5px;transition:200ms all linear;', ';'], sweep, props => {
+    if (props.isLoading) {
+        return `
+                box-shadow: 4px 0 0px -3px black;
+                transition-duration: 1s;
+            `;
+    }
+    return 'box-shadow: 10px 0 0px -10px black;';
+});
+
+var _class$7;
+var _class2$1;
+var _descriptor$1;
+var _class3;
+var _temp2$6;
+
+function _initDefineProp$1(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
+
+function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+const TRANSITION_TIME = 500;
+
+let NotificationItem = mobxReact.observer(_class$7 = (_class2$1 = (_temp2$6 = _class3 = class NotificationItem extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.onDismiss = () => {
+            this.props.onDismiss();
+        }, _initDefineProp$1(this, 'active', _descriptor$1, this), this.forceDismiss = e => {
+            if (e) e.preventDefault();
+            this.expire();
+        }, _temp;
+    }
+
+    componentDidMount() {
+        this.animateInTimeout = setTimeout(this.animateIn.bind(this));
+
+        if (this.props.dismissAfter !== false) {
+            this.expireTimeout = setTimeout(this.expire.bind(this), this.props.dismissAfter);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.animateInTimeout) clearTimeout(this.animateInTimeout);
+        if (this.expireTimeout) clearTimeout(this.expireTimeout);
+        if (this.transitionTimeout) clearTimeout(this.transitionTimeout);
+    }
+
+    animateIn() {
+        this.active = true;
+    }
+
+    expire() {
+        this.active = false;
+        this.transitionTimeout = setTimeout(this.onDismiss, TRANSITION_TIME);
+    }
+
+    render() {
+        return React__default.createElement(
+            StyledItem,
+            { active: this.active, type: this.props.type },
+            this.props.message,
+            React__default.createElement(
+                CloseButton,
+                { unstyled: true, icon: true, onClick: this.onDismiss },
+                '\u2715'
+            )
+        );
+    }
+}, _class3.propTypes = {
+    message: PropTypes.string.isRequired,
+    onDismiss: PropTypes.func.isRequired,
+    dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+    type: PropTypes.oneOf(['info', 'error'])
+}, _class3.defaultProps = {
+    dismissAfter: 3100,
+    type: 'info'
+}, _temp2$6), (_descriptor$1 = _applyDecoratedDescriptor$1(_class2$1.prototype, 'active', [mobx.observable], {
+    enumerable: true,
+    initializer: function () {
+        return false;
+    }
+})), _class2$1)) || _class$7;
+
+const CloseButton = styled__default(Button).withConfig({
+    displayName: 'Item__CloseButton'
+})(['margin-left:11px;position:absolute;top:13px;right:13px;font-size:15px;']);
+
+const StyledItem = styled__default.div.withConfig({
+    displayName: 'Item__StyledItem'
+})(['width:250px;padding:10px 40px 10px 14px;color:#000;margin-bottom:15px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);', ' background:', ';'], TRANSITION_TIME, props => !props.active ? `
+        visibility: hidden;
+        opacity: 0;
+    ` : '', props => {
+    switch (props.type) {
+        case 'info':
+            return '#fbf9e4';
+        case 'error':
+            return '#f1a1a8';
+        default:
+            break;
+    }
+});
+
+var _class$6;
+var _temp2$5;
+
+let NotificationStack = (_temp2$5 = _class$6 = class NotificationStack extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.renderNotification = notification => {
+            return React__default.createElement(NotificationItem, {
+                key: notification.key,
+                type: notification.type,
+                message: notification.message,
+                dismissAfter: notification.dismissAfter,
+                onDismiss: () => this.props.onDismiss(notification)
+            });
+        }, _temp;
+    }
+
+    render() {
+        return React__default.createElement(
+            StackWrapper,
+            null,
+            this.props.notifications.map(this.renderNotification)
+        );
+    }
+}, _class$6.propTypes = {
+    notifications: PropTypes.array.isRequired,
+    onDismiss: PropTypes.func.isRequired
+}, _temp2$5);
+const StackWrapper = styled__default.div.withConfig({
+    displayName: 'Stack__StackWrapper'
+})(['position:fixed;top:20px;z-index:100;width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;']);
+
+// Jup, that's right. Nothing special going on here.
+// There will come a time where we want to change some behavior of this package, but not for now...
 
 const StyledSvg = styled__default.svg.withConfig({
     displayName: 'Icon__StyledSvg'
@@ -6349,6 +6616,16 @@ exports.Content = Content$1;
 exports.ContentContainer = ContentContainer;
 exports.Sidebar = Sidebar;
 exports.Toolbar = Toolbar;
+exports.TopMenu = TopMenu;
+exports.Logo = Logo;
+exports.MenuRow = MenuRow;
+exports.NavItem = NavItem;
+exports.NavMenu = NavMenu;
+exports.Loader = Loader;
+exports.NotificationStack = NotificationStack;
+exports.Row = reactStyledFlexboxgrid.Row;
+exports.Col = reactStyledFlexboxgrid.Col;
+exports.Grid = reactStyledFlexboxgrid.Grid;
 exports.IconAccessAlarm = IconAccessAlarm;
 exports.IconAccessAlarms = IconAccessAlarms;
 exports.IconAccessibility = IconAccessibility;
