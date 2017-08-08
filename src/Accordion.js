@@ -5,6 +5,7 @@ import { Button } from './Button';
 import IconDelete from './icon/IconDelete';
 import KeyboardArrowDown from './icon/IconKeyboardArrowDown';
 import { observer } from 'mobx-react';
+import { omit } from 'lodash';
 
 const StyledContainer = styled.div`
     background-color: #eee;
@@ -28,7 +29,7 @@ const StyledTitleContainer = styled.div`
     align-items: center;
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(props => <Button {...omit(props, 'opened')} />)`
     transform: rotate(${props => (props.opened ? '180' : '0')}deg);
 `;
 
