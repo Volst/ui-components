@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { Button } from './Button';
 import IconDelete from './icon/IconDelete';
 import KeyboardArrowDown from './icon/IconKeyboardArrowDown';
+import KeyboardArrowUp from './icon/IconKeyboardArrowUp';
 import { observer } from 'mobx-react';
-import { omit } from 'lodash';
 
 const StyledContainer = styled.div`
     background-color: #eee;
@@ -29,10 +29,6 @@ const StyledTitleContainer = styled.div`
     align-items: center;
 `;
 
-const StyledButton = styled(props => <Button {...omit(props, 'opened')} />)`
-    transform: rotate(${props => (props.opened ? '180' : '0')}deg);
-`;
-
 @observer
 export default class Accordion extends Component {
     static propTypes = {
@@ -51,21 +47,13 @@ export default class Accordion extends Component {
 
     render() {
         const { opened, children, onDelete, title, disabled } = this.props;
+        const IconToggle = opened ? KeyboardArrowDown : KeyboardArrowUp;
         return (
             <StyledContainer>
                 <StyledTitleContainer>
-                    <StyledButton
-                        unstyled
-                        icon
-                        onClick={this.handleClick}
-                        opened={opened}
-                    >
-                        <KeyboardArrowDown
-                            color="#006b94"
-                            width="24"
-                            height="24"
-                        />
-                    </StyledButton>
+                    <Button unstyled icon onClick={this.handleClick}>
+                        <IconToggle color="#006b94" width="24" height="24" />
+                    </Button>
                     <StyledTitle>
                         {title}
                     </StyledTitle>
