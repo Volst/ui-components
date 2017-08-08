@@ -27,7 +27,6 @@
     ]
   },
   "dependencies": {
-    "@storybook/addon-actions": "^3.2.0",
     "prop-types": "^15.5.10",
     "react-custom-scrollbars": "^4.1.2",
     "react-styled-flexboxgrid": "^2.0.3"
@@ -39,6 +38,7 @@
     "dist/"
   ],
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.0",
     "@storybook/addon-info": "^3.1.6",
     "@storybook/addon-storyshots": "^3.1.8",
     "@storybook/react": "^3.1.8",
