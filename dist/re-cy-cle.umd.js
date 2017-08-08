@@ -688,9 +688,6 @@ const StackWrapper = styled__default.div.withConfig({
     displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:100;width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;']);
 
-// Jup, that's right. Nothing special going on here.
-// There will come a time where we want to change some behavior of this package, but not for now...
-
 const StyledSvg = styled__default.svg.withConfig({
     displayName: 'Icon__StyledSvg'
 })(['display:inline-block;fill:currentColor;height:', 'px;width:', 'px;user-select:none;'], props => props.height || 18, props => props.width || 18);
@@ -714,6 +711,103 @@ Icon.propTypes = {
 Icon.defaultProps = {
     viewBox: '0 0 24 24'
 };
+
+let IconDelete = props => React__default.createElement(
+    Icon,
+    props,
+    React__default.createElement('path', { d: 'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z' })
+);
+
+let IconKeyboardArrowDown = props => React__default.createElement(
+    Icon,
+    props,
+    React__default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
+);
+
+var _class$8;
+var _class2$2;
+var _temp2$7;
+
+const StyledContainer = styled__default.div.withConfig({
+    displayName: 'Accordion__StyledContainer'
+})(['background-color:#eee;border-radius:4px;']);
+
+const StyledContent = styled__default.div.withConfig({
+    displayName: 'Accordion__StyledContent'
+})(['padding:0 10px 10px 10px;margin-bottom:10px;']);
+
+const StyledTitle = styled__default.div.withConfig({
+    displayName: 'Accordion__StyledTitle'
+})(['flex:1;padding:10px;']);
+
+const StyledTitleContainer = styled__default.div.withConfig({
+    displayName: 'Accordion__StyledTitleContainer'
+})(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
+
+const StyledButton = styled__default(Button).withConfig({
+    displayName: 'Accordion__StyledButton'
+})(['transform:rotate(', 'deg);'], props => props.opened ? '180' : '0');
+
+let Accordion = mobxReact.observer(_class$8 = (_temp2$7 = _class2$2 = class Accordion extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.handleClick = () => {
+            this.props.onChange();
+        }, _temp;
+    }
+
+    render() {
+        const { opened, children, onDelete, title, disabled } = this.props;
+        return React__default.createElement(
+            StyledContainer,
+            null,
+            React__default.createElement(
+                StyledTitleContainer,
+                null,
+                React__default.createElement(
+                    StyledButton,
+                    {
+                        unstyled: true,
+                        icon: true,
+                        onClick: this.handleClick,
+                        opened: opened
+                    },
+                    React__default.createElement(IconKeyboardArrowDown, {
+                        color: '#006b94',
+                        width: '24',
+                        height: '24'
+                    })
+                ),
+                React__default.createElement(
+                    StyledTitle,
+                    null,
+                    title
+                ),
+                onDelete && React__default.createElement(
+                    Button,
+                    { onClick: onDelete, unstyled: true, disabled: disabled },
+                    React__default.createElement(IconDelete, { color: '#DE0000' })
+                )
+            ),
+            opened ? React__default.createElement(
+                StyledContent,
+                null,
+                children
+            ) : null
+        );
+    }
+}, _class2$2.propTypes = {
+    children: PropTypes.node.isRequired,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    opened: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func
+}, _temp2$7)) || _class$8;
+
+// Jup, that's right. Nothing special going on here.
+// There will come a time where we want to change some behavior of this package, but not for now...
 
 let IconAccessAlarm = props => React__default.createElement(
     Icon,
@@ -2121,12 +2215,6 @@ let IconDehaze = props => React__default.createElement(
     React__default.createElement('path', { d: 'M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z' })
 );
 
-let IconDelete = props => React__default.createElement(
-    Icon,
-    props,
-    React__default.createElement('path', { d: 'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z' })
-);
-
 let IconDeleteForever = props => React__default.createElement(
     Icon,
     props,
@@ -3437,12 +3525,6 @@ let IconKeyboard = props => React__default.createElement(
     Icon,
     props,
     React__default.createElement('path', { d: 'M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z' })
-);
-
-let IconKeyboardArrowDown = props => React__default.createElement(
-    Icon,
-    props,
-    React__default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
 );
 
 let IconKeyboardArrowLeft = props => React__default.createElement(
@@ -6623,6 +6705,7 @@ exports.NavItem = NavItem;
 exports.NavMenu = NavMenu;
 exports.Loader = Loader;
 exports.NotificationStack = NotificationStack;
+exports.Accordion = Accordion;
 exports.Row = reactStyledFlexboxgrid.Row;
 exports.Col = reactStyledFlexboxgrid.Col;
 exports.Grid = reactStyledFlexboxgrid.Grid;
