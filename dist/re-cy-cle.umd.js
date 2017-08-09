@@ -724,6 +724,12 @@ let IconKeyboardArrowDown = props => React__default.createElement(
     React__default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
 );
 
+let IconKeyboardArrowUp = props => React__default.createElement(
+    Icon,
+    props,
+    React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
+);
+
 var _class$8;
 var _class2$2;
 var _temp2$7;
@@ -744,10 +750,6 @@ const StyledTitleContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
 
-const StyledButton = styled__default(Button).withConfig({
-    displayName: 'Accordion__StyledButton'
-})(['transform:rotate(', 'deg);'], props => props.opened ? '180' : '0');
-
 let Accordion = mobxReact.observer(_class$8 = (_temp2$7 = _class2$2 = class Accordion extends React.Component {
     constructor(...args) {
         var _temp;
@@ -759,6 +761,7 @@ let Accordion = mobxReact.observer(_class$8 = (_temp2$7 = _class2$2 = class Acco
 
     render() {
         const { opened, children, onDelete, title, disabled } = this.props;
+        const IconToggle = opened ? IconKeyboardArrowDown : IconKeyboardArrowUp;
         return React__default.createElement(
             StyledContainer,
             null,
@@ -766,18 +769,9 @@ let Accordion = mobxReact.observer(_class$8 = (_temp2$7 = _class2$2 = class Acco
                 StyledTitleContainer,
                 null,
                 React__default.createElement(
-                    StyledButton,
-                    {
-                        unstyled: true,
-                        icon: true,
-                        onClick: this.handleClick,
-                        opened: opened
-                    },
-                    React__default.createElement(IconKeyboardArrowDown, {
-                        color: '#006b94',
-                        width: '24',
-                        height: '24'
-                    })
+                    Button,
+                    { unstyled: true, icon: true, onClick: this.handleClick },
+                    React__default.createElement(IconToggle, { color: '#006b94', width: '24', height: '24' })
                 ),
                 React__default.createElement(
                     StyledTitle,
@@ -805,6 +799,47 @@ let Accordion = mobxReact.observer(_class$8 = (_temp2$7 = _class2$2 = class Acco
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func
 }, _temp2$7)) || _class$8;
+
+const Table = styled__default.table.withConfig({
+    displayName: 'Table__Table'
+})(['width:100%;border-collapse:collapse;']);
+
+Table.displayName = 'Table';
+
+const TableHead = styled__default.thead.withConfig({
+    displayName: 'Table__TableHead'
+})(['']);
+TableHead.displayName = 'TableHead';
+
+const TableBody = styled__default.tbody.withConfig({
+    displayName: 'Table__TableBody'
+})(['tr:last-child{border-bottom:0;}']);
+TableBody.displayName = 'TableBody';
+TableBody.displayName = 'TableBody';
+
+const TableRow = styled__default.tr.withConfig({
+    displayName: 'Table__TableRow'
+})(['border-bottom:1px solid #ccc;', ';'], props => props.highlight && `
+        background: #fbdba7;
+    `);
+TableRow.displayName = 'TableRow';
+
+const TableHeader = styled__default.th.withConfig({
+    displayName: 'Table__TableHeader'
+})(['padding:8px 4px;text-align:', ';'], props => props.alignRight ? 'right' : 'left');
+TableHeader.displayName = 'TableHeader';
+TableHeader.displayName = 'TableHeader';
+
+const TableData = styled__default.td.withConfig({
+    displayName: 'Table__TableData'
+})(['padding:8px 4px;font-size:14px;', ' ', ' ', ';'], props => props.stretch ? `
+        width: 100%;
+    ` : null, props => props.alignRight ? `
+        text-align: right;
+    ` : null, props => props.noWrap ? `
+        white-space: nowrap;
+    ` : null);
+TableData.displayName = 'TableData';
 
 // Jup, that's right. Nothing special going on here.
 // There will come a time where we want to change some behavior of this package, but not for now...
@@ -3537,12 +3572,6 @@ let IconKeyboardArrowRight = props => React__default.createElement(
     Icon,
     props,
     React__default.createElement('path', { d: 'M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z' })
-);
-
-let IconKeyboardArrowUp = props => React__default.createElement(
-    Icon,
-    props,
-    React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
 );
 
 let IconKeyboardBackspace = props => React__default.createElement(
@@ -6706,6 +6735,12 @@ exports.NavMenu = NavMenu;
 exports.Loader = Loader;
 exports.NotificationStack = NotificationStack;
 exports.Accordion = Accordion;
+exports.Table = Table;
+exports.TableHead = TableHead;
+exports.TableBody = TableBody;
+exports.TableRow = TableRow;
+exports.TableHeader = TableHeader;
+exports.TableData = TableData;
 exports.Row = reactStyledFlexboxgrid.Row;
 exports.Col = reactStyledFlexboxgrid.Col;
 exports.Grid = reactStyledFlexboxgrid.Grid;
