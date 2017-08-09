@@ -23,4 +23,12 @@ export { default as Loader } from './Loader';
 export { default as NotificationStack } from './notification/Stack';
 export { default as Accordion } from './Accordion';
 
+export {
+    Table,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableHeader,
+    TableData,
+} from './Table';
 export { Row, Col, Grid } from './Grid';
