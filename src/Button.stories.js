@@ -24,7 +24,14 @@ storiesOf('Button', module)
     .add(
         'disabled',
         withInfo()(() => {
-            return <Button disabled>Save thingy</Button>;
+            return (
+                <div>
+                    <Button disabled>Save thingy</Button>
+                    <Link to="/" disabled>
+                        Disabled link
+                    </Link>
+                </div>
+            );
         })
     )
     .add(

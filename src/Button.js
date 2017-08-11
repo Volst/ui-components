@@ -32,6 +32,13 @@ export const Button = styled(props =>
     `}
 
     ${props =>
+        props.disabled
+            ? `
+        cursor: not-allowed;
+    `
+            : ''}
+
+    ${props =>
         !props.unstyled &&
         `
         background: ${props.theme.primary};
@@ -51,11 +58,12 @@ export const Button = styled(props =>
         `
             : ''}
 
-        &:disabled {
-            cursor: not-allowed;
+        ${props.disabled
+            ? `
             background-color: #cecece;
             color: #e6e6e6;
-        }
+        `
+            : ''}
     `};
 `;
 Button.displayName = 'Button';
