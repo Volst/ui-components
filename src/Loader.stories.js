@@ -7,6 +7,6 @@ import Loader from './Loader';
 storiesOf('Loader', module).addDecorator(CenterDecorator).add(
     'standard',
     withInfo()(() => {
-        return <Loader isLoading />;
+        return <Loader show />;
     })
 );
