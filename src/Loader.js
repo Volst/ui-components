@@ -16,7 +16,7 @@ const Loader = styled.div`
     transition: 200ms all linear;
 
     ${props => {
-        if (props.isLoading) {
+        if (props.show) {
             return `
                 box-shadow: 4px 0 0px -3px black;
                 transition-duration: 1s;
@@ -28,7 +28,7 @@ const Loader = styled.div`
 
 Loader.displayName = 'Loader';
 Loader.propTypes = {
-    isLoading: PropTypes.bool,
+    show: PropTypes.bool,
 };
 
 export default Loader;
