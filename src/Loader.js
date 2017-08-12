@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 
 const sweep = keyframes`
@@ -6,7 +7,7 @@ const sweep = keyframes`
     }
 `;
 
-export default styled.div`
+const Loader = styled.div`
     width: 18px;
     height: 18px;
     animation: ${sweep} 0.7s infinite linear;
@@ -24,3 +25,10 @@ export default styled.div`
         return 'box-shadow: 10px 0 0px -10px black;';
     }};
 `;
+
+Loader.displayName = 'Loader';
+Loader.propTypes = {
+    isLoading: PropTypes.bool,
+};
+
+export default Loader;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
@@ -67,6 +68,13 @@ export const Button = styled(props =>
     `};
 `;
 Button.displayName = 'Button';
+Button.propTypes = {
+    onClick: PropTypes.func,
+    unstyled: PropTypes.bool,
+    icon: PropTypes.bool,
+    fullWidth: PropTypes.bool,
+    disabled: PropTypes.bool,
+};
 
 export const ExternalLink = Button.withComponent(props =>
     <a {...omit(props, OMIT_PROPS)} />

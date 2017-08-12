@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 export const Table = styled.table`
@@ -27,13 +28,18 @@ export const TableRow = styled.tr`
     `};
 `;
 TableRow.displayName = 'TableRow';
+TableRow.propTypes = {
+    highlight: PropTypes.bool,
+};
 
 export const TableHeader = styled.th`
     padding: 8px 4px;
     text-align: ${props => (props.alignRight ? 'right' : 'left')};
 `;
 TableHeader.displayName = 'TableHeader';
-TableHeader.displayName = 'TableHeader';
+TableHeader.propTypes = {
+    alignRight: PropTypes.bool,
+};
 
 export const TableData = styled.td`
     padding: 8px 4px;
@@ -57,3 +63,8 @@ export const TableData = styled.td`
                 : null};
 `;
 TableData.displayName = 'TableData';
+TableData.propTypes = {
+    alignRight: PropTypes.bool,
+    stretch: PropTypes.bool,
+    noWrap: PropTypes.bool,
+};
