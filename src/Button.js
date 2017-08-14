@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
+import { darken } from 'polished';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
@@ -64,7 +65,15 @@ export const Button = styled(props =>
             background-color: #cecece;
             color: #e6e6e6;
         `
-            : ''}
+            : `
+            &:hover {
+                background: ${darken(0.03, props.theme.primary)};
+            }
+    
+            &:active {
+                background: ${darken(0.07, props.theme.primary)};
+            }
+        `}
     `};
 `;
 Button.displayName = 'Button';
