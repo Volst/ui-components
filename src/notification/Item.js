@@ -83,6 +83,7 @@ const StyledItem = styled.div`
     padding: 10px 40px 10px 14px;
     color: #000;
     margin-bottom: 15px;
+    border-radius: 4px;
     position: relative;
     background-size: 20px 20px;
     background-repeat: no-repeat;
@@ -98,7 +99,7 @@ const StyledItem = styled.div`
             : ''} background: ${props => {
             switch (props.type) {
                 case 'info':
-                    return '#fbf9e4';
+                    return '#fbf2c4';
                 case 'error':
                     return '#f1a1a8';
                 default:
