@@ -89,7 +89,10 @@ export const ExternalLink = Button.withComponent(props =>
     <a {...omit(props, OMIT_PROPS)} />
 );
 ExternalLink.displayName = 'ExternalLink';
-export const Link = Button.withComponent(props =>
-    <RouterLink {...omit(props, OMIT_PROPS)} />
-);
+export const Link = Button.withComponent(props => {
+    if (props.disabled) {
+        return <div {...omit(props, OMIT_PROPS)} />;
+    }
+    return <RouterLink {...omit(props, OMIT_PROPS)} />;
+});
 Link.displayName = 'Link';
