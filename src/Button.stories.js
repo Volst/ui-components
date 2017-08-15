@@ -66,9 +66,14 @@ storiesOf('Button', module)
         'as React Router link',
         withInfo()(() => {
             return (
-                <Link to="/">
-                    <IconAdd /> Go to something
-                </Link>
+                <div>
+                    <Link to="/">
+                        <IconAdd /> Go to something
+                    </Link>
+                    <Link to="/" disabled>
+                        <IconAdd /> Go to something
+                    </Link>
+                </div>
             );
         })
     )
@@ -76,9 +81,14 @@ storiesOf('Button', module)
         'as external link',
         withInfo()(() => {
             return (
-                <ExternalLink href="https://google.com">
-                    <IconAdd /> Go to Google
-                </ExternalLink>
+                <div>
+                    <ExternalLink href="https://google.com">
+                        <IconAdd /> Go to Google
+                    </ExternalLink>
+                    <ExternalLink href="https://google.com" disabled>
+                        <IconAdd /> Go to Google
+                    </ExternalLink>
+                </div>
             );
         })
     );
