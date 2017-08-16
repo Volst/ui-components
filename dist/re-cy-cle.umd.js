@@ -558,7 +558,37 @@ Loader.propTypes = {
     show: PropTypes.bool
 };
 
-var _class$7;
+var _class$6;
+var _temp$1;
+
+const tooltipBg = '#383838';
+
+const StyledTooltip = styled__default.div.withConfig({
+    displayName: 'Tooltip__StyledTooltip'
+})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:1000;}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:#fff;font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], tooltipBg, tooltipBg, tooltipBg);
+
+let Tooltip = (_temp$1 = _class$6 = class Tooltip extends React.Component {
+
+    render() {
+        const { direction, children } = this.props;
+        return React__default.createElement(
+            StyledTooltip,
+            {
+                'aria-label': this.props.message,
+                className: `tooltipped-${direction}`
+            },
+            children
+        );
+    }
+}, _class$6.propTypes = {
+    message: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
+}, _class$6.defaultProps = {
+    direction: 's'
+}, _temp$1);
+
+var _class$8;
 var _class2$1;
 var _descriptor$1;
 var _class3;
@@ -605,7 +635,7 @@ function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, c
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = mobxReact.observer(_class$7 = (_class2$1 = (_temp2$6 = _class3 = class NotificationItem extends React.Component {
+let NotificationItem = mobxReact.observer(_class$8 = (_class2$1 = (_temp2$6 = _class3 = class NotificationItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -665,7 +695,7 @@ let NotificationItem = mobxReact.observer(_class$7 = (_class2$1 = (_temp2$6 = _c
     initializer: function () {
         return false;
     }
-})), _class2$1)) || _class$7;
+})), _class2$1)) || _class$8;
 
 const CloseButton = styled__default(Button).withConfig({
     displayName: 'Item__CloseButton'
@@ -687,10 +717,10 @@ const StyledItem = styled__default.div.withConfig({
     }
 });
 
-var _class$6;
+var _class$7;
 var _temp2$5;
 
-let NotificationStack = (_temp2$5 = _class$6 = class NotificationStack extends React.Component {
+let NotificationStack = (_temp2$5 = _class$7 = class NotificationStack extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -712,7 +742,7 @@ let NotificationStack = (_temp2$5 = _class$6 = class NotificationStack extends R
             this.props.notifications.map(this.renderNotification)
         );
     }
-}, _class$6.propTypes = {
+}, _class$7.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
 }, _temp2$5);
@@ -762,7 +792,7 @@ let IconKeyboardArrowUp = props => React__default.createElement(
     React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
 );
 
-var _class$8;
+var _class$9;
 var _class2$2;
 var _temp2$7;
 
@@ -782,7 +812,7 @@ const StyledTitleContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
 
-let Accordion = mobxReact.observer(_class$8 = (_temp2$7 = _class2$2 = class Accordion extends React.Component {
+let Accordion = mobxReact.observer(_class$9 = (_temp2$7 = _class2$2 = class Accordion extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -830,7 +860,7 @@ let Accordion = mobxReact.observer(_class$8 = (_temp2$7 = _class2$2 = class Acco
     disabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func
-}, _temp2$7)) || _class$8;
+}, _temp2$7)) || _class$9;
 
 const Table = styled__default.table.withConfig({
     displayName: 'Table__Table'
@@ -6775,6 +6805,7 @@ exports.MenuRow = MenuRow;
 exports.NavItem = NavItem;
 exports.NavMenu = NavMenu;
 exports.Loader = Loader;
+exports.Tooltip = Tooltip;
 exports.NotificationStack = NotificationStack;
 exports.Accordion = Accordion;
 exports.Table = Table;
