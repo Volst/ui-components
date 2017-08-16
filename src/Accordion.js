@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Button } from './Button';
-import IconDelete from './icon/IconDelete';
 import KeyboardArrowDown from './icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from './icon/IconKeyboardArrowUp';
 import { observer } from 'mobx-react';
@@ -36,9 +35,8 @@ export default class Accordion extends Component {
         title: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
             .isRequired,
         opened: PropTypes.bool.isRequired,
-        disabled: PropTypes.bool,
         onChange: PropTypes.func.isRequired,
-        onDelete: PropTypes.func,
+        action: PropTypes.node,
     };
 
     handleClick = () => {
@@ -46,7 +44,7 @@ export default class Accordion extends Component {
     };
 
     render() {
-        const { opened, children, onDelete, title, disabled } = this.props;
+        const { opened, children, action, title } = this.props;
         const IconToggle = opened ? KeyboardArrowDown : KeyboardArrowUp;
         return (
             <StyledContainer>
@@ -57,10 +55,7 @@ export default class Accordion extends Component {
                     <StyledTitle>
                         {title}
                     </StyledTitle>
-                    {onDelete &&
-                        <Button onClick={onDelete} unstyled disabled={disabled}>
-                            <IconDelete color="#DE0000" />
-                        </Button>}
+                    {action}
                 </StyledTitleContainer>
                 {opened
                     ? <StyledContent>

@@ -3,6 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { action } from '@storybook/addon-actions';
 import Accordion from './Accordion';
+import { Button } from './Button';
+import IconDelete from './icon/IconDelete';
 import CenterDecorator from '../storybook/CenterDecorator';
 
 storiesOf('Accordion', module)
@@ -32,15 +34,20 @@ storiesOf('Accordion', module)
         })
     )
     .add(
-        'with deletable items',
+        'with delete actions',
         withInfo()(() => {
+            const actionComponent = (
+                <Button onClick={action('deleted')} unstyled icon>
+                    <IconDelete color="#DE0000" />
+                </Button>
+            );
             return (
                 <div>
                     <Accordion
                         title="Closed one"
                         opened={false}
                         onChange={action('open')}
-                        onDelete={action('deleted')}
+                        action={actionComponent}
                     >
                         Some hidden content.
                     </Accordion>
@@ -48,19 +55,10 @@ storiesOf('Accordion', module)
                         title="Opened one"
                         opened
                         onChange={action('open')}
-                        onDelete={action('deleted')}
+                        action={actionComponent}
                     >
                         Some visible content bla bla, just filling the line so
                         we can see it wraps properly.
-                    </Accordion>
-                    <Accordion
-                        title="Disabled deletable item"
-                        opened={false}
-                        onChange={action('open')}
-                        onDelete={action('deleted')}
-                        disabled
-                    >
-                        Bla bla
                     </Accordion>
                 </div>
             );
