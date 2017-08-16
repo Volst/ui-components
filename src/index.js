@@ -20,6 +20,7 @@ export { default as NavItem } from './topMenu/NavItem';
 export { default as NavMenu } from './topMenu/NavMenu';
 
 export { default as Loader } from './Loader';
+export { default as Tooltip } from './Tooltip';
 export { default as NotificationStack } from './notification/Stack';
 export { default as Accordion } from './Accordion';
 
