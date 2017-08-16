@@ -3,6 +3,7 @@ import styled, { ThemeProvider, injectGlobal, keyframes } from 'styled-component
 import PropTypes from 'prop-types';
 import { omit } from 'lodash';
 import { Link, NavLink } from 'react-router-dom';
+import { darken, tint } from 'polished';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -108,9 +109,11 @@ const OMIT_PROPS = ['unstyled', 'fullWidth'];
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled(props => React.createElement('button', Object.assign({ type: 'button' }, omit(props, OMIT_PROPS)))).withConfig({
     displayName: 'Button__Button'
-})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:pointer;line-height:1;> svg{margin:', ';}', ' ', ';'], props => props.unstyled ? '6px' : '0 6px 0 0', props => props.icon && `
+})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:pointer;line-height:1;> svg{margin:', ';}', ' ', ' ', ';'], props => props.unstyled ? '6px' : '0 6px 0 0', props => props.icon && `
         color: ${props.unstyled ? '#000' : '#fff'};
-    `, props => !props.unstyled && `
+    `, props => props.disabled ? `
+        cursor: not-allowed;
+    ` : '', props => !props.unstyled && `
         background: ${props.theme.primary};
         height: 30px;
         color: #fff;
@@ -126,17 +129,42 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
             width: 100%;
         ` : ''}
 
-        &:disabled {
-            cursor: not-allowed;
+        ${props.disabled ? `
             background-color: #cecece;
             color: #e6e6e6;
-        }
+        ` : `
+            &:hover {
+                background: ${darken(0.03, props.theme.primary)};
+            }
+    
+            &:active {
+                background: ${darken(0.07, props.theme.primary)};
+            }
+        `}
     `);
 Button.displayName = 'Button';
+Button.propTypes = {
+    onClick: PropTypes.func,
+    unstyled: PropTypes.bool,
+    icon: PropTypes.bool,
+    fullWidth: PropTypes.bool,
+    disabled: PropTypes.bool
+};
 
-const ExternalLink = Button.withComponent(props => React.createElement('a', omit(props, OMIT_PROPS)));
+const ExternalLink = Button.withComponent(props => {
+    if (props.disabled) {
+        return React.createElement('button', omit(props, OMIT_PROPS));
+    }
+    return React.createElement('a', omit(props, OMIT_PROPS));
+});
 ExternalLink.displayName = 'ExternalLink';
-const Link$1 = Button.withComponent(props => React.createElement(Link, omit(props, OMIT_PROPS)));
+
+const Link$1 = Button.withComponent(props => {
+    if (props.disabled) {
+        return React.createElement('button', omit(props, OMIT_PROPS));
+    }
+    return React.createElement(Link, omit(props, OMIT_PROPS));
+});
 Link$1.displayName = 'Link';
 
 var _class$1;
@@ -422,7 +450,7 @@ Sidebar.propTypes = {
 
 var Toolbar = styled.section.withConfig({
     displayName: 'Toolbar'
-})(['height:40px;background-color:#d9ebf3;display:flex;align-items:center;']);
+})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => tint(0.15, props.theme.primary));
 
 var _class$4;
 var _temp;
@@ -514,10 +542,10 @@ var NavMenu = styled.nav.withConfig({
 
 const sweep = keyframes(['to{transform:rotate(360deg);}']);
 
-var Loader = styled.div.withConfig({
-    displayName: 'Loader'
+const Loader = styled.div.withConfig({
+    displayName: 'Loader__Loader'
 })(['width:18px;height:18px;animation:', ' 0.7s infinite linear;border-radius:8px;margin:5px;transition:200ms all linear;', ';'], sweep, props => {
-    if (props.isLoading) {
+    if (props.show) {
         return `
                 box-shadow: 4px 0 0px -3px black;
                 transition-duration: 1s;
@@ -525,6 +553,11 @@ var Loader = styled.div.withConfig({
     }
     return 'box-shadow: 10px 0 0px -10px black;';
 });
+
+Loader.displayName = 'Loader';
+Loader.propTypes = {
+    show: PropTypes.bool
+};
 
 var _class$7;
 var _class2$1;
@@ -641,13 +674,13 @@ const CloseButton = styled(Button).withConfig({
 
 const StyledItem = styled.div.withConfig({
     displayName: 'Item__StyledItem'
-})(['width:250px;padding:10px 40px 10px 14px;color:#000;margin-bottom:15px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);', ' background:', ';'], TRANSITION_TIME, props => !props.active ? `
+})(['width:250px;padding:10px 40px 10px 14px;color:#000;margin-bottom:15px;border-radius:4px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);', ' background:', ';'], TRANSITION_TIME, props => !props.active ? `
         visibility: hidden;
         opacity: 0;
     ` : '', props => {
     switch (props.type) {
         case 'info':
-            return '#fbf9e4';
+            return '#fbf2c4';
         case 'error':
             return '#f1a1a8';
         default:
@@ -823,12 +856,17 @@ const TableRow = styled.tr.withConfig({
         background: #fbdba7;
     `);
 TableRow.displayName = 'TableRow';
+TableRow.propTypes = {
+    highlight: PropTypes.bool
+};
 
 const TableHeader = styled.th.withConfig({
     displayName: 'Table__TableHeader'
 })(['padding:8px 4px;text-align:', ';'], props => props.alignRight ? 'right' : 'left');
 TableHeader.displayName = 'TableHeader';
-TableHeader.displayName = 'TableHeader';
+TableHeader.propTypes = {
+    alignRight: PropTypes.bool
+};
 
 const TableData = styled.td.withConfig({
     displayName: 'Table__TableData'
@@ -840,6 +878,11 @@ const TableData = styled.td.withConfig({
         white-space: nowrap;
     ` : null);
 TableData.displayName = 'TableData';
+TableData.propTypes = {
+    alignRight: PropTypes.bool,
+    stretch: PropTypes.bool,
+    noWrap: PropTypes.bool
+};
 
 // Jup, that's right. Nothing special going on here.
 // There will come a time where we want to change some behavior of this package, but not for now...

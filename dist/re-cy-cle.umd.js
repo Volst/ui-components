@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('lodash'), require('react-router-dom'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars'), require('react-styled-flexboxgrid')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'lodash', 'react-router-dom', 'mobx-react', 'mobx', 'react-custom-scrollbars', 'react-styled-flexboxgrid'], factory) :
-	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global._,global.ReactRouterDom,global.mobxReact,global.mobx,global.reactCustomScrollbars,global.reactStyledFlexboxgrid));
-}(this, (function (exports,React,styled,PropTypes,lodash,reactRouterDom,mobxReact,mobx,reactCustomScrollbars,reactStyledFlexboxgrid) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('lodash'), require('react-router-dom'), require('polished'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars'), require('react-styled-flexboxgrid')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'lodash', 'react-router-dom', 'polished', 'mobx-react', 'mobx', 'react-custom-scrollbars', 'react-styled-flexboxgrid'], factory) :
+	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global._,global.ReactRouterDom,global.polished,global.mobxReact,global.mobx,global.reactCustomScrollbars,global.reactStyledFlexboxgrid));
+}(this, (function (exports,React,styled,PropTypes,lodash,reactRouterDom,polished,mobxReact,mobx,reactCustomScrollbars,reactStyledFlexboxgrid) { 'use strict';
 
 var React__default = 'default' in React ? React['default'] : React;
 var styled__default = 'default' in styled ? styled['default'] : styled;
@@ -108,9 +108,11 @@ const OMIT_PROPS = ['unstyled', 'fullWidth'];
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, lodash.omit(props, OMIT_PROPS)))).withConfig({
     displayName: 'Button__Button'
-})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:pointer;line-height:1;> svg{margin:', ';}', ' ', ';'], props => props.unstyled ? '6px' : '0 6px 0 0', props => props.icon && `
+})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:pointer;line-height:1;> svg{margin:', ';}', ' ', ' ', ';'], props => props.unstyled ? '6px' : '0 6px 0 0', props => props.icon && `
         color: ${props.unstyled ? '#000' : '#fff'};
-    `, props => !props.unstyled && `
+    `, props => props.disabled ? `
+        cursor: not-allowed;
+    ` : '', props => !props.unstyled && `
         background: ${props.theme.primary};
         height: 30px;
         color: #fff;
@@ -126,17 +128,42 @@ const Button = styled__default(props => React__default.createElement('button', O
             width: 100%;
         ` : ''}
 
-        &:disabled {
-            cursor: not-allowed;
+        ${props.disabled ? `
             background-color: #cecece;
             color: #e6e6e6;
-        }
+        ` : `
+            &:hover {
+                background: ${polished.darken(0.03, props.theme.primary)};
+            }
+    
+            &:active {
+                background: ${polished.darken(0.07, props.theme.primary)};
+            }
+        `}
     `);
 Button.displayName = 'Button';
+Button.propTypes = {
+    onClick: PropTypes.func,
+    unstyled: PropTypes.bool,
+    icon: PropTypes.bool,
+    fullWidth: PropTypes.bool,
+    disabled: PropTypes.bool
+};
 
-const ExternalLink = Button.withComponent(props => React__default.createElement('a', lodash.omit(props, OMIT_PROPS)));
+const ExternalLink = Button.withComponent(props => {
+    if (props.disabled) {
+        return React__default.createElement('button', lodash.omit(props, OMIT_PROPS));
+    }
+    return React__default.createElement('a', lodash.omit(props, OMIT_PROPS));
+});
 ExternalLink.displayName = 'ExternalLink';
-const Link$1 = Button.withComponent(props => React__default.createElement(reactRouterDom.Link, lodash.omit(props, OMIT_PROPS)));
+
+const Link$1 = Button.withComponent(props => {
+    if (props.disabled) {
+        return React__default.createElement('button', lodash.omit(props, OMIT_PROPS));
+    }
+    return React__default.createElement(reactRouterDom.Link, lodash.omit(props, OMIT_PROPS));
+});
 Link$1.displayName = 'Link';
 
 var _class$1;
@@ -422,7 +449,7 @@ Sidebar.propTypes = {
 
 var Toolbar = styled__default.section.withConfig({
     displayName: 'Toolbar'
-})(['height:40px;background-color:#d9ebf3;display:flex;align-items:center;']);
+})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => polished.tint(0.15, props.theme.primary));
 
 var _class$4;
 var _temp;
@@ -514,10 +541,10 @@ var NavMenu = styled__default.nav.withConfig({
 
 const sweep = styled.keyframes(['to{transform:rotate(360deg);}']);
 
-var Loader = styled__default.div.withConfig({
-    displayName: 'Loader'
+const Loader = styled__default.div.withConfig({
+    displayName: 'Loader__Loader'
 })(['width:18px;height:18px;animation:', ' 0.7s infinite linear;border-radius:8px;margin:5px;transition:200ms all linear;', ';'], sweep, props => {
-    if (props.isLoading) {
+    if (props.show) {
         return `
                 box-shadow: 4px 0 0px -3px black;
                 transition-duration: 1s;
@@ -525,6 +552,11 @@ var Loader = styled__default.div.withConfig({
     }
     return 'box-shadow: 10px 0 0px -10px black;';
 });
+
+Loader.displayName = 'Loader';
+Loader.propTypes = {
+    show: PropTypes.bool
+};
 
 var _class$7;
 var _class2$1;
@@ -641,13 +673,13 @@ const CloseButton = styled__default(Button).withConfig({
 
 const StyledItem = styled__default.div.withConfig({
     displayName: 'Item__StyledItem'
-})(['width:250px;padding:10px 40px 10px 14px;color:#000;margin-bottom:15px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);', ' background:', ';'], TRANSITION_TIME, props => !props.active ? `
+})(['width:250px;padding:10px 40px 10px 14px;color:#000;margin-bottom:15px;border-radius:4px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);', ' background:', ';'], TRANSITION_TIME, props => !props.active ? `
         visibility: hidden;
         opacity: 0;
     ` : '', props => {
     switch (props.type) {
         case 'info':
-            return '#fbf9e4';
+            return '#fbf2c4';
         case 'error':
             return '#f1a1a8';
         default:
@@ -823,12 +855,17 @@ const TableRow = styled__default.tr.withConfig({
         background: #fbdba7;
     `);
 TableRow.displayName = 'TableRow';
+TableRow.propTypes = {
+    highlight: PropTypes.bool
+};
 
 const TableHeader = styled__default.th.withConfig({
     displayName: 'Table__TableHeader'
 })(['padding:8px 4px;text-align:', ';'], props => props.alignRight ? 'right' : 'left');
 TableHeader.displayName = 'TableHeader';
-TableHeader.displayName = 'TableHeader';
+TableHeader.propTypes = {
+    alignRight: PropTypes.bool
+};
 
 const TableData = styled__default.td.withConfig({
     displayName: 'Table__TableData'
@@ -840,6 +877,11 @@ const TableData = styled__default.td.withConfig({
         white-space: nowrap;
     ` : null);
 TableData.displayName = 'TableData';
+TableData.propTypes = {
+    alignRight: PropTypes.bool,
+    stretch: PropTypes.bool,
+    noWrap: PropTypes.bool
+};
 
 // Jup, that's right. Nothing special going on here.
 // There will come a time where we want to change some behavior of this package, but not for now...
