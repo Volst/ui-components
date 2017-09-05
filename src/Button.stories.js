@@ -16,6 +16,43 @@ storiesOf('Button', module)
         })
     )
     .add(
+        'with tone',
+        withInfo()(() => {
+            return (
+                <div>
+                    <div>
+                        <Button>Default</Button>
+                        <Button disabled>Default disabled</Button>
+                    </div>
+                    <div>
+                        <Button tone="success">Success</Button>
+                        <Button tone="success" disabled>
+                            Success disabled
+                        </Button>
+                    </div>
+                    <div>
+                        <Button tone="warning">Warning</Button>
+                        <Button tone="warning" disabled>
+                            Warning disabled
+                        </Button>
+                    </div>
+                    <div>
+                        <Button tone="dark">Dark</Button>
+                        <Button tone="dark" disabled>
+                            Dark disabled
+                        </Button>
+                    </div>
+                    <div>
+                        <Button tone="light">Light</Button>
+                        <Button tone="light" disabled>
+                            Light disabled
+                        </Button>
+                    </div>
+                </div>
+            );
+        })
+    )
+    .add(
         'full width',
         withInfo()(() => {
             return <Button fullWidth>Save thingy</Button>;

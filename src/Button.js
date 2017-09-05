@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
-import { darken } from 'polished';
+import { darken, tint } from 'polished';
+import { COLOR_TEXT } from './ReCyCleTheme';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
-const OMIT_PROPS = ['unstyled', 'fullWidth'];
+const OMIT_PROPS = ['unstyled', 'fullWidth', 'tone'];
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 export const Button = styled(props =>
@@ -28,10 +29,11 @@ export const Button = styled(props =>
     }
 
     ${props =>
-        props.icon &&
-        `
+        props.icon
+            ? `
         color: ${props.unstyled ? '#000' : '#fff'};
-    `}
+    `
+            : ''}
 
     ${props =>
         props.disabled
@@ -40,12 +42,12 @@ export const Button = styled(props =>
     `
             : ''}
 
-    ${props =>
-        !props.unstyled &&
-        `
-        background: ${props.theme.primary};
+    ${props => {
+        const color = props.theme[props.tone || 'primary'];
+        return !props.unstyled
+            ? `
+        color: ${props.tone === 'light' ? COLOR_TEXT : '#fff'};
         height: 30px;
-        color: #fff;
         padding: 0 10px;
         margin: 5px;
         text-decoration: none;
@@ -62,19 +64,29 @@ export const Button = styled(props =>
 
         ${props.disabled
             ? `
-            background-color: #cecece;
-            color: #e6e6e6;
+            ${props.tone === 'light'
+                ? `
+                background: ${tint(0.5, color)};
+                color: ${tint(0.4, COLOR_TEXT)};
+            `
+                : `
+                background: ${tint(0.25, color)};
+            `}
         `
             : `
+            background: ${color};
+
             &:hover {
-                background: ${darken(0.03, props.theme.primary)};
+                background: ${darken(0.03, color)};
             }
-    
+
             &:active {
-                background: ${darken(0.07, props.theme.primary)};
+                background: ${darken(0.07, color)};
             }
         `}
-    `};
+    `
+            : '';
+    }};
 `;
 Button.displayName = 'Button';
 Button.propTypes = {
@@ -83,6 +95,7 @@ Button.propTypes = {
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
+    tone: PropTypes.oneOf(['success', 'warning', 'dark', 'light']),
 };
 
 export const ExternalLink = Button.withComponent(props => {
