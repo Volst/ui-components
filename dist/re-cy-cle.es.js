@@ -104,19 +104,20 @@ let Modal = (_temp2 = _class = class Modal extends Component {
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
-const OMIT_PROPS = ['unstyled', 'fullWidth'];
+const OMIT_PROPS = ['unstyled', 'fullWidth', 'tone'];
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled(props => React.createElement('button', Object.assign({ type: 'button' }, omit(props, OMIT_PROPS)))).withConfig({
     displayName: 'Button__Button'
-})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:pointer;line-height:1;> svg{margin:', ';}', ' ', ' ', ';'], props => props.unstyled ? '6px' : '0 6px 0 0', props => props.icon && `
+})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:pointer;line-height:1;> svg{margin:', ';}', ' ', ' ', ';'], props => props.unstyled ? '6px' : '0 6px 0 0', props => props.icon ? `
         color: ${props.unstyled ? '#000' : '#fff'};
-    `, props => props.disabled ? `
+    ` : '', props => props.disabled ? `
         cursor: not-allowed;
-    ` : '', props => !props.unstyled && `
-        background: ${props.theme.primary};
+    ` : '', props => {
+    const color = props.theme[props.tone || 'primary'];
+    return !props.unstyled ? `
+        color: ${props.tone === 'light' ? COLOR_TEXT : '#fff'};
         height: 30px;
-        color: #fff;
         padding: 0 10px;
         margin: 5px;
         text-decoration: none;
@@ -130,25 +131,33 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
         ` : ''}
 
         ${props.disabled ? `
-            background-color: #cecece;
-            color: #e6e6e6;
+            ${props.tone === 'light' ? `
+                background: ${tint(0.5, color)};
+                color: ${tint(0.4, COLOR_TEXT)};
+            ` : `
+                background: ${tint(0.25, color)};
+            `}
         ` : `
+            background: ${color};
+
             &:hover {
-                background: ${darken(0.03, props.theme.primary)};
+                background: ${darken(0.03, color)};
             }
-    
+
             &:active {
-                background: ${darken(0.07, props.theme.primary)};
+                background: ${darken(0.07, color)};
             }
         `}
-    `);
+    ` : '';
+});
 Button.displayName = 'Button';
 Button.propTypes = {
     onClick: PropTypes.func,
     unstyled: PropTypes.bool,
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    tone: PropTypes.oneOf(['success', 'warning', 'dark', 'light'])
 };
 
 const ExternalLink = Button.withComponent(props => {
@@ -423,7 +432,34 @@ var ContentContainer = styled.div.withConfig({
 
 const StyledAside = styled.aside.withConfig({
     displayName: 'Sidebar__StyledAside'
-})(['width:', 'px;background:#eee;'], props => props.medium ? 450 : 350);
+})(['', ';'], props => {
+    const width = props.medium ? 450 : 350;
+    return `
+            width: ${width}px;
+            background: #eee;
+
+            &.slide-right-enter,
+            &.slide-right-leave.slide-right-leave-active {
+                margin-right: -${width}px;
+            }
+            &.slide-left-enter,
+            &.slide-left-leave.slide-left-leave-active {
+                margin-left: -${width}px;
+            }
+            &.slide-right-leave,
+            &.slide-right-enter.slide-right-enter-active,
+            &.slide-left-leave,
+            &.slide-left-enter.slide-left-enter-active {
+                margin-right: 0;
+            }
+            &.slide-right-enter-active,
+            &.slide-right-leave-active,
+            &.slide-left-enter-active,
+            &.slide-left-leave-active {
+                transition: margin 300ms ease;
+            }
+        `;
+});
 
 const Content$3 = styled.div.withConfig({
     displayName: 'Sidebar__Content'
@@ -775,12 +811,6 @@ Icon.defaultProps = {
     viewBox: '0 0 24 24'
 };
 
-let IconDelete = props => React.createElement(
-    Icon,
-    props,
-    React.createElement('path', { d: 'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z' })
-);
-
 let IconKeyboardArrowDown = props => React.createElement(
     Icon,
     props,
@@ -823,7 +853,7 @@ let Accordion = observer(_class$9 = (_temp2$7 = _class2$2 = class Accordion exte
     }
 
     render() {
-        const { opened, children, onDelete, title, disabled } = this.props;
+        const { opened, children, action, title } = this.props;
         const IconToggle = opened ? IconKeyboardArrowDown : IconKeyboardArrowUp;
         return React.createElement(
             StyledContainer,
@@ -841,11 +871,7 @@ let Accordion = observer(_class$9 = (_temp2$7 = _class2$2 = class Accordion exte
                     null,
                     title
                 ),
-                onDelete && React.createElement(
-                    Button,
-                    { onClick: onDelete, unstyled: true, disabled: disabled },
-                    React.createElement(IconDelete, { color: '#DE0000' })
-                )
+                action
             ),
             opened ? React.createElement(
                 StyledContent,
@@ -858,9 +884,8 @@ let Accordion = observer(_class$9 = (_temp2$7 = _class2$2 = class Accordion exte
     children: PropTypes.node.isRequired,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     opened: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
-    onDelete: PropTypes.func
+    action: PropTypes.node
 }, _temp2$7)) || _class$9;
 
 const Table = styled.table.withConfig({
@@ -2321,6 +2346,12 @@ let IconDehaze = props => React.createElement(
     Icon,
     props,
     React.createElement('path', { d: 'M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z' })
+);
+
+let IconDelete = props => React.createElement(
+    Icon,
+    props,
+    React.createElement('path', { d: 'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z' })
 );
 
 let IconDeleteForever = props => React.createElement(
