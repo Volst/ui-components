@@ -13,6 +13,7 @@ const external = [
     'react-styled-flexboxgrid',
     'react-router-dom',
     'lodash',
+    'downshift',
 ];
 const globals = {
     react: 'React',
@@ -21,6 +22,7 @@ const globals = {
     'polished': 'polished',
     'mobx-react': 'mobxReact',
     mobx: 'mobx',
+    downshift: 'downshift',
     lodash: '_',
     'react-custom-scrollbars': 'reactCustomScrollbars',
     'react-styled-flexboxgrid': 'reactStyledFlexboxgrid',
