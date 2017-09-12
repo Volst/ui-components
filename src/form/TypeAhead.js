@@ -90,9 +90,7 @@ export default class TypeAhead extends Component {
         if (!isOpen) {
             return null;
         }
-        const options = this.props.options.filter(
-            i => !inputValue || fuzzySearch(i, inputValue)
-        );
+        const { options } = this.props;
         if (options.length < 1) {
             return null;
         }
