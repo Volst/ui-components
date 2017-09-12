@@ -43,6 +43,7 @@ const Dropdown = styled.div`
     border-bottom-right-radius: 4px;
     overflow: hidden;
     position: absolute;
+    z-index: 1000;
 `;
 
 const DropdownItem = styled.div`
