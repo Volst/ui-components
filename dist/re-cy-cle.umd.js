@@ -1,12 +1,13 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('lodash'), require('react-router-dom'), require('polished'), require('mobx-react'), require('mobx'), require('react-custom-scrollbars'), require('react-styled-flexboxgrid')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'lodash', 'react-router-dom', 'polished', 'mobx-react', 'mobx', 'react-custom-scrollbars', 'react-styled-flexboxgrid'], factory) :
-	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global._,global.ReactRouterDom,global.polished,global.mobxReact,global.mobx,global.reactCustomScrollbars,global.reactStyledFlexboxgrid));
-}(this, (function (exports,React,styled,PropTypes,lodash,reactRouterDom,polished,mobxReact,mobx,reactCustomScrollbars,reactStyledFlexboxgrid) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('lodash'), require('react-router-dom'), require('polished'), require('mobx-react'), require('mobx'), require('downshift'), require('react-custom-scrollbars'), require('react-styled-flexboxgrid')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'lodash', 'react-router-dom', 'polished', 'mobx-react', 'mobx', 'downshift', 'react-custom-scrollbars', 'react-styled-flexboxgrid'], factory) :
+	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global._,global.ReactRouterDom,global.polished,global.mobxReact,global.mobx,global.downshift,global.reactCustomScrollbars,global.reactStyledFlexboxgrid));
+}(this, (function (exports,React,styled,PropTypes,lodash,reactRouterDom,polished,mobxReact,mobx,Downshift,reactCustomScrollbars,reactStyledFlexboxgrid) { 'use strict';
 
 var React__default = 'default' in React ? React['default'] : React;
 var styled__default = 'default' in styled ? styled['default'] : styled;
 PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
+Downshift = Downshift && Downshift.hasOwnProperty('default') ? Downshift['default'] : Downshift;
 
 const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
 
@@ -384,6 +385,121 @@ let Checkbox = (_temp2$3 = _class$3 = class Checkbox extends React.Component {
     disabled: PropTypes.bool
 }, _temp2$3);
 
+var _class$4;
+var _temp2$4;
+
+// TODO: we should use a separate TextInput component for this
+const TextInput = styled__default.input.withConfig({
+    displayName: 'TypeAhead__TextInput'
+})(['height:30px;font-size:14px;color:', ';background:#fff;padding:0 8px;text-decoration:none;border-radius:4px;', ';border:1px solid #ccc;width:100%;&:focus{outline:0;border-color:', ';}'], COLOR_TEXT, props => props.hasDropdown ? `
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    ` : '', props => props.theme.primary);
+
+const TypeAheadContainer = styled__default.div.withConfig({
+    displayName: 'TypeAhead__TypeAheadContainer'
+})(['position:relative;width:100%;']);
+
+const Dropdown = styled__default.div.withConfig({
+    displayName: 'TypeAhead__Dropdown'
+})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;'], props => props.theme.primary);
+
+const DropdownItem = styled__default.div.withConfig({
+    displayName: 'TypeAhead__DropdownItem'
+})(['background:', ';color:', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.highlighted ? polished.tint(0.2, props.theme.primary) : 'white', COLOR_TEXT, props => props.selected ? 'bold' : 'normal');
+
+function fuzzySearch(item, query) {
+    return item.toLowerCase().includes(query.toLowerCase());
+}
+
+let TypeAhead = (_temp2$4 = _class$4 = class TypeAhead extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.handleSelect = value => {
+            this.props.onSelect(value);
+        }, this.handleStateChange = ({ inputValue }) => {
+            this.props.onChange(this.props.name, inputValue || '');
+        }, this.renderDropdown = ({
+            isOpen,
+            getItemProps,
+            inputValue,
+            highlightedIndex,
+            selectedItem
+        }) => {
+            if (!isOpen) {
+                return null;
+            }
+            const options = this.props.options.filter(i => !inputValue || fuzzySearch(i, inputValue));
+            if (options.length < 1) {
+                return null;
+            }
+            return React__default.createElement(
+                Dropdown,
+                null,
+                options.map((item, index) => React__default.createElement(
+                    DropdownItem,
+                    getItemProps({
+                        key: item,
+                        index,
+                        item,
+                        highlighted: highlightedIndex === index,
+                        selected: selectedItem === item
+                    }),
+                    item
+                ))
+            );
+        }, _temp;
+    }
+
+    render() {
+        const value = this.props.value !== null ? this.props.value : '';
+
+        return React__default.createElement(
+            'div',
+            null,
+            React__default.createElement(
+                Downshift,
+                {
+                    onStateChange: this.handleStateChange,
+                    selectedItem: value,
+                    onChange: this.handleSelect
+                },
+                ({
+                    getRootProps,
+                    getInputProps,
+                    getItemProps,
+                    isOpen,
+                    inputValue,
+                    highlightedIndex,
+                    selectedItem
+                }) => React__default.createElement(
+                    TypeAheadContainer,
+                    getRootProps({ refKey: 'innerRef' }),
+                    React__default.createElement(TextInput, Object.assign({}, getInputProps(), {
+                        hasDropdown: isOpen,
+                        disabled: this.props.disabled
+                    })),
+                    this.renderDropdown({
+                        isOpen,
+                        getItemProps,
+                        inputValue,
+                        highlightedIndex,
+                        selectedItem
+                    })
+                )
+            )
+        );
+    }
+}, _class$4.propTypes = {
+    onChange: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    value: PropTypes.string,
+    options: PropTypes.array.isRequired,
+    disabled: PropTypes.bool
+}, _temp2$4);
+
 var AppContainer = styled__default.div.withConfig({
     displayName: 'AppContainer'
 })(['width:100%;height:100%;position:relative;display:flex;flex-direction:column;']);
@@ -487,14 +603,14 @@ var Toolbar = styled__default.section.withConfig({
     displayName: 'Toolbar'
 })(['height:40px;background-color:', ';display:flex;align-items:center;'], props => polished.tint(0.15, props.theme.primary));
 
-var _class$4;
+var _class$5;
 var _temp;
 
 const Menu = styled__default.header.withConfig({
     displayName: 'TopMenu__Menu'
 })(['display:flex;align-items:stretch;flex-direction:column;']);
 
-let TopMenu = (_temp = _class$4 = class TopMenu extends React.Component {
+let TopMenu = (_temp = _class$5 = class TopMenu extends React.Component {
 
     render() {
         return React__default.createElement(
@@ -503,7 +619,7 @@ let TopMenu = (_temp = _class$4 = class TopMenu extends React.Component {
             this.props.children
         );
     }
-}, _class$4.propTypes = {
+}, _class$5.propTypes = {
     children: PropTypes.node.isRequired
 }, _temp);
 
@@ -534,14 +650,14 @@ var MenuRow = styled__default.div.withConfig({
         }
     `);
 
-var _class$5;
-var _temp2$4;
+var _class$6;
+var _temp2$5;
 
 const Item = styled__default(reactRouterDom.NavLink).withConfig({
     displayName: 'NavItem__Item'
 })(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primary);
 
-let NavItem = (_temp2$4 = _class$5 = class NavItem extends React.Component {
+let NavItem = (_temp2$5 = _class$6 = class NavItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -564,12 +680,12 @@ let NavItem = (_temp2$4 = _class$5 = class NavItem extends React.Component {
             this.props.title
         );
     }
-}, _class$5.propTypes = {
+}, _class$6.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     to: PropTypes.string,
     onClick: PropTypes.func,
     activePath: PropTypes.string
-}, _temp2$4);
+}, _temp2$5);
 
 var NavMenu = styled__default.nav.withConfig({
     displayName: 'NavMenu'
@@ -594,7 +710,7 @@ Loader.propTypes = {
     show: PropTypes.bool
 };
 
-var _class$6;
+var _class$7;
 var _temp$1;
 
 const tooltipBg = '#383838';
@@ -603,7 +719,7 @@ const StyledTooltip = styled__default.div.withConfig({
     displayName: 'Tooltip__StyledTooltip'
 })(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:1000;}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:#fff;font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], tooltipBg, tooltipBg, tooltipBg);
 
-let Tooltip = (_temp$1 = _class$6 = class Tooltip extends React.Component {
+let Tooltip = (_temp$1 = _class$7 = class Tooltip extends React.Component {
 
     render() {
         const { direction, children } = this.props;
@@ -616,19 +732,19 @@ let Tooltip = (_temp$1 = _class$6 = class Tooltip extends React.Component {
             children
         );
     }
-}, _class$6.propTypes = {
+}, _class$7.propTypes = {
     message: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
-}, _class$6.defaultProps = {
+}, _class$7.defaultProps = {
     direction: 's'
 }, _temp$1);
 
-var _class$8;
+var _class$9;
 var _class2$1;
 var _descriptor$1;
 var _class3;
-var _temp2$6;
+var _temp2$7;
 
 function _initDefineProp$1(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -671,7 +787,7 @@ function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, c
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = mobxReact.observer(_class$8 = (_class2$1 = (_temp2$6 = _class3 = class NotificationItem extends React.Component {
+let NotificationItem = mobxReact.observer(_class$9 = (_class2$1 = (_temp2$7 = _class3 = class NotificationItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -726,12 +842,12 @@ let NotificationItem = mobxReact.observer(_class$8 = (_class2$1 = (_temp2$6 = _c
 }, _class3.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$6), (_descriptor$1 = _applyDecoratedDescriptor$1(_class2$1.prototype, 'active', [mobx.observable], {
+}, _temp2$7), (_descriptor$1 = _applyDecoratedDescriptor$1(_class2$1.prototype, 'active', [mobx.observable], {
     enumerable: true,
     initializer: function () {
         return false;
     }
-})), _class2$1)) || _class$8;
+})), _class2$1)) || _class$9;
 
 const CloseButton = styled__default(Button).withConfig({
     displayName: 'Item__CloseButton'
@@ -753,10 +869,10 @@ const StyledItem = styled__default.div.withConfig({
     }
 });
 
-var _class$7;
-var _temp2$5;
+var _class$8;
+var _temp2$6;
 
-let NotificationStack = (_temp2$5 = _class$7 = class NotificationStack extends React.Component {
+let NotificationStack = (_temp2$6 = _class$8 = class NotificationStack extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -778,10 +894,10 @@ let NotificationStack = (_temp2$5 = _class$7 = class NotificationStack extends R
             this.props.notifications.map(this.renderNotification)
         );
     }
-}, _class$7.propTypes = {
+}, _class$8.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
-}, _temp2$5);
+}, _temp2$6);
 const StackWrapper = styled__default.div.withConfig({
     displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:100;width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;']);
@@ -822,9 +938,9 @@ let IconKeyboardArrowUp = props => React__default.createElement(
     React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
 );
 
-var _class$9;
+var _class$10;
 var _class2$2;
-var _temp2$7;
+var _temp2$8;
 
 const StyledContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledContainer'
@@ -842,7 +958,7 @@ const StyledTitleContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
 
-let Accordion = mobxReact.observer(_class$9 = (_temp2$7 = _class2$2 = class Accordion extends React.Component {
+let Accordion = mobxReact.observer(_class$10 = (_temp2$8 = _class2$2 = class Accordion extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -885,7 +1001,7 @@ let Accordion = mobxReact.observer(_class$9 = (_temp2$7 = _class2$2 = class Acco
     opened: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     action: PropTypes.node
-}, _temp2$7)) || _class$9;
+}, _temp2$8)) || _class$10;
 
 const Table = styled__default.table.withConfig({
     displayName: 'Table__Table'
@@ -6824,6 +6940,7 @@ exports.ExternalLink = ExternalLink;
 exports.Form = Form;
 exports.RadioButtons = RadioButtons;
 exports.Checkbox = Checkbox;
+exports.TypeAhead = TypeAhead;
 exports.AppContainer = AppContainer;
 exports.Body = Body;
 exports.Content = Content$1;
