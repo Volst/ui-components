@@ -403,15 +403,11 @@ const TypeAheadContainer = styled.div.withConfig({
 
 const Dropdown = styled.div.withConfig({
     displayName: 'TypeAhead__Dropdown'
-})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;'], props => props.theme.primary);
+})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:1000;'], props => props.theme.primary);
 
 const DropdownItem = styled.div.withConfig({
     displayName: 'TypeAhead__DropdownItem'
 })(['background:', ';color:', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.highlighted ? tint(0.2, props.theme.primary) : 'white', COLOR_TEXT, props => props.selected ? 'bold' : 'normal');
-
-function fuzzySearch(item, query) {
-    return item.toLowerCase().includes(query.toLowerCase());
-}
 
 let TypeAhead = (_temp2$4 = _class$4 = class TypeAhead extends Component {
     constructor(...args) {
@@ -431,7 +427,7 @@ let TypeAhead = (_temp2$4 = _class$4 = class TypeAhead extends Component {
             if (!isOpen) {
                 return null;
             }
-            const options = this.props.options.filter(i => !inputValue || fuzzySearch(i, inputValue));
+            const { options } = this.props;
             if (options.length < 1) {
                 return null;
             }
