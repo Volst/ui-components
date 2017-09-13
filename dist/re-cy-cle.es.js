@@ -413,10 +413,12 @@ let TypeAhead = (_temp2$4 = _class$4 = class TypeAhead extends Component {
     constructor(...args) {
         var _temp;
 
-        return _temp = super(...args), this.handleSelect = value => {
-            this.props.onSelect(value);
-        }, this.handleStateChange = ({ inputValue }) => {
-            this.props.onChange(this.props.name, inputValue || '');
+        return _temp = super(...args), this.handleSelect = option => {
+            this.props.onSelect(option.value);
+        }, this.handleStateChange = changes => {
+            if (changes.hasOwnProperty('inputValue')) {
+                this.props.onChange(this.props.name, changes.inputValue);
+            }
         }, this.renderDropdown = ({
             isOpen,
             getItemProps,
@@ -424,33 +426,38 @@ let TypeAhead = (_temp2$4 = _class$4 = class TypeAhead extends Component {
             highlightedIndex,
             selectedItem
         }) => {
-            if (!isOpen) {
-                return null;
-            }
-            const { options } = this.props;
-            if (options.length < 1) {
-                return null;
-            }
             return React.createElement(
                 Dropdown,
                 null,
-                options.map((item, index) => React.createElement(
+                this.props.options.map((item, index) => React.createElement(
                     DropdownItem,
                     getItemProps({
-                        key: item,
+                        key: item.value,
                         index,
                         item,
                         highlighted: highlightedIndex === index,
                         selected: selectedItem === item
                     }),
-                    item
+                    item.label
                 ))
             );
+        }, this.itemToString = item => {
+            if (item == null) {
+                return '';
+            }
+            if (typeof item === 'string') {
+                return item;
+            }
+            // The item is an object if it is chosen from the autocomplete list.
+            // Sometimes you don't want to show the label of the item in the input field, but a shorter version.
+            // This is what `item.input` is for.
+            return item.input || item.label || '';
         }, _temp;
     }
 
     render() {
         const value = this.props.value !== null ? this.props.value : '';
+        const hasOptions = this.props.options.length > 0;
 
         return React.createElement(
             'div',
@@ -460,7 +467,8 @@ let TypeAhead = (_temp2$4 = _class$4 = class TypeAhead extends Component {
                 {
                     onStateChange: this.handleStateChange,
                     selectedItem: value,
-                    onChange: this.handleSelect
+                    onChange: this.handleSelect,
+                    itemToString: this.itemToString
                 },
                 ({
                     getRootProps,
@@ -474,11 +482,10 @@ let TypeAhead = (_temp2$4 = _class$4 = class TypeAhead extends Component {
                     TypeAheadContainer,
                     getRootProps({ refKey: 'innerRef' }),
                     React.createElement(TextInput, Object.assign({}, getInputProps(), {
-                        hasDropdown: isOpen,
+                        hasDropdown: isOpen && hasOptions,
                         disabled: this.props.disabled
                     })),
-                    this.renderDropdown({
-                        isOpen,
+                    isOpen && hasOptions && this.renderDropdown({
                         getItemProps,
                         inputValue,
                         highlightedIndex,
