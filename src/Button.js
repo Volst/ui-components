@@ -23,6 +23,7 @@ export const Button = styled(props =>
     background: transparent;
     cursor: pointer;
     line-height: 1;
+    user-select: none;
 
     > svg {
         margin: ${props => (props.unstyled ? '6px' : '0 6px 0 0')};
