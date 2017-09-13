@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 
 export const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
+export const COLOR_RED = '#dc0818';
 
 const injectGlobalStyles = () => injectGlobal`
     html {
