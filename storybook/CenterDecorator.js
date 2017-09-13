@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReCyCleTheme from '../src/ReCyCleTheme';
-import { BrowserRouter } from 'react-router-dom';
-import i18next from 'i18next';
+import PageBootstrap from './PageBootstrap';
 
 const Background = styled.div`
     background: #f9f9f9;
@@ -15,30 +13,11 @@ const Wrapper = styled.div`
     padding: 30px;
 `;
 
-const theme = {
-    primary: '#006b94',
-    success: '#58b96b',
-    warning: '#d45352',
-    dark: '#4c4c4c',
-    light: '#eee',
-};
-
-i18next.init({
-    lng: 'en',
-    resources: {
-        en: {
-            translation: {},
-        },
-    },
-});
-
 export default story =>
-    <ReCyCleTheme theme={theme}>
-        <BrowserRouter>
-            <Background>
-                <Wrapper>
-                    {story()}
-                </Wrapper>
-            </Background>
-        </BrowserRouter>
-    </ReCyCleTheme>;
+    <PageBootstrap>
+        <Background>
+            <Wrapper>
+                {story()}
+            </Wrapper>
+        </Background>
+    </PageBootstrap>;
