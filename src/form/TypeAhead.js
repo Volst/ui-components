@@ -58,10 +58,6 @@ const DropdownItem = styled.div`
     text-overflow: ellipsis;
 `;
 
-function fuzzySearch(item, query) {
-    return item.toLowerCase().includes(query.toLowerCase());
-}
-
 export default class TypeAhead extends Component {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
@@ -72,12 +68,14 @@ export default class TypeAhead extends Component {
         disabled: PropTypes.bool,
     };
 
-    handleSelect = value => {
-        this.props.onSelect(value);
+    handleSelect = option => {
+        this.props.onSelect(option.value);
     };
 
-    handleStateChange = ({ inputValue }) => {
-        this.props.onChange(this.props.name, inputValue || '');
+    handleStateChange = changes => {
+        if (changes.hasOwnProperty('inputValue')) {
+            this.props.onChange(this.props.name, changes.inputValue);
+        }
     };
 
     renderDropdown = ({
@@ -87,34 +85,41 @@ export default class TypeAhead extends Component {
         highlightedIndex,
         selectedItem,
     }) => {
-        if (!isOpen) {
-            return null;
-        }
-        const { options } = this.props;
-        if (options.length < 1) {
-            return null;
-        }
         return (
             <Dropdown>
-                {options.map((item, index) =>
+                {this.props.options.map((item, index) =>
                     <DropdownItem
                         {...getItemProps({
-                            key: item,
+                            key: item.value,
                             index,
                             item,
                             highlighted: highlightedIndex === index,
                             selected: selectedItem === item,
                         })}
                     >
-                        {item}
+                        {item.label}
                     </DropdownItem>
                 )}
             </Dropdown>
         );
     };
 
+    itemToString = item => {
+        if (item == null) {
+            return '';
+        }
+        if (typeof item === 'string') {
+            return item;
+        }
+        // The item is an object if it is chosen from the autocomplete list.
+        // Sometimes you don't want to show the label of the item in the input field, but a shorter version.
+        // This is what `item.input` is for.
+        return item.input || item.label || '';
+    };
+
     render() {
         const value = this.props.value !== null ? this.props.value : '';
+        const hasOptions = this.props.options.length > 0;
 
         return (
             <div>
@@ -122,6 +127,7 @@ export default class TypeAhead extends Component {
                     onStateChange={this.handleStateChange}
                     selectedItem={value}
                     onChange={this.handleSelect}
+                    itemToString={this.itemToString}
                 >
                     {({
                         getRootProps,
@@ -137,16 +143,17 @@ export default class TypeAhead extends Component {
                         >
                             <TextInput
                                 {...getInputProps()}
-                                hasDropdown={isOpen}
+                                hasDropdown={isOpen && hasOptions}
                                 disabled={this.props.disabled}
                             />
-                            {this.renderDropdown({
-                                isOpen,
-                                getItemProps,
-                                inputValue,
-                                highlightedIndex,
-                                selectedItem,
-                            })}
+                            {isOpen &&
+                                hasOptions &&
+                                this.renderDropdown({
+                                    getItemProps,
+                                    inputValue,
+                                    highlightedIndex,
+                                    selectedItem,
+                                })}
                         </TypeAheadContainer>}
                 </Downshift>
             </div>

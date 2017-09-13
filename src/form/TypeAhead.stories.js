@@ -5,7 +5,24 @@ import { withInfo } from '@storybook/addon-info';
 import TypeAhead from './TypeAhead';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-const SOME_OPTIONS = ['Lion', 'Lioness', 'Zebra', 'Elephant'];
+const SOME_OPTIONS = [
+    {
+        value: 'zebra',
+        label: 'Zebra',
+    },
+    {
+        value: 'lion',
+        label: 'Lion',
+    },
+    {
+        value: 'lioness',
+        label: 'Lioness',
+    },
+    {
+        value: 'elephant',
+        label: 'Elephant',
+    },
+];
 
 storiesOf('TypeAhead', module)
     .addDecorator(CenterDecorator)
