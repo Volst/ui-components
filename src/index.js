@@ -3,6 +3,7 @@ export { default as Modal } from './Modal';
 export { Button, Link, ExternalLink } from './Button';
 
 export { default as Form } from './Form';
+export { default as FormField } from './form/FormField';
 export { default as RadioButtons } from './form/RadioButtons';
 export { default as Checkbox } from './form/Checkbox';
 export { default as TextInput } from './form/TextInput';

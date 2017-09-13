@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ReCyCleTheme from '../src/ReCyCleTheme';
 import { BrowserRouter } from 'react-router-dom';
+import i18next from 'i18next';
 
 const Background = styled.div`
     background: #f9f9f9;
@@ -21,6 +22,15 @@ const theme = {
     dark: '#4c4c4c',
     light: '#eee',
 };
+
+i18next.init({
+    lng: 'en',
+    resources: {
+        en: {
+            translation: {},
+        },
+    },
+});
 
 export default story =>
     <ReCyCleTheme theme={theme}>

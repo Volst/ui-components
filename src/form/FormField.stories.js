@@ -3,21 +3,28 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import TextInput from './TextInput';
+import FormField from './FormField';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('TextInput', module)
+storiesOf('FormField', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',
         withInfo()(() => {
-            return <TextInput onChange={action('change')} name="myname" />;
+            return (
+                <FormField label="Your name">
+                    <TextInput onChange={action('change')} name="myname" />
+                </FormField>
+            );
         })
     )
     .add(
-        'disabled',
+        'errors',
         withInfo()(() => {
             return (
-                <TextInput onChange={action('change')} name="myname" disabled />
+                <FormField label="Your name" error={['required']}>
+                    <TextInput onChange={action('change')} name="myname" />
+                </FormField>
             );
         })
     );
