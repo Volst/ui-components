@@ -6,6 +6,7 @@ export { default as Form } from './Form';
 export { default as RadioButtons } from './form/RadioButtons';
 export { default as Checkbox } from './form/Checkbox';
 export { default as TextInput } from './form/TextInput';
+export { default as TextArea } from './form/TextArea';
 export { default as TypeAhead } from './form/TypeAhead';
 
 export { default as AppContainer } from './layout/AppContainer';

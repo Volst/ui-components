@@ -43,7 +43,7 @@ export const StyledInput = styled(props =>
             : `
         &:focus {
             outline: 0;
-            border-color: #006b94;
+            border-color: ${props => props.theme.primary};
         }
     `}
 `;
