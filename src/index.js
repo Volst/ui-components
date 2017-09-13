@@ -9,6 +9,7 @@ export { default as Checkbox } from './form/Checkbox';
 export { default as TextInput } from './form/TextInput';
 export { default as TextArea } from './form/TextArea';
 export { default as TypeAhead } from './form/TypeAhead';
+export { default as SelectInput } from './form/SelectInput';
 
 export { default as AppContainer } from './layout/AppContainer';
 export { default as Body } from './layout/Body';
