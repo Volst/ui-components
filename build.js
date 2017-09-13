@@ -14,9 +14,13 @@ const external = [
     'react-router-dom',
     'lodash',
     'downshift',
+    'i18next',
 ];
+
+// TODO: instead of a UMD build we can also make a CommonJS build; then we don't need to do this shit anymore...
 const globals = {
     react: 'React',
+    i18next: 'i18next',
     'styled-components': 'styled',
     'prop-types': 'PropTypes',
     'polished': 'polished',
