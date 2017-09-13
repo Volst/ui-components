@@ -19,6 +19,11 @@ export const StyledTextarea = styled.textarea`
         color: rgba(0, 0, 0, 0.35);
     }
 
+    &:disabled {
+        background: #f9f9f9;
+        cursor: not-allowed;
+    }
+
     &:focus {
         outline: 0;
         border: 1px solid ${props => props.theme.primary};
