@@ -1,28 +1,33 @@
 import React from 'react';
-import { storiesOf, action } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import { withInfo } from '@storybook/addon-info';
 import Checkbox from './Checkbox';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('Checkbox', module)
     .addDecorator(CenterDecorator)
-    .addWithInfo('standard', () => {
-        return (
-            <form>
-                <Checkbox
-                    onChange={action('change')}
-                    label="Zebra"
-                    name="animals"
-                    value={true}
-                />
-                <Checkbox
-                    onChange={action('change')}
-                    name="animals"
-                    label="Lion"
-                    value={false}
-                />
-            </form>
-        );
-    })
+    .add(
+        'standard',
+        withInfo()(() => {
+            return (
+                <form>
+                    <Checkbox
+                        onChange={action('change')}
+                        label="Zebra"
+                        name="animals"
+                        value={true}
+                    />
+                    <Checkbox
+                        onChange={action('change')}
+                        name="animals"
+                        label="Lion"
+                        value={false}
+                    />
+                </form>
+            );
+        })
+    )
     .add('disabled', () => {
         return (
             <Checkbox

@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { withInfo } from '@storybook/addon-info';
 import FullDecorator from '../../storybook/FullDecorator';
 import Body from './Body';
 import Content from './Content';
@@ -8,9 +9,9 @@ import AppContainer from './AppContainer';
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
 
-storiesOf('Layout', module)
-    .addDecorator(FullDecorator)
-    .addWithInfo('standard', () => {
+storiesOf('Layout', module).addDecorator(FullDecorator).add(
+    'standard',
+    withInfo()(() => {
         return (
             <AppContainer>
                 <Body>
@@ -22,4 +23,5 @@ storiesOf('Layout', module)
                 </Body>
             </AppContainer>
         );
-    });
+    })
+);

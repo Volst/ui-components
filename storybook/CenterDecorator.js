@@ -1,19 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReCyCleTheme from '../src/ReCyCleTheme';
+import PageBootstrap from './PageBootstrap';
 
+const Background = styled.div`
+    background: #f9f9f9;
+    width: 100%;
+    height: 100%;
+`;
 const Wrapper = styled.div`
+    background: #fff;
     width: 350px;
-    margin: 30px;
+    padding: 30px;
 `;
 
-const theme = {
-    primary: '#006b94',
-};
-
 export default story =>
-    <ReCyCleTheme theme={theme}>
-        <Wrapper>
-            {story()}
-        </Wrapper>
-    </ReCyCleTheme>;
+    <PageBootstrap>
+        <Background>
+            <Wrapper>
+                {story()}
+            </Wrapper>
+        </Background>
+    </PageBootstrap>;

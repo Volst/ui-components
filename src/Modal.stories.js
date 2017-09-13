@@ -1,11 +1,17 @@
 import React from 'react';
-import { storiesOf, action } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import { withInfo } from '@storybook/addon-info';
 import Modal from './Modal';
+import FullDecorator from '../storybook/FullDecorator';
 
-storiesOf('Modal', module).addWithInfo('standard', () => {
-    return (
-        <Modal onClose={action('close')}>
-            <p>This is some modal content.</p>
-        </Modal>
-    );
-});
+storiesOf('Modal', module).addDecorator(FullDecorator).add(
+    'standard',
+    withInfo()(() => {
+        return (
+            <Modal onClose={action('close')}>
+                <p>This is some modal content.</p>
+            </Modal>
+        );
+    })
+);

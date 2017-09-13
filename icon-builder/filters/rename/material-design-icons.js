@@ -12,7 +12,7 @@ function myDestRewriter(pathObj) {
     fileName = `ThreeD${fileName.slice(2)}`;
   }
 
-  return fileName;
+  return `Icon${fileName}`;
 }
 
 module.exports = myDestRewriter;

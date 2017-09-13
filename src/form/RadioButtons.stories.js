@@ -1,5 +1,7 @@
 import React from 'react';
-import { storiesOf, action } from '@storybook/react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import { withInfo } from '@storybook/addon-info';
 import RadioButtons from './RadioButtons';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
@@ -16,24 +18,30 @@ const SOME_OPTIONS = [
 
 storiesOf('RadioButtons', module)
     .addDecorator(CenterDecorator)
-    .addWithInfo('standard', () => {
-        return (
-            <RadioButtons
-                onChange={action('change')}
-                name="myname"
-                options={SOME_OPTIONS}
-                value="zebra"
-            />
-        );
-    })
-    .add('disabled', () => {
-        return (
-            <RadioButtons
-                disabled
-                onChange={action('change')}
-                name="myname"
-                options={SOME_OPTIONS}
-                value="zebra"
-            />
-        );
-    });
+    .add(
+        'standard',
+        withInfo()(() => {
+            return (
+                <RadioButtons
+                    onChange={action('change')}
+                    name="myname"
+                    options={SOME_OPTIONS}
+                    value="zebra"
+                />
+            );
+        })
+    )
+    .add(
+        'disabled',
+        withInfo()(() => {
+            return (
+                <RadioButtons
+                    disabled
+                    onChange={action('change')}
+                    name="myname"
+                    options={SOME_OPTIONS}
+                    value="zebra"
+                />
+            );
+        })
+    );
