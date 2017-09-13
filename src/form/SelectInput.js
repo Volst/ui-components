@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { omit } from 'lodash';
-import ImgChevron from '../image/chevron.svg';
 import { COLOR_TEXT } from '../ReCyCleTheme';
 import { observer, PropTypes as MobxTypes } from 'mobx-react';
 import { t } from 'i18next';
@@ -20,7 +19,7 @@ const StyledSelect = styled(props =>
     border-radius: 4px;
     border: 1px solid #ccc;
     background-color: #fff;
-    background-image: url(${ImgChevron});
+    background-image: url('data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>');
     background-repeat: no-repeat;
     background-position: right 10px center;
     -moz-appearance: none;
