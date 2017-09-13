@@ -39,13 +39,14 @@ const StyledLabel = styled.label`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 20px;
+    padding: 6px 5px;
     text-align: center;
     border: 1px solid #ccc;
     border-left-width: 0;
     background: #fff;
     font-size: 14px;
     color: rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
 `;
 
 const StyledInput = styled.input`
