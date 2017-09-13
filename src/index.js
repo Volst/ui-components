@@ -5,6 +5,7 @@ export { Button, Link, ExternalLink } from './Button';
 export { default as Form } from './Form';
 export { default as FormField } from './form/FormField';
 export { default as RadioButtons } from './form/RadioButtons';
+export { default as RadioList } from './form/RadioList';
 export { default as Checkbox } from './form/Checkbox';
 export { default as TextInput } from './form/TextInput';
 export { default as TextArea } from './form/TextArea';
