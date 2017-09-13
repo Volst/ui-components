@@ -7,5 +7,9 @@ module.exports = (storybookBaseConfig, configType) => {
     if (index >= 0) {
         storybookBaseConfig.plugins.splice(index, 1);
     }
+    storybookBaseConfig.module.rules.push({
+        loader: 'file-loader',
+        test: /\.(gif|jpg|png|svg)$/,
+    });
     return storybookBaseConfig;
 };

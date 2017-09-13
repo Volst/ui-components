@@ -1,5 +1,6 @@
 const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
+const image = require('rollup-plugin-image');
 const multiEntry = require('rollup-plugin-multi-entry');
 
 const external = [
@@ -42,6 +43,7 @@ rollup
             babel({
                 exclude: 'node_modules/**',
             }),
+            image(),
         ],
     })
     .then(bundle => {
