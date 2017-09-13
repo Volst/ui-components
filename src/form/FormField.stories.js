@@ -19,6 +19,26 @@ storiesOf('FormField', module)
         })
     )
     .add(
+        'required',
+        withInfo()(() => {
+            return (
+                <FormField label="Your name" required>
+                    <TextInput onChange={action('change')} name="myname" />
+                </FormField>
+            );
+        })
+    )
+    .add(
+        'help text',
+        withInfo()(() => {
+            return (
+                <FormField label="Your name" helpText="A real name">
+                    <TextInput onChange={action('change')} name="myname" />
+                </FormField>
+            );
+        })
+    )
+    .add(
         'errors',
         withInfo()(() => {
             return (
