@@ -31,7 +31,9 @@
     "polished": "^1.7.0",
     "prop-types": "^15.5.10",
     "react-custom-scrollbars": "^4.1.2",
-    "react-styled-flexboxgrid": "^2.0.3"
+    "react-styled-flexboxgrid": "^2.0.3",
+    "react-text-mask": "^5.0.2",
+    "text-mask-addons": "^3.6.0"
   },
   "engines": {
     "node": ">=4"

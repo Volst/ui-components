@@ -8,6 +8,7 @@ export { default as RadioButtons } from './form/RadioButtons';
 export { default as RadioList } from './form/RadioList';
 export { default as Checkbox } from './form/Checkbox';
 export { default as TextInput } from './form/TextInput';
+export { default as NumberInput } from './form/NumberInput';
 export { default as TimeInput } from './form/TimeInput';
 export { default as TextArea } from './form/TextArea';
 export { default as TypeAhead } from './form/TypeAhead';

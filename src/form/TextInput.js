@@ -1,16 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { omit } from 'lodash';
 import { COLOR_TEXT, COLOR_RED } from '../ReCyCleTheme';
 
-// TODO: I really don't like this `omit` hack...
-const getComponentProps = props =>
-    omit(props, ['uppercase', 'compact', 'hasError']);
-
-export const StyledInput = styled(props =>
-    <input {...getComponentProps(props)} />
-)`
+export const StyledInput = styled(({ hasError, ...props }) => (
+    <input {...props} />
+))`
     height: 30px;
     font-size: 14px;
     color: ${COLOR_TEXT};
@@ -45,7 +40,7 @@ export const StyledInput = styled(props =>
             outline: 0;
             border-color: ${props => props.theme.primary};
         }
-    `}
+    `};
 `;
 
 export default class TextInput extends Component {

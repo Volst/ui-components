@@ -16,6 +16,8 @@ const external = [
     'react-styled-flexboxgrid',
     'react-time-input',
     'react-router-dom',
+    'react-text-mask',
+    'text-mask-addons',
     'lodash',
     'downshift',
     'i18next',
