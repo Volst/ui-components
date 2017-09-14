@@ -17,7 +17,7 @@ const external = [
     'react-time-input',
     'react-router-dom',
     'react-text-mask',
-    'text-mask-addons',
+    'text-mask-addons/dist/createNumberMask',
     'lodash',
     'downshift',
     'i18next',
