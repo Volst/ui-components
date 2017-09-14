@@ -2,6 +2,8 @@ const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
 const multiEntry = require('rollup-plugin-multi-entry');
 
+process.env.NODE_ENV = 'production';
+
 const external = [
     'styled-components',
     'react',
