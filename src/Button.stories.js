@@ -21,8 +21,8 @@ storiesOf('Button', module)
             return (
                 <div>
                     <div>
-                        <Button>Default</Button>
-                        <Button disabled>Default disabled</Button>
+                        <Button>Primary</Button>
+                        <Button disabled>Primary disabled</Button>
                     </div>
                     <div>
                         <Button tone="success">Success</Button>
