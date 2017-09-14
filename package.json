@@ -5,7 +5,7 @@
   "author": "Kees Kluskens <kees@codeyellow.nl>",
   "description": "React component library for Code Yellow",
   "module": "dist/re-cy-cle.es.js",
-  "main": "dist/re-cy-cle.umd.js",
+  "main": "dist/re-cy-cle.cjs.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/CodeYellowBV/re-cy-cle.git"
