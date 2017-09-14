@@ -64,6 +64,7 @@
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.2",
     "react-test-renderer": "^15.6.1",
+    "react-time-input": "SpaceK33z/react-time-input#fcc3215d8f1007c5542876af83e9fa216119ed4b",
     "rollup": "^0.45.2",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-multi-entry": "^2.0.1",
@@ -74,6 +75,7 @@
     "lodash": "^4.10.0",
     "mobx": ">=3.2.1",
     "mobx-react": ">=4.2.2",
+    "moment": ">=2.18.1",
     "react": ">=15.0.0",
     "react-router-dom": "^4.1.1",
     "styled-components": ">=1.4.5"
