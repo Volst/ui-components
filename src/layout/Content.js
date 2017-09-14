@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import { tint } from 'polished';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 const StyledScrollbars = styled(Scrollbars)`
     flex: 1;
+    background: ${props =>
+        props.tone === 'primary' ? tint(0.07, props.theme.primary) : '#fff'};
 `;
 
 const Main = styled.main`
@@ -18,7 +21,8 @@ const Main = styled.main`
         pointer-events: none;
         opacity: 0.6;
     `
-            : null} transition: 200ms filter ease;
+            : null};
+    transition: 200ms filter ease;
 
     ${props =>
         props.center
@@ -32,7 +36,7 @@ const Main = styled.main`
 `;
 
 const Content = props =>
-    <StyledScrollbars>
+    <StyledScrollbars tone={props.tone}>
         <Main center={props.center} blur={props.blur}>
             {props.children}
         </Main>
@@ -42,6 +46,7 @@ Content.propTypes = {
     children: PropTypes.node,
     center: PropTypes.bool,
     blur: PropTypes.bool,
+    tone: PropTypes.oneOf(['primary']),
 };
 
 export default Content;
