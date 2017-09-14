@@ -10,7 +10,7 @@ const StyledScrollbars = styled(Scrollbars)`
 const Main = styled.main`
     margin: 0 auto;
     max-width: 1500px;
-    padding: 20px;
+    padding: 25px;
     ${props =>
         props.blur
             ? `
