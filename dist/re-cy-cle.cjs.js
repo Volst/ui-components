@@ -1,13 +1,27 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('styled-components'), require('prop-types'), require('lodash'), require('react-router-dom'), require('polished'), require('mobx-react'), require('i18next'), require('mobx'), require('downshift'), require('react-custom-scrollbars'), require('react-styled-flexboxgrid')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'react', 'styled-components', 'prop-types', 'lodash', 'react-router-dom', 'polished', 'mobx-react', 'i18next', 'mobx', 'downshift', 'react-custom-scrollbars', 'react-styled-flexboxgrid'], factory) :
-	(factory((global.reCyCle = {}),global.React,global.styled,global.PropTypes,global._,global.ReactRouterDom,global.polished,global.mobxReact,global.i18next,global.mobx,global.downshift,global.reactCustomScrollbars,global.reactStyledFlexboxgrid));
-}(this, (function (exports,React,styled,PropTypes,lodash,reactRouterDom,polished,mobxReact,i18next,mobx,Downshift,reactCustomScrollbars,reactStyledFlexboxgrid) { 'use strict';
+'use strict';
 
-var React__default = 'default' in React ? React['default'] : React;
-var styled__default = 'default' in styled ? styled['default'] : styled;
-PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
-Downshift = Downshift && Downshift.hasOwnProperty('default') ? Downshift['default'] : Downshift;
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var React = require('react');
+var React__default = _interopDefault(React);
+var styled = require('styled-components');
+var styled__default = _interopDefault(styled);
+var PropTypes = _interopDefault(require('prop-types'));
+var lodash = require('lodash');
+var reactRouterDom = require('react-router-dom');
+var polished = require('polished');
+var mobxReact = require('mobx-react');
+var i18next = require('i18next');
+var mobx = require('mobx');
+var MaskedInput = _interopDefault(require('react-text-mask'));
+var createNumberMask = _interopDefault(require('text-mask-addons/dist/createNumberMask'));
+var RTimeInput = _interopDefault(require('react-time-input'));
+var moment = _interopDefault(require('moment'));
+var Downshift = _interopDefault(require('downshift'));
+var reactCustomScrollbars = require('react-custom-scrollbars');
+var reactStyledFlexboxgrid = require('react-styled-flexboxgrid');
 
 const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
 const COLOR_RED = '#dc0818';
@@ -560,15 +574,28 @@ let Checkbox = (_temp2$5 = _class$6 = class Checkbox extends React.Component {
     disabled: PropTypes.bool
 }, _temp2$5);
 
+var objectWithoutProperties = function (obj, keys) {
+  var target = {};
+
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
+  }
+
+  return target;
+};
+
 var _class$7;
 var _temp2$6;
 
-// TODO: I really don't like this `omit` hack...
-const getComponentProps = props => lodash.omit(props, ['uppercase', 'compact', 'hasError']);
-
-const StyledInput$3 = styled__default(props => React__default.createElement('input', getComponentProps(props))).withConfig({
+const StyledInput$3 = styled__default((_ref) => {
+    let { hasError } = _ref,
+        props = objectWithoutProperties(_ref, ['hasError']);
+    return React__default.createElement('input', props);
+}).withConfig({
     displayName: 'TextInput__StyledInput'
-})(['height:30px;font-size:14px;color:', ';background:#fff;padding:0 8px;text-decoration:none;border-radius:4px;border:1px solid #ccc;width:100%;&:disabled{background:#f9f9f9;cursor:not-allowed;}&::placeholder{color:rgba(0,0,0,0.35);}', ''], COLOR_TEXT, props => props.hasError ? `
+})(['height:30px;font-size:14px;color:', ';background:#fff;padding:0 8px;text-decoration:none;border-radius:4px;border:1px solid #ccc;width:100%;&:disabled{background:#f9f9f9;cursor:not-allowed;}&::placeholder{color:rgba(0,0,0,0.35);}', ';'], COLOR_TEXT, props => props.hasError ? `
         border-color: ${COLOR_RED};
         background: #fef2f2;
 
@@ -634,11 +661,150 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends React.Component {
 var _class$8;
 var _temp2$7;
 
+const MyInput = StyledInput$3.withComponent((_ref) => {
+    let { hasError } = _ref,
+        props = objectWithoutProperties(_ref, ['hasError']);
+    return React__default.createElement(MaskedInput, props);
+});
+
+let NumberInput = (_temp2$7 = _class$8 = class NumberInput extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.parseValue = e => {
+            let value = e.target.value;
+            const { prefix, suffix, thousandsSeparatorSymbol } = this.props;
+            if (prefix) {
+                value = value.replace(prefix, '');
+            }
+            if (suffix) {
+                value = value.replace(suffix, '');
+            }
+            if (thousandsSeparatorSymbol) {
+                // The thousands separator symbol is a visual thingy so should be removed. It can occur multipe times.
+                value = value.split(thousandsSeparatorSymbol).join('');
+            }
+
+            // TODO: As `value` prop both a string and a number are allowed. However, after a change the value is always a string.
+            // Perhaps we can detect that and cast to number?
+            return value;
+        }, this.onChange = e => {
+            if (!this.props.onChange) return;
+
+            this.props.onChange(this.props.name, this.parseValue(e));
+        }, this.onBlur = e => {
+            if (!this.props.onBlur) return;
+
+            this.props.onBlur(this.props.name, this.parseValue(e));
+        }, _temp;
+    }
+
+    getMask(props) {
+        return createNumberMask(lodash.pick(props, 'prefix', 'suffix', 'includeThousandsSeparator', 'thousandsSeparatorSymbol', 'allowDecimal', 'allowNegative', 'decimalSymbol', 'decimalLimit'));
+    }
+
+    render() {
+        const value = this.props.value !== null ? this.props.value : '';
+
+        return React__default.createElement(MyInput, {
+            name: this.props.name,
+            disabled: this.props.disabled,
+            value: value,
+            placeholder: this.props.placeholder,
+            maxLength: this.props.maxLength,
+            onChange: this.onChange,
+            onBlur: this.onBlur,
+            autoFocus: this.props.autoFocus,
+            hasError: this.props.hasError,
+            guide: false,
+            mask: this.getMask(this.props)
+        });
+    }
+}, _class$8.propTypes = {
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    placeholder: PropTypes.string,
+    disabled: PropTypes.bool,
+    hasError: PropTypes.bool,
+    maxLength: PropTypes.string,
+    name: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    autoFocus: PropTypes.bool,
+
+    prefix: PropTypes.string,
+    suffix: PropTypes.string,
+    includeThousandsSeparator: PropTypes.bool,
+    thousandsSeparatorSymbol: PropTypes.string,
+    allowDecimal: PropTypes.bool,
+    allowNegative: PropTypes.bool,
+    decimalSymbol: PropTypes.string,
+    decimalLimit: PropTypes.number
+}, _class$8.defaultProps = {
+    placeholder: '',
+    value: '',
+    // text-mask-addons has some default values we don't like; by default we only want to force the field to contain numbers
+    prefix: '',
+    includeThousandsSeparator: false
+}, _temp2$7);
+
+var _class$9;
+var _class2$3;
+var _temp2$8;
+
+const MyInput$1 = StyledInput$3.withComponent(RTimeInput);
+
+let TimeInput = mobxReact.observer(_class$9 = (_temp2$8 = _class2$3 = class TimeInput extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.onChange = value => {
+            if (!this.props.onChange) return;
+
+            let newValue = null;
+            if (this.props.value) {
+                const split = value.split(':');
+                newValue = this.props.value ? this.props.value.clone() : moment();
+                newValue.hours(split[0]);
+                newValue.minutes(split[1]);
+            } else {
+                newValue = moment(value, 'HH:mm');
+            }
+            this.props.onChange(this.props.name, newValue);
+        }, _temp;
+    }
+
+    render() {
+        const { value } = this.props;
+        const formatted = value ? value.format('HH:mm') : '';
+
+        return React__default.createElement(MyInput$1, {
+            name: this.props.name,
+            initTime: formatted,
+            placeholder: this.props.placeholder,
+            disabled: this.props.disabled,
+            onTimeChange: this.onChange
+        });
+    }
+}, _class2$3.propTypes = {
+    onChange: PropTypes.func,
+    placeholder: PropTypes.string,
+    name: PropTypes.string,
+    disabled: PropTypes.bool,
+    // TODO: verify that this is a moment instance!
+    value: PropTypes.object
+}, _class2$3.defaultProps = {
+    placeholder: ' ',
+    value: ''
+}, _temp2$8)) || _class$9;
+
+var _class$10;
+var _temp2$9;
+
 const StyledTextarea = styled__default.textarea.withConfig({
     displayName: 'TextArea__StyledTextarea'
 })(['font-size:14px;color:', ';background:#fff;padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid #ccc;width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:#f9f9f9;cursor:not-allowed;}&:focus{outline:0;border:1px solid ', ';}'], COLOR_TEXT, props => props.theme.primary);
 
-let TextArea = (_temp2$7 = _class$8 = class TextArea extends React.Component {
+let TextArea = (_temp2$9 = _class$10 = class TextArea extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -663,7 +829,7 @@ let TextArea = (_temp2$7 = _class$8 = class TextArea extends React.Component {
             onBlur: this.props.onBlur
         });
     }
-}, _class$8.propTypes = {
+}, _class$10.propTypes = {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
@@ -672,14 +838,14 @@ let TextArea = (_temp2$7 = _class$8 = class TextArea extends React.Component {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
     onBlur: PropTypes.func
-}, _class$8.defaultProps = {
+}, _class$10.defaultProps = {
     placeholder: '',
     value: '',
     onBlur() {}
-}, _temp2$7);
+}, _temp2$9);
 
-var _class$9;
-var _temp2$8;
+var _class$11;
+var _temp2$10;
 
 // TODO: we should use a separate TextInput component for this
 const TextInput$1 = styled__default.input.withConfig({
@@ -701,7 +867,7 @@ const DropdownItem = styled__default.div.withConfig({
     displayName: 'TypeAhead__DropdownItem'
 })(['background:', ';color:', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.highlighted ? polished.tint(0.2, props.theme.primary) : 'white', COLOR_TEXT, props => props.selected ? 'bold' : 'normal');
 
-let TypeAhead = (_temp2$8 = _class$9 = class TypeAhead extends React.Component {
+let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -787,25 +953,25 @@ let TypeAhead = (_temp2$8 = _class$9 = class TypeAhead extends React.Component {
             )
         );
     }
-}, _class$9.propTypes = {
+}, _class$11.propTypes = {
     onChange: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     name: PropTypes.string,
     value: PropTypes.string,
     options: PropTypes.array.isRequired,
     disabled: PropTypes.bool
-}, _temp2$8);
+}, _temp2$10);
 
-var _class$10;
-var _class2$3;
-var _temp2$9;
+var _class$12;
+var _class2$4;
+var _temp2$11;
 
 // TODO: I really don't like this `omit` hack...
 const StyledSelect = styled__default(props => React__default.createElement('select', lodash.omit(props, ['autoWidth']))).withConfig({
     displayName: 'SelectInput__StyledSelect'
 })(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid #ccc;background-color:#fff;background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid #006b94;}&:disabled{background-color:#f9f9f9;cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', COLOR_TEXT);
 
-let SelectInput = mobxReact.observer(_class$10 = (_temp2$9 = _class2$3 = class SelectInput extends React.Component {
+let SelectInput = mobxReact.observer(_class$12 = (_temp2$11 = _class2$4 = class SelectInput extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -841,7 +1007,7 @@ let SelectInput = mobxReact.observer(_class$10 = (_temp2$9 = _class2$3 = class S
             this.props.options.map(this.renderOption)
         );
     }
-}, _class2$3.propTypes = {
+}, _class2$4.propTypes = {
     children: PropTypes.node,
     onChange: PropTypes.func,
     name: PropTypes.string,
@@ -852,14 +1018,14 @@ let SelectInput = mobxReact.observer(_class$10 = (_temp2$9 = _class2$3 = class S
     options: mobxReact.PropTypes.arrayOrObservableArray.isRequired,
     formatOption: PropTypes.func,
     autoWidth: PropTypes.bool
-}, _class2$3.defaultProps = {
+}, _class2$4.defaultProps = {
     formatOption(option) {
         return {
             value: option.id,
             label: option.name
         };
     }
-}, _temp2$9)) || _class$10;
+}, _temp2$11)) || _class$12;
 
 var AppContainer = styled__default.div.withConfig({
     displayName: 'AppContainer'
@@ -871,11 +1037,11 @@ var Body = styled__default.div.withConfig({
 
 const StyledScrollbars = styled__default(reactCustomScrollbars.Scrollbars).withConfig({
     displayName: 'Content__StyledScrollbars'
-})(['flex:1;']);
+})(['flex:1;background:', ';'], props => props.tone === 'primary' ? polished.tint(0.07, props.theme.primary) : '#fff');
 
 const Main = styled__default.main.withConfig({
     displayName: 'Content__Main'
-})(['margin:0 auto;max-width:1500px;padding:20px;', ' transition:200ms filter ease;', ';'], props => props.blur ? `
+})(['margin:0 auto;max-width:1500px;padding:25px;', ';transition:200ms filter ease;', ';'], props => props.blur ? `
         filter: blur(2px) grayscale(40%);
         pointer-events: none;
         opacity: 0.6;
@@ -888,7 +1054,7 @@ const Main = styled__default.main.withConfig({
 
 const Content$1 = props => React__default.createElement(
     StyledScrollbars,
-    null,
+    { tone: props.tone },
     React__default.createElement(
         Main,
         { center: props.center, blur: props.blur },
@@ -899,7 +1065,8 @@ const Content$1 = props => React__default.createElement(
 Content$1.propTypes = {
     children: PropTypes.node,
     center: PropTypes.bool,
-    blur: PropTypes.bool
+    blur: PropTypes.bool,
+    tone: PropTypes.oneOf(['primary'])
 };
 
 var ContentContainer = styled__default.div.withConfig({
@@ -964,14 +1131,14 @@ var Toolbar = styled__default.section.withConfig({
     displayName: 'Toolbar'
 })(['height:40px;background-color:', ';display:flex;align-items:center;'], props => polished.tint(0.15, props.theme.primary));
 
-var _class$11;
+var _class$13;
 var _temp$1;
 
 const Menu = styled__default.header.withConfig({
     displayName: 'TopMenu__Menu'
 })(['display:flex;align-items:stretch;flex-direction:column;']);
 
-let TopMenu = (_temp$1 = _class$11 = class TopMenu extends React.Component {
+let TopMenu = (_temp$1 = _class$13 = class TopMenu extends React.Component {
 
     render() {
         return React__default.createElement(
@@ -980,7 +1147,7 @@ let TopMenu = (_temp$1 = _class$11 = class TopMenu extends React.Component {
             this.props.children
         );
     }
-}, _class$11.propTypes = {
+}, _class$13.propTypes = {
     children: PropTypes.node.isRequired
 }, _temp$1);
 
@@ -1011,14 +1178,14 @@ var MenuRow = styled__default.div.withConfig({
         }
     `);
 
-var _class$12;
-var _temp2$10;
+var _class$14;
+var _temp2$12;
 
 const Item = styled__default(reactRouterDom.NavLink).withConfig({
     displayName: 'NavItem__Item'
 })(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primary);
 
-let NavItem = (_temp2$10 = _class$12 = class NavItem extends React.Component {
+let NavItem = (_temp2$12 = _class$14 = class NavItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1041,12 +1208,12 @@ let NavItem = (_temp2$10 = _class$12 = class NavItem extends React.Component {
             this.props.title
         );
     }
-}, _class$12.propTypes = {
+}, _class$14.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     to: PropTypes.string,
     onClick: PropTypes.func,
     activePath: PropTypes.string
-}, _temp2$10);
+}, _temp2$12);
 
 var NavMenu = styled__default.nav.withConfig({
     displayName: 'NavMenu'
@@ -1071,7 +1238,7 @@ Loader.propTypes = {
     show: PropTypes.bool
 };
 
-var _class$13;
+var _class$15;
 var _temp$2;
 
 const tooltipBg = '#383838';
@@ -1080,7 +1247,7 @@ const StyledTooltip = styled__default.div.withConfig({
     displayName: 'Tooltip__StyledTooltip'
 })(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:1000;}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:#fff;font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], tooltipBg, tooltipBg, tooltipBg);
 
-let Tooltip = (_temp$2 = _class$13 = class Tooltip extends React.Component {
+let Tooltip = (_temp$2 = _class$15 = class Tooltip extends React.Component {
 
     render() {
         const { direction, children } = this.props;
@@ -1093,19 +1260,19 @@ let Tooltip = (_temp$2 = _class$13 = class Tooltip extends React.Component {
             children
         );
     }
-}, _class$13.propTypes = {
+}, _class$15.propTypes = {
     message: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
-}, _class$13.defaultProps = {
+}, _class$15.defaultProps = {
     direction: 's'
 }, _temp$2);
 
-var _class$15;
-var _class2$4;
+var _class$17;
+var _class2$5;
 var _descriptor$1;
 var _class3;
-var _temp2$12;
+var _temp2$14;
 
 function _initDefineProp$1(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -1148,7 +1315,7 @@ function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, c
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = mobxReact.observer(_class$15 = (_class2$4 = (_temp2$12 = _class3 = class NotificationItem extends React.Component {
+let NotificationItem = mobxReact.observer(_class$17 = (_class2$5 = (_temp2$14 = _class3 = class NotificationItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1203,12 +1370,12 @@ let NotificationItem = mobxReact.observer(_class$15 = (_class2$4 = (_temp2$12 = 
 }, _class3.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$12), (_descriptor$1 = _applyDecoratedDescriptor$1(_class2$4.prototype, 'active', [mobx.observable], {
+}, _temp2$14), (_descriptor$1 = _applyDecoratedDescriptor$1(_class2$5.prototype, 'active', [mobx.observable], {
     enumerable: true,
     initializer: function () {
         return false;
     }
-})), _class2$4)) || _class$15;
+})), _class2$5)) || _class$17;
 
 const CloseButton = styled__default(Button).withConfig({
     displayName: 'Item__CloseButton'
@@ -1230,10 +1397,10 @@ const StyledItem = styled__default.div.withConfig({
     }
 });
 
-var _class$14;
-var _temp2$11;
+var _class$16;
+var _temp2$13;
 
-let NotificationStack = (_temp2$11 = _class$14 = class NotificationStack extends React.Component {
+let NotificationStack = (_temp2$13 = _class$16 = class NotificationStack extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1255,10 +1422,10 @@ let NotificationStack = (_temp2$11 = _class$14 = class NotificationStack extends
             this.props.notifications.map(this.renderNotification)
         );
     }
-}, _class$14.propTypes = {
+}, _class$16.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
-}, _temp2$11);
+}, _temp2$13);
 const StackWrapper = styled__default.div.withConfig({
     displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:100;width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;']);
@@ -1299,9 +1466,9 @@ let IconKeyboardArrowUp = props => React__default.createElement(
     React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
 );
 
-var _class$16;
-var _class2$5;
-var _temp2$13;
+var _class$18;
+var _class2$6;
+var _temp2$15;
 
 const StyledContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledContainer'
@@ -1319,7 +1486,7 @@ const StyledTitleContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
 
-let Accordion = mobxReact.observer(_class$16 = (_temp2$13 = _class2$5 = class Accordion extends React.Component {
+let Accordion = mobxReact.observer(_class$18 = (_temp2$15 = _class2$6 = class Accordion extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1356,13 +1523,13 @@ let Accordion = mobxReact.observer(_class$16 = (_temp2$13 = _class2$5 = class Ac
             ) : null
         );
     }
-}, _class2$5.propTypes = {
+}, _class2$6.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     opened: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     action: PropTypes.node
-}, _temp2$13)) || _class$16;
+}, _temp2$15)) || _class$18;
 
 const Table = styled__default.table.withConfig({
     displayName: 'Table__Table'
@@ -7304,6 +7471,8 @@ exports.RadioButtons = RadioButtons;
 exports.RadioList = RadioList;
 exports.Checkbox = Checkbox;
 exports.TextInput = TextInput;
+exports.NumberInput = NumberInput;
+exports.TimeInput = TimeInput;
 exports.TextArea = TextArea;
 exports.TypeAhead = TypeAhead;
 exports.SelectInput = SelectInput;
@@ -8290,7 +8459,3 @@ exports.IconYoutubeSearchedFor = IconYoutubeSearchedFor;
 exports.IconZoomIn = IconZoomIn;
 exports.IconZoomOut = IconZoomOut;
 exports.IconZoomOutMap = IconZoomOutMap;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
