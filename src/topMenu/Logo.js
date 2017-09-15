@@ -12,12 +12,14 @@ const StyledNavLink = styled(NavLink)`
     font-weight: 300;
     text-decoration: none;
     color: inherit;
+
+    svg,
+    img {
+        max-width: 100%;
+    }
 `;
 
-const Logo = props =>
-    <StyledNavLink to="/">
-        {props.children}
-    </StyledNavLink>;
+const Logo = props => <StyledNavLink to="/">{props.children}</StyledNavLink>;
 
 Logo.propTypes = {
     children: PropTypes.node,
