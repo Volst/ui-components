@@ -1,15 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { omit } from 'lodash';
 import { COLOR_TEXT } from '../ReCyCleTheme';
 import { observer, PropTypes as MobxTypes } from 'mobx-react';
 import { t } from 'i18next';
 
-// TODO: I really don't like this `omit` hack...
-const StyledSelect = styled(props =>
-    <select {...omit(props, ['autoWidth'])} />
-)`
+const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
     width: ${props => (props.autoWidth ? 'auto' : '100%')};
     height: 30px;
     font-size: 14px;
@@ -84,10 +80,11 @@ export default class SelectInput extends Component {
                 disabled={this.props.disabled}
                 autoWidth={this.props.autoWidth}
             >
-                {!this.props.skipPlaceholder &&
+                {!this.props.skipPlaceholder && (
                     <option value="">
                         {this.props.placeholder || t('form.selectPlaceholder')}
-                    </option>}
+                    </option>
+                )}
                 {this.props.options.map(this.renderOption)}
             </StyledSelect>
         );
