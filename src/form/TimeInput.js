@@ -14,8 +14,7 @@ export default class TimeInput extends Component {
         placeholder: PropTypes.string,
         name: PropTypes.string,
         disabled: PropTypes.bool,
-        // TODO: verify that this is a moment instance!
-        value: PropTypes.object,
+        value: PropTypes.instanceOf(moment),
     };
 
     static defaultProps = {
