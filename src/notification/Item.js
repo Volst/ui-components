@@ -90,6 +90,7 @@ const StyledItem = styled.div`
     background-position: 10px 10px;
     pointer-events: all;
     transition: ${TRANSITION_TIME}ms cubic-bezier(0.89, 0.01, 0.5, 1.1);
+    word-wrap: break-word;
     ${props =>
         !props.active
             ? `

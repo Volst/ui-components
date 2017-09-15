@@ -49,7 +49,6 @@ storiesOf('Notification', module)
                     newNotifications.indexOf(notification),
                     1
                 );
-                console.log('newNotifications', newNotifications);
                 this.setState({
                     notifications: newNotifications,
                 });
@@ -57,7 +56,6 @@ storiesOf('Notification', module)
             };
 
             render() {
-                console.log('notifications', this.state.notifications);
                 return (
                     <NotificationStack
                         notifications={this.state.notifications}
