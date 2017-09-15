@@ -1,5 +1,9 @@
 import React, { Children, Component } from 'react';
 import styled, { ThemeProvider, injectGlobal, keyframes } from 'styled-components';
+import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
+import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
+import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
+import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
 import PropTypes from 'prop-types';
 import { omit, pick } from 'lodash';
 import { Link, NavLink } from 'react-router-dom';
@@ -19,6 +23,27 @@ const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
 const COLOR_RED = '#dc0818';
 
 const injectGlobalStyles = () => injectGlobal`
+    @font-face {
+        font-family: 'Roboto';
+        src: url('${RobotoLight}');
+        font-weight: 300;
+    }
+    @font-face {
+        font-family: 'Roboto';
+        src: url('${RobotoRegular}');
+        font-weight: 400;
+    }
+    @font-face {
+        font-family: 'Roboto';
+        src: url('${RobotoMedium}');
+        font-weight: 500;
+    }
+    @font-face {
+        font-family: 'Roboto';
+        src: url('${RobotoBold}');
+        font-weight: 700;
+    }
+
     html {
         box-sizing: border-box;
         font-family: Roboto, Arial, sans-serif;
@@ -351,6 +376,18 @@ let FormField = observer(_class$2 = (_temp2$2 = _class2 = class FormField extend
     required: PropTypes.bool
 }, _temp2$2)) || _class$2;
 
+const defaultConfig = {
+    primary: '#006b94',
+    success: '#58b96b',
+    warning: '#d45352',
+    dark: '#4c4c4c',
+    light: '#eee'
+};
+
+function theme(props, value) {
+    return props.theme[value] || defaultConfig[value];
+}
+
 var _class$4;
 var _descriptor;
 var _class2$1;
@@ -398,7 +435,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 const StyledDiv = styled.div.withConfig({
     displayName: 'RadioButtons__StyledDiv'
 })(['display:flex;align-items:stretch;border:1px solid transparent;border-radius:4px;', ';'], props => props.focus && `
-        border-color: ${props => props.theme.primary};
+        border-color: ${theme(props, 'primary')};
     `);
 
 const Option = styled.div.withConfig({
@@ -411,7 +448,7 @@ const StyledLabel$1 = styled.label.withConfig({
 
 const StyledInput = styled.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
-})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:#fff;box-shadow:-1px 0 ', ';}'], props => props.theme.primary, props => props.theme.primary, props => props.theme.primary);
+})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:#fff;box-shadow:-1px 0 ', ';}'], props => theme(props, 'primary'), props => theme(props, 'primary'), props => theme(props, 'primary'));
 
 var RadioButtons = observer((_class$4 = (_temp2$3 = _class2$1 = class RadioButtons extends Component {
     constructor(...args) {
@@ -597,7 +634,7 @@ const StyledInput$3 = styled((_ref) => {
     ` : `
         &:focus {
             outline: 0;
-            border-color: ${props => props.theme.primary};
+            border-color: ${theme(props, 'primary')};
         }
     `);
 
@@ -782,8 +819,7 @@ let TimeInput = observer(_class$9 = (_temp2$8 = _class2$3 = class TimeInput exte
     placeholder: PropTypes.string,
     name: PropTypes.string,
     disabled: PropTypes.bool,
-    // TODO: verify that this is a moment instance!
-    value: PropTypes.object
+    value: PropTypes.instanceOf(moment)
 }, _class2$3.defaultProps = {
     placeholder: ' ',
     value: ''
@@ -794,7 +830,7 @@ var _temp2$9;
 
 const StyledTextarea = styled.textarea.withConfig({
     displayName: 'TextArea__StyledTextarea'
-})(['font-size:14px;color:', ';background:#fff;padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid #ccc;width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:#f9f9f9;cursor:not-allowed;}&:focus{outline:0;border:1px solid ', ';}'], COLOR_TEXT, props => props.theme.primary);
+})(['font-size:14px;color:', ';background:#fff;padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid #ccc;width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:#f9f9f9;cursor:not-allowed;}&:focus{outline:0;border:1px solid ', ';}'], COLOR_TEXT, props => theme(props, 'primary'));
 
 let TextArea = (_temp2$9 = _class$10 = class TextArea extends Component {
     constructor(...args) {
@@ -845,7 +881,7 @@ const TextInput$1 = styled.input.withConfig({
 })(['height:30px;font-size:14px;color:', ';background:#fff;padding:0 8px;text-decoration:none;border-radius:4px;', ';border:1px solid #ccc;width:100%;&:focus{outline:0;border-color:', ';}'], COLOR_TEXT, props => props.hasDropdown ? `
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
-    ` : '', props => props.theme.primary);
+    ` : '', props => theme(props, 'primary'));
 
 const TypeAheadContainer = styled.div.withConfig({
     displayName: 'TypeAhead__TypeAheadContainer'
@@ -853,11 +889,11 @@ const TypeAheadContainer = styled.div.withConfig({
 
 const Dropdown = styled.div.withConfig({
     displayName: 'TypeAhead__Dropdown'
-})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:1000;'], props => props.theme.primary);
+})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:1000;'], props => theme(props, 'primary'));
 
 const DropdownItem = styled.div.withConfig({
     displayName: 'TypeAhead__DropdownItem'
-})(['background:', ';color:', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.highlighted ? tint(0.2, props.theme.primary) : 'white', COLOR_TEXT, props => props.selected ? 'bold' : 'normal');
+})(['background:', ';color:', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.highlighted ? tint(0.2, theme(props, 'primary')) : 'white', COLOR_TEXT, props => props.selected ? 'bold' : 'normal');
 
 let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends Component {
     constructor(...args) {
@@ -958,8 +994,11 @@ var _class$12;
 var _class2$4;
 var _temp2$11;
 
-// TODO: I really don't like this `omit` hack...
-const StyledSelect = styled(props => React.createElement('select', omit(props, ['autoWidth']))).withConfig({
+const StyledSelect = styled((_ref) => {
+    let { autoWidth } = _ref,
+        props = objectWithoutProperties(_ref, ['autoWidth']);
+    return React.createElement('select', props);
+}).withConfig({
     displayName: 'SelectInput__StyledSelect'
 })(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid #ccc;background-color:#fff;background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid #006b94;}&:disabled{background-color:#f9f9f9;cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', COLOR_TEXT);
 
@@ -1027,9 +1066,13 @@ var Body = styled.div.withConfig({
     displayName: 'Body'
 })(['flex:1;display:flex;flex-direction:column;']);
 
-const StyledScrollbars = styled(Scrollbars).withConfig({
+const StyledScrollbars = styled((_ref) => {
+    let { tone } = _ref,
+        props = objectWithoutProperties(_ref, ['tone']);
+    return React.createElement(Scrollbars, props);
+}).withConfig({
     displayName: 'Content__StyledScrollbars'
-})(['flex:1;background:', ';'], props => props.tone === 'primary' ? tint(0.07, props.theme.primary) : '#fff');
+})(['flex:1;background:', ';'], props => props.tone === 'primary' ? tint(0.07, theme(props, 'primary')) : '#fff');
 
 const Main = styled.main.withConfig({
     displayName: 'Content__Main'
@@ -1121,7 +1164,7 @@ Sidebar.propTypes = {
 
 var Toolbar = styled.section.withConfig({
     displayName: 'Toolbar'
-})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => tint(0.15, props.theme.primary));
+})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => tint(0.15, theme(props, 'primary')));
 
 var _class$13;
 var _temp$1;
@@ -1159,14 +1202,14 @@ Logo.propTypes = {
 
 var MenuRow = styled.div.withConfig({
     displayName: 'MenuRow'
-})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => props.theme.primary, props => props.inContent && `
+})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => theme(props, 'primary'), props => props.inContent && `
         margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${props.theme.primary};
+        border-bottom: 1px solid ${theme(props, 'primary')};
         .nav-item:after {
             content: '';
         }
         .nav-item:before {
-            border-bottom-color: ${props.theme.primary};
+            border-bottom-color: ${theme(props, 'primary')};
         }
     `);
 
@@ -1175,7 +1218,7 @@ var _temp2$12;
 
 const Item = styled(NavLink).withConfig({
     displayName: 'NavItem__Item'
-})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primary);
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => theme(props, 'primary'));
 
 let NavItem = (_temp2$12 = _class$14 = class NavItem extends Component {
     constructor(...args) {
