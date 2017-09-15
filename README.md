@@ -22,12 +22,28 @@ An example:
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 're-cy-cle';
+import { ReCyCleTheme, Button } from 're-cy-cle';
 
 ReactDOM.render(
-    <Button>Foobar</Button>,
+    <ReCyCleTheme>
+        <Button>Foobar</Button>
+    </ReCyCleTheme>,
     document.getElementById('root')
 );
+```
+
+`<ReCyCleTheme />` accepts a `theme` prop. These are the available options:
+
+```js
+const theme = {
+    primary: '#006b94',
+    success: '#58b96b',
+    warning: '#d45352',
+    dark: '#4c4c4c',
+    light: '#eee',
+};
+
+<ReCyCleTheme theme={theme} />
 ```
 
 ## Contributing
