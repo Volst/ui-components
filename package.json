@@ -34,7 +34,8 @@
     "react-styled-flexboxgrid": "^2.0.3",
     "react-text-mask": "^5.0.2",
     "react-time-input": "SpaceK33z/react-time-input#fcc3215d8f1007c5542876af83e9fa216119ed4b",
-    "text-mask-addons": "^3.6.0"
+    "text-mask-addons": "^3.6.0",
+    "typeface-roboto": "^0.0.35"
   },
   "engines": {
     "node": ">=4"
