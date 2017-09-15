@@ -1188,7 +1188,7 @@ let TopMenu = (_temp$1 = _class$13 = class TopMenu extends Component {
 
 const StyledNavLink = styled(NavLink).withConfig({
     displayName: 'Logo__StyledNavLink'
-})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;font-size:32px;font-weight:300;text-decoration:none;color:inherit;']);
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;font-size:32px;font-weight:300;text-decoration:none;color:inherit;svg,img{max-width:100%;}']);
 
 const Logo = props => React.createElement(
     StyledNavLink,
@@ -1418,7 +1418,7 @@ const CloseButton = styled(Button).withConfig({
 
 const StyledItem = styled.div.withConfig({
     displayName: 'Item__StyledItem'
-})(['width:250px;padding:10px 40px 10px 14px;color:#000;margin-bottom:15px;border-radius:4px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);', ' background:', ';'], TRANSITION_TIME, props => !props.active ? `
+})(['width:250px;padding:10px 40px 10px 14px;color:#000;margin-bottom:15px;border-radius:4px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);word-wrap:break-word;', ' background:', ';'], TRANSITION_TIME, props => !props.active ? `
         visibility: hidden;
         opacity: 0;
     ` : '', props => {
