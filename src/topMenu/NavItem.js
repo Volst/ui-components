@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { theme } from '../helpers';
 
 const Item = styled(NavLink)`
     display: flex;
@@ -14,7 +15,8 @@ const Item = styled(NavLink)`
     position: relative;
 
     &.active {
-        &:before, &:after {
+        &:before,
+        &:after {
             border-width: 8px;
         }
     }
@@ -41,7 +43,7 @@ const Item = styled(NavLink)`
         width: 0;
         height: 0;
         border: 0 solid transparent;
-        border-bottom-color: ${props => props.theme.primary};
+        border-bottom-color: ${props => theme(props, 'primary')};
         border-top: 0;
         transition: 175ms all ease;
     }

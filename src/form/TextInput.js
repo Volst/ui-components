@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { theme } from '../helpers';
 import { COLOR_TEXT, COLOR_RED } from '../ReCyCleTheme';
 
 export const StyledInput = styled(({ hasError, ...props }) => (
@@ -38,7 +39,7 @@ export const StyledInput = styled(({ hasError, ...props }) => (
             : `
         &:focus {
             outline: 0;
-            border-color: ${props => props.theme.primary};
+            border-color: ${theme(props, 'primary')};
         }
     `};
 `;

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { theme } from '../helpers';
 import { COLOR_TEXT } from '../ReCyCleTheme';
 
 export const StyledTextarea = styled.textarea`
@@ -26,7 +27,7 @@ export const StyledTextarea = styled.textarea`
 
     &:focus {
         outline: 0;
-        border: 1px solid ${props => props.theme.primary};
+        border: 1px solid ${props => theme(props, 'primary')};
     }
 `;
 

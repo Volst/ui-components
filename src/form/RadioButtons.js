@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { theme } from '../helpers';
 
 const StyledDiv = styled.div`
     display: flex;
@@ -12,7 +13,7 @@ const StyledDiv = styled.div`
     ${props =>
         props.focus &&
         `
-        border-color: ${props => props.theme.primary};
+        border-color: ${theme(props, 'primary')};
     `};
 `;
 
@@ -54,10 +55,10 @@ const StyledInput = styled.input`
     left: -999999px;
     opacity: 0;
     &:checked + label {
-        background: ${props => props.theme.primary};
-        border-color: ${props => props.theme.primary};
+        background: ${props => theme(props, 'primary')};
+        border-color: ${props => theme(props, 'primary')};
         color: #fff;
-        box-shadow: -1px 0 ${props => props.theme.primary};
+        box-shadow: -1px 0 ${props => theme(props, 'primary')};
     }
 `;
 

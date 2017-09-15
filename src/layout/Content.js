@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { tint } from 'polished';
+import { theme } from '../helpers';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 const StyledScrollbars = styled(({ tone, ...props }) => (
@@ -9,7 +10,9 @@ const StyledScrollbars = styled(({ tone, ...props }) => (
 ))`
     flex: 1;
     background: ${props =>
-        props.tone === 'primary' ? tint(0.07, props.theme.primary) : '#fff'};
+        props.tone === 'primary'
+            ? tint(0.07, theme(props, 'primary'))
+            : '#fff'};
 `;
 
 const Main = styled.main`

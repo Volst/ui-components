@@ -4,6 +4,7 @@ import Downshift from 'downshift';
 import styled from 'styled-components';
 import { COLOR_TEXT } from '../ReCyCleTheme';
 import { tint } from 'polished';
+import { theme } from '../helpers';
 
 // TODO: we should use a separate TextInput component for this
 const TextInput = styled.input`
@@ -26,7 +27,7 @@ const TextInput = styled.input`
 
     &:focus {
         outline: 0;
-        border-color: ${props => props.theme.primary};
+        border-color: ${props => theme(props, 'primary')};
     }
 `;
 
@@ -37,7 +38,7 @@ const TypeAheadContainer = styled.div`
 
 const Dropdown = styled.div`
     width: 100%;
-    border: 1px solid ${props => props.theme.primary};
+    border: 1px solid ${props => theme(props, 'primary')};
     border-top: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -48,7 +49,7 @@ const Dropdown = styled.div`
 
 const DropdownItem = styled.div`
     background: ${props =>
-        props.highlighted ? tint(0.2, props.theme.primary) : 'white'};
+        props.highlighted ? tint(0.2, theme(props, 'primary')) : 'white'};
     color: ${COLOR_TEXT};
     font-weight: ${props => (props.selected ? 'bold' : 'normal')};
     padding: 4px;
@@ -87,7 +88,7 @@ export default class TypeAhead extends Component {
     }) => {
         return (
             <Dropdown>
-                {this.props.options.map((item, index) =>
+                {this.props.options.map((item, index) => (
                     <DropdownItem
                         {...getItemProps({
                             key: item.value,
@@ -99,7 +100,7 @@ export default class TypeAhead extends Component {
                     >
                         {item.label}
                     </DropdownItem>
-                )}
+                ))}
             </Dropdown>
         );
     };
@@ -137,7 +138,7 @@ export default class TypeAhead extends Component {
                         inputValue,
                         highlightedIndex,
                         selectedItem,
-                    }) =>
+                    }) => (
                         <TypeAheadContainer
                             {...getRootProps({ refKey: 'innerRef' })}
                         >
@@ -154,7 +155,8 @@ export default class TypeAhead extends Component {
                                     highlightedIndex,
                                     selectedItem,
                                 })}
-                        </TypeAheadContainer>}
+                        </TypeAheadContainer>
+                    )}
                 </Downshift>
             </div>
         );

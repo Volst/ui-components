@@ -3,13 +3,8 @@ import ReCyCleTheme from '../src/ReCyCleTheme';
 import { BrowserRouter } from 'react-router-dom';
 import i18next from 'i18next';
 
-const theme = {
-    primary: '#006b94',
-    success: '#58b96b',
-    warning: '#d45352',
-    dark: '#4c4c4c',
-    light: '#eee',
-};
+// Initialize empty theme; we rely on the default values.
+const theme = {};
 
 i18next.init({
     lng: 'en',
