@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { theme } from '../helpers';
 import { COLOR_TEXT, COLOR_RED } from '../ReCyCleTheme';
 
-export const StyledInput = styled(({ hasError, ...props }) => (
+export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
     <input {...props} />
 ))`
     height: 30px;
@@ -42,6 +42,14 @@ export const StyledInput = styled(({ hasError, ...props }) => (
             border-color: ${theme(props, 'primary')};
         }
     `};
+
+    ${props =>
+        props.hasDropdown
+            ? `
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    `
+            : ''};
 `;
 
 export default class TextInput extends Component {

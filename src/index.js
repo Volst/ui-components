@@ -13,6 +13,7 @@ export { default as TimeInput } from './form/TimeInput';
 export { default as TextArea } from './form/TextArea';
 export { default as TypeAhead } from './form/TypeAhead';
 export { default as SelectInput } from './form/SelectInput';
+export { default as FancySelect } from './form/FancySelect';
 
 export { default as AppContainer } from './layout/AppContainer';
 export { default as Body } from './layout/Body';
