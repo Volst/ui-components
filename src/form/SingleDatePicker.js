@@ -50,6 +50,7 @@ export default class SingleDatePicker extends Component {
                     numberOfMonths={1}
                     displayFormat={DATE_FORMAT}
                     hideKeyboardShortcutsPanel
+                    firstDayOfWeek={1}
                 />
             </DatePickerWrapper>
         );
