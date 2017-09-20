@@ -478,7 +478,7 @@ const DatePickerWrapper = styled.div`
     }
 
     .DayPickerKeyboardShortcuts__title {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
         margin: 0;
     }
@@ -549,12 +549,12 @@ const DatePickerWrapper = styled.div`
 
     .DateInput {
         font-weight: 400;
-        font-size: 16px;
-        height: 30px;
+        font-size: 14px;
+        height: 28px;
         line-height: 24px;
         color: #757575;
         margin: 0;
-        padding: 0 0 0 10px;
+        padding: 0 0 0 8px;
         background: #fff;
         border-radius: 4px;
         position: relative;
@@ -629,7 +629,7 @@ const DatePickerWrapper = styled.div`
     }
 
     .DateInput__display-text {
-        padding: 4px 0;
+        padding: 2px 0;
         white-space: nowrap;
         overflow: hidden;
     }
