@@ -62,7 +62,7 @@ export default class FancySelect extends Component {
     };
 
     handleChange = option => {
-        this.props.onChange(option.value);
+        this.props.onChange(this.props.name, option.value);
     };
 
     handleClear = () => {
