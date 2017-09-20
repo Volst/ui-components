@@ -17,6 +17,7 @@ export default class SingleDatePicker extends Component {
         placeholder: PropTypes.string,
         value: PropTypes.instanceOf(moment),
         disabled: PropTypes.bool,
+        isOutsideRange: PropTypes.func,
     };
 
     static defaultProps = {
@@ -51,6 +52,7 @@ export default class SingleDatePicker extends Component {
                     displayFormat={DATE_FORMAT}
                     hideKeyboardShortcutsPanel
                     firstDayOfWeek={1}
+                    isOutsideRange={this.props.isOutsideRange}
                 />
             </DatePickerWrapper>
         );
