@@ -939,17 +939,19 @@ const DropdownItem = styled.div.withConfig({
 
 // Poor man's filtering.
 function fuzzySearch(options, inputValue) {
-    return options.filter(o => o.value.toLowerCase().includes(inputValue.toLowerCase()));
+    return options.filter(o => o.label.toLowerCase().includes((inputValue || '').toLowerCase()));
 }
+
+const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
 
 let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends Component {
     constructor(...args) {
         var _temp;
 
         return _temp = super(...args), this.handleChange = option => {
-            this.props.onChange(option.value);
+            this.props.onChange(this.props.name, option.value);
         }, this.handleClear = () => {
-            this.props.onChange(null);
+            this.props.onChange(this.props.name, '');
         }, this.renderDropdown = ({
             isOpen,
             getItemProps,
@@ -968,7 +970,7 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends Component {
                         index,
                         item,
                         highlighted: highlightedIndex === index,
-                        selected: selectedItem === item
+                        selected: selectedItem === item.value
                     }),
                     item.label
                 ))
@@ -983,17 +985,24 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends Component {
                 highlightedIndex,
                 selectedItem,
                 openMenu,
-                toggleMenu
+                toggleMenu,
+                clearItems
             } = _ref,
-                rest = objectWithoutProperties(_ref, ['getRootProps', 'getInputProps', 'getItemProps', 'isOpen', 'inputValue', 'highlightedIndex', 'selectedItem', 'openMenu', 'toggleMenu']);
+                rest = objectWithoutProperties(_ref, ['getRootProps', 'getInputProps', 'getItemProps', 'isOpen', 'inputValue', 'highlightedIndex', 'selectedItem', 'openMenu', 'toggleMenu', 'clearItems']);
 
             const options = fuzzySearch(this.props.options, inputValue);
             const actuallyOpen = isOpen && options.length > 0;
 
+            // When `props.value` is set to an empty string, `getInputProps()` will return `value: undefined`.
+            // This leads to a React warning about an controlled component set to uncontrolled.
+            // Is this a bug in Downshift or a feature??
+            const inputProps = getInputProps();
+
             return React.createElement(
                 DropdownContainer,
                 getRootProps({ refKey: 'innerRef' }),
-                React.createElement(StyledInput$3, Object.assign({}, getInputProps(), {
+                React.createElement(StyledInput$3, Object.assign({}, inputProps, {
+                    value: inputProps.value || '',
                     hasDropdown: actuallyOpen,
                     disabled: this.props.disabled,
                     onClick: openMenu
@@ -1001,9 +1010,16 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends Component {
                 React.createElement(
                     DropdownToggle,
                     null,
-                    this.props.value != null && React.createElement(
+                    !!this.props.value && React.createElement(
                         Button,
-                        { unstyled: true, icon: true, onClick: this.handleClear },
+                        {
+                            unstyled: true,
+                            icon: true,
+                            onClick: () => {
+                                clearItems();
+                                this.handleClear();
+                            }
+                        },
                         React.createElement(IconClose, { width: '16', height: '16' })
                     ),
                     React.createElement(
@@ -1031,12 +1047,12 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends Component {
     }
 
     render() {
-        const value = this.props.value != null ? this.props.value : '';
+        const value = this.props.value || '';
 
         return React.createElement(
             Downshift,
             {
-                selectedItem: value,
+                selectedItem: this.props.options.find(o => o.value === value) || value,
                 onChange: this.handleChange,
                 itemToString: this.itemToString
             },
@@ -1046,8 +1062,11 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends Component {
 }, _class$12.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
-    value: PropTypes.string,
-    options: PropTypes.array.isRequired,
+    value: ValuePropType,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        value: ValuePropType.isRequired,
+        label: PropTypes.string.isRequired
+    })).isRequired,
     disabled: PropTypes.bool
 }, _temp2$11);
 
