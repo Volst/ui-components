@@ -34,7 +34,7 @@ storiesOf('TopMenu', module)
                     </MenuRow>
                     <Route
                         path="/orders"
-                        render={() =>
+                        render={() => (
                             <MenuRow>
                                 <NavItem
                                     title="Planning"
@@ -44,7 +44,8 @@ storiesOf('TopMenu', module)
                                     title="Invoices"
                                     to="/orders/invoices"
                                 />
-                            </MenuRow>}
+                            </MenuRow>
+                        )}
                     />
                 </TopMenu>
             );

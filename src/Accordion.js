@@ -52,16 +52,10 @@ export default class Accordion extends Component {
                     <Button unstyled icon onClick={this.handleClick}>
                         <IconToggle color="#006b94" width="24" height="24" />
                     </Button>
-                    <StyledTitle>
-                        {title}
-                    </StyledTitle>
+                    <StyledTitle>{title}</StyledTitle>
                     {action}
                 </StyledTitleContainer>
-                {opened
-                    ? <StyledContent>
-                          {children}
-                      </StyledContent>
-                    : null}
+                {opened ? <StyledContent>{children}</StyledContent> : null}
             </StyledContainer>
         );
     }

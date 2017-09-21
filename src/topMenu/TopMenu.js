@@ -14,10 +14,6 @@ export default class TopMenu extends Component {
     };
 
     render() {
-        return (
-            <Menu>
-                {this.props.children}
-            </Menu>
-        );
+        return <Menu>{this.props.children}</Menu>;
     }
 }

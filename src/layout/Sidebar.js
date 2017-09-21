@@ -36,14 +36,13 @@ const StyledAside = styled.aside`
 
 const Content = styled.div`padding: 25px;`;
 
-const Sidebar = ({ children, medium }) =>
+const Sidebar = ({ children, medium }) => (
     <StyledAside medium={medium}>
         <Scrollbars>
-            <Content>
-                {children}
-            </Content>
+            <Content>{children}</Content>
         </Scrollbars>
-    </StyledAside>;
+    </StyledAside>
+);
 
 Sidebar.propTypes = {
     children: PropTypes.node,

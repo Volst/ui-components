@@ -9,19 +9,21 @@ import AppContainer from './AppContainer';
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
 
-storiesOf('Layout', module).addDecorator(FullDecorator).add(
-    'standard',
-    withInfo()(() => {
-        return (
-            <AppContainer>
-                <Body>
-                    <ContentContainer>
-                        <Content>Some content.</Content>
-                        <Sidebar>This is the sidebar.</Sidebar>
-                    </ContentContainer>
-                    <Toolbar>Toolbar.</Toolbar>
-                </Body>
-            </AppContainer>
-        );
-    })
-);
+storiesOf('Layout', module)
+    .addDecorator(FullDecorator)
+    .add(
+        'standard',
+        withInfo()(() => {
+            return (
+                <AppContainer>
+                    <Body>
+                        <ContentContainer>
+                            <Content>Some content.</Content>
+                            <Sidebar>This is the sidebar.</Sidebar>
+                        </ContentContainer>
+                        <Toolbar>Toolbar.</Toolbar>
+                    </Body>
+                </AppContainer>
+            );
+        })
+    );

@@ -23,12 +23,8 @@ export default class LabelText extends Component {
     render() {
         return (
             <Container>
-                <StyledLabel>
-                    {this.props.children}
-                </StyledLabel>
-                <div>
-                    {this.props.helpText}
-                </div>
+                <StyledLabel>{this.props.children}</StyledLabel>
+                <div>{this.props.helpText}</div>
             </Container>
         );
     }

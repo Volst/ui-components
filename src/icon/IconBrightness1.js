@@ -1,9 +1,10 @@
 import React from 'react';
 import SvgIcon from '../Icon';
 
-let IconBrightness1 = props =>
+let IconBrightness1 = props => (
     <SvgIcon {...props}>
         <circle cx="12" cy="12" r="10" />
-    </SvgIcon>;
+    </SvgIcon>
+);
 
 export default IconBrightness1;

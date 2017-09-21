@@ -6,13 +6,15 @@ import Form from './Form';
 import { Button } from './Button';
 import CenterDecorator from '../storybook/CenterDecorator';
 
-storiesOf('Form', module).addDecorator(CenterDecorator).add(
-    'standard',
-    withInfo()(() => {
-        return (
-            <Form onSubmit={action('submit')}>
-                <Button type="submit">Submit</Button>
-            </Form>
-        );
-    })
-);
+storiesOf('Form', module)
+    .addDecorator(CenterDecorator)
+    .add(
+        'standard',
+        withInfo()(() => {
+            return (
+                <Form onSubmit={action('submit')}>
+                    <Button type="submit">Submit</Button>
+                </Form>
+            );
+        })
+    );

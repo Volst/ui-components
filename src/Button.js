@@ -11,9 +11,9 @@ import { COLOR_TEXT } from './ReCyCleTheme';
 const OMIT_PROPS = ['unstyled', 'fullWidth', 'tone'];
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
-export const Button = styled(props =>
+export const Button = styled(props => (
     <button type="button" {...omit(props, OMIT_PROPS)} />
-)`
+))`
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -34,19 +34,15 @@ export const Button = styled(props =>
             ? `
         color: ${props.unstyled ? '#000' : '#fff'};
     `
-            : ''}
-
-    ${props =>
-        props.disabled
-            ? `
+            : ''} ${props =>
+            props.disabled
+                ? `
         cursor: not-allowed;
     `
-            : ''}
-
-    ${props => {
-        const color = props.theme[props.tone || 'primary'];
-        return !props.unstyled
-            ? `
+                : ''} ${props => {
+            const color = props.theme[props.tone || 'primary'];
+            return !props.unstyled
+                ? `
         color: ${props.tone === 'light' ? COLOR_TEXT : '#fff'};
         height: 30px;
         padding: 0 10px;
@@ -86,8 +82,8 @@ export const Button = styled(props =>
             }
         `}
     `
-            : '';
-    }};
+                : '';
+        }};
 `;
 Button.displayName = 'Button';
 Button.propTypes = {

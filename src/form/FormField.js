@@ -76,8 +76,9 @@ export default class FormField extends Component {
             <LabelText helpText={this.props.helpText}>
                 <div>
                     {this.props.label}
-                    {this.props.required &&
-                        <RequiredMark>&nbsp;*</RequiredMark>}
+                    {this.props.required && (
+                        <RequiredMark>&nbsp;*</RequiredMark>
+                    )}
                 </div>
             </LabelText>
         );

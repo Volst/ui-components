@@ -59,9 +59,7 @@ export default class Modal extends Component {
         return (
             <Container>
                 <Background onClick={this.props.onClose} />
-                <Content>
-                    {this.props.children}
-                </Content>
+                <Content>{this.props.children}</Content>
             </Container>
         );
     }

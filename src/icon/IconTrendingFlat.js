@@ -1,9 +1,10 @@
 import React from 'react';
 import SvgIcon from '../Icon';
 
-let IconTrendingFlat = props =>
+let IconTrendingFlat = props => (
     <SvgIcon {...props}>
         <path d="M22 12l-4-4v3H3v2h15v3z" />
-    </SvgIcon>;
+    </SvgIcon>
+);
 
 export default IconTrendingFlat;

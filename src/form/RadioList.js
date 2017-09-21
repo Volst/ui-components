@@ -49,10 +49,6 @@ export default class RadioList extends Component {
     };
 
     render() {
-        return (
-            <StyledDiv>
-                {this.props.options.map(this.renderItem)}
-            </StyledDiv>
-        );
+        return <StyledDiv>{this.props.options.map(this.renderItem)}</StyledDiv>;
     }
 }
