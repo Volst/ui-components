@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
@@ -7,19 +7,19 @@ import CenterDecorator from '../../storybook/CenterDecorator';
 
 const SOME_OPTIONS = [
     {
-        value: 'zebra',
+        value: 1,
         label: 'Zebra',
     },
     {
-        value: 'lion',
+        value: 2,
         label: 'Lion',
     },
     {
-        value: 'lioness',
+        value: 3,
         label: 'Lioness',
     },
     {
-        value: 'elephant',
+        value: 4,
         label: 'Elephant',
     },
 ];
@@ -35,7 +35,42 @@ storiesOf('FancySelect', module)
                         onChange={action('change')}
                         name="myname"
                         options={SOME_OPTIONS}
+                        value="zebra"
                     />
+                    <p>This text should be overlapped with the dropdown.</p>
+                </div>
+            );
+        })
+    )
+    .add(
+        'controlled',
+        withInfo()(() => {
+            class MyComponent extends Component {
+                state = {
+                    value: '',
+                };
+
+                handleChange = (name, value) => {
+                    this.setState({
+                        value: value,
+                    });
+                    action('change')(name, value);
+                };
+
+                render() {
+                    return (
+                        <FancySelect
+                            onChange={this.handleChange}
+                            name="myname"
+                            options={SOME_OPTIONS}
+                            value={this.state.value}
+                        />
+                    );
+                }
+            }
+            return (
+                <div>
+                    <MyComponent />
                     <p>This text should be overlapped with the dropdown.</p>
                 </div>
             );

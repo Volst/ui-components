@@ -48,16 +48,23 @@ export const DropdownItem = styled.div`
 // Poor man's filtering.
 function fuzzySearch(options, inputValue) {
     return options.filter(o =>
-        o.value.toLowerCase().includes(inputValue.toLowerCase())
+        o.label.toLowerCase().includes((inputValue || '').toLowerCase())
     );
 }
+
+const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
 
 export default class FancySelect extends Component {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         name: PropTypes.string,
-        value: PropTypes.string,
-        options: PropTypes.array.isRequired,
+        value: ValuePropType,
+        options: PropTypes.arrayOf(
+            PropTypes.shape({
+                value: ValuePropType.isRequired,
+                label: PropTypes.string.isRequired,
+            })
+        ).isRequired,
         disabled: PropTypes.bool,
     };
 
@@ -66,7 +73,7 @@ export default class FancySelect extends Component {
     };
 
     handleClear = () => {
-        this.props.onChange(null);
+        this.props.onChange(this.props.name, '');
     };
 
     renderDropdown = ({
@@ -86,7 +93,7 @@ export default class FancySelect extends Component {
                             index,
                             item,
                             highlighted: highlightedIndex === index,
-                            selected: selectedItem === item,
+                            selected: selectedItem === item.value,
                         })}
                     >
                         {item.label}
@@ -113,22 +120,36 @@ export default class FancySelect extends Component {
         selectedItem,
         openMenu,
         toggleMenu,
+        clearItems,
         ...rest
     }) => {
         const options = fuzzySearch(this.props.options, inputValue);
         const actuallyOpen = isOpen && options.length > 0;
 
+        // When `props.value` is set to an empty string, `getInputProps()` will return `value: undefined`.
+        // This leads to a React warning about an controlled component set to uncontrolled.
+        // Is this a bug in Downshift or a feature??
+        const inputProps = getInputProps();
+
         return (
             <DropdownContainer {...getRootProps({ refKey: 'innerRef' })}>
                 <StyledInput
-                    {...getInputProps()}
+                    {...inputProps}
+                    value={inputProps.value || ''}
                     hasDropdown={actuallyOpen}
                     disabled={this.props.disabled}
                     onClick={openMenu}
                 />
                 <DropdownToggle>
-                    {this.props.value != null && (
-                        <Button unstyled icon onClick={this.handleClear}>
+                    {!!this.props.value && (
+                        <Button
+                            unstyled
+                            icon
+                            onClick={() => {
+                                clearItems();
+                                this.handleClear();
+                            }}
+                        >
                             <IconClose width="16" height="16" />
                         </Button>
                     )}
@@ -154,11 +175,13 @@ export default class FancySelect extends Component {
     };
 
     render() {
-        const value = this.props.value != null ? this.props.value : '';
+        const value = this.props.value || '';
 
         return (
             <Downshift
-                selectedItem={value}
+                selectedItem={
+                    this.props.options.find(o => o.value === value) || value
+                }
                 onChange={this.handleChange}
                 itemToString={this.itemToString}
             >
