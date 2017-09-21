@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { COLOR_TEXT } from '../ReCyCleTheme';
-import { observer, PropTypes as MobxTypes } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { t } from 'i18next';
+import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
     width: ${props => (props.autoWidth ? 'auto' : '100%')};
@@ -41,19 +42,9 @@ export default class SelectInput extends Component {
         disabled: PropTypes.bool,
         placeholder: PropTypes.string,
         skipPlaceholder: PropTypes.bool,
-        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        options: MobxTypes.arrayOrObservableArray.isRequired,
-        formatOption: PropTypes.func,
+        value: ValuePropType,
+        options: OptionsPropType,
         autoWidth: PropTypes.bool,
-    };
-
-    static defaultProps = {
-        formatOption(option) {
-            return {
-                value: option.id,
-                label: option.name,
-            };
-        },
     };
 
     onChange = e => {
@@ -63,10 +54,9 @@ export default class SelectInput extends Component {
     };
 
     renderOption = option => {
-        const { value, label } = this.props.formatOption(option);
         return (
-            <option key={value} value={value}>
-                {label}
+            <option key={option.value} value={option.value}>
+                {option.label}
             </option>
         );
     };

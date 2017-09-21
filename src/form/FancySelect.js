@@ -10,6 +10,7 @@ import IconArrowDropUp from '../icon/IconArrowDropUp';
 import IconClose from '../icon/IconClose';
 import { StyledInput } from './TextInput';
 import { Button } from '../Button';
+import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 export const DropdownContainer = styled.div`
     position: relative;
@@ -52,19 +53,12 @@ function fuzzySearch(options, inputValue) {
     );
 }
 
-const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
-
 export default class FancySelect extends Component {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         name: PropTypes.string,
         value: ValuePropType,
-        options: PropTypes.arrayOf(
-            PropTypes.shape({
-                value: ValuePropType.isRequired,
-                label: PropTypes.string.isRequired,
-            })
-        ).isRequired,
+        options: OptionsPropType,
         disabled: PropTypes.bool,
     };
 

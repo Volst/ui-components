@@ -7,12 +7,12 @@ import CenterDecorator from '../../storybook/CenterDecorator';
 
 const SOME_OPTIONS = [
     {
-        id: 'zebra',
-        name: 'Zebra',
+        value: 'zebra',
+        label: 'Zebra',
     },
     {
-        id: 'lion',
-        name: 'Lion',
+        value: 'lion',
+        label: 'Lion',
     },
 ];
 

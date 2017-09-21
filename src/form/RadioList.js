@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 const StyledDiv = styled.div``;
 
@@ -24,12 +25,8 @@ export default class RadioList extends Component {
         onChange: PropTypes.func,
         name: PropTypes.string,
         disabled: PropTypes.bool,
-        options: PropTypes.array.isRequired,
-        value: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.string,
-            PropTypes.number,
-        ]),
+        options: OptionsPropType,
+        value: ValuePropType,
     };
 
     renderItem = item => {

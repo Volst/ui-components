@@ -3,14 +3,15 @@ import React, { Component } from 'react';
 import Downshift from 'downshift';
 import { StyledInput } from './TextInput';
 import { DropdownContainer, Dropdown, DropdownItem } from './FancySelect';
+import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 export default class TypeAhead extends Component {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,
         name: PropTypes.string,
-        value: PropTypes.string,
-        options: PropTypes.array.isRequired,
+        value: ValuePropType,
+        options: OptionsPropType,
         disabled: PropTypes.bool,
     };
 
