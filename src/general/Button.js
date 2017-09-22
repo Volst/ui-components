@@ -5,6 +5,7 @@ import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint } from 'polished';
 import { COLOR_TEXT } from '../ReCyCleTheme';
+import { theme } from '../helpers';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
@@ -40,7 +41,7 @@ export const Button = styled(props => (
         cursor: not-allowed;
     `
                 : ''} ${props => {
-            const color = props.theme[props.tone || 'primary'];
+            const color = theme(props, props.tone || 'primary');
             return !props.unstyled
                 ? `
         color: ${props.tone === 'light' ? COLOR_TEXT : '#fff'};
