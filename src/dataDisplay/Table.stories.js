@@ -9,7 +9,7 @@ import {
     TableRow,
     TableData,
 } from './Table';
-import FullDecorator from '../storybook/FullDecorator';
+import FullDecorator from '../../storybook/FullDecorator';
 
 storiesOf('Table', module)
     .addDecorator(FullDecorator)

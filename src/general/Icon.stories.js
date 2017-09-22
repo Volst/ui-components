@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import AccessAlarm from './icon/IconAccessAlarm';
 import Delete from './icon/IconDelete';
-import CenterDecorator from '../storybook/CenterDecorator';
+import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('Icon', module)
     .addDecorator(CenterDecorator)

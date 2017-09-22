@@ -385,6 +385,13 @@ let FormField = mobxReact.observer(_class$2 = (_temp2$2 = _class2 = class FormFi
     required: PropTypes.bool
 }, _temp2$2)) || _class$2;
 
+const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
+
+const OptionsPropType = PropTypes.arrayOf(PropTypes.shape({
+    value: ValuePropType.isRequired,
+    label: PropTypes.string.isRequired
+})).isRequired;
+
 const defaultConfig = {
     primary: '#006b94',
     success: '#58b96b',
@@ -511,8 +518,8 @@ var RadioButtons = mobxReact.observer((_class$4 = (_temp2$3 = _class2$1 = class 
     onChange: PropTypes.func,
     name: PropTypes.string,
     disabled: PropTypes.bool,
-    options: PropTypes.array.isRequired,
-    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number])
+    options: OptionsPropType,
+    value: ValuePropType
 }, _temp2$3), (_descriptor = _applyDecoratedDescriptor(_class$4.prototype, 'hasFocus', [mobx.observable], {
     enumerable: true,
     initializer: function () {
@@ -567,8 +574,8 @@ let RadioList = mobxReact.observer(_class$5 = (_temp2$4 = _class2$2 = class Radi
     onChange: PropTypes.func,
     name: PropTypes.string,
     disabled: PropTypes.bool,
-    options: PropTypes.array.isRequired,
-    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number])
+    options: OptionsPropType,
+    value: ValuePropType
 }, _temp2$4)) || _class$5;
 
 var _class$6;
@@ -950,8 +957,6 @@ function fuzzySearch(options, inputValue) {
     return options.filter(o => o.label.toLowerCase().includes((inputValue || '').toLowerCase()));
 }
 
-const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number]);
-
 let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends React.Component {
     constructor(...args) {
         var _temp;
@@ -1071,10 +1076,7 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends React.Compo
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
     value: ValuePropType,
-    options: PropTypes.arrayOf(PropTypes.shape({
-        value: ValuePropType.isRequired,
-        label: PropTypes.string.isRequired
-    })).isRequired,
+    options: OptionsPropType,
     disabled: PropTypes.bool
 }, _temp2$11);
 
@@ -1171,8 +1173,8 @@ let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends React.Component
     onChange: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     name: PropTypes.string,
-    value: PropTypes.string,
-    options: PropTypes.array.isRequired,
+    value: ValuePropType,
+    options: OptionsPropType,
     disabled: PropTypes.bool
 }, _temp2$10);
 
@@ -1197,11 +1199,10 @@ let SelectInput = mobxReact.observer(_class$13 = (_temp2$12 = _class2$4 = class 
 
             this.props.onChange(this.props.name, e.target.value);
         }, this.renderOption = option => {
-            const { value, label } = this.props.formatOption(option);
             return React__default.createElement(
                 'option',
-                { key: value, value: value },
-                label
+                { key: option.value, value: option.value },
+                option.label
             );
         }, _temp;
     }
@@ -1231,17 +1232,9 @@ let SelectInput = mobxReact.observer(_class$13 = (_temp2$12 = _class2$4 = class 
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     skipPlaceholder: PropTypes.bool,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    options: mobxReact.PropTypes.arrayOrObservableArray.isRequired,
-    formatOption: PropTypes.func,
+    value: ValuePropType,
+    options: OptionsPropType,
     autoWidth: PropTypes.bool
-}, _class2$4.defaultProps = {
-    formatOption(option) {
-        return {
-            value: option.id,
-            label: option.name
-        };
-    }
 }, _temp2$12)) || _class$13;
 
 const DatePickerWrapper = styled__default.div.withConfig({
@@ -1345,6 +1338,164 @@ let SingleDatePicker$1 = mobxReact.observer(_class$14 = (_class2$5 = (_temp2$13 
         return false;
     }
 })), _class2$5)) || _class$14;
+
+var _class$15;
+var _temp$1;
+
+const tooltipBg = '#383838';
+
+const StyledTooltip = styled__default.div.withConfig({
+    displayName: 'Tooltip__StyledTooltip'
+})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:1000;}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:#fff;font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], tooltipBg, tooltipBg, tooltipBg);
+
+let Tooltip = (_temp$1 = _class$15 = class Tooltip extends React.Component {
+
+    render() {
+        const { direction, children } = this.props;
+        return React__default.createElement(
+            StyledTooltip,
+            {
+                'aria-label': this.props.message,
+                className: `tooltipped-${direction}`
+            },
+            children
+        );
+    }
+}, _class$15.propTypes = {
+    message: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
+}, _class$15.defaultProps = {
+    direction: 's'
+}, _temp$1);
+
+let IconKeyboardArrowDown = props => React__default.createElement(
+    Icon,
+    props,
+    React__default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
+);
+
+let IconKeyboardArrowUp = props => React__default.createElement(
+    Icon,
+    props,
+    React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
+);
+
+var _class$16;
+var _class2$6;
+var _temp2$14;
+
+const StyledContainer = styled__default.div.withConfig({
+    displayName: 'Accordion__StyledContainer'
+})(['background-color:#eee;border-radius:4px;']);
+
+const StyledContent = styled__default.div.withConfig({
+    displayName: 'Accordion__StyledContent'
+})(['padding:0 10px 10px 10px;margin-bottom:10px;']);
+
+const StyledTitle = styled__default.div.withConfig({
+    displayName: 'Accordion__StyledTitle'
+})(['flex:1;padding:10px;']);
+
+const StyledTitleContainer = styled__default.div.withConfig({
+    displayName: 'Accordion__StyledTitleContainer'
+})(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
+
+let Accordion = mobxReact.observer(_class$16 = (_temp2$14 = _class2$6 = class Accordion extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.handleClick = () => {
+            this.props.onChange();
+        }, _temp;
+    }
+
+    render() {
+        const { opened, children, action, title } = this.props;
+        const IconToggle = opened ? IconKeyboardArrowDown : IconKeyboardArrowUp;
+        return React__default.createElement(
+            StyledContainer,
+            null,
+            React__default.createElement(
+                StyledTitleContainer,
+                null,
+                React__default.createElement(
+                    Button,
+                    { unstyled: true, icon: true, onClick: this.handleClick },
+                    React__default.createElement(IconToggle, { color: '#006b94', width: '24', height: '24' })
+                ),
+                React__default.createElement(
+                    StyledTitle,
+                    null,
+                    title
+                ),
+                action
+            ),
+            opened ? React__default.createElement(
+                StyledContent,
+                null,
+                children
+            ) : null
+        );
+    }
+}, _class2$6.propTypes = {
+    children: PropTypes.node.isRequired,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    opened: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
+    action: PropTypes.node
+}, _temp2$14)) || _class$16;
+
+const Table = styled__default.table.withConfig({
+    displayName: 'Table__Table'
+})(['width:100%;border-collapse:collapse;']);
+
+Table.displayName = 'Table';
+
+const TableHead = styled__default.thead.withConfig({
+    displayName: 'Table__TableHead'
+})(['']);
+TableHead.displayName = 'TableHead';
+
+const TableBody = styled__default.tbody.withConfig({
+    displayName: 'Table__TableBody'
+})(['tr:last-child{border-bottom:0;}']);
+TableBody.displayName = 'TableBody';
+TableBody.displayName = 'TableBody';
+
+const TableRow = styled__default.tr.withConfig({
+    displayName: 'Table__TableRow'
+})(['border-bottom:1px solid #ccc;', ';'], props => props.highlight && `
+        background: #fbdba7;
+    `);
+TableRow.displayName = 'TableRow';
+TableRow.propTypes = {
+    highlight: PropTypes.bool
+};
+
+const TableHeader = styled__default.th.withConfig({
+    displayName: 'Table__TableHeader'
+})(['padding:8px 4px;text-align:', ';'], props => props.alignRight ? 'right' : 'left');
+TableHeader.displayName = 'TableHeader';
+TableHeader.propTypes = {
+    alignRight: PropTypes.bool
+};
+
+const TableData = styled__default.td.withConfig({
+    displayName: 'Table__TableData'
+})(['padding:8px 4px;font-size:14px;', ' ', ' ', ';'], props => props.stretch ? `
+        width: 100%;
+    ` : null, props => props.alignRight ? `
+        text-align: right;
+    ` : null, props => props.noWrap ? `
+        white-space: nowrap;
+    ` : null);
+TableData.displayName = 'TableData';
+TableData.propTypes = {
+    alignRight: PropTypes.bool,
+    stretch: PropTypes.bool,
+    noWrap: PropTypes.bool
+};
 
 var AppContainer = styled__default.div.withConfig({
     displayName: 'AppContainer'
@@ -1454,93 +1605,8 @@ var Toolbar = styled__default.section.withConfig({
     displayName: 'Toolbar'
 })(['height:40px;background-color:', ';display:flex;align-items:center;'], props => polished.tint(0.15, theme(props, 'primary')));
 
-var _class$15;
-var _temp$1;
-
-const Menu = styled__default.header.withConfig({
-    displayName: 'TopMenu__Menu'
-})(['display:flex;align-items:stretch;flex-direction:column;']);
-
-let TopMenu = (_temp$1 = _class$15 = class TopMenu extends React.Component {
-
-    render() {
-        return React__default.createElement(
-            Menu,
-            null,
-            this.props.children
-        );
-    }
-}, _class$15.propTypes = {
-    children: PropTypes.node.isRequired
-}, _temp$1);
-
-const StyledNavLink = styled__default(reactRouterDom.NavLink).withConfig({
-    displayName: 'Logo__StyledNavLink'
-})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;font-size:32px;font-weight:300;text-decoration:none;color:inherit;svg,img{max-width:100%;}']);
-
-const Logo = props => React__default.createElement(
-    StyledNavLink,
-    { to: '/' },
-    props.children
-);
-
-Logo.propTypes = {
-    children: PropTypes.node
-};
-
-var MenuRow = styled__default.div.withConfig({
-    displayName: 'MenuRow'
-})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => theme(props, 'primary'), props => props.inContent && `
-        margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${theme(props, 'primary')};
-        .nav-item:after {
-            content: '';
-        }
-        .nav-item:before {
-            border-bottom-color: ${theme(props, 'primary')};
-        }
-    `);
-
-var _class$16;
-var _temp2$14;
-
-const Item = styled__default(reactRouterDom.NavLink).withConfig({
-    displayName: 'NavItem__Item'
-})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => theme(props, 'primary'));
-
-let NavItem = (_temp2$14 = _class$16 = class NavItem extends React.Component {
-    constructor(...args) {
-        var _temp;
-
-        return _temp = super(...args), this.checkActive = (match, location) => {
-            return location.pathname.startsWith(this.props.activePath);
-        }, _temp;
-    }
-
-    render() {
-        const { activePath } = this.props;
-        return React__default.createElement(
-            Item,
-            {
-                to: this.props.to,
-                onClick: this.props.onClick,
-                className: 'nav-item',
-                activeClassName: 'active',
-                isActive: activePath ? this.checkActive : null
-            },
-            this.props.title
-        );
-    }
-}, _class$16.propTypes = {
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-    to: PropTypes.string,
-    onClick: PropTypes.func,
-    activePath: PropTypes.string
-}, _temp2$14);
-
-var NavMenu = styled__default.nav.withConfig({
-    displayName: 'NavMenu'
-})(['flex:1;display:flex;align-items:stretch;']);
+// Jup, that's right. Nothing special going on here.
+// There will come a time where we want to change some behavior of this package, but not for now...
 
 const sweep = styled.keyframes(['to{transform:rotate(360deg);}']);
 
@@ -1561,38 +1627,8 @@ Loader.propTypes = {
     show: PropTypes.bool
 };
 
-var _class$17;
-var _temp$2;
-
-const tooltipBg = '#383838';
-
-const StyledTooltip = styled__default.div.withConfig({
-    displayName: 'Tooltip__StyledTooltip'
-})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:1000;}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:#fff;font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], tooltipBg, tooltipBg, tooltipBg);
-
-let Tooltip = (_temp$2 = _class$17 = class Tooltip extends React.Component {
-
-    render() {
-        const { direction, children } = this.props;
-        return React__default.createElement(
-            StyledTooltip,
-            {
-                'aria-label': this.props.message,
-                className: `tooltipped-${direction}`
-            },
-            children
-        );
-    }
-}, _class$17.propTypes = {
-    message: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
-}, _class$17.defaultProps = {
-    direction: 's'
-}, _temp$2);
-
-var _class$19;
-var _class2$6;
+var _class$18;
+var _class2$7;
 var _descriptor$2;
 var _class3$1;
 var _temp2$16;
@@ -1638,7 +1674,7 @@ function _applyDecoratedDescriptor$2(target, property, decorators, descriptor, c
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = mobxReact.observer(_class$19 = (_class2$6 = (_temp2$16 = _class3$1 = class NotificationItem extends React.Component {
+let NotificationItem = mobxReact.observer(_class$18 = (_class2$7 = (_temp2$16 = _class3$1 = class NotificationItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1693,12 +1729,12 @@ let NotificationItem = mobxReact.observer(_class$19 = (_class2$6 = (_temp2$16 = 
 }, _class3$1.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$16), (_descriptor$2 = _applyDecoratedDescriptor$2(_class2$6.prototype, 'active', [mobx.observable], {
+}, _temp2$16), (_descriptor$2 = _applyDecoratedDescriptor$2(_class2$7.prototype, 'active', [mobx.observable], {
     enumerable: true,
     initializer: function () {
         return false;
     }
-})), _class2$6)) || _class$19;
+})), _class2$7)) || _class$18;
 
 const CloseButton = styled__default(Button).withConfig({
     displayName: 'Item__CloseButton'
@@ -1720,10 +1756,10 @@ const StyledItem = styled__default.div.withConfig({
     }
 });
 
-var _class$18;
+var _class$17;
 var _temp2$15;
 
-let NotificationStack = (_temp2$15 = _class$18 = class NotificationStack extends React.Component {
+let NotificationStack = (_temp2$15 = _class$17 = class NotificationStack extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1745,7 +1781,7 @@ let NotificationStack = (_temp2$15 = _class$18 = class NotificationStack extends
             this.props.notifications.map(this.renderNotification)
         );
     }
-}, _class$18.propTypes = {
+}, _class$17.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
 }, _temp2$15);
@@ -1753,136 +1789,93 @@ const StackWrapper = styled__default.div.withConfig({
     displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:100;width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;']);
 
-let IconKeyboardArrowDown = props => React__default.createElement(
-    Icon,
-    props,
-    React__default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
+var _class$19;
+var _temp$2;
+
+const Menu = styled__default.header.withConfig({
+    displayName: 'TopMenu__Menu'
+})(['display:flex;align-items:stretch;flex-direction:column;']);
+
+let TopMenu = (_temp$2 = _class$19 = class TopMenu extends React.Component {
+
+    render() {
+        return React__default.createElement(
+            Menu,
+            null,
+            this.props.children
+        );
+    }
+}, _class$19.propTypes = {
+    children: PropTypes.node.isRequired
+}, _temp$2);
+
+const StyledNavLink = styled__default(reactRouterDom.NavLink).withConfig({
+    displayName: 'Logo__StyledNavLink'
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;font-size:32px;font-weight:300;text-decoration:none;color:inherit;svg,img{max-width:100%;}']);
+
+const Logo = props => React__default.createElement(
+    StyledNavLink,
+    { to: '/' },
+    props.children
 );
 
-let IconKeyboardArrowUp = props => React__default.createElement(
-    Icon,
-    props,
-    React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
-);
+Logo.propTypes = {
+    children: PropTypes.node
+};
+
+var MenuRow = styled__default.div.withConfig({
+    displayName: 'MenuRow'
+})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => theme(props, 'primary'), props => props.inContent && `
+        margin: -20px -20px 0 -20px;
+        border-bottom: 1px solid ${theme(props, 'primary')};
+        .nav-item:after {
+            content: '';
+        }
+        .nav-item:before {
+            border-bottom-color: ${theme(props, 'primary')};
+        }
+    `);
 
 var _class$20;
-var _class2$7;
 var _temp2$17;
 
-const StyledContainer = styled__default.div.withConfig({
-    displayName: 'Accordion__StyledContainer'
-})(['background-color:#eee;border-radius:4px;']);
+const Item = styled__default(reactRouterDom.NavLink).withConfig({
+    displayName: 'NavItem__Item'
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => theme(props, 'primary'));
 
-const StyledContent = styled__default.div.withConfig({
-    displayName: 'Accordion__StyledContent'
-})(['padding:0 10px 10px 10px;margin-bottom:10px;']);
-
-const StyledTitle = styled__default.div.withConfig({
-    displayName: 'Accordion__StyledTitle'
-})(['flex:1;padding:10px;']);
-
-const StyledTitleContainer = styled__default.div.withConfig({
-    displayName: 'Accordion__StyledTitleContainer'
-})(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
-
-let Accordion = mobxReact.observer(_class$20 = (_temp2$17 = _class2$7 = class Accordion extends React.Component {
+let NavItem = (_temp2$17 = _class$20 = class NavItem extends React.Component {
     constructor(...args) {
         var _temp;
 
-        return _temp = super(...args), this.handleClick = () => {
-            this.props.onChange();
+        return _temp = super(...args), this.checkActive = (match, location) => {
+            return location.pathname.startsWith(this.props.activePath);
         }, _temp;
     }
 
     render() {
-        const { opened, children, action, title } = this.props;
-        const IconToggle = opened ? IconKeyboardArrowDown : IconKeyboardArrowUp;
+        const { activePath } = this.props;
         return React__default.createElement(
-            StyledContainer,
-            null,
-            React__default.createElement(
-                StyledTitleContainer,
-                null,
-                React__default.createElement(
-                    Button,
-                    { unstyled: true, icon: true, onClick: this.handleClick },
-                    React__default.createElement(IconToggle, { color: '#006b94', width: '24', height: '24' })
-                ),
-                React__default.createElement(
-                    StyledTitle,
-                    null,
-                    title
-                ),
-                action
-            ),
-            opened ? React__default.createElement(
-                StyledContent,
-                null,
-                children
-            ) : null
+            Item,
+            {
+                to: this.props.to,
+                onClick: this.props.onClick,
+                className: 'nav-item',
+                activeClassName: 'active',
+                isActive: activePath ? this.checkActive : null
+            },
+            this.props.title
         );
     }
-}, _class2$7.propTypes = {
-    children: PropTypes.node.isRequired,
+}, _class$20.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-    opened: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-    action: PropTypes.node
-}, _temp2$17)) || _class$20;
+    to: PropTypes.string,
+    onClick: PropTypes.func,
+    activePath: PropTypes.string
+}, _temp2$17);
 
-const Table = styled__default.table.withConfig({
-    displayName: 'Table__Table'
-})(['width:100%;border-collapse:collapse;']);
-
-Table.displayName = 'Table';
-
-const TableHead = styled__default.thead.withConfig({
-    displayName: 'Table__TableHead'
-})(['']);
-TableHead.displayName = 'TableHead';
-
-const TableBody = styled__default.tbody.withConfig({
-    displayName: 'Table__TableBody'
-})(['tr:last-child{border-bottom:0;}']);
-TableBody.displayName = 'TableBody';
-TableBody.displayName = 'TableBody';
-
-const TableRow = styled__default.tr.withConfig({
-    displayName: 'Table__TableRow'
-})(['border-bottom:1px solid #ccc;', ';'], props => props.highlight && `
-        background: #fbdba7;
-    `);
-TableRow.displayName = 'TableRow';
-TableRow.propTypes = {
-    highlight: PropTypes.bool
-};
-
-const TableHeader = styled__default.th.withConfig({
-    displayName: 'Table__TableHeader'
-})(['padding:8px 4px;text-align:', ';'], props => props.alignRight ? 'right' : 'left');
-TableHeader.displayName = 'TableHeader';
-TableHeader.propTypes = {
-    alignRight: PropTypes.bool
-};
-
-const TableData = styled__default.td.withConfig({
-    displayName: 'Table__TableData'
-})(['padding:8px 4px;font-size:14px;', ' ', ' ', ';'], props => props.stretch ? `
-        width: 100%;
-    ` : null, props => props.alignRight ? `
-        text-align: right;
-    ` : null, props => props.noWrap ? `
-        white-space: nowrap;
-    ` : null);
-TableData.displayName = 'TableData';
-TableData.propTypes = {
-    alignRight: PropTypes.bool,
-    stretch: PropTypes.bool,
-    noWrap: PropTypes.bool
-};
-
-// Jup, that's right. Nothing special going on here.
-// There will come a time where we want to change some behavior of this package, but not for now...
+var NavMenu = styled__default.nav.withConfig({
+    displayName: 'NavMenu'
+})(['flex:1;display:flex;align-items:stretch;']);
 
 let IconAccessAlarm = props => React__default.createElement(
     Icon,
@@ -7759,20 +7752,7 @@ exports.TypeAhead = TypeAhead;
 exports.SelectInput = SelectInput;
 exports.FancySelect = FancySelect;
 exports.SingleDatePicker = SingleDatePicker$1;
-exports.AppContainer = AppContainer;
-exports.Body = Body;
-exports.Content = Content$1;
-exports.ContentContainer = ContentContainer;
-exports.Sidebar = Sidebar;
-exports.Toolbar = Toolbar;
-exports.TopMenu = TopMenu;
-exports.Logo = Logo;
-exports.MenuRow = MenuRow;
-exports.NavItem = NavItem;
-exports.NavMenu = NavMenu;
-exports.Loader = Loader;
 exports.Tooltip = Tooltip;
-exports.NotificationStack = NotificationStack;
 exports.Accordion = Accordion;
 exports.Table = Table;
 exports.TableHead = TableHead;
@@ -7780,9 +7760,22 @@ exports.TableBody = TableBody;
 exports.TableRow = TableRow;
 exports.TableHeader = TableHeader;
 exports.TableData = TableData;
+exports.AppContainer = AppContainer;
+exports.Body = Body;
+exports.Content = Content$1;
+exports.ContentContainer = ContentContainer;
+exports.Sidebar = Sidebar;
+exports.Toolbar = Toolbar;
 exports.Row = reactStyledFlexboxgrid.Row;
 exports.Col = reactStyledFlexboxgrid.Col;
 exports.Grid = reactStyledFlexboxgrid.Grid;
+exports.Loader = Loader;
+exports.NotificationStack = NotificationStack;
+exports.TopMenu = TopMenu;
+exports.Logo = Logo;
+exports.MenuRow = MenuRow;
+exports.NavItem = NavItem;
+exports.NavMenu = NavMenu;
 exports.IconAccessAlarm = IconAccessAlarm;
 exports.IconAccessAlarms = IconAccessAlarms;
 exports.IconAccessibility = IconAccessibility;

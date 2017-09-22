@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import Modal from './Modal';
-import FullDecorator from '../storybook/FullDecorator';
+import FullDecorator from '../../storybook/FullDecorator';
 
 storiesOf('Modal', module)
     .addDecorator(FullDecorator)

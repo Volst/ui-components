@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Button } from './Button';
-import KeyboardArrowDown from './icon/IconKeyboardArrowDown';
-import KeyboardArrowUp from './icon/IconKeyboardArrowUp';
+import { Button } from '../general/Button';
+import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
+import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
 import { observer } from 'mobx-react';
 
 const StyledContainer = styled.div`

@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
-import FullDecorator from '../storybook/FullDecorator';
+import FullDecorator from '../../storybook/FullDecorator';
 import { Grid, Col, Row } from './Grid';
 
 storiesOf('Grid', module)

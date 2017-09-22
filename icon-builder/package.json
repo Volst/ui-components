@@ -23,7 +23,7 @@
     "react-component"
   ],
   "scripts": {
-    "build": "NODE_ENV=development babel-node ./builder.js --output-dir ../src/icon --svg-dir ./node_modules/material-design-icons --glob '/**/production/*_24px.svg' --renameFilter ./filters/rename/material-design-icons.js"
+    "build": "NODE_ENV=development babel-node ./builder.js --output-dir ../src/general/icon --svg-dir ./node_modules/material-design-icons --glob '/**/production/*_24px.svg' --renameFilter ./filters/rename/material-design-icons.js"
   },
   "peerDependencies": {
     "material-ui": "^1.0.0-alpha",

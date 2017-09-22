@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import { COLOR_TEXT } from '../ReCyCleTheme';
 import { tint } from 'polished';
 import { theme } from '../helpers';
-import IconArrowDropDown from '../icon/IconArrowDropDown';
-import IconArrowDropUp from '../icon/IconArrowDropUp';
-import IconClose from '../icon/IconClose';
+import IconArrowDropDown from '../general/icon/IconArrowDropDown';
+import IconArrowDropUp from '../general/icon/IconArrowDropUp';
+import IconClose from '../general/icon/IconClose';
 import { StyledInput } from './TextInput';
-import { Button } from '../Button';
+import { Button } from '../general/Button';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 export const DropdownContainer = styled.div`

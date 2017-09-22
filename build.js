@@ -32,7 +32,7 @@ const external = [
 
 rollup
     .rollup({
-        entry: ['./src/index.js', './src/icon/index.js'],
+        entry: ['./src/index.js', './src/general/icon/index.js'],
         external,
         plugins: [
             multiEntry(),

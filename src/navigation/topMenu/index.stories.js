@@ -2,16 +2,16 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { Route } from 'react-router-dom';
-import FullDecorator from '../../storybook/FullDecorator';
+import FullDecorator from '../../../storybook/FullDecorator';
 import Logo from './Logo';
 import MenuRow from './MenuRow';
 import NavItem from './NavItem';
 import NavMenu from './NavMenu';
 import TopMenu from './TopMenu';
-import Body from '../layout/Body';
-import ContentContainer from '../layout/ContentContainer';
-import Content from '../layout/Content';
-import AppContainer from '../layout/AppContainer';
+import Body from '../../layout/layout/Body';
+import ContentContainer from '../../layout/layout/ContentContainer';
+import Content from '../../layout/layout/Content';
+import AppContainer from '../../layout/layout/AppContainer';
 
 storiesOf('TopMenu', module)
     .addDecorator(FullDecorator)

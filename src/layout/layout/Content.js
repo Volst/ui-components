@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { tint } from 'polished';
-import { theme } from '../helpers';
+import { theme } from '../../helpers';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 const StyledScrollbars = styled(({ tone, ...props }) => (

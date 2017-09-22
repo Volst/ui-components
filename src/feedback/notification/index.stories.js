@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
-import FullDecorator from '../../storybook/FullDecorator';
+import FullDecorator from '../../../storybook/FullDecorator';
 import NotificationStack from './Stack';
 import { action } from '@storybook/addon-actions';
 

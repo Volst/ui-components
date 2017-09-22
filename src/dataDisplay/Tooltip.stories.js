@@ -2,8 +2,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import Tooltip from './Tooltip';
-import IconInfo from './icon/IconInfo';
-import CenterDecorator from '../storybook/CenterDecorator';
+import IconInfo from '../general/icon/IconInfo';
+import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('Tooltip', module)
     .addDecorator(CenterDecorator)

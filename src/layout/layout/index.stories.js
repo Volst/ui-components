@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
-import FullDecorator from '../../storybook/FullDecorator';
+import FullDecorator from '../../../storybook/FullDecorator';
 import Body from './Body';
 import Content from './Content';
 import ContentContainer from './ContentContainer';

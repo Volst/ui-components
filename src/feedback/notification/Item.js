@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import { Button } from '../Button';
+import { Button } from '../../general/Button';
 
 const TRANSITION_TIME = 500;
 

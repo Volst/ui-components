@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint } from 'polished';
-import { COLOR_TEXT } from './ReCyCleTheme';
+import { COLOR_TEXT } from '../ReCyCleTheme';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.

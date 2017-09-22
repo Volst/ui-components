@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { theme } from '../helpers';
+import { theme } from '../../helpers';
 
 const Item = styled(NavLink)`
     display: flex;

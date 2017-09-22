@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import Form from './Form';
-import { Button } from './Button';
-import CenterDecorator from '../storybook/CenterDecorator';
+import { Button } from '../general/Button';
+import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('Form', module)
     .addDecorator(CenterDecorator)

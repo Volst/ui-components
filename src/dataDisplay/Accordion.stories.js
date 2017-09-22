@@ -3,9 +3,9 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { action } from '@storybook/addon-actions';
 import Accordion from './Accordion';
-import { Button } from './Button';
-import IconDelete from './icon/IconDelete';
-import CenterDecorator from '../storybook/CenterDecorator';
+import { Button } from '../general/Button';
+import IconDelete from '../general/icon/IconDelete';
+import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('Accordion', module)
     .addDecorator(CenterDecorator)
