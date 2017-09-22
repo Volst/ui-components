@@ -5,7 +5,7 @@ import { withInfo } from '@storybook/addon-info';
 import Checkbox from './Checkbox';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('Checkbox', module)
+storiesOf('Data Entry / Checkbox', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

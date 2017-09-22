@@ -13,7 +13,7 @@ import ContentContainer from '../../layout/layout/ContentContainer';
 import Content from '../../layout/layout/Content';
 import AppContainer from '../../layout/layout/AppContainer';
 
-storiesOf('TopMenu', module)
+storiesOf('Navigation / TopMenu', module)
     .addDecorator(FullDecorator)
     .add(
         'two levels',

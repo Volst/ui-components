@@ -9,7 +9,7 @@ import AppContainer from './AppContainer';
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
 
-storiesOf('Layout', module)
+storiesOf('Layout / Layout', module)
     .addDecorator(FullDecorator)
     .add(
         'standard',

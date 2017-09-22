@@ -5,7 +5,7 @@ import { withInfo } from '@storybook/addon-info';
 import Modal from './Modal';
 import FullDecorator from '../../storybook/FullDecorator';
 
-storiesOf('Modal', module)
+storiesOf('Feedback / Modal', module)
     .addDecorator(FullDecorator)
     .add(
         'standard',

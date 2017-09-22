@@ -24,7 +24,7 @@ const notifications = [
     },
 ];
 
-storiesOf('Notification', module)
+storiesOf('Feedback / Notification', module)
     .addDecorator(FullDecorator)
     .add(
         'standard',

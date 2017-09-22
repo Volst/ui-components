@@ -24,7 +24,7 @@ const SOME_OPTIONS = [
     },
 ];
 
-storiesOf('TypeAhead', module)
+storiesOf('Data Entry / TypeAhead', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

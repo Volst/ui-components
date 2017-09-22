@@ -5,7 +5,7 @@ import { withInfo } from '@storybook/addon-info';
 import NumberInput from './NumberInput';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('NumberInput', module)
+storiesOf('Data Entry / NumberInput', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

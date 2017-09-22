@@ -4,7 +4,7 @@ import { withInfo } from '@storybook/addon-info';
 import CenterDecorator from '../../storybook/CenterDecorator';
 import Loader from './Loader';
 
-storiesOf('Loader', module)
+storiesOf('Feedback / Loader', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

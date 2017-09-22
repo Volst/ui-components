@@ -6,7 +6,7 @@ import TimeInput from './TimeInput';
 import CenterDecorator from '../../storybook/CenterDecorator';
 import moment from 'moment';
 
-storiesOf('TimeInput', module)
+storiesOf('Data Entry / TimeInput', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

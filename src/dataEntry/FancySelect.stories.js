@@ -24,7 +24,7 @@ const SOME_OPTIONS = [
     },
 ];
 
-storiesOf('FancySelect', module)
+storiesOf('Data Entry / FancySelect', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

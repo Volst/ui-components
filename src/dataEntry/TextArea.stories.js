@@ -5,7 +5,7 @@ import { withInfo } from '@storybook/addon-info';
 import TextArea from './TextArea';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('TextArea', module)
+storiesOf('Data Entry / TextArea', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

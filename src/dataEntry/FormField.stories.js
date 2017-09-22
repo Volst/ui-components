@@ -6,7 +6,7 @@ import TextInput from './TextInput';
 import FormField from './FormField';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('FormField', module)
+storiesOf('Data Entry / FormField', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

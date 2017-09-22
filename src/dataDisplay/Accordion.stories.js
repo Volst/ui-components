@@ -7,7 +7,7 @@ import { Button } from '../general/Button';
 import IconDelete from '../general/icon/IconDelete';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('Accordion', module)
+storiesOf('Data Display / Accordion', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

@@ -6,7 +6,7 @@ import SingleDatePicker from './SingleDatePicker';
 import CenterDecorator from '../../storybook/CenterDecorator';
 import moment from 'moment';
 
-storiesOf('SingleDatePicker', module)
+storiesOf('Data Entry / SingleDatePicker', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

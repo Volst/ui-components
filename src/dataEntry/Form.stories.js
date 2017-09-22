@@ -6,7 +6,7 @@ import Form from './Form';
 import { Button } from '../general/Button';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('Form', module)
+storiesOf('Data Entry / Form', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

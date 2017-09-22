@@ -16,7 +16,7 @@ const SOME_OPTIONS = [
     },
 ];
 
-storiesOf('SelectInput', module)
+storiesOf('Data Entry / SelectInput', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

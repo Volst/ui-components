@@ -16,7 +16,7 @@ const SOME_OPTIONS = [
     },
 ];
 
-storiesOf('RadioList', module)
+storiesOf('Data Entry / RadioList', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

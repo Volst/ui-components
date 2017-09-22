@@ -4,7 +4,7 @@ import { withInfo } from '@storybook/addon-info';
 import FullDecorator from '../../storybook/FullDecorator';
 import { Grid, Col, Row } from './Grid';
 
-storiesOf('Grid', module)
+storiesOf('Layout / Grid', module)
     .addDecorator(FullDecorator)
     .add(
         'standard',

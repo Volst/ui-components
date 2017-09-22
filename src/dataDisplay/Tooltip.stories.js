@@ -5,7 +5,7 @@ import Tooltip from './Tooltip';
 import IconInfo from '../general/icon/IconInfo';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('Tooltip', module)
+storiesOf('Data Display / Tooltip', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

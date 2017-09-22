@@ -11,7 +11,7 @@ import {
 } from './Table';
 import FullDecorator from '../../storybook/FullDecorator';
 
-storiesOf('Table', module)
+storiesOf('Data Display / Table', module)
     .addDecorator(FullDecorator)
     .add(
         'standard',

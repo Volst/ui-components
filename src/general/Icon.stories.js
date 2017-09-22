@@ -5,7 +5,7 @@ import AccessAlarm from './icon/IconAccessAlarm';
 import Delete from './icon/IconDelete';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('Icon', module)
+storiesOf('General / Icon', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',

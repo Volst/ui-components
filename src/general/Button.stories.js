@@ -7,7 +7,7 @@ import IconDelete from './icon/IconDelete';
 import IconMic from './icon/IconMic';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
-storiesOf('Button', module)
+storiesOf('General / Button', module)
     .addDecorator(CenterDecorator)
     .add(
         'standard',
