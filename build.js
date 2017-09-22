@@ -38,6 +38,9 @@ rollup
             multiEntry(),
             babel({
                 exclude: 'node_modules/**',
+                babelrc: false,
+                presets: ['react-cy-app'],
+                plugins: ['external-helpers']
             }),
         ],
     })
