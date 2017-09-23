@@ -205,7 +205,7 @@ const DatePickerWrapper = styled.div`
 
     .DayPicker--horizontal {
         background: #fff;
-        box-shadow: 0 0 0 1px #ccc;
+        box-shadow: 0 0 0 1px ${props => theme(props, 'borderColor')};
         border-radius: 3px;
     }
     .DayPicker--horizontal.DayPicker--portal {
@@ -584,7 +584,7 @@ const DatePickerWrapper = styled.div`
 
     .DateInput--open-down.DateInput--with-caret::before {
         top: 36px;
-        border-bottom-color: #ccc;
+        border-bottom-color: ${props => theme(props, 'borderColor')};
     }
 
     .DateInput--open-down.DateInput--with-caret::after {
@@ -725,7 +725,10 @@ const DatePickerWrapper = styled.div`
     .DateRangePickerInput {
         border-radius: 4px;
         border: 1px solid
-            ${props => (props.focused ? theme(props, 'primary') : '#ccc')};
+            ${props =>
+                props.focused
+                    ? theme(props, 'primary')
+                    : theme(props, 'borderColor')};
     }
 
     .DateRangePickerInput {

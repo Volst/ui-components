@@ -11,7 +11,7 @@ export const StyledTextarea = styled.textarea`
     min-height: 80px;
     text-decoration: none;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid ${props => theme(props, 'borderColor')};
     width: 100%;
     resize: none;
 

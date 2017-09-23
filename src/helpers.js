@@ -6,6 +6,8 @@ const defaultConfig = {
     light: '#eee',
     error: '#dc0818',
     textColor: 'rgba(0, 0, 0, 0.7)',
+    borderColor: '#ccc',
+    highlightColor: '#fbdba7',
 };
 
 export function theme(props, value) {

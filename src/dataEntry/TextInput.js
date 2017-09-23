@@ -13,7 +13,7 @@ export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
     padding: 0 8px;
     text-decoration: none;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid ${props => theme(props, 'borderColor')};
     width: 100%;
 
     &:disabled {

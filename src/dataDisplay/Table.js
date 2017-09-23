@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { theme } from '../helpers';
 
 export const Table = styled.table`
     width: 100%;
@@ -20,11 +21,11 @@ TableBody.displayName = 'TableBody';
 TableBody.displayName = 'TableBody';
 
 export const TableRow = styled.tr`
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid ${props => theme(props, 'borderColor')};
     ${props =>
         props.highlight &&
         `
-        background: #fbdba7;
+        background: ${props => theme(props, 'highlightColor')};
     `};
 `;
 TableRow.displayName = 'TableRow';

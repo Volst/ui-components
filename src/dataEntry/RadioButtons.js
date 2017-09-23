@@ -44,7 +44,7 @@ const StyledLabel = styled.label`
     justify-content: center;
     padding: 6px 5px;
     text-align: center;
-    border: 1px solid #ccc;
+    border: 1px solid ${props => theme(props, 'borderColor')};
     border-left-width: 0;
     background: #fff;
     font-size: 14px;
