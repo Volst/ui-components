@@ -1,5 +1,4 @@
 export { default as ReCyCleTheme } from './ReCyCleTheme';
-export { default as Modal } from './feedback/Modal';
 export { Button, Link, ExternalLink } from './general/Button';
 export { default as Heading } from './general/typography/Heading';
 export { default as Subheading } from './general/typography/Subheading';
@@ -39,6 +38,8 @@ export { Row, Col, Grid } from './layout/Grid';
 
 export { default as Loader } from './feedback/Loader';
 export { default as NotificationStack } from './feedback/notification/Stack';
+export { default as Modal } from './feedback/Modal';
+export { default as Badge } from './feedback/Badge';
 
 export { default as TopMenu } from './navigation/topMenu/TopMenu';
 export { default as Logo } from './navigation/topMenu/Logo';
