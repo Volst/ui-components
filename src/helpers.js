@@ -4,6 +4,8 @@ const defaultConfig = {
     warning: '#d45352',
     dark: '#4c4c4c',
     light: '#eee',
+    error: '#dc0818',
+    textColor: 'rgba(0, 0, 0, 0.7)',
 };
 
 export function theme(props, value) {

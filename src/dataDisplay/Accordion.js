@@ -5,9 +5,11 @@ import { Button } from '../general/Button';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
 import { observer } from 'mobx-react';
+import { theme } from '../helpers';
+import { withTheme } from 'styled-components';
 
 const StyledContainer = styled.div`
-    background-color: #eee;
+    background-color: ${props => theme(props, 'light')};
     border-radius: 4px;
 `;
 
@@ -29,6 +31,7 @@ const StyledTitleContainer = styled.div`
 `;
 
 @observer
+@withTheme
 export default class Accordion extends Component {
     static propTypes = {
         children: PropTypes.node.isRequired,
@@ -50,7 +53,11 @@ export default class Accordion extends Component {
             <StyledContainer>
                 <StyledTitleContainer>
                     <Button unstyled icon onClick={this.handleClick}>
-                        <IconToggle color="#006b94" width="24" height="24" />
+                        <IconToggle
+                            color={theme(this.props, 'primary')}
+                            width="24"
+                            height="24"
+                        />
                     </Button>
                     <StyledTitle>{title}</StyledTitle>
                     {action}

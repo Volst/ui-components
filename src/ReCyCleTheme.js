@@ -4,11 +4,9 @@ import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
+import { theme } from './helpers';
 
-export const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
-export const COLOR_RED = '#dc0818';
-
-const injectGlobalStyles = () => injectGlobal`
+const injectGlobalStyles = props => injectGlobal`
     @font-face {
         font-family: 'Roboto';
         src: url('${RobotoLight}');
@@ -33,7 +31,7 @@ const injectGlobalStyles = () => injectGlobal`
     html {
         box-sizing: border-box;
         font-family: Roboto, Arial, sans-serif;
-        color: ${COLOR_TEXT};
+        color: ${theme(props, 'textColor')};
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
@@ -60,7 +58,7 @@ const injectGlobalStyles = () => injectGlobal`
 
 export default class ReCyCleTheme extends Component {
     componentDidMount() {
-        injectGlobalStyles();
+        injectGlobalStyles(this.props);
     }
     render() {
         return <ThemeProvider {...this.props} />;

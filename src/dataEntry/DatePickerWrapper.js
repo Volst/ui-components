@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { COLOR_TEXT } from '../ReCyCleTheme';
 import { theme } from '../helpers';
 
 const DatePickerWrapper = styled.div`
@@ -82,7 +81,7 @@ const DatePickerWrapper = styled.div`
     .CalendarDay--after-hovered-start {
         background: #b2f1ec;
         border: 1px double #80e8e0;
-        color: ${COLOR_TEXT};
+        color: ${props => theme(props, 'textColor')};
     }
     .CalendarDay--hovered-span:active,
     .CalendarDay--after-hovered-start:active {
@@ -104,7 +103,7 @@ const DatePickerWrapper = styled.div`
 
     .CalendarDay--blocked-calendar {
         background: #cacccd;
-        color: ${COLOR_TEXT};
+        color: ${props => theme(props, 'textColor')};
         cursor: default;
     }
     .CalendarDay--blocked-calendar:active {
@@ -154,7 +153,7 @@ const DatePickerWrapper = styled.div`
     }
 
     .CalendarMonth__caption {
-        color: ${COLOR_TEXT};
+        color: ${props => theme(props, 'textColor')};
         margin-top: 7px;
         font-size: 18px;
         text-align: center;
@@ -347,7 +346,7 @@ const DatePickerWrapper = styled.div`
     .DayPickerNavigation--horizontal .DayPickerNavigation__next--default svg {
         height: 19px;
         width: 19px;
-        fill: ${COLOR_TEXT};
+        fill: ${props => theme(props, 'textColor')};
     }
 
     .DayPickerNavigation--vertical {
@@ -380,7 +379,7 @@ const DatePickerWrapper = styled.div`
     .DayPickerNavigation--vertical .DayPickerNavigation__next--default svg {
         height: 42px;
         width: 42px;
-        fill: ${COLOR_TEXT};
+        fill: ${props => theme(props, 'textColor')};
     }
 
     .DayPickerNavigation--vertical-scrollable {
@@ -501,7 +500,7 @@ const DatePickerWrapper = styled.div`
     }
     .DayPickerKeyboardShortcuts__close svg:hover,
     .DayPickerKeyboardShortcuts__close svg:focus {
-        fill: ${COLOR_TEXT};
+        fill: ${props => theme(props, 'textColor')};
     }
     .DayPickerKeyboardShortcuts__close:active {
         outline: none;
@@ -635,14 +634,14 @@ const DatePickerWrapper = styled.div`
     }
 
     .DateInput__display-text--has-input {
-        color: ${COLOR_TEXT};
+        color: ${props => theme(props, 'textColor')};
     }
 
     .DateInput__display-text--focused {
         background: transparent;
         border-color: #99ede6;
         border-radius: 4px;
-        color: ${COLOR_TEXT};
+        color: ${props => theme(props, 'textColor')};
     }
 
     .screen-reader-only {
@@ -744,7 +743,7 @@ const DatePickerWrapper = styled.div`
 
     .DateRangePickerInput__arrow svg {
         vertical-align: middle;
-        fill: ${COLOR_TEXT};
+        fill: ${props => theme(props, 'textColor')};
         height: 20px;
         width: 20px;
     }
@@ -764,7 +763,7 @@ const DatePickerWrapper = styled.div`
     }
 
     .DateRangePickerInput__clear-dates svg {
-        fill: ${COLOR_TEXT};
+        fill: ${props => theme(props, 'textColor')};
         height: 12px;
         width: 15px;
         vertical-align: middle;
@@ -794,7 +793,7 @@ const DatePickerWrapper = styled.div`
         margin: 0 5px 0 10px;
     }
     .DateRangePickerInput__calendar-icon svg {
-        fill: ${COLOR_TEXT};
+        fill: ${props => theme(props, 'textColor')};
         height: 15px;
         width: 14px;
         vertical-align: middle;
@@ -887,7 +886,7 @@ const DatePickerWrapper = styled.div`
     }
 
     .SingleDatePickerInput__clear-date svg {
-        fill: ${COLOR_TEXT};
+        fill: ${props => theme(props, 'textColor')};
         height: 12px;
         width: 15px;
         vertical-align: middle;
@@ -917,7 +916,7 @@ const DatePickerWrapper = styled.div`
         margin: 0 5px 0 10px;
     }
     .SingleDatePickerInput__calendar-icon svg {
-        fill: ${COLOR_TEXT};
+        fill: ${props => theme(props, 'textColor')};
         height: 15px;
         width: 14px;
         vertical-align: middle;

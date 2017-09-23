@@ -4,6 +4,7 @@ import { observable } from 'mobx';
 import React, { Component } from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import styled from 'styled-components';
+import { readableColor } from 'polished';
 import { theme } from '../helpers';
 
 const StyledDiv = styled.div`
@@ -58,7 +59,7 @@ const StyledInput = styled.input`
     &:checked + label {
         background: ${props => theme(props, 'primary')};
         border-color: ${props => theme(props, 'primary')};
-        color: #fff;
+        color: ${props => readableColor(theme(props, 'primary'))};
         box-shadow: -1px 0 ${props => theme(props, 'primary')};
     }
 `;

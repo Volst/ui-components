@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Downshift from 'downshift';
 import styled from 'styled-components';
-import { COLOR_TEXT } from '../ReCyCleTheme';
 import { tint } from 'polished';
 import { theme } from '../helpers';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
@@ -37,7 +36,7 @@ const DropdownToggle = styled.div`
 export const DropdownItem = styled.div`
     background: ${props =>
         props.highlighted ? tint(0.2, theme(props, 'primary')) : 'white'};
-    color: ${COLOR_TEXT};
+    color: ${props => theme(props, 'textColor')};
     font-weight: ${props => (props.selected ? 'bold' : 'normal')};
     padding: 4px;
     cursor: default;

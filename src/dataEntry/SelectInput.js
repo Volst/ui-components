@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { COLOR_TEXT } from '../ReCyCleTheme';
 import { observer } from 'mobx-react';
 import { t } from 'i18next';
+import { theme } from '../helpers';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
     width: ${props => (props.autoWidth ? 'auto' : '100%')};
     height: 30px;
     font-size: 14px;
-    color: ${COLOR_TEXT};
+    color: ${props => theme(props, 'textColor')};
     padding: 0 40px 0 10px;
     text-decoration: none;
     border-radius: 4px;
@@ -24,7 +24,7 @@ const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
 
     &:focus {
         outline: 0;
-        border: 1px solid #006b94;
+        border: 1px solid ${props => theme(props, 'primary')};
     }
 
     &:disabled {

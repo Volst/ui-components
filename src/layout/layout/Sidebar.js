@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { Scrollbars } from 'react-custom-scrollbars';
+import { theme } from '../../helpers';
 
 const StyledAside = styled.aside`
     ${props => {
         const width = props.medium ? 450 : 350;
         return `
             width: ${width}px;
-            background: #eee;
+            background: ${theme(props, 'light')};
 
             &.slide-right-enter,
             &.slide-right-leave.slide-right-leave-active {

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint } from 'polished';
-import { COLOR_TEXT } from '../ReCyCleTheme';
 import { theme } from '../helpers';
 
 // I really really do not like this hack, but we can't pass made-up properties
@@ -44,7 +43,7 @@ export const Button = styled(props => (
             const color = theme(props, props.tone || 'primary');
             return !props.unstyled
                 ? `
-        color: ${props.tone === 'light' ? COLOR_TEXT : '#fff'};
+        color: ${props.tone === 'light' ? theme(props, 'textColor') : '#fff'};
         height: 30px;
         padding: 0 10px;
         margin: 5px;
@@ -65,7 +64,7 @@ export const Button = styled(props => (
             ${props.tone === 'light'
                 ? `
                 background: ${tint(0.5, color)};
-                color: ${tint(0.4, COLOR_TEXT)};
+                color: ${tint(0.4, theme(props, 'textColor'))};
             `
                 : `
                 background: ${tint(0.25, color)};

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-const tooltipBg = '#383838';
+import { readableColor } from 'polished';
+import { theme } from '../helpers';
 
 const StyledTooltip = styled.div`
     position: relative;
@@ -25,15 +25,15 @@ const StyledTooltip = styled.div`
         height: 0;
         border-left: solid 5px transparent;
         border-right: solid 5px transparent;
-        border-bottom: solid 5px ${tooltipBg};
+        border-bottom: solid 5px ${props => theme(props, 'dark')};
         margin-top: -5px;
     }
 
     &:after {
         content: attr(aria-label);
         padding: 2px 10px;
-        background: ${tooltipBg};
-        color: #fff;
+        background: ${props => theme(props, 'dark')};
+        color: ${props => readableColor(theme(props, 'dark'))};
         font-size: 12px;
         line-height: 1.7;
         white-space: nowrap;
@@ -46,7 +46,7 @@ const StyledTooltip = styled.div`
         margin: 0 0 -5px;
         border-left: solid 5px transparent;
         border-right: solid 5px transparent;
-        border-top: solid 5px ${tooltipBg};
+        border-top: solid 5px ${props => theme(props, 'dark')};
         border-bottom: 0;
     }
 

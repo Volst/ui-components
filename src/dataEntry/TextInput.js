@@ -2,14 +2,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { theme } from '../helpers';
-import { COLOR_TEXT, COLOR_RED } from '../ReCyCleTheme';
 
 export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
     <input {...props} />
 ))`
     height: 30px;
     font-size: 14px;
-    color: ${COLOR_TEXT};
+    color: ${props => theme(props, 'textColor')};
     background: #fff;
     padding: 0 8px;
     text-decoration: none;
@@ -29,7 +28,7 @@ export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
     ${props =>
         props.hasError
             ? `
-        border-color: ${COLOR_RED};
+        border-color: ${theme(props, 'error')};
         background: #fef2f2;
 
         &:focus {

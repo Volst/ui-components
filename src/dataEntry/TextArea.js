@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { theme } from '../helpers';
-import { COLOR_TEXT } from '../ReCyCleTheme';
 
 export const StyledTextarea = styled.textarea`
     font-size: 14px;
-    color: ${COLOR_TEXT};
+    color: ${props => theme(props, 'textColor')};
     background: #fff;
     padding: 8px;
     min-height: 80px;
