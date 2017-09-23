@@ -8,6 +8,7 @@ const defaultConfig = {
     textColor: 'rgba(0, 0, 0, 0.7)',
     borderColor: '#ccc',
     highlightColor: '#fbdba7',
+    disabledColor: '#f9f9f9',
     componentBackground: '#fff',
     bodyBackground: '#fff',
     fontFamily: 'Roboto, Arial, sans-serif',

@@ -608,7 +608,7 @@ const DatePickerWrapper = styled.div`
     }
 
     .DateInput--disabled {
-        background: #f9f9f9;
+        background: ${props => theme(props, 'disabledColor')};
     }
 
     .DateInput__input {
@@ -736,7 +736,7 @@ const DatePickerWrapper = styled.div`
     }
 
     .DateRangePickerInput--disabled {
-        background: #f9f9f9;
+        background: ${props => theme(props, 'disabledColor')};
     }
 
     .DateRangePickerInput__arrow {

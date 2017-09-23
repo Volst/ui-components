@@ -20,7 +20,7 @@ export const StyledTextarea = styled.textarea`
     }
 
     &:disabled {
-        background: #f9f9f9;
+        background: ${props => theme(props, 'disabledColor')};
         cursor: not-allowed;
     }
 

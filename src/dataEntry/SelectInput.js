@@ -28,7 +28,7 @@ const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
     }
 
     &:disabled {
-        background-color: #f9f9f9;
+        background-color: ${props => theme(props, 'disabledColor')};
         cursor: not-allowed;
     }
 `;

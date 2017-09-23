@@ -17,7 +17,7 @@ export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
     width: 100%;
 
     &:disabled {
-        background: #f9f9f9;
+        background: ${props => theme(props, 'disabledColor')};
         cursor: not-allowed;
     }
 
