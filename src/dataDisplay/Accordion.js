@@ -54,7 +54,7 @@ export default class Accordion extends Component {
                 <StyledTitleContainer>
                     <Button unstyled icon onClick={this.handleClick}>
                         <IconToggle
-                            color={theme(this.props, 'primary')}
+                            color={theme(this.props, 'primaryColor')}
                             width="24"
                             height="24"
                         />

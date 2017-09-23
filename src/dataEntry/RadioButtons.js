@@ -15,7 +15,7 @@ const StyledDiv = styled.div`
     ${props =>
         props.focus &&
         `
-        border-color: ${theme(props, 'primary')};
+        border-color: ${theme(props, 'primaryColor')};
     `};
 `;
 
@@ -57,10 +57,10 @@ const StyledInput = styled.input`
     left: -999999px;
     opacity: 0;
     &:checked + label {
-        background: ${props => theme(props, 'primary')};
-        border-color: ${props => theme(props, 'primary')};
-        color: ${props => readableColor(theme(props, 'primary'))};
-        box-shadow: -1px 0 ${props => theme(props, 'primary')};
+        background: ${props => theme(props, 'primaryColor')};
+        border-color: ${props => theme(props, 'primaryColor')};
+        color: ${props => readableColor(theme(props, 'primaryColor'))};
+        box-shadow: -1px 0 ${props => theme(props, 'primaryColor')};
     }
 `;
 

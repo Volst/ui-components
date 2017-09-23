@@ -7,7 +7,7 @@ export default styled.div`
     align-items: stretch;
 
     &:nth-child(even) {
-        background: ${props => theme(props, 'primary')};
+        background: ${props => theme(props, 'primaryColor')};
         color: white;
 
         .nav-item:before {
@@ -19,12 +19,12 @@ export default styled.div`
         props.inContent &&
         `
         margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${theme(props, 'primary')};
+        border-bottom: 1px solid ${theme(props, 'primaryColor')};
         .nav-item:after {
             content: '';
         }
         .nav-item:before {
-            border-bottom-color: ${theme(props, 'primary')};
+            border-bottom-color: ${theme(props, 'primaryColor')};
         }
     `};
 `;

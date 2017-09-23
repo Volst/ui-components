@@ -25,15 +25,15 @@ const StyledTooltip = styled.div`
         height: 0;
         border-left: solid 5px transparent;
         border-right: solid 5px transparent;
-        border-bottom: solid 5px ${props => theme(props, 'dark')};
+        border-bottom: solid 5px ${props => theme(props, 'darkColor')};
         margin-top: -5px;
     }
 
     &:after {
         content: attr(aria-label);
         padding: 2px 10px;
-        background: ${props => theme(props, 'dark')};
-        color: ${props => readableColor(theme(props, 'dark'))};
+        background: ${props => theme(props, 'darkColor')};
+        color: ${props => readableColor(theme(props, 'darkColor'))};
         font-size: 12px;
         line-height: 1.7;
         white-space: nowrap;
@@ -46,7 +46,7 @@ const StyledTooltip = styled.div`
         margin: 0 0 -5px;
         border-left: solid 5px transparent;
         border-right: solid 5px transparent;
-        border-top: solid 5px ${props => theme(props, 'dark')};
+        border-top: solid 5px ${props => theme(props, 'darkColor')};
         border-bottom: 0;
     }
 

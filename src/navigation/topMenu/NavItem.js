@@ -43,7 +43,7 @@ const Item = styled(NavLink)`
         width: 0;
         height: 0;
         border: 0 solid transparent;
-        border-bottom-color: ${props => theme(props, 'primary')};
+        border-bottom-color: ${props => theme(props, 'primaryColor')};
         border-top: 0;
         transition: 175ms all ease;
     }

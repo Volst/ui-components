@@ -18,7 +18,7 @@ export const DropdownContainer = styled.div`
 
 export const Dropdown = styled.div`
     width: 100%;
-    border: 1px solid ${props => theme(props, 'primary')};
+    border: 1px solid ${props => theme(props, 'primaryColor')};
     border-top: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -35,7 +35,7 @@ const DropdownToggle = styled.div`
 
 export const DropdownItem = styled.div`
     background: ${props =>
-        props.highlighted ? tint(0.2, theme(props, 'primary')) : 'white'};
+        props.highlighted ? tint(0.2, theme(props, 'primaryColor')) : 'white'};
     color: ${props => theme(props, 'textColor')};
     font-weight: ${props => (props.selected ? 'bold' : 'normal')};
     padding: 4px;

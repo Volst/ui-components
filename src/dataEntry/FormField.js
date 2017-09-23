@@ -3,7 +3,6 @@ import React, { Component, Children } from 'react';
 import styled from 'styled-components';
 import LabelText from './LabelText';
 import { observer, PropTypes as MobxTypes } from 'mobx-react';
-import { COLOR_RED } from '../ReCyCleTheme';
 import { readableColor } from 'polished';
 import { theme } from '../config';
 import { t } from 'i18next';
@@ -22,8 +21,8 @@ const ErrorTooltip = styled.div`
     position: absolute;
     top: 100%;
     font-size: 14px;
-    background: ${props => theme(props, 'error')};
-    color: ${props => readableColor(theme(props, 'error'))};
+    background: ${props => theme(props, 'errorColor')};
+    color: ${props => readableColor(theme(props, 'errorColor'))};
     padding: 5px 8px;
     border-radius: 4px;
     z-index: 1;
@@ -42,12 +41,14 @@ const ErrorTooltip = styled.div`
         top: -5px;
         left: 10px;
         border-width: 0 5px 5px 5px;
-        border-color: transparent transparent ${props => theme(props, 'error')}
-            transparent;
+        border-color: transparent transparent
+            ${props => theme(props, 'errorColor')} transparent;
     }
 `;
 
-const RequiredMark = styled.span`color: ${props => theme(props, 'error')};`;
+const RequiredMark = styled.span`
+    color: ${props => theme(props, 'errorColor')};
+`;
 
 function validationErrorMapper(errorCode) {
     // Fallback to untranslated error message.

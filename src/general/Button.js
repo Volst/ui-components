@@ -40,7 +40,7 @@ export const Button = styled(props => (
         cursor: not-allowed;
     `
                 : ''} ${props => {
-            const color = theme(props, props.tone || 'primary');
+            const color = theme(props, `${props.tone || 'primary'}Color`);
             return !props.unstyled
                 ? `
         color: ${props.tone === 'light' ? theme(props, 'textColor') : '#fff'};

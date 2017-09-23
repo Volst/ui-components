@@ -24,7 +24,7 @@ const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
 
     &:focus {
         outline: 0;
-        border: 1px solid ${props => theme(props, 'primary')};
+        border: 1px solid ${props => theme(props, 'primaryColor')};
     }
 
     &:disabled {

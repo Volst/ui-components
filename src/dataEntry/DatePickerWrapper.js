@@ -71,10 +71,10 @@ const DatePickerWrapper = styled.div`
     .CalendarDay--selected-span.CalendarDay--hovered,
     .CalendarDay--selected-span:active {
         background: #33dacd;
-        border: 1px double ${props => theme(props, 'primary')};
+        border: 1px double ${props => theme(props, 'primaryColor')};
     }
     .CalendarDay--selected-span.CalendarDay--last-in-range {
-        border-right: ${props => theme(props, 'primary')};
+        border-right: ${props => theme(props, 'primaryColor')};
     }
 
     .CalendarDay--hovered-span,
@@ -91,14 +91,14 @@ const DatePickerWrapper = styled.div`
     .CalendarDay--selected-start,
     .CalendarDay--selected-end,
     .CalendarDay--selected {
-        background: ${props => theme(props, 'primary')};
-        border: 1px double ${props => theme(props, 'primary')};
+        background: ${props => theme(props, 'primaryColor')};
+        border: 1px double ${props => theme(props, 'primaryColor')};
         color: #fff;
     }
     .CalendarDay--selected-start:active,
     .CalendarDay--selected-end:active,
     .CalendarDay--selected:active {
-        background: ${props => theme(props, 'primary')};
+        background: ${props => theme(props, 'primaryColor')};
     }
 
     .CalendarDay--blocked-calendar {
@@ -413,7 +413,7 @@ const DatePickerWrapper = styled.div`
 
     .DayPickerKeyboardShortcuts__show--bottom-right {
         border-top: 26px solid transparent;
-        border-right: 33px solid ${props => theme(props, 'primary')};
+        border-right: 33px solid ${props => theme(props, 'primaryColor')};
         bottom: 0;
         right: 0;
     }
@@ -428,7 +428,7 @@ const DatePickerWrapper = styled.div`
 
     .DayPickerKeyboardShortcuts__show--top-right {
         border-bottom: 26px solid transparent;
-        border-right: 33px solid ${props => theme(props, 'primary')};
+        border-right: 33px solid ${props => theme(props, 'primaryColor')};
         top: 0;
         right: 0;
     }
@@ -443,7 +443,7 @@ const DatePickerWrapper = styled.div`
 
     .DayPickerKeyboardShortcuts__show--top-left {
         border-bottom: 26px solid transparent;
-        border-left: 33px solid ${props => theme(props, 'primary')};
+        border-left: 33px solid ${props => theme(props, 'primaryColor')};
         top: 0;
         left: 0;
     }
@@ -727,7 +727,7 @@ const DatePickerWrapper = styled.div`
         border: 1px solid
             ${props =>
                 props.focused
-                    ? theme(props, 'primary')
+                    ? theme(props, 'primaryColor')
                     : theme(props, 'borderColor')};
     }
 

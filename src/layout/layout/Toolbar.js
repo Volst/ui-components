@@ -4,7 +4,7 @@ import { theme } from '../../config';
 
 export default styled.section`
     height: 40px;
-    background-color: ${props => tint(0.15, theme(props, 'primary'))};
+    background-color: ${props => tint(0.15, theme(props, 'primaryColor'))};
     display: flex;
     align-items: center;
 `;

@@ -11,7 +11,7 @@ const StyledScrollbars = styled(({ tone, ...props }) => (
     flex: 1;
     background: ${props =>
         props.tone === 'primary'
-            ? tint(0.07, theme(props, 'primary'))
+            ? tint(0.07, theme(props, 'primaryColor'))
             : theme(props, 'componentBackground')};
 `;
 
