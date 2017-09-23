@@ -9,6 +9,8 @@ const defaultConfig = {
     borderColor: '#ccc',
     highlightColor: '#fbdba7',
     componentBackground: '#fff',
+    bodyBackground: '#fff',
+    fontFamily: 'Roboto, Arial, sans-serif',
 };
 
 export function theme(props, value) {

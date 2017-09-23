@@ -30,7 +30,8 @@ const injectGlobalStyles = props => injectGlobal`
 
     html {
         box-sizing: border-box;
-        font-family: Roboto, Arial, sans-serif;
+        background: ${theme(props, 'bodyBackground')};
+        font-family: ${theme(props, 'fontFamily')};
         color: ${theme(props, 'textColor')};
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
