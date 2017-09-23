@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { theme } from '../helpers';
 
 const Container = styled.div`
     position: fixed;
@@ -23,7 +24,7 @@ const Background = styled.div`
 
 const Content = styled.div`
     position: relative;
-    background: #fff;
+    background: ${props => theme(props, 'componentBackground')};
     border-radius: 4px;
     display: flex;
     overflow: hidden;

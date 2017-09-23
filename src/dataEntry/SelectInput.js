@@ -15,7 +15,7 @@ const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
     text-decoration: none;
     border-radius: 4px;
     border: 1px solid ${props => theme(props, 'borderColor')};
-    background-color: #fff;
+    background-color: ${props => theme(props, 'componentBackground')};
     background-image: url('data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>');
     background-repeat: no-repeat;
     background-position: right 10px center;

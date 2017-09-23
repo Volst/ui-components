@@ -12,7 +12,7 @@ const StyledScrollbars = styled(({ tone, ...props }) => (
     background: ${props =>
         props.tone === 'primary'
             ? tint(0.07, theme(props, 'primary'))
-            : '#fff'};
+            : theme(props, 'componentBackground')};
 `;
 
 const Main = styled.main`

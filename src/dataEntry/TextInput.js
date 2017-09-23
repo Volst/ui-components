@@ -9,7 +9,7 @@ export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
     height: 30px;
     font-size: 14px;
     color: ${props => theme(props, 'textColor')};
-    background: #fff;
+    background: ${props => theme(props, 'componentBackground')};
     padding: 0 8px;
     text-decoration: none;
     border-radius: 4px;
@@ -32,7 +32,7 @@ export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
         background: #fef2f2;
 
         &:focus {
-            background: #fff;
+            background: ${props => theme(props, 'componentBackground')};
         }
     `
             : `

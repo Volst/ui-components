@@ -6,7 +6,7 @@ import { theme } from '../helpers';
 export const StyledTextarea = styled.textarea`
     font-size: 14px;
     color: ${props => theme(props, 'textColor')};
-    background: #fff;
+    background: ${props => theme(props, 'componentBackground')};
     padding: 8px;
     min-height: 80px;
     text-decoration: none;

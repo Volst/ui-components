@@ -8,6 +8,7 @@ const defaultConfig = {
     textColor: 'rgba(0, 0, 0, 0.7)',
     borderColor: '#ccc',
     highlightColor: '#fbdba7',
+    componentBackground: '#fff',
 };
 
 export function theme(props, value) {
