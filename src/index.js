@@ -1,6 +1,8 @@
 export { default as ReCyCleTheme } from './ReCyCleTheme';
 export { default as Modal } from './feedback/Modal';
 export { Button, Link, ExternalLink } from './general/Button';
+export { default as Heading } from './general/typography/Heading';
+export { default as Subheading } from './general/typography/Subheading';
 
 export { default as Form } from './dataEntry/Form';
 export { default as FormField } from './dataEntry/FormField';
