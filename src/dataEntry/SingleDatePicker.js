@@ -8,8 +8,8 @@ import moment from 'moment';
 import { withTheme } from 'styled-components';
 import { theme } from '../config';
 
-@observer
 @withTheme
+@observer
 export default class SingleDatePicker extends Component {
     static propTypes = {
         onChange: PropTypes.func,
