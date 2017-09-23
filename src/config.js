@@ -12,6 +12,7 @@ const defaultConfig = {
     componentBackground: '#fff',
     bodyBackground: '#fff',
     fontFamily: 'Roboto, Arial, sans-serif',
+    dateFormat: 'DD-MM-YYYY',
 };
 
 export function theme(props, value) {

@@ -5,11 +5,11 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import DatePickerWrapper from './DatePickerWrapper';
 import moment from 'moment';
-
-// TODO: un-hardcode. Perhaps allow to change it with the `theme` context?
-const DATE_FORMAT = 'DD-MM-YYYY';
+import { withTheme } from 'styled-components';
+import { theme } from '../config';
 
 @observer
+@withTheme
 export default class SingleDatePicker extends Component {
     static propTypes = {
         onChange: PropTypes.func,
@@ -49,7 +49,7 @@ export default class SingleDatePicker extends Component {
                     onFocusChange={this.handleFocusChange}
                     focused={this.focused}
                     numberOfMonths={1}
-                    displayFormat={DATE_FORMAT}
+                    displayFormat={theme(this.props, 'dateFormat')}
                     hideKeyboardShortcutsPanel
                     firstDayOfWeek={1}
                     isOutsideRange={this.props.isOutsideRange}
