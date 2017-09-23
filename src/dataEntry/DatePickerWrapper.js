@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme } from '../helpers';
+import { theme } from '../config';
 
 const DatePickerWrapper = styled.div`
     .CalendarDay {

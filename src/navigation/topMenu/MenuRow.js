@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme } from '../../helpers';
+import { theme } from '../../config';
 
 export default styled.div`
     height: 50px;

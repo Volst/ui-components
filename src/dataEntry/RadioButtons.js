@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import styled from 'styled-components';
 import { readableColor } from 'polished';
-import { theme } from '../helpers';
+import { theme } from '../config';
 
 const StyledDiv = styled.div`
     display: flex;
@@ -46,7 +46,7 @@ const StyledLabel = styled.label`
     text-align: center;
     border: 1px solid ${props => theme(props, 'borderColor')};
     border-left-width: 0;
-    background: #fff;
+    background: ${props => theme(props, 'componentBackground')};
     font-size: 14px;
     color: rgba(0, 0, 0, 0.5);
     white-space: nowrap;

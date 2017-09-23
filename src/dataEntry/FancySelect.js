@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Downshift from 'downshift';
 import styled from 'styled-components';
 import { tint } from 'polished';
-import { theme } from '../helpers';
+import { theme } from '../config';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
 import IconArrowDropUp from '../general/icon/IconArrowDropUp';
 import IconClose from '../general/icon/IconClose';

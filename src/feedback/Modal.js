@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { theme } from '../helpers';
+import { theme } from '../config';
 
 const Container = styled.div`
     position: fixed;

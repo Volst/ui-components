@@ -5,7 +5,7 @@ import LabelText from './LabelText';
 import { observer, PropTypes as MobxTypes } from 'mobx-react';
 import { COLOR_RED } from '../ReCyCleTheme';
 import { readableColor } from 'polished';
-import { theme } from '../helpers';
+import { theme } from '../config';
 import { t } from 'i18next';
 
 const Field = styled.div`

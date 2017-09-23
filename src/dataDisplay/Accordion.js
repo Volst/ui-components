@@ -5,7 +5,7 @@ import { Button } from '../general/Button';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
 import { observer } from 'mobx-react';
-import { theme } from '../helpers';
+import { theme } from '../config';
 import { withTheme } from 'styled-components';
 
 const StyledContainer = styled.div`

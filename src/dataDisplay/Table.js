@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { theme } from '../helpers';
+import { theme } from '../config';
 
 export const Table = styled.table`
     width: 100%;

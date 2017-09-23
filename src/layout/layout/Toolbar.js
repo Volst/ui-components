@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { tint } from 'polished';
-import { theme } from '../../helpers';
+import { theme } from '../../config';
 
 export default styled.section`
     height: 40px;

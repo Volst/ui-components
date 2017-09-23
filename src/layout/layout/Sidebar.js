@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { theme } from '../../helpers';
+import { theme } from '../../config';
 
 const StyledAside = styled.aside`
     ${props => {

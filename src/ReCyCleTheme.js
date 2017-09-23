@@ -4,7 +4,7 @@ import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
-import { theme } from './helpers';
+import { theme } from './config';
 
 const injectGlobalStyles = props => injectGlobal`
     @font-face {
