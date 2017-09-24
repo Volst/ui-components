@@ -32,19 +32,17 @@ ReactDOM.render(
 );
 ```
 
-`<ReCyCleTheme />` accepts a `theme` prop. These are the available options:
+`<ReCyCleTheme />` accepts a `theme` prop, which can be used to change some settings. An example:
 
 ```js
 const theme = {
-    primary: '#006b94',
-    success: '#58b96b',
-    warning: '#d45352',
-    dark: '#4c4c4c',
-    light: '#eee',
+    primaryColor: '#006b94',
 };
 
 <ReCyCleTheme theme={theme} />
 ```
+
+See [all settings](https://github.com/CodeYellowBV/re-cy-cle/blob/master/src/config.js).
 
 ## Contributing
 
