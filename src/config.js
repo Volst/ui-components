@@ -4,7 +4,7 @@ const defaultConfig = {
     warningColor: '#d45352',
     darkColor: '#4c4c4c',
     lightColor: '#eee',
-    errorColor: '#dc0818',
+    dangerColor: '#dc0818',
     textColor: 'rgba(0, 0, 0, 0.7)',
     borderColor: '#ccc',
     highlightColor: '#fbdba7',

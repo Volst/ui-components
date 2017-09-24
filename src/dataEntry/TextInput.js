@@ -28,7 +28,7 @@ export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
     ${props =>
         props.hasError
             ? `
-        border-color: ${theme(props, 'errorColor')};
+        border-color: ${theme(props, 'dangerColor')};
         background: #fef2f2;
 
         &:focus {

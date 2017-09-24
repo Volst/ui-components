@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { theme } from '../config';
 
 const Bubble = styled.sup`
-    background: ${props => theme(props, 'errorColor')};
+    background: ${props => theme(props, 'dangerColor')};
     position: absolute;
     min-width: 16px;
     height: 16px;

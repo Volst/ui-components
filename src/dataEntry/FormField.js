@@ -21,8 +21,8 @@ const ErrorTooltip = styled.div`
     position: absolute;
     top: 100%;
     font-size: 14px;
-    background: ${props => theme(props, 'errorColor')};
-    color: ${props => readableColor(theme(props, 'errorColor'))};
+    background: ${props => theme(props, 'dangerColor')};
+    color: ${props => readableColor(theme(props, 'dangerColor'))};
     padding: 5px 8px;
     border-radius: 4px;
     z-index: 1;
@@ -42,12 +42,12 @@ const ErrorTooltip = styled.div`
         left: 10px;
         border-width: 0 5px 5px 5px;
         border-color: transparent transparent
-            ${props => theme(props, 'errorColor')} transparent;
+            ${props => theme(props, 'dangerColor')} transparent;
     }
 `;
 
 const RequiredMark = styled.span`
-    color: ${props => theme(props, 'errorColor')};
+    color: ${props => theme(props, 'dangerColor')};
 `;
 
 function validationErrorMapper(errorCode) {
