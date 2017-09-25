@@ -39,6 +39,7 @@ export default class SelectInput extends Component {
         children: PropTypes.node,
         onChange: PropTypes.func,
         name: PropTypes.string,
+        id: PropTypes.string,
         disabled: PropTypes.bool,
         placeholder: PropTypes.string,
         skipPlaceholder: PropTypes.bool,
@@ -65,6 +66,7 @@ export default class SelectInput extends Component {
         return (
             <StyledSelect
                 name={this.props.name}
+                id={this.props.id}
                 value={this.props.value || ''}
                 onChange={this.onChange}
                 disabled={this.props.disabled}

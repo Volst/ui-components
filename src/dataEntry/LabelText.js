@@ -17,13 +17,16 @@ const StyledLabel = styled.label`text-transform: uppercase;`;
 export default class LabelText extends Component {
     static propTypes = {
         helpText: PropTypes.string,
+        htmlFor: PropTypes.string,
         children: PropTypes.node.isRequired,
     };
 
     render() {
         return (
             <Container>
-                <StyledLabel>{this.props.children}</StyledLabel>
+                <StyledLabel htmlFor={this.props.htmlFor}>
+                    {this.props.children}
+                </StyledLabel>
                 <div>{this.props.helpText}</div>
             </Container>
         );

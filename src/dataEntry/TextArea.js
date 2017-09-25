@@ -37,6 +37,7 @@ export default class TextArea extends Component {
         disabled: PropTypes.bool,
         maxLength: PropTypes.string,
         name: PropTypes.string,
+        id: PropTypes.string,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         autoFocus: PropTypes.bool,
         onBlur: PropTypes.func,
@@ -60,6 +61,7 @@ export default class TextArea extends Component {
         return (
             <StyledTextarea
                 name={this.props.name}
+                id={this.props.id}
                 value={value}
                 maxLength={this.props.maxLength}
                 autoFocus={this.props.autoFocus}

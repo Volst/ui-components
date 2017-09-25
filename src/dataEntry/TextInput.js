@@ -63,6 +63,7 @@ export default class TextInput extends Component {
         name: PropTypes.string,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         autoFocus: PropTypes.bool,
+        id: PropTypes.string,
     };
 
     static defaultProps = {
@@ -96,6 +97,7 @@ export default class TextInput extends Component {
             onBlur: this.onBlur,
             autoFocus: this.props.autoFocus,
             hasError: this.props.hasError,
+            id: this.props.id,
         };
 
         return <StyledInput type={this.props.type} {...sharedProps} />;

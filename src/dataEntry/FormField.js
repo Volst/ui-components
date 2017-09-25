@@ -6,6 +6,7 @@ import { observer, PropTypes as MobxTypes } from 'mobx-react';
 import { readableColor } from 'polished';
 import { theme } from '../config';
 import { t } from 'i18next';
+import { uniqueId } from 'lodash';
 
 const Field = styled.div`
     width: 100%;
@@ -68,11 +69,15 @@ export default class FormField extends Component {
         required: PropTypes.bool,
     };
 
+    componentWillMount() {
+        this.uniqueId = `formfield-${uniqueId()}`;
+    }
+
     renderLabel() {
         if (!this.props.label) return null;
 
         return (
-            <LabelText helpText={this.props.helpText}>
+            <LabelText helpText={this.props.helpText} htmlFor={this.uniqueId}>
                 <div>
                     {this.props.label}
                     {this.props.required && (
@@ -102,6 +107,7 @@ export default class FormField extends Component {
             if (typeof child.type === 'function') {
                 return React.cloneElement(child, {
                     hasError: error.length > 0,
+                    id: this.uniqueId,
                 });
             }
             return child;

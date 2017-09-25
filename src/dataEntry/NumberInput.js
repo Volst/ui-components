@@ -18,6 +18,7 @@ export default class NumberInput extends Component {
         hasError: PropTypes.bool,
         maxLength: PropTypes.string,
         name: PropTypes.string,
+        id: PropTypes.string,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         autoFocus: PropTypes.bool,
 
@@ -92,6 +93,7 @@ export default class NumberInput extends Component {
         return (
             <MyInput
                 name={this.props.name}
+                id={this.props.id}
                 disabled={this.props.disabled}
                 value={value}
                 placeholder={this.props.placeholder}
