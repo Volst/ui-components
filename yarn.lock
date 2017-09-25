@@ -236,19 +236,6 @@ airbnb-js-shims@^1.1.1:
     string.prototype.padend "^3.0.0"
     string.prototype.padstart "^3.0.0"
 
-airbnb-prop-types@^2.8.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/airbnb-prop-types/-/airbnb-prop-types-2.8.1.tgz#b9e31f08a7ed77b213fefc33b53a8c6e1dd8b885"
-  dependencies:
-    array.prototype.find "^2.0.4"
-    function.prototype.name "^1.0.3"
-    has "^1.0.1"
-    is-regex "^1.0.4"
-    object.assign "^4.0.4"
-    object.entries "^1.0.4"
-    prop-types "^15.5.10"
-    prop-types-exact "^1.1.1"
-
 ajv-keywords@^1.0.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
@@ -403,13 +390,6 @@ array-uniq@^1.0.1:
 array-unique@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.2.1.tgz#a1d97ccafcbc2625cc70fadceb36a50c58b01a53"
-
-array.prototype.find@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/array.prototype.find/-/array.prototype.find-2.0.4.tgz#556a5c5362c08648323ddaeb9de9d14bc1864c90"
-  dependencies:
-    define-properties "^1.1.2"
-    es-abstract "^1.7.0"
 
 arrify@^1.0.0, arrify@^1.0.1:
   version "1.0.1"
@@ -2075,10 +2055,6 @@ console-browserify@^1.1.0:
 console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
-
-consolidated-events@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/consolidated-events/-/consolidated-events-1.1.1.tgz#25395465b35e531395418b7bbecb5ecaf198d179"
 
 constants-browserify@^1.0.0:
   version "1.0.0"
@@ -3798,10 +3774,6 @@ is-symbol@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-symbol/-/is-symbol-1.0.1.tgz#3cc59f00025194b6ab2e38dbae6689256b660572"
 
-is-touch-device@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/is-touch-device/-/is-touch-device-1.0.1.tgz#9a2fd59f689e9a9bf6ae9a86924c4ba805a42eab"
-
 is-typedarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
@@ -4482,7 +4454,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@4.x.x, lodash@^4.0.0, lodash@^4.1.1, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
+lodash@4.x.x, lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -4704,7 +4676,7 @@ mobx@^3.2.1:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.3.0.tgz#1bc1dd7e78547065af04b49bdb7f2098cada47aa"
 
-moment@>=1.6.0, moment@^2.18.1:
+moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -4884,17 +4856,9 @@ object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
-object-keys@^1.0.10, object-keys@^1.0.8:
+object-keys@^1.0.8:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.0.11.tgz#c54601778ad560f1142ce0e01bcca8b56d13426d"
-
-object.assign@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.0.4.tgz#b1c9cc044ef1b9fe63606fc141abbb32e14730cc"
-  dependencies:
-    define-properties "^1.1.2"
-    function-bind "^1.1.0"
-    object-keys "^1.0.10"
 
 object.entries@^1.0.4:
   version "1.0.4"
@@ -5543,13 +5507,6 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types-exact@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/prop-types-exact/-/prop-types-exact-1.1.1.tgz#c2620207e4f77f9762fa1835b0387a464bd08978"
-  dependencies:
-    has "^1.0.1"
-    object.assign "^4.0.4"
-
 prop-types@15.5.8:
   version "15.5.8"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
@@ -5691,20 +5648,12 @@ react-custom-scrollbars@^4.1.2:
     prop-types "^15.5.10"
     raf "^3.1.0"
 
-react-dates@^12.6.0:
-  version "12.6.0"
-  resolved "https://registry.yarnpkg.com/react-dates/-/react-dates-12.6.0.tgz#dfb23ff0d1366768b36b70180e48e8e52992e6fa"
+react-day-picker@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-6.1.0.tgz#81122c34bfb4eeec288ec31709e8aa6d4bc161cc"
   dependencies:
-    airbnb-prop-types "^2.8.1"
-    classnames "^2.2.5"
-    consolidated-events "^1.1.0"
-    is-touch-device "^1.0.1"
-    lodash "^4.1.1"
-    object.assign "^4.0.4"
-    object.values "^1.0.4"
+    object-assign "^4.1.1"
     prop-types "^15.5.10"
-    react-moment-proptypes "^1.5.0"
-    react-portal "^3.1.0"
 
 react-docgen@^2.15.0:
   version "2.17.0"
@@ -5783,18 +5732,6 @@ react-modal@^2.2.4:
     exenv "^1.2.0"
     prop-types "^15.5.10"
     react-dom-factories "^1.0.0"
-
-react-moment-proptypes@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/react-moment-proptypes/-/react-moment-proptypes-1.5.0.tgz#4a448cd6479efc5dd509283f361f3753c3abe60e"
-  dependencies:
-    moment ">=1.6.0"
-
-react-portal@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-3.1.0.tgz#865c44fb72a1da106c649206936559ce891ee899"
-  dependencies:
-    prop-types "^15.5.8"
 
 react-router-dom@^4.1.2:
   version "4.2.2"

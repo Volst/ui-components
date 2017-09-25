@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { theme } from '../config';
 
-export const StyledInput = styled(({ hasError, hasDropdown, ...props }) => (
-    <input {...props} />
-))`
+export const StyledInput = styled(
+    ({ hasError, hasDropdown, _ref, ...props }) => (
+        <input {...props} ref={_ref} />
+    )
+)`
     height: 30px;
     font-size: 14px;
     color: ${props => theme(props, 'textColor')};

@@ -21,7 +21,7 @@ const external = [
     'lodash',
     'downshift',
     'i18next',
-    'react-dates',
+    'react-day-picker/DayPickerInput',
     'react-addons-shallow-compare',
     // TODO: use `external` as function and Regex this shit
     'typeface-roboto/files/roboto-latin-300.woff2',

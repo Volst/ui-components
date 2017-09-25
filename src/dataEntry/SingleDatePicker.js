@@ -1,15 +1,28 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { DayPickerInput } from 'react-day-picker';
-import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DatePickerWrapper from './DatePickerWrapper';
 import moment from 'moment';
+import { StyledInput } from './TextInput';
 import { withTheme } from 'styled-components';
 import { theme } from '../config';
 
+// This is not a hack, it is a documented workaround (in react-day-picker)!
+class MyInputWithFocus extends Component {
+    focus = () => {
+        this.input.focus();
+    };
+
+    setRef = el => {
+        this.input = el;
+    };
+
+    render() {
+        return <StyledInput _ref={this.setRef} {...this.props} />;
+    }
+}
+
 @withTheme
-@observer
 export default class SingleDatePicker extends Component {
     static propTypes = {
         onChange: PropTypes.func,
@@ -17,7 +30,7 @@ export default class SingleDatePicker extends Component {
         placeholder: PropTypes.string,
         value: PropTypes.instanceOf(moment),
         disabled: PropTypes.bool,
-        isOutsideRange: PropTypes.func,
+        disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
     };
 
     static defaultProps = {
@@ -25,30 +38,32 @@ export default class SingleDatePicker extends Component {
         value: null,
     };
 
-    handleChange = (selectedDay, modifiers) => {
-        console.log('selecte', selectedDay, modifiers);
+    handleChange = (selectedDay, { disabled }) => {
         if (!this.props.onChange) return;
 
-        this.props.onChange(this.props.name, '');
-    };
-
-    @observable focused = false;
-
-    handleFocusChange = ({ focused }) => {
-        this.focused = focused;
+        if (!disabled) {
+            this.props.onChange(this.props.name, selectedDay);
+        }
     };
 
     render() {
-        // TODO: currently you cannot use most props you might need from the react-dates component
-        const dayPickerProps = {};
+        const dateFormat = theme(this.props, 'dateFormat');
+        const value = this.props.value
+            ? this.props.value.format(dateFormat)
+            : '';
+        // TODO: currently you cannot use most props you might need from the react-day-picker component
+        const dayPickerProps = {
+            disabledDays: this.props.disabledDays,
+        };
         return (
-            <DatePickerWrapper focused={this.focused}>
+            <DatePickerWrapper>
                 <DayPickerInput
+                    component={MyInputWithFocus}
                     onDayChange={this.handleChange}
-                    value={this.props.value}
+                    value={value}
                     disabled={this.props.disabled}
                     placeholder={this.props.placeholder}
-                    format={theme(this.props, 'dateFormat')}
+                    format={dateFormat}
                     dayPickerProps={dayPickerProps}
                 />
             </DatePickerWrapper>
