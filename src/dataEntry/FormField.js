@@ -97,9 +97,14 @@ export default class FormField extends Component {
     cloneProp = child => {
         if (child) {
             const error = this.props.error || [];
-            return React.cloneElement(child, {
-                hasError: error.length > 0,
-            });
+            // Only modify the child when its a React component;
+            // with real DOM elements you'd get a React warning about invalid props.
+            if (typeof child.type === 'function') {
+                return React.cloneElement(child, {
+                    hasError: error.length > 0,
+                });
+            }
+            return child;
         }
         return null;
     };
