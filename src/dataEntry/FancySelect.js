@@ -136,7 +136,6 @@ export default class FancySelect extends Component {
                 <DropdownToggle>
                     {!!this.props.value && (
                         <Button
-                            unstyled
                             icon
                             onClick={() => {
                                 clearItems();
@@ -146,7 +145,7 @@ export default class FancySelect extends Component {
                             <IconClose width="16" height="16" />
                         </Button>
                     )}
-                    <Button unstyled icon onClick={toggleMenu}>
+                    <Button icon onClick={toggleMenu}>
                         {actuallyOpen ? (
                             <IconArrowDropUp />
                         ) : (

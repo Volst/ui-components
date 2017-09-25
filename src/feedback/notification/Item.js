@@ -62,7 +62,7 @@ export default class NotificationItem extends Component {
         return (
             <StyledItem active={this.active} type={this.props.type}>
                 {this.props.message}
-                <CloseButton unstyled icon onClick={this.onDismiss}>
+                <CloseButton icon onClick={this.onDismiss}>
                     ✕
                 </CloseButton>
             </StyledItem>

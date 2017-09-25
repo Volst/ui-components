@@ -12,7 +12,7 @@ storiesOf('Feedback / Badge', module)
         'with one unread',
         withInfo()(() => {
             return (
-                <Button unstyled icon>
+                <Button icon>
                     <Badge count={1}>
                         <IconChat width="30" height="30" color="#006b94" />
                     </Badge>
@@ -24,7 +24,7 @@ storiesOf('Feedback / Badge', module)
         'with thousands unread',
         withInfo()(() => {
             return (
-                <Button unstyled icon>
+                <Button icon>
                     <Badge count={9999}>
                         <IconChat width="30" height="30" color="#006b94" />
                     </Badge>

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { SingleDatePicker as RSingleDatePicker } from 'react-dates';
+import { DayPickerInput } from 'react-day-picker';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import DatePickerWrapper from './DatePickerWrapper';
@@ -25,10 +25,11 @@ export default class SingleDatePicker extends Component {
         value: null,
     };
 
-    handleChange = value => {
+    handleChange = (selectedDay, modifiers) => {
+        console.log('selecte', selectedDay, modifiers);
         if (!this.props.onChange) return;
 
-        this.props.onChange(this.props.name, value);
+        this.props.onChange(this.props.name, '');
     };
 
     @observable focused = false;
@@ -39,20 +40,16 @@ export default class SingleDatePicker extends Component {
 
     render() {
         // TODO: currently you cannot use most props you might need from the react-dates component
+        const dayPickerProps = {};
         return (
             <DatePickerWrapper focused={this.focused}>
-                <RSingleDatePicker
-                    onDateChange={this.handleChange}
-                    date={this.props.value}
+                <DayPickerInput
+                    onDayChange={this.handleChange}
+                    value={this.props.value}
                     disabled={this.props.disabled}
                     placeholder={this.props.placeholder}
-                    onFocusChange={this.handleFocusChange}
-                    focused={this.focused}
-                    numberOfMonths={1}
-                    displayFormat={theme(this.props, 'dateFormat')}
-                    hideKeyboardShortcutsPanel
-                    firstDayOfWeek={1}
-                    isOutsideRange={this.props.isOutsideRange}
+                    format={theme(this.props, 'dateFormat')}
+                    dayPickerProps={dayPickerProps}
                 />
             </DatePickerWrapper>
         );

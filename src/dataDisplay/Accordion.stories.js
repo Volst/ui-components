@@ -37,7 +37,7 @@ storiesOf('Data Display / Accordion', module)
         'with delete actions',
         withInfo()(() => {
             const actionComponent = (
-                <Button onClick={action('deleted')} unstyled icon>
+                <Button onClick={action('deleted')} icon>
                     <IconDelete color="#DE0000" />
                 </Button>
             );
