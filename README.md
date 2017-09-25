@@ -19,7 +19,7 @@ The components are [documented in the demo](https://codeyellowbv.github.io/re-cy
 
 An example:
 
-```js
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ReCyCleTheme, Button } from 're-cy-cle';
@@ -32,9 +32,9 @@ ReactDOM.render(
 );
 ```
 
-`<ReCyCleTheme />` accepts a `theme` prop, which can be used to change some settings. An example:
+`<ReCyCleTheme />` accepts a `theme` prop, which can be used to change some project-wide settings. An example:
 
-```js
+```jsx
 const theme = {
     primaryColor: '#006b94',
 };
