@@ -9,7 +9,7 @@ import { theme } from '../config';
 import { withTheme } from 'styled-components';
 
 const StyledContainer = styled.div`
-    background-color: ${props => theme(props, 'light')};
+    background-color: ${props => theme(props, 'lightColor')};
     border-radius: 4px;
 `;
 
