@@ -111,41 +111,87 @@ let ReCyCleTheme = class ReCyCleTheme extends React.Component {
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
-const OMIT_PROPS = ['unstyled', 'fullWidth', 'tone'];
+const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children'];
+
+function insertSpanForTextNodes(child) {
+    if (typeof child === 'string') {
+        return React__default.createElement(
+            'span',
+            null,
+            child
+        );
+    }
+    return child;
+}
+
+function getProps(props) {
+    const newProps = lodash.omit(props, OMIT_PROPS);
+    newProps.children = React.Children.map(props.children, insertSpanForTextNodes);
+    return newProps;
+}
+
+function getTextColor(props) {
+    const toneColor = props.tone ? theme(props, `${props.tone}Color`) : null;
+    if (props.link) {
+        return toneColor || theme(props, 'primaryColor');
+    }
+    if (props.icon) {
+        return toneColor || theme(props, 'textColor');
+    }
+    return props.tone === 'light' ? theme(props, 'textColor') : '#fff';
+}
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
-const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, lodash.omit(props, OMIT_PROPS)))).withConfig({
+const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
     displayName: 'Button__Button'
-})(['display:inline-flex;align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;cursor:pointer;line-height:1;user-select:none;> svg{margin:', ';}', ' ', ' ', ';'], props => props.unstyled ? '6px' : '0 6px 0 0', props => props.icon ? `
-        color: ${props.unstyled ? '#000' : '#fff'};
-    ` : '', props => props.disabled ? `
-        cursor: not-allowed;
-    ` : '', props => {
-    const color = theme(props, `${props.tone || 'primary'}Color`);
-    return !props.unstyled ? `
-        color: ${props.tone === 'light' ? theme(props, 'textColor') : '#fff'};
-        height: 30px;
-        padding: 0 10px;
-        margin: 5px;
-        text-decoration: none;
-        border-radius: 4px;
-        font-size: 16px;
-        vertical-align: middle;
-
-        ${props.fullWidth ? `
-            margin: 5px 0;
-            width: 100%;
-        ` : ''}
-
-        ${props.disabled ? `
-            ${props.tone === 'light' ? `
-                background: ${polished.tint(0.5, color)};
-                color: ${polished.tint(0.4, theme(props, 'textColor'))};
-            ` : `
-                background: ${polished.tint(0.25, color)};
-            `}
+})(['display:', ';align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:16px;cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
+        margin: 6px;
         ` : `
-            background: ${color};
+        &:first-child {
+            margin-right: 6px;
+        }
+        &:last-child {
+            margin-left: 6px;
+        }
+        &:first-child:last-child {
+            margin: 0;
+        }
+        `, props => props.fullWidth && `
+        margin: 5px 0;
+        width: 100%;
+    `, props => {
+    const color = theme(props, `${props.tone || 'primary'}Color`);
+    const textColor = `color: ${getTextColor(props)};`;
+
+    if (props.icon) {
+        return textColor;
+    }
+
+    if (props.link) {
+        return `
+                ${textColor}
+                text-decoration: underline;
+            `;
+    }
+
+    return `
+            ${textColor}
+            height: 30px;
+            padding: 0 10px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 4px;
+            vertical-align: middle;
+
+            ${props.disabled ? `
+                ${props.tone === 'light' ? `
+                    background: ${polished.tint(0.5, color)};
+                    color: ${polished.tint(0.4, theme(props, 'textColor'))};
+                ` : `
+                    background: ${polished.tint(0.25, color)};
+                `}
+            ` : `
+                background: ${color};
 
             &:hover {
                 background: ${polished.darken(0.03, color)};
@@ -155,12 +201,12 @@ const Button = styled__default(props => React__default.createElement('button', O
                 background: ${polished.darken(0.07, color)};
             }
         `}
-    ` : '';
+    `;
 });
 Button.displayName = 'Button';
 Button.propTypes = {
     onClick: PropTypes.func,
-    unstyled: PropTypes.bool,
+    link: PropTypes.bool,
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -169,23 +215,23 @@ Button.propTypes = {
 
 const ExternalLink = Button.withComponent(props => {
     if (props.disabled) {
-        return React__default.createElement('button', lodash.omit(props, OMIT_PROPS));
+        return React__default.createElement('button', getProps(props));
     }
-    return React__default.createElement('a', lodash.omit(props, OMIT_PROPS));
+    return React__default.createElement('a', getProps(props));
 });
 ExternalLink.displayName = 'ExternalLink';
 
 const Link$1 = Button.withComponent(props => {
     if (props.disabled) {
-        return React__default.createElement('button', lodash.omit(props, OMIT_PROPS));
+        return React__default.createElement('button', getProps(props));
     }
-    return React__default.createElement(reactRouterDom.Link, lodash.omit(props, OMIT_PROPS));
+    return React__default.createElement(reactRouterDom.Link, getProps(props));
 });
 Link$1.displayName = 'Link';
 
 const Heading = styled__default.h1.withConfig({
     displayName: 'Heading__Heading'
-})(['font-weight:bold;font-size:26px;margin:0;padding:20px 0;color:', ';'], props => props.color || theme(props, 'primaryColor'));
+})(['font-weight:bold;font-size:26px;margin:0;padding:20px 0;color:', ';'], props => props.color || theme(props, 'textColor'));
 
 const Subheading = styled__default.h2.withConfig({
     displayName: 'Subheading__Subheading'
@@ -255,7 +301,7 @@ let LabelText = (_temp = _class$2 = class LabelText extends React.Component {
             null,
             React__default.createElement(
                 StyledLabel,
-                null,
+                { htmlFor: this.props.htmlFor },
                 this.props.children
             ),
             React__default.createElement(
@@ -267,6 +313,7 @@ let LabelText = (_temp = _class$2 = class LabelText extends React.Component {
     }
 }, _class$2.propTypes = {
     helpText: PropTypes.string,
+    htmlFor: PropTypes.string,
     children: PropTypes.node.isRequired
 }, _temp);
 
@@ -300,12 +347,22 @@ let FormField = mobxReact.observer(_class$1 = (_temp2$1 = _class2 = class FormFi
         return _temp = super(...args), this.cloneProp = child => {
             if (child) {
                 const error = this.props.error || [];
-                return React__default.cloneElement(child, {
-                    hasError: error.length > 0
-                });
+                // Only modify the child when its a React component;
+                // with real DOM elements you'd get a React warning about invalid props.
+                if (typeof child.type === 'function') {
+                    return React__default.cloneElement(child, {
+                        hasError: error.length > 0,
+                        id: this.uniqueId
+                    });
+                }
+                return child;
             }
             return null;
         }, _temp;
+    }
+
+    componentWillMount() {
+        this.uniqueId = `formfield-${lodash.uniqueId()}`;
     }
 
     renderLabel() {
@@ -313,7 +370,7 @@ let FormField = mobxReact.observer(_class$1 = (_temp2$1 = _class2 = class FormFi
 
         return React__default.createElement(
             LabelText,
-            { helpText: this.props.helpText },
+            { helpText: this.props.helpText, htmlFor: this.uniqueId },
             React__default.createElement(
                 'div',
                 null,
@@ -646,7 +703,8 @@ let TextInput = (_temp2$5 = _class$6 = class TextInput extends React.Component {
             onChange: this.onChange,
             onBlur: this.onBlur,
             autoFocus: this.props.autoFocus,
-            hasError: this.props.hasError
+            hasError: this.props.hasError,
+            id: this.props.id
         };
 
         return React__default.createElement(StyledInput$3, Object.assign({ type: this.props.type }, sharedProps));
@@ -661,7 +719,8 @@ let TextInput = (_temp2$5 = _class$6 = class TextInput extends React.Component {
     type: PropTypes.oneOf(['text', 'search', 'password', 'email', 'tel']),
     name: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
+    id: PropTypes.string
 }, _class$6.defaultProps = {
     type: 'text',
     placeholder: '',
@@ -718,6 +777,7 @@ let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends React.Compone
 
         return React__default.createElement(MyInput, {
             name: this.props.name,
+            id: this.props.id,
             disabled: this.props.disabled,
             value: value,
             placeholder: this.props.placeholder,
@@ -738,6 +798,7 @@ let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends React.Compone
     hasError: PropTypes.bool,
     maxLength: PropTypes.string,
     name: PropTypes.string,
+    id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
 
@@ -829,6 +890,7 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.Component {
 
         return React__default.createElement(StyledTextarea, {
             name: this.props.name,
+            id: this.props.id,
             value: value,
             maxLength: this.props.maxLength,
             autoFocus: this.props.autoFocus,
@@ -844,6 +906,7 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.Component {
     disabled: PropTypes.bool,
     maxLength: PropTypes.string,
     name: PropTypes.string,
+    id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
     onBlur: PropTypes.func
@@ -1174,6 +1237,7 @@ let SelectInput = mobxReact.observer(_class$12 = (_temp2$11 = _class2$4 = class 
             StyledSelect,
             {
                 name: this.props.name,
+                id: this.props.id,
                 value: this.props.value || '',
                 onChange: this.onChange,
                 disabled: this.props.disabled,
@@ -1191,6 +1255,7 @@ let SelectInput = mobxReact.observer(_class$12 = (_temp2$11 = _class2$4 = class 
     children: PropTypes.node,
     onChange: PropTypes.func,
     name: PropTypes.string,
+    id: PropTypes.string,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     skipPlaceholder: PropTypes.bool,
