@@ -1,5 +1,5 @@
 import React, { Children, Component } from 'react';
-import styled, { ThemeProvider, injectGlobal, keyframes } from 'styled-components';
+import styled, { ThemeProvider, injectGlobal, keyframes, withTheme } from 'styled-components';
 import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
@@ -7,7 +7,7 @@ import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
 import PropTypes from 'prop-types';
 import { omit, pick } from 'lodash';
 import { Link, NavLink } from 'react-router-dom';
-import { darken, tint } from 'polished';
+import { darken, readableColor, tint } from 'polished';
 import { PropTypes as PropTypes$1, observer } from 'mobx-react';
 import { t } from 'i18next';
 import { observable } from 'mobx';
@@ -20,10 +20,28 @@ import { SingleDatePicker } from 'react-dates';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 
-const COLOR_TEXT = 'rgba(0, 0, 0, 0.7)';
-const COLOR_RED = '#dc0818';
+const defaultConfig = {
+    primaryColor: '#006b94',
+    successColor: '#58b96b',
+    warningColor: '#d45352',
+    darkColor: '#4c4c4c',
+    lightColor: '#eee',
+    dangerColor: '#dc0818',
+    textColor: 'rgba(0, 0, 0, 0.7)',
+    borderColor: '#ccc',
+    highlightColor: '#fbdba7',
+    disabledColor: '#f9f9f9',
+    componentBackground: '#fff',
+    bodyBackground: '#fff',
+    fontFamily: 'Roboto, Arial, sans-serif',
+    dateFormat: 'DD-MM-YYYY'
+};
 
-const injectGlobalStyles = () => injectGlobal`
+function theme(props, value) {
+    return props.theme[value] || defaultConfig[value];
+}
+
+const injectGlobalStyles = props => injectGlobal`
     @font-face {
         font-family: 'Roboto';
         src: url('${RobotoLight}');
@@ -47,8 +65,9 @@ const injectGlobalStyles = () => injectGlobal`
 
     html {
         box-sizing: border-box;
-        font-family: Roboto, Arial, sans-serif;
-        color: ${COLOR_TEXT};
+        background: ${theme(props, 'bodyBackground')};
+        font-family: ${theme(props, 'fontFamily')};
+        color: ${theme(props, 'textColor')};
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
@@ -75,65 +94,12 @@ const injectGlobalStyles = () => injectGlobal`
 
 let ReCyCleTheme = class ReCyCleTheme extends Component {
     componentDidMount() {
-        injectGlobalStyles();
+        injectGlobalStyles(this.props);
     }
     render() {
         return React.createElement(ThemeProvider, this.props);
     }
 };
-
-var _class;
-var _temp2;
-
-const Container = styled.div.withConfig({
-    displayName: 'Modal__Container'
-})(['position:fixed;top:0;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;']);
-
-const Background = styled.div.withConfig({
-    displayName: 'Modal__Background'
-})(['position:absolute;background:rgba(0,0,0,0.5);width:100%;height:100%;cursor:pointer;']);
-
-const Content = styled.div.withConfig({
-    displayName: 'Modal__Content'
-})(['position:relative;background:#fff;border-radius:4px;display:flex;overflow:hidden;height:80vh;width:80vw;max-width:800px;max-height:800px;']);
-
-const ESCAPE_KEY = 27;
-
-let Modal = (_temp2 = _class = class Modal extends Component {
-    constructor(...args) {
-        var _temp;
-
-        return _temp = super(...args), this.handleKeyDown = e => {
-            if (e.keyCode === ESCAPE_KEY) {
-                this.props.onClose();
-            }
-        }, _temp;
-    }
-
-    componentWillMount() {
-        document.addEventListener('keydown', this.handleKeyDown);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyDown);
-    }
-
-    render() {
-        return React.createElement(
-            Container,
-            null,
-            React.createElement(Background, { onClick: this.props.onClose }),
-            React.createElement(
-                Content,
-                null,
-                this.props.children
-            )
-        );
-    }
-}, _class.propTypes = {
-    children: PropTypes.node.isRequired,
-    onClose: PropTypes.func.isRequired
-}, _temp2);
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
@@ -147,9 +113,9 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
     ` : '', props => props.disabled ? `
         cursor: not-allowed;
     ` : '', props => {
-    const color = props.theme[props.tone || 'primary'];
+    const color = theme(props, `${props.tone || 'primary'}Color`);
     return !props.unstyled ? `
-        color: ${props.tone === 'light' ? COLOR_TEXT : '#fff'};
+        color: ${props.tone === 'light' ? theme(props, 'textColor') : '#fff'};
         height: 30px;
         padding: 0 10px;
         margin: 5px;
@@ -166,7 +132,7 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
         ${props.disabled ? `
             ${props.tone === 'light' ? `
                 background: ${tint(0.5, color)};
-                color: ${tint(0.4, COLOR_TEXT)};
+                color: ${tint(0.4, theme(props, 'textColor'))};
             ` : `
                 background: ${tint(0.25, color)};
             `}
@@ -209,14 +175,22 @@ const Link$1 = Button.withComponent(props => {
 });
 Link$1.displayName = 'Link';
 
-var _class$1;
-var _temp2$1;
+const Heading = styled.h1.withConfig({
+    displayName: 'Heading__Heading'
+})(['font-weight:bold;font-size:26px;margin:0;padding:20px 0;color:', ';'], props => props.color || theme(props, 'primaryColor'));
+
+const Subheading = styled.h2.withConfig({
+    displayName: 'Subheading__Subheading'
+})(['font-weight:normal;font-size:20px;margin:0;padding:20px 0;color:', ';'], props => props.color || theme(props, 'primaryColor'));
+
+var _class;
+var _temp2;
 
 const StyledForm = styled.form.withConfig({
     displayName: 'Form__StyledForm'
 })(['display:inherit;flex-grow:1;flex-direction:inherit;width:100%;height:100%;']);
 
-let Form = (_temp2$1 = _class$1 = class Form extends Component {
+let Form = (_temp2 = _class = class Form extends Component {
     constructor(...args) {
         var _temp;
 
@@ -250,14 +224,14 @@ let Form = (_temp2$1 = _class$1 = class Form extends Component {
     render() {
         return React.createElement(StyledForm, Object.assign({}, this.props, { onSubmit: this.handleSubmit }));
     }
-}, _class$1.propTypes = {
+}, _class.propTypes = {
     onSubmit: PropTypes.func.isRequired
-}, _temp2$1);
+}, _temp2);
 
-var _class$3;
+var _class$2;
 var _temp;
 
-const Container$1 = styled.div.withConfig({
+const Container = styled.div.withConfig({
     displayName: 'LabelText__Container'
 })(['font-size:12px;padding:0 0 2px;opacity:0.75;display:flex;justify-content:space-between;white-space:nowrap;overflow:hidden;']);
 
@@ -265,11 +239,11 @@ const StyledLabel = styled.label.withConfig({
     displayName: 'LabelText__StyledLabel'
 })(['text-transform:uppercase;']);
 
-let LabelText = (_temp = _class$3 = class LabelText extends Component {
+let LabelText = (_temp = _class$2 = class LabelText extends Component {
 
     render() {
         return React.createElement(
-            Container$1,
+            Container,
             null,
             React.createElement(
                 StyledLabel,
@@ -283,27 +257,27 @@ let LabelText = (_temp = _class$3 = class LabelText extends Component {
             )
         );
     }
-}, _class$3.propTypes = {
+}, _class$2.propTypes = {
     helpText: PropTypes.string,
     children: PropTypes.node.isRequired
 }, _temp);
 
-var _class$2;
+var _class$1;
 var _class2;
-var _temp2$2;
+var _temp2$1;
 
 const Field = styled.div.withConfig({
     displayName: 'FormField__Field'
-})(['width:100%;position:relative;display:flex;flex-direction:column;justify-content:stretch;padding:', ';&:focus{outline:0;border:1px solid #006b94;}'], props => props.noPadding ? `0` : '0 0 15px');
+})(['width:100%;position:relative;display:flex;flex-direction:column;justify-content:stretch;padding:', ';'], props => props.noPadding ? `0` : '0 0 15px');
 
 // TODO: This tooltip should definitely be its own component
 const ErrorTooltip = styled.div.withConfig({
     displayName: 'FormField__ErrorTooltip'
-})(['position:absolute;top:100%;font-size:14px;background:', ';color:#fff;padding:5px 8px;border-radius:4px;z-index:1;margin-top:-5px;max-width:100%;word-break:break-word;&:before{content:\'\';display:block;position:absolute;top:0;width:0;height:0;border-style:solid;top:-5px;left:10px;border-width:0 5px 5px 5px;border-color:transparent transparent ', ' transparent;}'], COLOR_RED, COLOR_RED);
+})(['position:absolute;top:100%;font-size:14px;background:', ';color:', ';padding:5px 8px;border-radius:4px;z-index:1;margin-top:-5px;max-width:100%;word-break:break-word;&:before{content:\'\';display:block;position:absolute;top:0;width:0;height:0;border-style:solid;top:-5px;left:10px;border-width:0 5px 5px 5px;border-color:transparent transparent ', ' transparent;}'], props => theme(props, 'dangerColor'), props => readableColor(theme(props, 'dangerColor')), props => theme(props, 'dangerColor'));
 
 const RequiredMark = styled.span.withConfig({
     displayName: 'FormField__RequiredMark'
-})(['color:', ';'], COLOR_RED);
+})(['color:', ';'], props => theme(props, 'dangerColor'));
 
 function validationErrorMapper(errorCode) {
     // Fallback to untranslated error message.
@@ -311,7 +285,7 @@ function validationErrorMapper(errorCode) {
     return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-let FormField = observer(_class$2 = (_temp2$2 = _class2 = class FormField extends Component {
+let FormField = observer(_class$1 = (_temp2$1 = _class2 = class FormField extends Component {
     constructor(...args) {
         var _temp;
 
@@ -375,7 +349,7 @@ let FormField = observer(_class$2 = (_temp2$2 = _class2 = class FormField extend
     // TODO: I don't like the name `noPadding`
     noPadding: PropTypes.bool,
     required: PropTypes.bool
-}, _temp2$2)) || _class$2;
+}, _temp2$1)) || _class$1;
 
 const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
 
@@ -384,22 +358,10 @@ const OptionsPropType = PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired
 })).isRequired;
 
-const defaultConfig = {
-    primary: '#006b94',
-    success: '#58b96b',
-    warning: '#d45352',
-    dark: '#4c4c4c',
-    light: '#eee'
-};
-
-function theme(props, value) {
-    return props.theme[value] || defaultConfig[value];
-}
-
-var _class$4;
+var _class$3;
 var _descriptor;
 var _class2$1;
-var _temp2$3;
+var _temp2$2;
 
 function _initDefineProp(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -443,7 +405,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 const StyledDiv = styled.div.withConfig({
     displayName: 'RadioButtons__StyledDiv'
 })(['display:flex;align-items:stretch;border:1px solid transparent;border-radius:4px;', ';'], props => props.focus && `
-        border-color: ${theme(props, 'primary')};
+        border-color: ${theme(props, 'primaryColor')};
     `);
 
 const Option = styled.div.withConfig({
@@ -452,13 +414,13 @@ const Option = styled.div.withConfig({
 
 const StyledLabel$1 = styled.label.withConfig({
     displayName: 'RadioButtons__StyledLabel'
-})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px 5px;text-align:center;border:1px solid #ccc;border-left-width:0;background:#fff;font-size:14px;color:rgba(0,0,0,0.5);white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer');
+})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px 5px;text-align:center;border:1px solid ', ';border-left-width:0;background:', ';font-size:14px;color:rgba(0,0,0,0.5);white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer', props => theme(props, 'borderColor'), props => theme(props, 'componentBackground'));
 
 const StyledInput = styled.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
-})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:#fff;box-shadow:-1px 0 ', ';}'], props => theme(props, 'primary'), props => theme(props, 'primary'), props => theme(props, 'primary'));
+})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:', ';box-shadow:-1px 0 ', ';}'], props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => readableColor(theme(props, 'primaryColor')), props => theme(props, 'primaryColor'));
 
-var RadioButtons = observer((_class$4 = (_temp2$3 = _class2$1 = class RadioButtons extends Component {
+var RadioButtons = observer((_class$3 = (_temp2$2 = _class2$1 = class RadioButtons extends Component {
     constructor(...args) {
         var _temp;
 
@@ -512,16 +474,16 @@ var RadioButtons = observer((_class$4 = (_temp2$3 = _class2$1 = class RadioButto
     disabled: PropTypes.bool,
     options: OptionsPropType,
     value: ValuePropType
-}, _temp2$3), (_descriptor = _applyDecoratedDescriptor(_class$4.prototype, 'hasFocus', [observable], {
+}, _temp2$2), (_descriptor = _applyDecoratedDescriptor(_class$3.prototype, 'hasFocus', [observable], {
     enumerable: true,
     initializer: function () {
         return false;
     }
-})), _class$4));
+})), _class$3));
 
-var _class$5;
+var _class$4;
 var _class2$2;
-var _temp2$4;
+var _temp2$3;
 
 const StyledDiv$1 = styled.div.withConfig({
     displayName: 'RadioList__StyledDiv'
@@ -535,7 +497,7 @@ const StyledInput$1 = styled.input.withConfig({
     displayName: 'RadioList__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let RadioList = observer(_class$5 = (_temp2$4 = _class2$2 = class RadioList extends Component {
+let RadioList = observer(_class$4 = (_temp2$3 = _class2$2 = class RadioList extends Component {
     constructor(...args) {
         var _temp;
 
@@ -568,10 +530,10 @@ let RadioList = observer(_class$5 = (_temp2$4 = _class2$2 = class RadioList exte
     disabled: PropTypes.bool,
     options: OptionsPropType,
     value: ValuePropType
-}, _temp2$4)) || _class$5;
+}, _temp2$3)) || _class$4;
 
-var _class$6;
-var _temp2$5;
+var _class$5;
+var _temp2$4;
 
 const StyledLabel$3 = styled.label.withConfig({
     displayName: 'Checkbox__StyledLabel'
@@ -581,7 +543,7 @@ const StyledInput$2 = styled.input.withConfig({
     displayName: 'Checkbox__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let Checkbox = (_temp2$5 = _class$6 = class Checkbox extends Component {
+let Checkbox = (_temp2$4 = _class$5 = class Checkbox extends Component {
     constructor(...args) {
         var _temp;
 
@@ -603,13 +565,13 @@ let Checkbox = (_temp2$5 = _class$6 = class Checkbox extends Component {
             this.props.label
         );
     }
-}, _class$6.propTypes = {
+}, _class$5.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.bool,
     disabled: PropTypes.bool
-}, _temp2$5);
+}, _temp2$4);
 
 var objectWithoutProperties = function (obj, keys) {
   var target = {};
@@ -623,8 +585,8 @@ var objectWithoutProperties = function (obj, keys) {
   return target;
 };
 
-var _class$7;
-var _temp2$6;
+var _class$6;
+var _temp2$5;
 
 const StyledInput$3 = styled((_ref) => {
     let { hasError, hasDropdown } = _ref,
@@ -632,24 +594,24 @@ const StyledInput$3 = styled((_ref) => {
     return React.createElement('input', props);
 }).withConfig({
     displayName: 'TextInput__StyledInput'
-})(['height:30px;font-size:14px;color:', ';background:#fff;padding:0 8px;text-decoration:none;border-radius:4px;border:1px solid #ccc;width:100%;&:disabled{background:#f9f9f9;cursor:not-allowed;}&::placeholder{color:rgba(0,0,0,0.35);}', ';', ';'], COLOR_TEXT, props => props.hasError ? `
-        border-color: ${COLOR_RED};
+})(['height:30px;font-size:14px;color:', ';background:', ';padding:0 8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;&:disabled{background:', ';cursor:not-allowed;}&::placeholder{color:rgba(0,0,0,0.35);}', ';', ';'], props => theme(props, 'textColor'), props => theme(props, 'componentBackground'), props => theme(props, 'borderColor'), props => theme(props, 'disabledColor'), props => props.hasError ? `
+        border-color: ${theme(props, 'dangerColor')};
         background: #fef2f2;
 
         &:focus {
-            background: #fff;
+            background: ${props => theme(props, 'componentBackground')};
         }
     ` : `
         &:focus {
             outline: 0;
-            border-color: ${theme(props, 'primary')};
+            border-color: ${theme(props, 'primaryColor')};
         }
     `, props => props.hasDropdown ? `
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
     ` : '');
 
-let TextInput = (_temp2$6 = _class$7 = class TextInput extends Component {
+let TextInput = (_temp2$5 = _class$6 = class TextInput extends Component {
     constructor(...args) {
         var _temp;
 
@@ -681,7 +643,7 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends Component {
 
         return React.createElement(StyledInput$3, Object.assign({ type: this.props.type }, sharedProps));
     }
-}, _class$7.propTypes = {
+}, _class$6.propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     placeholder: PropTypes.string,
@@ -692,14 +654,14 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends Component {
     name: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool
-}, _class$7.defaultProps = {
+}, _class$6.defaultProps = {
     type: 'text',
     placeholder: '',
     value: ''
-}, _temp2$6);
+}, _temp2$5);
 
-var _class$8;
-var _temp2$7;
+var _class$7;
+var _temp2$6;
 
 const MyInput = StyledInput$3.withComponent((_ref) => {
     let { hasError } = _ref,
@@ -707,7 +669,7 @@ const MyInput = StyledInput$3.withComponent((_ref) => {
     return React.createElement(MaskedInput, props);
 });
 
-let NumberInput = (_temp2$7 = _class$8 = class NumberInput extends Component {
+let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends Component {
     constructor(...args) {
         var _temp;
 
@@ -760,7 +722,7 @@ let NumberInput = (_temp2$7 = _class$8 = class NumberInput extends Component {
             mask: this.getMask(this.props)
         });
     }
-}, _class$8.propTypes = {
+}, _class$7.propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     placeholder: PropTypes.string,
@@ -779,21 +741,21 @@ let NumberInput = (_temp2$7 = _class$8 = class NumberInput extends Component {
     allowNegative: PropTypes.bool,
     decimalSymbol: PropTypes.string,
     decimalLimit: PropTypes.number
-}, _class$8.defaultProps = {
+}, _class$7.defaultProps = {
     placeholder: '',
     value: '',
     // text-mask-addons has some default values we don't like; by default we only want to force the field to contain numbers
     prefix: '',
     includeThousandsSeparator: false
-}, _temp2$7);
+}, _temp2$6);
 
-var _class$9;
+var _class$8;
 var _class2$3;
-var _temp2$8;
+var _temp2$7;
 
 const MyInput$1 = StyledInput$3.withComponent(RTimeInput);
 
-let TimeInput = observer(_class$9 = (_temp2$8 = _class2$3 = class TimeInput extends Component {
+let TimeInput = observer(_class$8 = (_temp2$7 = _class2$3 = class TimeInput extends Component {
     constructor(...args) {
         var _temp;
 
@@ -834,16 +796,16 @@ let TimeInput = observer(_class$9 = (_temp2$8 = _class2$3 = class TimeInput exte
 }, _class2$3.defaultProps = {
     placeholder: ' ',
     value: ''
-}, _temp2$8)) || _class$9;
+}, _temp2$7)) || _class$8;
 
-var _class$10;
-var _temp2$9;
+var _class$9;
+var _temp2$8;
 
 const StyledTextarea = styled.textarea.withConfig({
     displayName: 'TextArea__StyledTextarea'
-})(['font-size:14px;color:', ';background:#fff;padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid #ccc;width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:#f9f9f9;cursor:not-allowed;}&:focus{outline:0;border:1px solid ', ';}'], COLOR_TEXT, props => theme(props, 'primary'));
+})(['font-size:14px;color:', ';background:', ';padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{outline:0;border:1px solid ', ';}'], props => theme(props, 'textColor'), props => theme(props, 'componentBackground'), props => theme(props, 'borderColor'), props => theme(props, 'disabledColor'), props => theme(props, 'primaryColor'));
 
-let TextArea = (_temp2$9 = _class$10 = class TextArea extends Component {
+let TextArea = (_temp2$8 = _class$9 = class TextArea extends Component {
     constructor(...args) {
         var _temp;
 
@@ -868,7 +830,7 @@ let TextArea = (_temp2$9 = _class$10 = class TextArea extends Component {
             onBlur: this.props.onBlur
         });
     }
-}, _class$10.propTypes = {
+}, _class$9.propTypes = {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
@@ -877,11 +839,11 @@ let TextArea = (_temp2$9 = _class$10 = class TextArea extends Component {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
     onBlur: PropTypes.func
-}, _class$10.defaultProps = {
+}, _class$9.defaultProps = {
     placeholder: '',
     value: '',
     onBlur() {}
-}, _temp2$9);
+}, _temp2$8);
 
 const StyledSvg = styled.svg.withConfig({
     displayName: 'Icon__StyledSvg'
@@ -925,8 +887,8 @@ let IconClose = props => React.createElement(
     React.createElement('path', { d: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' })
 );
 
-var _class$12;
-var _temp2$11;
+var _class$11;
+var _temp2$10;
 
 const DropdownContainer = styled.div.withConfig({
     displayName: 'FancySelect__DropdownContainer'
@@ -934,7 +896,7 @@ const DropdownContainer = styled.div.withConfig({
 
 const Dropdown = styled.div.withConfig({
     displayName: 'FancySelect__Dropdown'
-})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:1000;'], props => theme(props, 'primary'));
+})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:1000;'], props => theme(props, 'primaryColor'));
 
 const DropdownToggle = styled.div.withConfig({
     displayName: 'FancySelect__DropdownToggle'
@@ -942,14 +904,14 @@ const DropdownToggle = styled.div.withConfig({
 
 const DropdownItem = styled.div.withConfig({
     displayName: 'FancySelect__DropdownItem'
-})(['background:', ';color:', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.highlighted ? tint(0.2, theme(props, 'primary')) : 'white', COLOR_TEXT, props => props.selected ? 'bold' : 'normal');
+})(['background:', ';color:', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.highlighted ? tint(0.2, theme(props, 'primaryColor')) : 'white', props => theme(props, 'textColor'), props => props.selected ? 'bold' : 'normal');
 
 // Poor man's filtering.
 function fuzzySearch(options, inputValue) {
     return options.filter(o => o.label.toLowerCase().includes((inputValue || '').toLowerCase()));
 }
 
-let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends Component {
+let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1064,18 +1026,18 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends Component {
             this.renderDownshift
         );
     }
-}, _class$12.propTypes = {
+}, _class$11.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
     value: ValuePropType,
     options: OptionsPropType,
     disabled: PropTypes.bool
-}, _temp2$11);
+}, _temp2$10);
 
-var _class$11;
-var _temp2$10;
+var _class$10;
+var _temp2$9;
 
-let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends Component {
+let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1161,18 +1123,18 @@ let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends Component {
             )
         );
     }
-}, _class$11.propTypes = {
+}, _class$10.propTypes = {
     onChange: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     name: PropTypes.string,
     value: ValuePropType,
     options: OptionsPropType,
     disabled: PropTypes.bool
-}, _temp2$10);
+}, _temp2$9);
 
-var _class$13;
+var _class$12;
 var _class2$4;
-var _temp2$12;
+var _temp2$11;
 
 const StyledSelect = styled((_ref) => {
     let { autoWidth } = _ref,
@@ -1180,9 +1142,9 @@ const StyledSelect = styled((_ref) => {
     return React.createElement('select', props);
 }).withConfig({
     displayName: 'SelectInput__StyledSelect'
-})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid #ccc;background-color:#fff;background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid #006b94;}&:disabled{background-color:#f9f9f9;cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', COLOR_TEXT);
+})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'componentBackground'), props => theme(props, 'primaryColor'), props => theme(props, 'disabledColor'));
 
-let SelectInput = observer(_class$13 = (_temp2$12 = _class2$4 = class SelectInput extends Component {
+let SelectInput = observer(_class$12 = (_temp2$11 = _class2$4 = class SelectInput extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1227,17 +1189,17 @@ let SelectInput = observer(_class$13 = (_temp2$12 = _class2$4 = class SelectInpu
     value: ValuePropType,
     options: OptionsPropType,
     autoWidth: PropTypes.bool
-}, _temp2$12)) || _class$13;
+}, _temp2$11)) || _class$12;
 
 const DatePickerWrapper = styled.div.withConfig({
     displayName: 'DatePickerWrapper__DatePickerWrapper'
-})(['.CalendarDay{border:1px solid #e4e7e7;padding:0;box-sizing:border-box;color:#565a5c;cursor:pointer;}.CalendarDay__button{position:relative;height:100%;width:100%;text-align:center;background:none;border:0;margin:0;padding:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;box-sizing:border-box;}.CalendarDay__button:active{outline:0;}.CalendarDay--highlighted-calendar{background:#ffe8bc;color:#565a5c;cursor:default;}.CalendarDay--highlighted-calendar:active{background:#007a87;}.CalendarDay--outside{border:0;cursor:default;}.CalendarDay--outside:active{background:#fff;}.CalendarDay--hovered{background:#e4e7e7;border:1px double #d4d9d9;color:inherit;}.CalendarDay--blocked-minimum-nights{color:#cacccd;background:#fff;border:1px solid #e4e7e7;cursor:default;}.CalendarDay--blocked-minimum-nights:active{background:#fff;}.CalendarDay--selected-span{background:#66e2da;border:1px double #33dacd;color:#fff;}.CalendarDay--selected-span.CalendarDay--hovered,.CalendarDay--selected-span:active{background:#33dacd;border:1px double ', ';}.CalendarDay--selected-span.CalendarDay--last-in-range{border-right:', ';}.CalendarDay--hovered-span,.CalendarDay--after-hovered-start{background:#b2f1ec;border:1px double #80e8e0;color:', ';}.CalendarDay--hovered-span:active,.CalendarDay--after-hovered-start:active{background:#80e8e0;}.CalendarDay--selected-start,.CalendarDay--selected-end,.CalendarDay--selected{background:', ';border:1px double ', ';color:#fff;}.CalendarDay--selected-start:active,.CalendarDay--selected-end:active,.CalendarDay--selected:active{background:', ';}.CalendarDay--blocked-calendar{background:#cacccd;color:', ';cursor:default;}.CalendarDay--blocked-calendar:active{background:#cacccd;}.CalendarDay--blocked-out-of-range{color:#cacccd;background:#fff;border:1px solid #e4e7e7;cursor:default;}.CalendarDay--blocked-out-of-range:active{background:#fff;}.CalendarMonth{text-align:center;padding:0 13px;vertical-align:top;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;}.CalendarMonth table{border-collapse:collapse;border-spacing:0;caption-caption-side:initial;}.CalendarMonth--horizontal:first-of-type,.CalendarMonth--vertical:first-of-type{position:absolute;z-index:-1;opacity:0;pointer-events:none;}.CalendarMonth--horizontal{display:inline-block;min-height:100%;}.CalendarMonth--vertical{display:block;}.CalendarMonth__caption{color:', ';margin-top:7px;font-size:18px;text-align:center;margin-bottom:2px;caption-side:initial;}.CalendarMonth--horizontal .CalendarMonth__caption,.CalendarMonth--vertical .CalendarMonth__caption{padding:15px 0 35px;}.CalendarMonth--vertical-scrollable .CalendarMonth__caption{padding:5px 0;}.CalendarMonthGrid{background:#fff;z-index:0;text-align:left;}.CalendarMonthGrid--animating{-webkit-transition:-webkit-transform 0.2s ease-in-out;-moz-transition:-moz-transform 0.2s ease-in-out;transition:transform 0.2s ease-in-out;z-index:1;}.CalendarMonthGrid--horizontal{position:absolute;left:9px;}.CalendarMonthGrid--vertical{margin:0 auto;}.CalendarMonthGrid--vertical-scrollable{margin:0 auto;overflow-y:scroll;}.DayPicker{background:#fff;position:relative;text-align:left;}.DayPicker--horizontal{background:#fff;box-shadow:0 0 0 1px #ccc;border-radius:3px;}.DayPicker--horizontal.DayPicker--portal{box-shadow:none;position:absolute;left:50%;top:50%;}.DayPicker--vertical.DayPicker--portal{position:initial;}.DayPicker__focus-region{outline:none;}.DayPicker__week-headers{position:relative;}.DayPicker--horizontal .DayPicker__week-headers{margin-left:9px;}.DayPicker__week-header{color:#757575;position:absolute;top:62px;z-index:2;padding:0 13px;text-align:left;}.DayPicker__week-header ul{list-style:none;margin:1px 0;padding-left:0;padding-right:0;}.DayPicker__week-header li{display:inline-block;text-align:center;}.DayPicker--vertical .DayPicker__week-header{left:50%;}.DayPicker--vertical-scrollable{height:100%;}.DayPicker--vertical-scrollable .DayPicker__week-header{top:0;display:table-row;border-bottom:1px solid #dbdbdb;background:white;}.DayPicker--vertical-scrollable .transition-container--vertical{padding-top:20px;height:100%;position:absolute;top:0;bottom:0;right:0;left:0;overflow-y:scroll;}.DayPicker--vertical-scrollable .DayPicker__week-header{margin-left:0;left:0;width:100%;text-align:center;}.transition-container{position:relative;overflow:hidden;border-radius:3px;}.transition-container--horizontal{transition:height 0.2s ease-in-out;}.transition-container--vertical{width:100%;}.DayPickerNavigation__prev,.DayPickerNavigation__next{cursor:pointer;line-height:0.78;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}.DayPickerNavigation__prev--default,.DayPickerNavigation__next--default{border:1px solid #dce0e0;background-color:#fff;color:#757575;}.DayPickerNavigation__prev--default:focus,.DayPickerNavigation__prev--default:hover,.DayPickerNavigation__next--default:focus,.DayPickerNavigation__next--default:hover{border:1px solid #c4c4c4;}.DayPickerNavigation__prev--default:active,.DayPickerNavigation__next--default:active{background:#f2f2f2;}.DayPickerNavigation--horizontal{position:relative;}.DayPickerNavigation--horizontal .DayPickerNavigation__prev,.DayPickerNavigation--horizontal .DayPickerNavigation__next{border-radius:3px;padding:6px 9px;top:18px;z-index:2;position:absolute;}.DayPickerNavigation--horizontal .DayPickerNavigation__prev{left:22px;}.DayPickerNavigation--horizontal .DayPickerNavigation__next{right:22px;}.DayPickerNavigation--horizontal .DayPickerNavigation__prev--default svg,.DayPickerNavigation--horizontal .DayPickerNavigation__next--default svg{height:19px;width:19px;fill:', ';}.DayPickerNavigation--vertical{background:#fff;box-shadow:0 0 5px 2px rgba(0,0,0,0.1);position:absolute;bottom:0;left:0;height:52px;width:100%;z-index:2;}.DayPickerNavigation--vertical .DayPickerNavigation__prev,.DayPickerNavigation--vertical .DayPickerNavigation__next{display:inline-block;position:relative;height:100%;width:50%;}.DayPickerNavigation--vertical .DayPickerNavigation__next--default{border-left:0;}.DayPickerNavigation--vertical .DayPickerNavigation__prev--default,.DayPickerNavigation--vertical .DayPickerNavigation__next--default{text-align:center;font-size:2.5em;padding:5px;}.DayPickerNavigation--vertical .DayPickerNavigation__prev--default svg,.DayPickerNavigation--vertical .DayPickerNavigation__next--default svg{height:42px;width:42px;fill:', ';}.DayPickerNavigation--vertical-scrollable{position:relative;}.DayPickerNavigation--vertical-scrollable .DayPickerNavigation__next{width:100%;}.DayPickerKeyboardShortcuts__show,.DayPickerKeyboardShortcuts__close{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;cursor:pointer;}.DayPickerKeyboardShortcuts__show:active,.DayPickerKeyboardShortcuts__close:active{outline:none;}.DayPickerKeyboardShortcuts__show{width:22px;position:absolute;z-index:2;}.DayPickerKeyboardShortcuts__show--bottom-right{border-top:26px solid transparent;border-right:33px solid ', ';bottom:0;right:0;}.DayPickerKeyboardShortcuts__show--bottom-right:hover{border-right:33px solid #008489;}.DayPickerKeyboardShortcuts__show--bottom-right .DayPickerKeyboardShortcuts__show_span{bottom:0;right:-28px;}.DayPickerKeyboardShortcuts__show--top-right{border-bottom:26px solid transparent;border-right:33px solid ', ';top:0;right:0;}.DayPickerKeyboardShortcuts__show--top-right:hover{border-right:33px solid #008489;}.DayPickerKeyboardShortcuts__show--top-right .DayPickerKeyboardShortcuts__show_span{top:1px;right:-28px;}.DayPickerKeyboardShortcuts__show--top-left{border-bottom:26px solid transparent;border-left:33px solid ', ';top:0;left:0;}.DayPickerKeyboardShortcuts__show--top-left:hover{border-left:33px solid #008489;}.DayPickerKeyboardShortcuts__show--top-left .DayPickerKeyboardShortcuts__show_span{top:1px;left:-28px;}.DayPickerKeyboardShortcuts__show_span{color:#fff;position:absolute;}.DayPickerKeyboardShortcuts__panel{overflow:auto;background:#fff;border:1px solid #dbdbdb;border-radius:2px;position:absolute;top:0;bottom:0;right:0;left:0;z-index:2;padding:22px;margin:33px;}.DayPickerKeyboardShortcuts__title{font-size:14px;font-weight:bold;margin:0;}.DayPickerKeyboardShortcuts__list{list-style:none;padding:0;}.DayPickerKeyboardShortcuts__close{position:absolute;right:22px;top:22px;z-index:2;}.DayPickerKeyboardShortcuts__close svg{height:15px;width:15px;fill:#cacccd;}.DayPickerKeyboardShortcuts__close svg:hover,.DayPickerKeyboardShortcuts__close svg:focus{fill:', ';}.DayPickerKeyboardShortcuts__close:active{outline:none;}.KeyboardShortcutRow{margin:6px 0;}.KeyboardShortcutRow__key-container{display:inline-block;white-space:nowrap;text-align:right;margin-right:6px;}.KeyboardShortcutRow__key{font-family:monospace;font-size:12px;text-transform:uppercase;background:#f2f2f2;padding:2px 6px;}.KeyboardShortcutRow__action{display:inline;word-break:break-word;margin-left:8px;}.DayPickerKeyboardShortcuts__panel--block .KeyboardShortcutRow{margin-bottom:16px;}.DayPickerKeyboardShortcuts__panel--block .KeyboardShortcutRow__key-container{width:auto;text-align:left;display:inline;}.DayPickerKeyboardShortcuts__panel--block .KeyboardShortcutRow__action{display:inline;}.DateInput{font-weight:400;font-size:14px;height:28px;line-height:24px;color:#757575;margin:0;padding:0 0 0 8px;background:#fff;border-radius:4px;position:relative;display:inline-block;width:126px;vertical-align:middle;}.SingleDatePickerInput .DateInput{width:100%;}.DateInput--with-caret::before,.DateInput--with-caret::after{content:\'\';display:inline-block;position:absolute;bottom:auto;border:10px solid transparent;left:22px;z-index:2;}.DateInput--open-down.DateInput--with-caret::before,.DateInput--open-down.DateInput--with-caret::after{border-top:0;}.DateInput--open-down.DateInput--with-caret::before{top:36px;border-bottom-color:#ccc;}.DateInput--open-down.DateInput--with-caret::after{top:37px;border-bottom-color:#fff;}.DateInput--open-up.DateInput--with-caret::before,.DateInput--open-up.DateInput--with-caret::after{border-bottom:0;}.DateInput--open-up.DateInput--with-caret::before{top:-24px;border-top-color:rgba(0,0,0,0.1);}.DateInput--open-up.DateInput--with-caret::after{top:-25px;border-top-color:#fff;}.DateInput--disabled{background:#f9f9f9;}.DateInput__input{opacity:0;position:absolute;top:0;left:0;border:0;height:100%;width:100%;}.DateInput__input[readonly]{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;}.DateInput__display-text{padding:2px 0;white-space:nowrap;overflow:hidden;}.DateInput__display-text--has-input{color:', ';}.DateInput__display-text--focused{background:transparent;border-color:#99ede6;border-radius:4px;color:', ';}.screen-reader-only{border:0;clip:rect(0,0,0,0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;}.DateRangePicker{position:relative;display:inline-block;}.DateRangePicker__picker{z-index:1;background-color:#fff;position:absolute;}.DateRangePicker__picker--direction-left{left:0;}.DateRangePicker__picker--direction-right{right:0;}.DateRangePicker__picker--open-down{top:72px;}.DateRangePicker__picker--open-up{bottom:72px;}.DateRangePicker__picker--portal{background-color:rgba(0,0,0,0.3);position:fixed;top:0;left:0;height:100%;width:100%;}.DateRangePicker__picker--full-screen-portal{background-color:#fff;}.DateRangePicker__close{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;cursor:pointer;position:absolute;top:0;right:0;padding:15px;z-index:2;}.DateRangePicker__close svg{height:15px;width:15px;fill:#cacccd;}.DateRangePicker__close:hover,.DateRangePicker__close:focus{color:#b0b3b4;text-decoration:none;}.SingleDatePickerInput,.DateRangePickerInput{border-radius:4px;border:1px solid ', ';}.DateRangePickerInput{display:inline-block;}.DateRangePickerInput--disabled{background:#f9f9f9;}.DateRangePickerInput__arrow{display:inline-block;vertical-align:middle;}.DateRangePickerInput__arrow svg{vertical-align:middle;fill:', ';height:20px;width:20px;}.DateRangePickerInput__clear-dates{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;display:inline-block;vertical-align:middle;padding:0px;margin:0 10px 0 0;}.DateRangePickerInput__clear-dates svg{fill:', ';height:12px;width:15px;vertical-align:middle;}.DateRangePickerInput__clear-dates--hide{visibility:hidden;}.DateRangePickerInput__clear-dates:focus,.DateRangePickerInput__clear-dates--hover{background:#dbdbdb;border-radius:50%;}.DateRangePickerInput__calendar-icon{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;display:inline-block;vertical-align:middle;padding:10px;margin:0 5px 0 10px;}.DateRangePickerInput__calendar-icon svg{fill:', ';height:15px;width:14px;vertical-align:middle;}.SingleDatePicker{position:relative;display:inline-block;}.SingleDatePicker,.DateRangePickerInput{width:100%;font-size:14px;}.SingleDatePicker__picker{z-index:1;background-color:#fff;position:absolute;}.SingleDatePicker__picker--direction-left{left:0;}.SingleDatePicker__picker--direction-right{right:0;}.SingleDatePicker__picker--open-down{top:48px;}.SingleDatePicker__picker--open-up{bottom:48px;}.SingleDatePicker__picker--portal{background-color:rgba(0,0,0,0.3);position:fixed;top:0;left:0;height:100%;width:100%;}.SingleDatePicker__picker--full-screen-portal{background-color:#fff;}.SingleDatePicker__close{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;cursor:pointer;position:absolute;top:0;right:0;padding:15px;z-index:2;}.SingleDatePicker__close svg{height:15px;width:15px;fill:#cacccd;}.SingleDatePicker__close:hover,.SingleDatePicker__close:focus{color:#b0b3b4;text-decoration:none;}.SingleDatePickerInput__clear-date{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;display:inline-block;vertical-align:middle;padding:10px;margin:0 10px 0 5px;}.SingleDatePickerInput__clear-date svg{fill:', ';height:12px;width:15px;vertical-align:middle;}.SingleDatePickerInput__clear-date--hide{visibility:hidden;}.SingleDatePickerInput__clear-date:focus,.SingleDatePickerInput__clear-date--hover{background:#dbdbdb;border-radius:50%;}.SingleDatePickerInput__calendar-icon{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;display:inline-block;vertical-align:middle;padding:10px;margin:0 5px 0 10px;}.SingleDatePickerInput__calendar-icon svg{fill:', ';height:15px;width:14px;vertical-align:middle;}'], props => theme(props, 'primary'), props => theme(props, 'primary'), COLOR_TEXT, props => theme(props, 'primary'), props => theme(props, 'primary'), props => theme(props, 'primary'), COLOR_TEXT, COLOR_TEXT, COLOR_TEXT, COLOR_TEXT, props => theme(props, 'primary'), props => theme(props, 'primary'), props => theme(props, 'primary'), COLOR_TEXT, COLOR_TEXT, COLOR_TEXT, props => props.focused ? theme(props, 'primary') : '#ccc', COLOR_TEXT, COLOR_TEXT, COLOR_TEXT, COLOR_TEXT, COLOR_TEXT);
+})(['.CalendarDay{border:1px solid #e4e7e7;padding:0;box-sizing:border-box;color:#565a5c;cursor:pointer;}.CalendarDay__button{position:relative;height:100%;width:100%;text-align:center;background:none;border:0;margin:0;padding:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;box-sizing:border-box;}.CalendarDay__button:active{outline:0;}.CalendarDay--highlighted-calendar{background:#ffe8bc;color:#565a5c;cursor:default;}.CalendarDay--highlighted-calendar:active{background:#007a87;}.CalendarDay--outside{border:0;cursor:default;}.CalendarDay--outside:active{background:#fff;}.CalendarDay--hovered{background:#e4e7e7;border:1px double #d4d9d9;color:inherit;}.CalendarDay--blocked-minimum-nights{color:#cacccd;background:#fff;border:1px solid #e4e7e7;cursor:default;}.CalendarDay--blocked-minimum-nights:active{background:#fff;}.CalendarDay--selected-span{background:#66e2da;border:1px double #33dacd;color:#fff;}.CalendarDay--selected-span.CalendarDay--hovered,.CalendarDay--selected-span:active{background:#33dacd;border:1px double ', ';}.CalendarDay--selected-span.CalendarDay--last-in-range{border-right:', ';}.CalendarDay--hovered-span,.CalendarDay--after-hovered-start{background:#b2f1ec;border:1px double #80e8e0;color:', ';}.CalendarDay--hovered-span:active,.CalendarDay--after-hovered-start:active{background:#80e8e0;}.CalendarDay--selected-start,.CalendarDay--selected-end,.CalendarDay--selected{background:', ';border:1px double ', ';color:#fff;}.CalendarDay--selected-start:active,.CalendarDay--selected-end:active,.CalendarDay--selected:active{background:', ';}.CalendarDay--blocked-calendar{background:#cacccd;color:', ';cursor:default;}.CalendarDay--blocked-calendar:active{background:#cacccd;}.CalendarDay--blocked-out-of-range{color:#cacccd;background:#fff;border:1px solid #e4e7e7;cursor:default;}.CalendarDay--blocked-out-of-range:active{background:#fff;}.CalendarMonth{text-align:center;padding:0 13px;vertical-align:top;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;}.CalendarMonth table{border-collapse:collapse;border-spacing:0;caption-caption-side:initial;}.CalendarMonth--horizontal:first-of-type,.CalendarMonth--vertical:first-of-type{position:absolute;z-index:-1;opacity:0;pointer-events:none;}.CalendarMonth--horizontal{display:inline-block;min-height:100%;}.CalendarMonth--vertical{display:block;}.CalendarMonth__caption{color:', ';margin-top:7px;font-size:18px;text-align:center;margin-bottom:2px;caption-side:initial;}.CalendarMonth--horizontal .CalendarMonth__caption,.CalendarMonth--vertical .CalendarMonth__caption{padding:15px 0 35px;}.CalendarMonth--vertical-scrollable .CalendarMonth__caption{padding:5px 0;}.CalendarMonthGrid{background:#fff;z-index:0;text-align:left;}.CalendarMonthGrid--animating{-webkit-transition:-webkit-transform 0.2s ease-in-out;-moz-transition:-moz-transform 0.2s ease-in-out;transition:transform 0.2s ease-in-out;z-index:1;}.CalendarMonthGrid--horizontal{position:absolute;left:9px;}.CalendarMonthGrid--vertical{margin:0 auto;}.CalendarMonthGrid--vertical-scrollable{margin:0 auto;overflow-y:scroll;}.DayPicker{background:#fff;position:relative;text-align:left;}.DayPicker--horizontal{background:#fff;box-shadow:0 0 0 1px ', ';border-radius:3px;}.DayPicker--horizontal.DayPicker--portal{box-shadow:none;position:absolute;left:50%;top:50%;}.DayPicker--vertical.DayPicker--portal{position:initial;}.DayPicker__focus-region{outline:none;}.DayPicker__week-headers{position:relative;}.DayPicker--horizontal .DayPicker__week-headers{margin-left:9px;}.DayPicker__week-header{color:#757575;position:absolute;top:62px;z-index:2;padding:0 13px;text-align:left;}.DayPicker__week-header ul{list-style:none;margin:1px 0;padding-left:0;padding-right:0;}.DayPicker__week-header li{display:inline-block;text-align:center;}.DayPicker--vertical .DayPicker__week-header{left:50%;}.DayPicker--vertical-scrollable{height:100%;}.DayPicker--vertical-scrollable .DayPicker__week-header{top:0;display:table-row;border-bottom:1px solid #dbdbdb;background:white;}.DayPicker--vertical-scrollable .transition-container--vertical{padding-top:20px;height:100%;position:absolute;top:0;bottom:0;right:0;left:0;overflow-y:scroll;}.DayPicker--vertical-scrollable .DayPicker__week-header{margin-left:0;left:0;width:100%;text-align:center;}.transition-container{position:relative;overflow:hidden;border-radius:3px;}.transition-container--horizontal{transition:height 0.2s ease-in-out;}.transition-container--vertical{width:100%;}.DayPickerNavigation__prev,.DayPickerNavigation__next{cursor:pointer;line-height:0.78;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}.DayPickerNavigation__prev--default,.DayPickerNavigation__next--default{border:1px solid #dce0e0;background-color:#fff;color:#757575;}.DayPickerNavigation__prev--default:focus,.DayPickerNavigation__prev--default:hover,.DayPickerNavigation__next--default:focus,.DayPickerNavigation__next--default:hover{border:1px solid #c4c4c4;}.DayPickerNavigation__prev--default:active,.DayPickerNavigation__next--default:active{background:#f2f2f2;}.DayPickerNavigation--horizontal{position:relative;}.DayPickerNavigation--horizontal .DayPickerNavigation__prev,.DayPickerNavigation--horizontal .DayPickerNavigation__next{border-radius:3px;padding:6px 9px;top:18px;z-index:2;position:absolute;}.DayPickerNavigation--horizontal .DayPickerNavigation__prev{left:22px;}.DayPickerNavigation--horizontal .DayPickerNavigation__next{right:22px;}.DayPickerNavigation--horizontal .DayPickerNavigation__prev--default svg,.DayPickerNavigation--horizontal .DayPickerNavigation__next--default svg{height:19px;width:19px;fill:', ';}.DayPickerNavigation--vertical{background:#fff;box-shadow:0 0 5px 2px rgba(0,0,0,0.1);position:absolute;bottom:0;left:0;height:52px;width:100%;z-index:2;}.DayPickerNavigation--vertical .DayPickerNavigation__prev,.DayPickerNavigation--vertical .DayPickerNavigation__next{display:inline-block;position:relative;height:100%;width:50%;}.DayPickerNavigation--vertical .DayPickerNavigation__next--default{border-left:0;}.DayPickerNavigation--vertical .DayPickerNavigation__prev--default,.DayPickerNavigation--vertical .DayPickerNavigation__next--default{text-align:center;font-size:2.5em;padding:5px;}.DayPickerNavigation--vertical .DayPickerNavigation__prev--default svg,.DayPickerNavigation--vertical .DayPickerNavigation__next--default svg{height:42px;width:42px;fill:', ';}.DayPickerNavigation--vertical-scrollable{position:relative;}.DayPickerNavigation--vertical-scrollable .DayPickerNavigation__next{width:100%;}.DayPickerKeyboardShortcuts__show,.DayPickerKeyboardShortcuts__close{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;cursor:pointer;}.DayPickerKeyboardShortcuts__show:active,.DayPickerKeyboardShortcuts__close:active{outline:none;}.DayPickerKeyboardShortcuts__show{width:22px;position:absolute;z-index:2;}.DayPickerKeyboardShortcuts__show--bottom-right{border-top:26px solid transparent;border-right:33px solid ', ';bottom:0;right:0;}.DayPickerKeyboardShortcuts__show--bottom-right:hover{border-right:33px solid #008489;}.DayPickerKeyboardShortcuts__show--bottom-right .DayPickerKeyboardShortcuts__show_span{bottom:0;right:-28px;}.DayPickerKeyboardShortcuts__show--top-right{border-bottom:26px solid transparent;border-right:33px solid ', ';top:0;right:0;}.DayPickerKeyboardShortcuts__show--top-right:hover{border-right:33px solid #008489;}.DayPickerKeyboardShortcuts__show--top-right .DayPickerKeyboardShortcuts__show_span{top:1px;right:-28px;}.DayPickerKeyboardShortcuts__show--top-left{border-bottom:26px solid transparent;border-left:33px solid ', ';top:0;left:0;}.DayPickerKeyboardShortcuts__show--top-left:hover{border-left:33px solid #008489;}.DayPickerKeyboardShortcuts__show--top-left .DayPickerKeyboardShortcuts__show_span{top:1px;left:-28px;}.DayPickerKeyboardShortcuts__show_span{color:#fff;position:absolute;}.DayPickerKeyboardShortcuts__panel{overflow:auto;background:#fff;border:1px solid #dbdbdb;border-radius:2px;position:absolute;top:0;bottom:0;right:0;left:0;z-index:2;padding:22px;margin:33px;}.DayPickerKeyboardShortcuts__title{font-size:14px;font-weight:bold;margin:0;}.DayPickerKeyboardShortcuts__list{list-style:none;padding:0;}.DayPickerKeyboardShortcuts__close{position:absolute;right:22px;top:22px;z-index:2;}.DayPickerKeyboardShortcuts__close svg{height:15px;width:15px;fill:#cacccd;}.DayPickerKeyboardShortcuts__close svg:hover,.DayPickerKeyboardShortcuts__close svg:focus{fill:', ';}.DayPickerKeyboardShortcuts__close:active{outline:none;}.KeyboardShortcutRow{margin:6px 0;}.KeyboardShortcutRow__key-container{display:inline-block;white-space:nowrap;text-align:right;margin-right:6px;}.KeyboardShortcutRow__key{font-family:monospace;font-size:12px;text-transform:uppercase;background:#f2f2f2;padding:2px 6px;}.KeyboardShortcutRow__action{display:inline;word-break:break-word;margin-left:8px;}.DayPickerKeyboardShortcuts__panel--block .KeyboardShortcutRow{margin-bottom:16px;}.DayPickerKeyboardShortcuts__panel--block .KeyboardShortcutRow__key-container{width:auto;text-align:left;display:inline;}.DayPickerKeyboardShortcuts__panel--block .KeyboardShortcutRow__action{display:inline;}.DateInput{font-weight:400;font-size:14px;height:28px;line-height:24px;color:#757575;margin:0;padding:0 0 0 8px;background:#fff;border-radius:4px;position:relative;display:inline-block;width:126px;vertical-align:middle;}.SingleDatePickerInput .DateInput{width:100%;}.DateInput--with-caret::before,.DateInput--with-caret::after{content:\'\';display:inline-block;position:absolute;bottom:auto;border:10px solid transparent;left:22px;z-index:2;}.DateInput--open-down.DateInput--with-caret::before,.DateInput--open-down.DateInput--with-caret::after{border-top:0;}.DateInput--open-down.DateInput--with-caret::before{top:36px;border-bottom-color:', ';}.DateInput--open-down.DateInput--with-caret::after{top:37px;border-bottom-color:#fff;}.DateInput--open-up.DateInput--with-caret::before,.DateInput--open-up.DateInput--with-caret::after{border-bottom:0;}.DateInput--open-up.DateInput--with-caret::before{top:-24px;border-top-color:rgba(0,0,0,0.1);}.DateInput--open-up.DateInput--with-caret::after{top:-25px;border-top-color:#fff;}.DateInput--disabled{background:', ';}.DateInput__input{opacity:0;position:absolute;top:0;left:0;border:0;height:100%;width:100%;}.DateInput__input[readonly]{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;}.DateInput__display-text{padding:2px 0;white-space:nowrap;overflow:hidden;}.DateInput__display-text--has-input{color:', ';}.DateInput__display-text--focused{background:transparent;border-color:#99ede6;border-radius:4px;color:', ';}.screen-reader-only{border:0;clip:rect(0,0,0,0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;}.DateRangePicker{position:relative;display:inline-block;}.DateRangePicker__picker{z-index:1;background-color:#fff;position:absolute;}.DateRangePicker__picker--direction-left{left:0;}.DateRangePicker__picker--direction-right{right:0;}.DateRangePicker__picker--open-down{top:72px;}.DateRangePicker__picker--open-up{bottom:72px;}.DateRangePicker__picker--portal{background-color:rgba(0,0,0,0.3);position:fixed;top:0;left:0;height:100%;width:100%;}.DateRangePicker__picker--full-screen-portal{background-color:#fff;}.DateRangePicker__close{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;cursor:pointer;position:absolute;top:0;right:0;padding:15px;z-index:2;}.DateRangePicker__close svg{height:15px;width:15px;fill:#cacccd;}.DateRangePicker__close:hover,.DateRangePicker__close:focus{color:#b0b3b4;text-decoration:none;}.SingleDatePickerInput,.DateRangePickerInput{border-radius:4px;border:1px solid ', ';}.DateRangePickerInput{display:inline-block;}.DateRangePickerInput--disabled{background:', ';}.DateRangePickerInput__arrow{display:inline-block;vertical-align:middle;}.DateRangePickerInput__arrow svg{vertical-align:middle;fill:', ';height:20px;width:20px;}.DateRangePickerInput__clear-dates{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;display:inline-block;vertical-align:middle;padding:0px;margin:0 10px 0 0;}.DateRangePickerInput__clear-dates svg{fill:', ';height:12px;width:15px;vertical-align:middle;}.DateRangePickerInput__clear-dates--hide{visibility:hidden;}.DateRangePickerInput__clear-dates:focus,.DateRangePickerInput__clear-dates--hover{background:#dbdbdb;border-radius:50%;}.DateRangePickerInput__calendar-icon{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;display:inline-block;vertical-align:middle;padding:10px;margin:0 5px 0 10px;}.DateRangePickerInput__calendar-icon svg{fill:', ';height:15px;width:14px;vertical-align:middle;}.SingleDatePicker{position:relative;display:inline-block;}.SingleDatePicker,.DateRangePickerInput{width:100%;font-size:14px;}.SingleDatePicker__picker{z-index:1;background-color:#fff;position:absolute;}.SingleDatePicker__picker--direction-left{left:0;}.SingleDatePicker__picker--direction-right{right:0;}.SingleDatePicker__picker--open-down{top:48px;}.SingleDatePicker__picker--open-up{bottom:48px;}.SingleDatePicker__picker--portal{background-color:rgba(0,0,0,0.3);position:fixed;top:0;left:0;height:100%;width:100%;}.SingleDatePicker__picker--full-screen-portal{background-color:#fff;}.SingleDatePicker__close{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;cursor:pointer;position:absolute;top:0;right:0;padding:15px;z-index:2;}.SingleDatePicker__close svg{height:15px;width:15px;fill:#cacccd;}.SingleDatePicker__close:hover,.SingleDatePicker__close:focus{color:#b0b3b4;text-decoration:none;}.SingleDatePickerInput__clear-date{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;display:inline-block;vertical-align:middle;padding:10px;margin:0 10px 0 5px;}.SingleDatePickerInput__clear-date svg{fill:', ';height:12px;width:15px;vertical-align:middle;}.SingleDatePickerInput__clear-date--hide{visibility:hidden;}.SingleDatePickerInput__clear-date:focus,.SingleDatePickerInput__clear-date--hover{background:#dbdbdb;border-radius:50%;}.SingleDatePickerInput__calendar-icon{background:none;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;cursor:pointer;display:inline-block;vertical-align:middle;padding:10px;margin:0 5px 0 10px;}.SingleDatePickerInput__calendar-icon svg{fill:', ';height:15px;width:14px;vertical-align:middle;}'], props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => theme(props, 'textColor'), props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'disabledColor'), props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => props.focused ? theme(props, 'primaryColor') : theme(props, 'borderColor'), props => theme(props, 'disabledColor'), props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'textColor'));
 
-var _class$14;
+var _class$13;
 var _class2$5;
 var _descriptor$1;
 var _class3;
-var _temp2$13;
+var _temp2$12;
 
 function _initDefineProp$1(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -1278,10 +1240,7 @@ function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, c
     return desc;
 }
 
-// TODO: un-hardcode. Perhaps allow to change it with the `theme` context?
-const DATE_FORMAT = 'DD-MM-YYYY';
-
-let SingleDatePicker$1 = observer(_class$14 = (_class2$5 = (_temp2$13 = _class3 = class SingleDatePicker$$1 extends Component {
+let SingleDatePicker$1 = withTheme(_class$13 = observer(_class$13 = (_class2$5 = (_temp2$12 = _class3 = class SingleDatePicker$$1 extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1307,7 +1266,7 @@ let SingleDatePicker$1 = observer(_class$14 = (_class2$5 = (_temp2$13 = _class3 
                 onFocusChange: this.handleFocusChange,
                 focused: this.focused,
                 numberOfMonths: 1,
-                displayFormat: DATE_FORMAT,
+                displayFormat: theme(this.props, 'dateFormat'),
                 hideKeyboardShortcutsPanel: true,
                 firstDayOfWeek: 1,
                 isOutsideRange: this.props.isOutsideRange
@@ -1324,23 +1283,21 @@ let SingleDatePicker$1 = observer(_class$14 = (_class2$5 = (_temp2$13 = _class3 
 }, _class3.defaultProps = {
     placeholder: '',
     value: null
-}, _temp2$13), (_descriptor$1 = _applyDecoratedDescriptor$1(_class2$5.prototype, 'focused', [observable], {
+}, _temp2$12), (_descriptor$1 = _applyDecoratedDescriptor$1(_class2$5.prototype, 'focused', [observable], {
     enumerable: true,
     initializer: function () {
         return false;
     }
-})), _class2$5)) || _class$14;
+})), _class2$5)) || _class$13) || _class$13;
 
-var _class$15;
+var _class$14;
 var _temp$1;
-
-const tooltipBg = '#383838';
 
 const StyledTooltip = styled.div.withConfig({
     displayName: 'Tooltip__StyledTooltip'
-})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:1000;}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:#fff;font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], tooltipBg, tooltipBg, tooltipBg);
+})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:1000;}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => theme(props, 'darkColor'), props => theme(props, 'darkColor'), props => readableColor(theme(props, 'darkColor')), props => theme(props, 'darkColor'));
 
-let Tooltip = (_temp$1 = _class$15 = class Tooltip extends Component {
+let Tooltip = (_temp$1 = _class$14 = class Tooltip extends Component {
 
     render() {
         const { direction, children } = this.props;
@@ -1353,11 +1310,11 @@ let Tooltip = (_temp$1 = _class$15 = class Tooltip extends Component {
             children
         );
     }
-}, _class$15.propTypes = {
+}, _class$14.propTypes = {
     message: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
-}, _class$15.defaultProps = {
+}, _class$14.defaultProps = {
     direction: 's'
 }, _temp$1);
 
@@ -1373,13 +1330,13 @@ let IconKeyboardArrowUp = props => React.createElement(
     React.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
 );
 
-var _class$16;
+var _class$15;
 var _class2$6;
-var _temp2$14;
+var _temp2$13;
 
 const StyledContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledContainer'
-})(['background-color:#eee;border-radius:4px;']);
+})(['background-color:', ';border-radius:4px;'], props => theme(props, 'light'));
 
 const StyledContent = styled.div.withConfig({
     displayName: 'Accordion__StyledContent'
@@ -1393,7 +1350,7 @@ const StyledTitleContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
 
-let Accordion = observer(_class$16 = (_temp2$14 = _class2$6 = class Accordion extends Component {
+let Accordion = observer(_class$15 = withTheme(_class$15 = (_temp2$13 = _class2$6 = class Accordion extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1414,7 +1371,11 @@ let Accordion = observer(_class$16 = (_temp2$14 = _class2$6 = class Accordion ex
                 React.createElement(
                     Button,
                     { unstyled: true, icon: true, onClick: this.handleClick },
-                    React.createElement(IconToggle, { color: '#006b94', width: '24', height: '24' })
+                    React.createElement(IconToggle, {
+                        color: theme(this.props, 'primaryColor'),
+                        width: '24',
+                        height: '24'
+                    })
                 ),
                 React.createElement(
                     StyledTitle,
@@ -1436,7 +1397,7 @@ let Accordion = observer(_class$16 = (_temp2$14 = _class2$6 = class Accordion ex
     opened: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     action: PropTypes.node
-}, _temp2$14)) || _class$16;
+}, _temp2$13)) || _class$15) || _class$15;
 
 const Table = styled.table.withConfig({
     displayName: 'Table__Table'
@@ -1457,8 +1418,8 @@ TableBody.displayName = 'TableBody';
 
 const TableRow = styled.tr.withConfig({
     displayName: 'Table__TableRow'
-})(['border-bottom:1px solid #ccc;', ';'], props => props.highlight && `
-        background: #fbdba7;
+})(['border-bottom:1px solid ', ';', ';'], props => theme(props, 'borderColor'), props => props.highlight && `
+        background: ${props => theme(props, 'highlightColor')};
     `);
 TableRow.displayName = 'TableRow';
 TableRow.propTypes = {
@@ -1503,7 +1464,7 @@ const StyledScrollbars = styled((_ref) => {
     return React.createElement(Scrollbars, props);
 }).withConfig({
     displayName: 'Content__StyledScrollbars'
-})(['flex:1;background:', ';'], props => props.tone === 'primary' ? tint(0.07, theme(props, 'primary')) : '#fff');
+})(['flex:1;background:', ';'], props => props.tone === 'primary' ? tint(0.07, theme(props, 'primaryColor')) : theme(props, 'componentBackground'));
 
 const Main = styled.main.withConfig({
     displayName: 'Content__Main'
@@ -1518,7 +1479,7 @@ const Main = styled.main.withConfig({
         justify-content: center;
     ` : null);
 
-const Content$1 = props => React.createElement(
+const Content = props => React.createElement(
     StyledScrollbars,
     { tone: props.tone },
     React.createElement(
@@ -1528,7 +1489,7 @@ const Content$1 = props => React.createElement(
     )
 );
 
-Content$1.propTypes = {
+Content.propTypes = {
     children: PropTypes.node,
     center: PropTypes.bool,
     blur: PropTypes.bool,
@@ -1545,7 +1506,7 @@ const StyledAside = styled.aside.withConfig({
     const width = props.medium ? 450 : 350;
     return `
             width: ${width}px;
-            background: #eee;
+            background: ${theme(props, 'light')};
 
             &.slide-right-enter,
             &.slide-right-leave.slide-right-leave-active {
@@ -1570,7 +1531,7 @@ const StyledAside = styled.aside.withConfig({
         `;
 });
 
-const Content$3 = styled.div.withConfig({
+const Content$2 = styled.div.withConfig({
     displayName: 'Sidebar__Content'
 })(['padding:25px;']);
 
@@ -1581,7 +1542,7 @@ const Sidebar = ({ children, medium }) => React.createElement(
         Scrollbars,
         null,
         React.createElement(
-            Content$3,
+            Content$2,
             null,
             children
         )
@@ -1595,7 +1556,7 @@ Sidebar.propTypes = {
 
 var Toolbar = styled.section.withConfig({
     displayName: 'Toolbar'
-})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => tint(0.15, theme(props, 'primary')));
+})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => tint(0.15, theme(props, 'primaryColor')));
 
 // Jup, that's right. Nothing special going on here.
 // There will come a time where we want to change some behavior of this package, but not for now...
@@ -1619,11 +1580,11 @@ Loader.propTypes = {
     show: PropTypes.bool
 };
 
-var _class$18;
+var _class$17;
 var _class2$7;
 var _descriptor$2;
 var _class3$1;
-var _temp2$16;
+var _temp2$15;
 
 function _initDefineProp$2(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -1666,7 +1627,7 @@ function _applyDecoratedDescriptor$2(target, property, decorators, descriptor, c
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = observer(_class$18 = (_class2$7 = (_temp2$16 = _class3$1 = class NotificationItem extends Component {
+let NotificationItem = observer(_class$17 = (_class2$7 = (_temp2$15 = _class3$1 = class NotificationItem extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1721,12 +1682,12 @@ let NotificationItem = observer(_class$18 = (_class2$7 = (_temp2$16 = _class3$1 
 }, _class3$1.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$16), (_descriptor$2 = _applyDecoratedDescriptor$2(_class2$7.prototype, 'active', [observable], {
+}, _temp2$15), (_descriptor$2 = _applyDecoratedDescriptor$2(_class2$7.prototype, 'active', [observable], {
     enumerable: true,
     initializer: function () {
         return false;
     }
-})), _class2$7)) || _class$18;
+})), _class2$7)) || _class$17;
 
 const CloseButton = styled(Button).withConfig({
     displayName: 'Item__CloseButton'
@@ -1748,10 +1709,10 @@ const StyledItem = styled.div.withConfig({
     }
 });
 
-var _class$17;
-var _temp2$15;
+var _class$16;
+var _temp2$14;
 
-let NotificationStack = (_temp2$15 = _class$17 = class NotificationStack extends Component {
+let NotificationStack = (_temp2$14 = _class$16 = class NotificationStack extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1773,22 +1734,105 @@ let NotificationStack = (_temp2$15 = _class$17 = class NotificationStack extends
             this.props.notifications.map(this.renderNotification)
         );
     }
-}, _class$17.propTypes = {
+}, _class$16.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
-}, _temp2$15);
+}, _temp2$14);
 const StackWrapper = styled.div.withConfig({
     displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:100;width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;']);
 
+var _class$18;
+var _temp2$16;
+
+const Container$1 = styled.div.withConfig({
+    displayName: 'Modal__Container'
+})(['position:fixed;top:0;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;']);
+
+const Background = styled.div.withConfig({
+    displayName: 'Modal__Background'
+})(['position:absolute;background:rgba(0,0,0,0.5);width:100%;height:100%;cursor:pointer;']);
+
+const Content$3 = styled.div.withConfig({
+    displayName: 'Modal__Content'
+})(['position:relative;background:', ';border-radius:4px;display:flex;overflow:hidden;height:80vh;width:80vw;max-width:800px;max-height:800px;'], props => theme(props, 'componentBackground'));
+
+const ESCAPE_KEY = 27;
+
+let Modal = (_temp2$16 = _class$18 = class Modal extends Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.handleKeyDown = e => {
+            if (e.keyCode === ESCAPE_KEY) {
+                this.props.onClose();
+            }
+        }, _temp;
+    }
+
+    componentWillMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    render() {
+        return React.createElement(
+            Container$1,
+            null,
+            React.createElement(Background, { onClick: this.props.onClose }),
+            React.createElement(
+                Content$3,
+                null,
+                this.props.children
+            )
+        );
+    }
+}, _class$18.propTypes = {
+    children: PropTypes.node.isRequired,
+    onClose: PropTypes.func.isRequired
+}, _temp2$16);
+
 var _class$19;
 var _temp$2;
+
+const Bubble = styled.sup.withConfig({
+    displayName: 'Badge__Bubble'
+})(['background:', ';position:absolute;min-width:16px;height:16px;line-height:17px;padding:0 6px;white-space:nowrap;top:-8px;transform:translateX(-50%);border-radius:8px;text-align:center;color:#fff;font-size:11px;'], props => theme(props, 'dangerColor'));
+
+const Wrapper = styled.div.withConfig({
+    displayName: 'Badge__Wrapper'
+})(['position:relative;display:inline-block;']);
+
+let Badge = (_temp$2 = _class$19 = class Badge extends Component {
+
+    render() {
+        return React.createElement(
+            Wrapper,
+            null,
+            this.props.children,
+            React.createElement(
+                Bubble,
+                null,
+                this.props.count
+            )
+        );
+    }
+}, _class$19.propTypes = {
+    count: PropTypes.number,
+    children: PropTypes.node
+}, _temp$2);
+
+var _class$20;
+var _temp$3;
 
 const Menu = styled.header.withConfig({
     displayName: 'TopMenu__Menu'
 })(['display:flex;align-items:stretch;flex-direction:column;']);
 
-let TopMenu = (_temp$2 = _class$19 = class TopMenu extends Component {
+let TopMenu = (_temp$3 = _class$20 = class TopMenu extends Component {
 
     render() {
         return React.createElement(
@@ -1797,9 +1841,9 @@ let TopMenu = (_temp$2 = _class$19 = class TopMenu extends Component {
             this.props.children
         );
     }
-}, _class$19.propTypes = {
+}, _class$20.propTypes = {
     children: PropTypes.node.isRequired
-}, _temp$2);
+}, _temp$3);
 
 const StyledNavLink = styled(NavLink).withConfig({
     displayName: 'Logo__StyledNavLink'
@@ -1817,25 +1861,25 @@ Logo.propTypes = {
 
 var MenuRow = styled.div.withConfig({
     displayName: 'MenuRow'
-})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => theme(props, 'primary'), props => props.inContent && `
+})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => theme(props, 'primaryColor'), props => props.inContent && `
         margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${theme(props, 'primary')};
+        border-bottom: 1px solid ${theme(props, 'primaryColor')};
         .nav-item:after {
             content: '';
         }
         .nav-item:before {
-            border-bottom-color: ${theme(props, 'primary')};
+            border-bottom-color: ${theme(props, 'primaryColor')};
         }
     `);
 
-var _class$20;
+var _class$21;
 var _temp2$17;
 
 const Item = styled(NavLink).withConfig({
     displayName: 'NavItem__Item'
-})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => theme(props, 'primary'));
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => theme(props, 'primaryColor'));
 
-let NavItem = (_temp2$17 = _class$20 = class NavItem extends Component {
+let NavItem = (_temp2$17 = _class$21 = class NavItem extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1858,7 +1902,7 @@ let NavItem = (_temp2$17 = _class$20 = class NavItem extends Component {
             this.props.title
         );
     }
-}, _class$20.propTypes = {
+}, _class$21.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     to: PropTypes.string,
     onClick: PropTypes.func,
@@ -7726,5 +7770,5 @@ let IconZoomOutMap = props => React.createElement(
     React.createElement('path', { d: 'M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6z' })
 );
 
-export { ReCyCleTheme, Modal, Button, Link$1 as Link, ExternalLink, Form, FormField, RadioButtons, RadioList, Checkbox, TextInput, NumberInput, TimeInput, TextArea, TypeAhead, SelectInput, FancySelect, SingleDatePicker$1 as SingleDatePicker, Tooltip, Accordion, Table, TableHead, TableBody, TableRow, TableHeader, TableData, AppContainer, Body, Content$1 as Content, ContentContainer, Sidebar, Toolbar, Loader, NotificationStack, TopMenu, Logo, MenuRow, NavItem, NavMenu, IconAccessAlarm, IconAccessAlarms, IconAccessibility, IconAccessible, IconAccessTime, IconAccountBalance, IconAccountBalanceWallet, IconAccountBox, IconAccountCircle, IconAcUnit, IconAdb, IconAdd, IconAddAlarm, IconAddAlert, IconAddAPhoto, IconAddBox, IconAddCircle, IconAddCircleOutline, IconAddLocation, IconAddShoppingCart, IconAddToPhotos, IconAddToQueue, IconAdjust, IconAirlineSeatFlat, IconAirlineSeatFlatAngled, IconAirlineSeatIndividualSuite, IconAirlineSeatLegroomExtra, IconAirlineSeatLegroomNormal, IconAirlineSeatLegroomReduced, IconAirlineSeatReclineExtra, IconAirlineSeatReclineNormal, IconAirplanemodeActive, IconAirplanemodeInactive, IconAirplay, IconAirportShuttle, IconAlarm, IconAlarmAdd, IconAlarmOff, IconAlarmOn, IconAlbum, IconAllInclusive, IconAllOut, IconAndroid, IconAnnouncement, IconApps, IconArchive, IconArrowBack, IconArrowDownward, IconArrowDropDown, IconArrowDropDownCircle, IconArrowDropUp, IconArrowForward, IconArrowUpward, IconArtTrack, IconAspectRatio, IconAssessment, IconAssignment, IconAssignmentInd, IconAssignmentLate, IconAssignmentReturn, IconAssignmentReturned, IconAssignmentTurnedIn, IconAssistant, IconAssistantPhoto, IconAttachFile, IconAttachment, IconAttachMoney, IconAudiotrack, IconAutorenew, IconAvTimer, IconBackspace, IconBackup, IconBattery20, IconBattery30, IconBattery50, IconBattery60, IconBattery80, IconBattery90, IconBatteryAlert, IconBatteryCharging20, IconBatteryCharging30, IconBatteryCharging50, IconBatteryCharging60, IconBatteryCharging80, IconBatteryCharging90, IconBatteryChargingFull, IconBatteryFull, IconBatteryStd, IconBatteryUnknown, IconBeachAccess, IconBeenhere, IconBlock, IconBluetooth, IconBluetoothAudio, IconBluetoothConnected, IconBluetoothDisabled, IconBluetoothSearching, IconBlurCircular, IconBlurLinear, IconBlurOff, IconBlurOn, IconBook, IconBookmark, IconBookmarkBorder, IconBorderAll, IconBorderBottom, IconBorderClear, IconBorderColor, IconBorderHorizontal, IconBorderInner, IconBorderLeft, IconBorderOuter, IconBorderRight, IconBorderStyle, IconBorderTop, IconBorderVertical, IconBrandingWatermark, IconBrightness1, IconBrightness2, IconBrightness3, IconBrightness4, IconBrightness5, IconBrightness6, IconBrightness7, IconBrightnessAuto, IconBrightnessHigh, IconBrightnessLow, IconBrightnessMedium, IconBrokenImage, IconBrush, IconBubbleChart, IconBugReport, IconBuild, IconBurstMode, IconBusiness, IconBusinessCenter, IconCached, IconCake, IconCall, IconCallEnd, IconCallMade, IconCallMerge, IconCallMissed, IconCallMissedOutgoing, IconCallReceived, IconCallSplit, IconCallToAction, IconCamera, IconCameraAlt, IconCameraEnhance, IconCameraFront, IconCameraRear, IconCameraRoll, IconCancel, IconCardGiftcard, IconCardMembership, IconCardTravel, IconCasino, IconCast, IconCastConnected, IconCenterFocusStrong, IconCenterFocusWeak, IconChangeHistory, IconChat, IconChatBubble, IconChatBubbleOutline, IconCheck, IconCheckBox, IconCheckBoxOutlineBlank, IconCheckCircle, IconChevronLeft, IconChevronRight, IconChildCare, IconChildFriendly, IconChromeReaderMode, IconClass, IconClear, IconClearAll, IconClose, IconClosedCaption, IconCloud, IconCloudCircle, IconCloudDone, IconCloudDownload, IconCloudOff, IconCloudQueue, IconCloudUpload, IconCode, IconCollections, IconCollectionsBookmark, IconColorize, IconColorLens, IconComment, IconCompare, IconCompareArrows, IconComputer, IconConfirmationNumber, IconContactMail, IconContactPhone, IconContacts, IconContentCopy, IconContentCut, IconContentPaste, IconControlPoint, IconControlPointDuplicate, IconCopyright, IconCreate, IconCreateNewFolder, IconCreditCard, IconCrop, IconCrop169, IconCrop32, IconCrop54, IconCrop75, IconCropDin, IconCropFree, IconCropLandscape, IconCropOriginal, IconCropPortrait, IconCropRotate, IconCropSquare, IconDashboard, IconDataUsage, IconDateRange, IconDehaze, IconDelete, IconDeleteForever, IconDeleteSweep, IconDescription, IconDesktopMac, IconDesktopWindows, IconDetails, IconDeveloperBoard, IconDeveloperMode, IconDeviceHub, IconDevices, IconDevicesOther, IconDialerSip, IconDialpad, IconDirections, IconDirectionsBike, IconDirectionsBoat, IconDirectionsBus, IconDirectionsCar, IconDirectionsRailway, IconDirectionsRun, IconDirectionsSubway, IconDirectionsTransit, IconDirectionsWalk, IconDiscFull, IconDns, IconDock, IconDomain, IconDone, IconDoneAll, IconDoNotDisturb, IconDoNotDisturbAlt, IconDoNotDisturbOff, IconDoNotDisturbOn, IconDonutLarge, IconDonutSmall, IconDrafts, IconDragHandle, IconDriveEta, IconDvr, IconEdit, IconEditLocation, IconEject, IconEmail, IconEnhancedEncryption, IconEqualizer, IconError, IconErrorOutline, IconEuroSymbol, IconEvent, IconEventAvailable, IconEventBusy, IconEventNote, IconEventSeat, IconEvStation, IconExitToApp, IconExpandLess, IconExpandMore, IconExplicit, IconExplore, IconExposure, IconExposureNeg1, IconExposureNeg2, IconExposurePlus1, IconExposurePlus2, IconExposureZero, IconExtension, IconFace, IconFastForward, IconFastRewind, IconFavorite, IconFavoriteBorder, IconFeaturedPlayList, IconFeaturedVideo, IconFeedback, IconFiberDvr, IconFiberManualRecord, IconFiberNew, IconFiberPin, IconFiberSmartRecord, IconFileDownload, IconFileUpload, IconFilter, IconFilter1, IconFilter2, IconFilter3, IconFilter4, IconFilter5, IconFilter6, IconFilter7, IconFilter8, IconFilter9, IconFilter9Plus, IconFilterBAndW, IconFilterCenterFocus, IconFilterDrama, IconFilterFrames, IconFilterHdr, IconFilterList, IconFilterNone, IconFilterTiltShift, IconFilterVintage, IconFindInPage, IconFindReplace, IconFingerprint, IconFirstPage, IconFitnessCenter, IconFlag, IconFlare, IconFlashAuto, IconFlashOff, IconFlashOn, IconFlight, IconFlightLand, IconFlightTakeoff, IconFlip, IconFlipToBack, IconFlipToFront, IconFolder, IconFolderOpen, IconFolderShared, IconFolderSpecial, IconFontDownload, IconFormatAlignCenter, IconFormatAlignJustify, IconFormatAlignLeft, IconFormatAlignRight, IconFormatBold, IconFormatClear, IconFormatColorFill, IconFormatColorReset, IconFormatColorText, IconFormatIndentDecrease, IconFormatIndentIncrease, IconFormatItalic, IconFormatLineSpacing, IconFormatListBulleted, IconFormatListNumbered, IconFormatPaint, IconFormatQuote, IconFormatShapes, IconFormatSize, IconFormatStrikethrough, IconFormatTextdirectionLToR, IconFormatTextdirectionRToL, IconFormatUnderlined, IconForum, IconForward, IconForward10, IconForward30, IconForward5, IconFreeBreakfast, IconFullscreen, IconFullscreenExit, IconFunctions, IconGamepad, IconGames, IconGavel, IconGesture, IconGetApp, IconGif, IconGolfCourse, IconGpsFixed, IconGpsNotFixed, IconGpsOff, IconGrade, IconGradient, IconGrain, IconGraphicEq, IconGridOff, IconGridOn, IconGroup, IconGroupAdd, IconGroupWork, IconGTranslate, IconHd, IconHdrOff, IconHdrOn, IconHdrStrong, IconHdrWeak, IconHeadset, IconHeadsetMic, IconHealing, IconHearing, IconHelp, IconHelpOutline, IconHighlight, IconHighlightOff, IconHighQuality, IconHistory, IconHome, IconHotel, IconHotTub, IconHourglassEmpty, IconHourglassFull, IconHttp, IconHttps, IconImage, IconImageAspectRatio, IconImportantDevices, IconImportContacts, IconImportExport, IconInbox, IconIndeterminateCheckBox, IconInfo, IconInfoOutline, IconInput, IconInsertChart, IconInsertComment, IconInsertDriveFile, IconInsertEmoticon, IconInsertInvitation, IconInsertLink, IconInsertPhoto, IconInvertColors, IconInvertColorsOff, IconIso, IconKeyboard, IconKeyboardArrowDown, IconKeyboardArrowLeft, IconKeyboardArrowRight, IconKeyboardArrowUp, IconKeyboardBackspace, IconKeyboardCapslock, IconKeyboardHide, IconKeyboardReturn, IconKeyboardTab, IconKeyboardVoice, IconKitchen, IconLabel, IconLabelOutline, IconLandscape, IconLanguage, IconLaptop, IconLaptopChromebook, IconLaptopMac, IconLaptopWindows, IconLastPage, IconLaunch, IconLayers, IconLayersClear, IconLeakAdd, IconLeakRemove, IconLens, IconLibraryAdd, IconLibraryBooks, IconLibraryMusic, IconLightbulbOutline, IconLinearScale, IconLineStyle, IconLineWeight, IconLink, IconLinkedCamera, IconList, IconLiveHelp, IconLiveTv, IconLocalActivity, IconLocalAirport, IconLocalAtm, IconLocalBar, IconLocalCafe, IconLocalCarWash, IconLocalConvenienceStore, IconLocalDining, IconLocalDrink, IconLocalFlorist, IconLocalGasStation, IconLocalGroceryStore, IconLocalHospital, IconLocalHotel, IconLocalLaundryService, IconLocalLibrary, IconLocalMall, IconLocalMovies, IconLocalOffer, IconLocalParking, IconLocalPharmacy, IconLocalPhone, IconLocalPizza, IconLocalPlay, IconLocalPostOffice, IconLocalPrintshop, IconLocalSee, IconLocalShipping, IconLocalTaxi, IconLocationCity, IconLocationDisabled, IconLocationOff, IconLocationOn, IconLocationSearching, IconLock, IconLockOpen, IconLockOutline, IconLooks, IconLooks3, IconLooks4, IconLooks5, IconLooks6, IconLooksOne, IconLooksTwo, IconLoop, IconLoupe, IconLowPriority, IconLoyalty, IconMail, IconMailOutline, IconMap, IconMarkunread, IconMarkunreadMailbox, IconMemory, IconMenu, IconMergeType, IconMessage, IconMic, IconMicNone, IconMicOff, IconMms, IconModeComment, IconModeEdit, IconMonetizationOn, IconMoneyOff, IconMonochromePhotos, IconMood, IconMoodBad, IconMore, IconMoreHoriz, IconMoreVert, IconMotorcycle, IconMouse, IconMoveToInbox, IconMovie, IconMovieCreation, IconMovieFilter, IconMultilineChart, IconMusicNote, IconMusicVideo, IconMyLocation, IconNature, IconNaturePeople, IconNavigateBefore, IconNavigateNext, IconNavigation, IconNearMe, IconNetworkCell, IconNetworkCheck, IconNetworkLocked, IconNetworkWifi, IconNewReleases, IconNextWeek, IconNfc, IconNoEncryption, IconNoSim, IconNote, IconNoteAdd, IconNotifications, IconNotificationsActive, IconNotificationsNone, IconNotificationsOff, IconNotificationsPaused, IconNotInterested, IconOfflinePin, IconOndemandVideo, IconOpacity, IconOpenInBrowser, IconOpenInNew, IconOpenWith, IconPages, IconPageview, IconPalette, IconPanorama, IconPanoramaFishEye, IconPanoramaHorizontal, IconPanoramaVertical, IconPanoramaWideAngle, IconPanTool, IconPartyMode, IconPause, IconPauseCircleFilled, IconPauseCircleOutline, IconPayment, IconPeople, IconPeopleOutline, IconPermCameraMic, IconPermContactCalendar, IconPermDataSetting, IconPermDeviceInformation, IconPermIdentity, IconPermMedia, IconPermPhoneMsg, IconPermScanWifi, IconPerson, IconPersonAdd, IconPersonalVideo, IconPersonOutline, IconPersonPin, IconPersonPinCircle, IconPets, IconPhone, IconPhoneAndroid, IconPhoneBluetoothSpeaker, IconPhoneForwarded, IconPhoneInTalk, IconPhoneIphone, IconPhonelink, IconPhonelinkErase, IconPhonelinkLock, IconPhonelinkOff, IconPhonelinkRing, IconPhonelinkSetup, IconPhoneLocked, IconPhoneMissed, IconPhonePaused, IconPhoto, IconPhotoAlbum, IconPhotoCamera, IconPhotoFilter, IconPhotoLibrary, IconPhotoSizeSelectActual, IconPhotoSizeSelectLarge, IconPhotoSizeSelectSmall, IconPictureAsPdf, IconPictureInPicture, IconPictureInPictureAlt, IconPieChart, IconPieChartOutlined, IconPinDrop, IconPlace, IconPlayArrow, IconPlayCircleFilled, IconPlayCircleOutline, IconPlayForWork, IconPlaylistAdd, IconPlaylistAddCheck, IconPlaylistPlay, IconPlusOne, IconPoll, IconPolymer, IconPool, IconPortableWifiOff, IconPortrait, IconPower, IconPowerInput, IconPowerSettingsNew, IconPregnantWoman, IconPresentToAll, IconPrint, IconPriorityHigh, IconPublic, IconPublish, IconQueryBuilder, IconQuestionAnswer, IconQueue, IconQueueMusic, IconQueuePlayNext, IconRadio, IconRadioButtonChecked, IconRadioButtonUnchecked, IconRateReview, IconReceipt, IconRecentActors, IconRecordVoiceOver, IconRedeem, IconRedo, IconRefresh, IconRemove, IconRemoveCircle, IconRemoveCircleOutline, IconRemoveFromQueue, IconRemoveRedEye, IconRemoveShoppingCart, IconReorder, IconRepeat, IconRepeatOne, IconReplay, IconReplay10, IconReplay30, IconReplay5, IconReply, IconReplyAll, IconReport, IconReportProblem, IconRestaurant, IconRestaurantMenu, IconRestore, IconRestorePage, IconRingVolume, IconRoom, IconRoomService, IconRotate90DegreesCcw, IconRotateLeft, IconRotateRight, IconRoundedCorner, IconRouter, IconRowing, IconRssFeed, IconRvHookup, IconSatellite, IconSave, IconScanner, IconSchedule, IconSchool, IconScreenLockLandscape, IconScreenLockPortrait, IconScreenLockRotation, IconScreenRotation, IconScreenShare, IconSdCard, IconSdStorage, IconSearch, IconSecurity, IconSelectAll, IconSend, IconSentimentDissatisfied, IconSentimentNeutral, IconSentimentSatisfied, IconSentimentVeryDissatisfied, IconSentimentVerySatisfied, IconSettings, IconSettingsApplications, IconSettingsBackupRestore, IconSettingsBluetooth, IconSettingsBrightness, IconSettingsCell, IconSettingsEthernet, IconSettingsInputAntenna, IconSettingsInputComponent, IconSettingsInputComposite, IconSettingsInputHdmi, IconSettingsInputSvideo, IconSettingsOverscan, IconSettingsPhone, IconSettingsPower, IconSettingsRemote, IconSettingsSystemDaydream, IconSettingsVoice, IconShare, IconShop, IconShoppingBasket, IconShoppingCart, IconShopTwo, IconShortText, IconShowChart, IconShuffle, IconSignalCellular0Bar, IconSignalCellular1Bar, IconSignalCellular2Bar, IconSignalCellular3Bar, IconSignalCellular4Bar, IconSignalCellularConnectedNoInternet0Bar, IconSignalCellularConnectedNoInternet1Bar, IconSignalCellularConnectedNoInternet2Bar, IconSignalCellularConnectedNoInternet3Bar, IconSignalCellularConnectedNoInternet4Bar, IconSignalCellularNoSim, IconSignalCellularNull, IconSignalCellularOff, IconSignalWifi0Bar, IconSignalWifi1Bar, IconSignalWifi1BarLock, IconSignalWifi2Bar, IconSignalWifi2BarLock, IconSignalWifi3Bar, IconSignalWifi3BarLock, IconSignalWifi4Bar, IconSignalWifi4BarLock, IconSignalWifiOff, IconSimCard, IconSimCardAlert, IconSkipNext, IconSkipPrevious, IconSlideshow, IconSlowMotionVideo, IconSmartphone, IconSmokeFree, IconSmokingRooms, IconSms, IconSmsFailed, IconSnooze, IconSort, IconSortByAlpha, IconSpa, IconSpaceBar, IconSpeaker, IconSpeakerGroup, IconSpeakerNotes, IconSpeakerNotesOff, IconSpeakerPhone, IconSpellcheck, IconStar, IconStarBorder, IconStarHalf, IconStars, IconStayCurrentLandscape, IconStayCurrentPortrait, IconStayPrimaryLandscape, IconStayPrimaryPortrait, IconStop, IconStopScreenShare, IconStorage, IconStore, IconStoreMallDirectory, IconStraighten, IconStreetview, IconStrikethroughS, IconStyle, IconSubdirectoryArrowLeft, IconSubdirectoryArrowRight, IconSubject, IconSubscriptions, IconSubtitles, IconSubway, IconSupervisorAccount, IconSurroundSound, IconSwapCalls, IconSwapHoriz, IconSwapVert, IconSwapVerticalCircle, IconSwitchCamera, IconSwitchVideo, IconSync, IconSyncDisabled, IconSyncProblem, IconSystemUpdate, IconSystemUpdateAlt, IconTab, IconTablet, IconTabletAndroid, IconTabletMac, IconTabUnselected, IconTagFaces, IconTapAndPlay, IconTerrain, IconTextFields, IconTextFormat, IconTextsms, IconTexture, IconTheaters, IconThreeDRotation, IconThumbDown, IconThumbsUpDown, IconThumbUp, IconTimelapse, IconTimeline, IconTimer, IconTimer10, IconTimer3, IconTimerOff, IconTimeToLeave, IconTitle, IconToc, IconToday, IconToll, IconTonality, IconTouchApp, IconToys, IconTrackChanges, IconTraffic, IconTrain, IconTram, IconTransferWithinAStation, IconTransform, IconTranslate, IconTrendingDown, IconTrendingFlat, IconTrendingUp, IconTune, IconTurnedIn, IconTurnedInNot, IconTv, IconUnarchive, IconUndo, IconUnfoldLess, IconUnfoldMore, IconUpdate, IconUsb, IconVerifiedUser, IconVerticalAlignBottom, IconVerticalAlignCenter, IconVerticalAlignTop, IconVibration, IconVideoCall, IconVideocam, IconVideocamOff, IconVideogameAsset, IconVideoLabel, IconVideoLibrary, IconViewAgenda, IconViewArray, IconViewCarousel, IconViewColumn, IconViewComfy, IconViewCompact, IconViewDay, IconViewHeadline, IconViewList, IconViewModule, IconViewQuilt, IconViewStream, IconViewWeek, IconVignette, IconVisibility, IconVisibilityOff, IconVoiceChat, IconVoicemail, IconVolumeDown, IconVolumeMute, IconVolumeOff, IconVolumeUp, IconVpnKey, IconVpnLock, IconWallpaper, IconWarning, IconWatch, IconWatchLater, IconWbAuto, IconWbCloudy, IconWbIncandescent, IconWbIridescent, IconWbSunny, IconWc, IconWeb, IconWebAsset, IconWeekend, IconWhatshot, IconWidgets, IconWifi, IconWifiLock, IconWifiTethering, IconWork, IconWrapText, IconYoutubeSearchedFor, IconZoomIn, IconZoomOut, IconZoomOutMap };
+export { ReCyCleTheme, Button, Link$1 as Link, ExternalLink, Heading, Subheading, Form, FormField, RadioButtons, RadioList, Checkbox, TextInput, NumberInput, TimeInput, TextArea, TypeAhead, SelectInput, FancySelect, SingleDatePicker$1 as SingleDatePicker, Tooltip, Accordion, Table, TableHead, TableBody, TableRow, TableHeader, TableData, AppContainer, Body, Content, ContentContainer, Sidebar, Toolbar, Loader, NotificationStack, Modal, Badge, TopMenu, Logo, MenuRow, NavItem, NavMenu, IconAccessAlarm, IconAccessAlarms, IconAccessibility, IconAccessible, IconAccessTime, IconAccountBalance, IconAccountBalanceWallet, IconAccountBox, IconAccountCircle, IconAcUnit, IconAdb, IconAdd, IconAddAlarm, IconAddAlert, IconAddAPhoto, IconAddBox, IconAddCircle, IconAddCircleOutline, IconAddLocation, IconAddShoppingCart, IconAddToPhotos, IconAddToQueue, IconAdjust, IconAirlineSeatFlat, IconAirlineSeatFlatAngled, IconAirlineSeatIndividualSuite, IconAirlineSeatLegroomExtra, IconAirlineSeatLegroomNormal, IconAirlineSeatLegroomReduced, IconAirlineSeatReclineExtra, IconAirlineSeatReclineNormal, IconAirplanemodeActive, IconAirplanemodeInactive, IconAirplay, IconAirportShuttle, IconAlarm, IconAlarmAdd, IconAlarmOff, IconAlarmOn, IconAlbum, IconAllInclusive, IconAllOut, IconAndroid, IconAnnouncement, IconApps, IconArchive, IconArrowBack, IconArrowDownward, IconArrowDropDown, IconArrowDropDownCircle, IconArrowDropUp, IconArrowForward, IconArrowUpward, IconArtTrack, IconAspectRatio, IconAssessment, IconAssignment, IconAssignmentInd, IconAssignmentLate, IconAssignmentReturn, IconAssignmentReturned, IconAssignmentTurnedIn, IconAssistant, IconAssistantPhoto, IconAttachFile, IconAttachment, IconAttachMoney, IconAudiotrack, IconAutorenew, IconAvTimer, IconBackspace, IconBackup, IconBattery20, IconBattery30, IconBattery50, IconBattery60, IconBattery80, IconBattery90, IconBatteryAlert, IconBatteryCharging20, IconBatteryCharging30, IconBatteryCharging50, IconBatteryCharging60, IconBatteryCharging80, IconBatteryCharging90, IconBatteryChargingFull, IconBatteryFull, IconBatteryStd, IconBatteryUnknown, IconBeachAccess, IconBeenhere, IconBlock, IconBluetooth, IconBluetoothAudio, IconBluetoothConnected, IconBluetoothDisabled, IconBluetoothSearching, IconBlurCircular, IconBlurLinear, IconBlurOff, IconBlurOn, IconBook, IconBookmark, IconBookmarkBorder, IconBorderAll, IconBorderBottom, IconBorderClear, IconBorderColor, IconBorderHorizontal, IconBorderInner, IconBorderLeft, IconBorderOuter, IconBorderRight, IconBorderStyle, IconBorderTop, IconBorderVertical, IconBrandingWatermark, IconBrightness1, IconBrightness2, IconBrightness3, IconBrightness4, IconBrightness5, IconBrightness6, IconBrightness7, IconBrightnessAuto, IconBrightnessHigh, IconBrightnessLow, IconBrightnessMedium, IconBrokenImage, IconBrush, IconBubbleChart, IconBugReport, IconBuild, IconBurstMode, IconBusiness, IconBusinessCenter, IconCached, IconCake, IconCall, IconCallEnd, IconCallMade, IconCallMerge, IconCallMissed, IconCallMissedOutgoing, IconCallReceived, IconCallSplit, IconCallToAction, IconCamera, IconCameraAlt, IconCameraEnhance, IconCameraFront, IconCameraRear, IconCameraRoll, IconCancel, IconCardGiftcard, IconCardMembership, IconCardTravel, IconCasino, IconCast, IconCastConnected, IconCenterFocusStrong, IconCenterFocusWeak, IconChangeHistory, IconChat, IconChatBubble, IconChatBubbleOutline, IconCheck, IconCheckBox, IconCheckBoxOutlineBlank, IconCheckCircle, IconChevronLeft, IconChevronRight, IconChildCare, IconChildFriendly, IconChromeReaderMode, IconClass, IconClear, IconClearAll, IconClose, IconClosedCaption, IconCloud, IconCloudCircle, IconCloudDone, IconCloudDownload, IconCloudOff, IconCloudQueue, IconCloudUpload, IconCode, IconCollections, IconCollectionsBookmark, IconColorize, IconColorLens, IconComment, IconCompare, IconCompareArrows, IconComputer, IconConfirmationNumber, IconContactMail, IconContactPhone, IconContacts, IconContentCopy, IconContentCut, IconContentPaste, IconControlPoint, IconControlPointDuplicate, IconCopyright, IconCreate, IconCreateNewFolder, IconCreditCard, IconCrop, IconCrop169, IconCrop32, IconCrop54, IconCrop75, IconCropDin, IconCropFree, IconCropLandscape, IconCropOriginal, IconCropPortrait, IconCropRotate, IconCropSquare, IconDashboard, IconDataUsage, IconDateRange, IconDehaze, IconDelete, IconDeleteForever, IconDeleteSweep, IconDescription, IconDesktopMac, IconDesktopWindows, IconDetails, IconDeveloperBoard, IconDeveloperMode, IconDeviceHub, IconDevices, IconDevicesOther, IconDialerSip, IconDialpad, IconDirections, IconDirectionsBike, IconDirectionsBoat, IconDirectionsBus, IconDirectionsCar, IconDirectionsRailway, IconDirectionsRun, IconDirectionsSubway, IconDirectionsTransit, IconDirectionsWalk, IconDiscFull, IconDns, IconDock, IconDomain, IconDone, IconDoneAll, IconDoNotDisturb, IconDoNotDisturbAlt, IconDoNotDisturbOff, IconDoNotDisturbOn, IconDonutLarge, IconDonutSmall, IconDrafts, IconDragHandle, IconDriveEta, IconDvr, IconEdit, IconEditLocation, IconEject, IconEmail, IconEnhancedEncryption, IconEqualizer, IconError, IconErrorOutline, IconEuroSymbol, IconEvent, IconEventAvailable, IconEventBusy, IconEventNote, IconEventSeat, IconEvStation, IconExitToApp, IconExpandLess, IconExpandMore, IconExplicit, IconExplore, IconExposure, IconExposureNeg1, IconExposureNeg2, IconExposurePlus1, IconExposurePlus2, IconExposureZero, IconExtension, IconFace, IconFastForward, IconFastRewind, IconFavorite, IconFavoriteBorder, IconFeaturedPlayList, IconFeaturedVideo, IconFeedback, IconFiberDvr, IconFiberManualRecord, IconFiberNew, IconFiberPin, IconFiberSmartRecord, IconFileDownload, IconFileUpload, IconFilter, IconFilter1, IconFilter2, IconFilter3, IconFilter4, IconFilter5, IconFilter6, IconFilter7, IconFilter8, IconFilter9, IconFilter9Plus, IconFilterBAndW, IconFilterCenterFocus, IconFilterDrama, IconFilterFrames, IconFilterHdr, IconFilterList, IconFilterNone, IconFilterTiltShift, IconFilterVintage, IconFindInPage, IconFindReplace, IconFingerprint, IconFirstPage, IconFitnessCenter, IconFlag, IconFlare, IconFlashAuto, IconFlashOff, IconFlashOn, IconFlight, IconFlightLand, IconFlightTakeoff, IconFlip, IconFlipToBack, IconFlipToFront, IconFolder, IconFolderOpen, IconFolderShared, IconFolderSpecial, IconFontDownload, IconFormatAlignCenter, IconFormatAlignJustify, IconFormatAlignLeft, IconFormatAlignRight, IconFormatBold, IconFormatClear, IconFormatColorFill, IconFormatColorReset, IconFormatColorText, IconFormatIndentDecrease, IconFormatIndentIncrease, IconFormatItalic, IconFormatLineSpacing, IconFormatListBulleted, IconFormatListNumbered, IconFormatPaint, IconFormatQuote, IconFormatShapes, IconFormatSize, IconFormatStrikethrough, IconFormatTextdirectionLToR, IconFormatTextdirectionRToL, IconFormatUnderlined, IconForum, IconForward, IconForward10, IconForward30, IconForward5, IconFreeBreakfast, IconFullscreen, IconFullscreenExit, IconFunctions, IconGamepad, IconGames, IconGavel, IconGesture, IconGetApp, IconGif, IconGolfCourse, IconGpsFixed, IconGpsNotFixed, IconGpsOff, IconGrade, IconGradient, IconGrain, IconGraphicEq, IconGridOff, IconGridOn, IconGroup, IconGroupAdd, IconGroupWork, IconGTranslate, IconHd, IconHdrOff, IconHdrOn, IconHdrStrong, IconHdrWeak, IconHeadset, IconHeadsetMic, IconHealing, IconHearing, IconHelp, IconHelpOutline, IconHighlight, IconHighlightOff, IconHighQuality, IconHistory, IconHome, IconHotel, IconHotTub, IconHourglassEmpty, IconHourglassFull, IconHttp, IconHttps, IconImage, IconImageAspectRatio, IconImportantDevices, IconImportContacts, IconImportExport, IconInbox, IconIndeterminateCheckBox, IconInfo, IconInfoOutline, IconInput, IconInsertChart, IconInsertComment, IconInsertDriveFile, IconInsertEmoticon, IconInsertInvitation, IconInsertLink, IconInsertPhoto, IconInvertColors, IconInvertColorsOff, IconIso, IconKeyboard, IconKeyboardArrowDown, IconKeyboardArrowLeft, IconKeyboardArrowRight, IconKeyboardArrowUp, IconKeyboardBackspace, IconKeyboardCapslock, IconKeyboardHide, IconKeyboardReturn, IconKeyboardTab, IconKeyboardVoice, IconKitchen, IconLabel, IconLabelOutline, IconLandscape, IconLanguage, IconLaptop, IconLaptopChromebook, IconLaptopMac, IconLaptopWindows, IconLastPage, IconLaunch, IconLayers, IconLayersClear, IconLeakAdd, IconLeakRemove, IconLens, IconLibraryAdd, IconLibraryBooks, IconLibraryMusic, IconLightbulbOutline, IconLinearScale, IconLineStyle, IconLineWeight, IconLink, IconLinkedCamera, IconList, IconLiveHelp, IconLiveTv, IconLocalActivity, IconLocalAirport, IconLocalAtm, IconLocalBar, IconLocalCafe, IconLocalCarWash, IconLocalConvenienceStore, IconLocalDining, IconLocalDrink, IconLocalFlorist, IconLocalGasStation, IconLocalGroceryStore, IconLocalHospital, IconLocalHotel, IconLocalLaundryService, IconLocalLibrary, IconLocalMall, IconLocalMovies, IconLocalOffer, IconLocalParking, IconLocalPharmacy, IconLocalPhone, IconLocalPizza, IconLocalPlay, IconLocalPostOffice, IconLocalPrintshop, IconLocalSee, IconLocalShipping, IconLocalTaxi, IconLocationCity, IconLocationDisabled, IconLocationOff, IconLocationOn, IconLocationSearching, IconLock, IconLockOpen, IconLockOutline, IconLooks, IconLooks3, IconLooks4, IconLooks5, IconLooks6, IconLooksOne, IconLooksTwo, IconLoop, IconLoupe, IconLowPriority, IconLoyalty, IconMail, IconMailOutline, IconMap, IconMarkunread, IconMarkunreadMailbox, IconMemory, IconMenu, IconMergeType, IconMessage, IconMic, IconMicNone, IconMicOff, IconMms, IconModeComment, IconModeEdit, IconMonetizationOn, IconMoneyOff, IconMonochromePhotos, IconMood, IconMoodBad, IconMore, IconMoreHoriz, IconMoreVert, IconMotorcycle, IconMouse, IconMoveToInbox, IconMovie, IconMovieCreation, IconMovieFilter, IconMultilineChart, IconMusicNote, IconMusicVideo, IconMyLocation, IconNature, IconNaturePeople, IconNavigateBefore, IconNavigateNext, IconNavigation, IconNearMe, IconNetworkCell, IconNetworkCheck, IconNetworkLocked, IconNetworkWifi, IconNewReleases, IconNextWeek, IconNfc, IconNoEncryption, IconNoSim, IconNote, IconNoteAdd, IconNotifications, IconNotificationsActive, IconNotificationsNone, IconNotificationsOff, IconNotificationsPaused, IconNotInterested, IconOfflinePin, IconOndemandVideo, IconOpacity, IconOpenInBrowser, IconOpenInNew, IconOpenWith, IconPages, IconPageview, IconPalette, IconPanorama, IconPanoramaFishEye, IconPanoramaHorizontal, IconPanoramaVertical, IconPanoramaWideAngle, IconPanTool, IconPartyMode, IconPause, IconPauseCircleFilled, IconPauseCircleOutline, IconPayment, IconPeople, IconPeopleOutline, IconPermCameraMic, IconPermContactCalendar, IconPermDataSetting, IconPermDeviceInformation, IconPermIdentity, IconPermMedia, IconPermPhoneMsg, IconPermScanWifi, IconPerson, IconPersonAdd, IconPersonalVideo, IconPersonOutline, IconPersonPin, IconPersonPinCircle, IconPets, IconPhone, IconPhoneAndroid, IconPhoneBluetoothSpeaker, IconPhoneForwarded, IconPhoneInTalk, IconPhoneIphone, IconPhonelink, IconPhonelinkErase, IconPhonelinkLock, IconPhonelinkOff, IconPhonelinkRing, IconPhonelinkSetup, IconPhoneLocked, IconPhoneMissed, IconPhonePaused, IconPhoto, IconPhotoAlbum, IconPhotoCamera, IconPhotoFilter, IconPhotoLibrary, IconPhotoSizeSelectActual, IconPhotoSizeSelectLarge, IconPhotoSizeSelectSmall, IconPictureAsPdf, IconPictureInPicture, IconPictureInPictureAlt, IconPieChart, IconPieChartOutlined, IconPinDrop, IconPlace, IconPlayArrow, IconPlayCircleFilled, IconPlayCircleOutline, IconPlayForWork, IconPlaylistAdd, IconPlaylistAddCheck, IconPlaylistPlay, IconPlusOne, IconPoll, IconPolymer, IconPool, IconPortableWifiOff, IconPortrait, IconPower, IconPowerInput, IconPowerSettingsNew, IconPregnantWoman, IconPresentToAll, IconPrint, IconPriorityHigh, IconPublic, IconPublish, IconQueryBuilder, IconQuestionAnswer, IconQueue, IconQueueMusic, IconQueuePlayNext, IconRadio, IconRadioButtonChecked, IconRadioButtonUnchecked, IconRateReview, IconReceipt, IconRecentActors, IconRecordVoiceOver, IconRedeem, IconRedo, IconRefresh, IconRemove, IconRemoveCircle, IconRemoveCircleOutline, IconRemoveFromQueue, IconRemoveRedEye, IconRemoveShoppingCart, IconReorder, IconRepeat, IconRepeatOne, IconReplay, IconReplay10, IconReplay30, IconReplay5, IconReply, IconReplyAll, IconReport, IconReportProblem, IconRestaurant, IconRestaurantMenu, IconRestore, IconRestorePage, IconRingVolume, IconRoom, IconRoomService, IconRotate90DegreesCcw, IconRotateLeft, IconRotateRight, IconRoundedCorner, IconRouter, IconRowing, IconRssFeed, IconRvHookup, IconSatellite, IconSave, IconScanner, IconSchedule, IconSchool, IconScreenLockLandscape, IconScreenLockPortrait, IconScreenLockRotation, IconScreenRotation, IconScreenShare, IconSdCard, IconSdStorage, IconSearch, IconSecurity, IconSelectAll, IconSend, IconSentimentDissatisfied, IconSentimentNeutral, IconSentimentSatisfied, IconSentimentVeryDissatisfied, IconSentimentVerySatisfied, IconSettings, IconSettingsApplications, IconSettingsBackupRestore, IconSettingsBluetooth, IconSettingsBrightness, IconSettingsCell, IconSettingsEthernet, IconSettingsInputAntenna, IconSettingsInputComponent, IconSettingsInputComposite, IconSettingsInputHdmi, IconSettingsInputSvideo, IconSettingsOverscan, IconSettingsPhone, IconSettingsPower, IconSettingsRemote, IconSettingsSystemDaydream, IconSettingsVoice, IconShare, IconShop, IconShoppingBasket, IconShoppingCart, IconShopTwo, IconShortText, IconShowChart, IconShuffle, IconSignalCellular0Bar, IconSignalCellular1Bar, IconSignalCellular2Bar, IconSignalCellular3Bar, IconSignalCellular4Bar, IconSignalCellularConnectedNoInternet0Bar, IconSignalCellularConnectedNoInternet1Bar, IconSignalCellularConnectedNoInternet2Bar, IconSignalCellularConnectedNoInternet3Bar, IconSignalCellularConnectedNoInternet4Bar, IconSignalCellularNoSim, IconSignalCellularNull, IconSignalCellularOff, IconSignalWifi0Bar, IconSignalWifi1Bar, IconSignalWifi1BarLock, IconSignalWifi2Bar, IconSignalWifi2BarLock, IconSignalWifi3Bar, IconSignalWifi3BarLock, IconSignalWifi4Bar, IconSignalWifi4BarLock, IconSignalWifiOff, IconSimCard, IconSimCardAlert, IconSkipNext, IconSkipPrevious, IconSlideshow, IconSlowMotionVideo, IconSmartphone, IconSmokeFree, IconSmokingRooms, IconSms, IconSmsFailed, IconSnooze, IconSort, IconSortByAlpha, IconSpa, IconSpaceBar, IconSpeaker, IconSpeakerGroup, IconSpeakerNotes, IconSpeakerNotesOff, IconSpeakerPhone, IconSpellcheck, IconStar, IconStarBorder, IconStarHalf, IconStars, IconStayCurrentLandscape, IconStayCurrentPortrait, IconStayPrimaryLandscape, IconStayPrimaryPortrait, IconStop, IconStopScreenShare, IconStorage, IconStore, IconStoreMallDirectory, IconStraighten, IconStreetview, IconStrikethroughS, IconStyle, IconSubdirectoryArrowLeft, IconSubdirectoryArrowRight, IconSubject, IconSubscriptions, IconSubtitles, IconSubway, IconSupervisorAccount, IconSurroundSound, IconSwapCalls, IconSwapHoriz, IconSwapVert, IconSwapVerticalCircle, IconSwitchCamera, IconSwitchVideo, IconSync, IconSyncDisabled, IconSyncProblem, IconSystemUpdate, IconSystemUpdateAlt, IconTab, IconTablet, IconTabletAndroid, IconTabletMac, IconTabUnselected, IconTagFaces, IconTapAndPlay, IconTerrain, IconTextFields, IconTextFormat, IconTextsms, IconTexture, IconTheaters, IconThreeDRotation, IconThumbDown, IconThumbsUpDown, IconThumbUp, IconTimelapse, IconTimeline, IconTimer, IconTimer10, IconTimer3, IconTimerOff, IconTimeToLeave, IconTitle, IconToc, IconToday, IconToll, IconTonality, IconTouchApp, IconToys, IconTrackChanges, IconTraffic, IconTrain, IconTram, IconTransferWithinAStation, IconTransform, IconTranslate, IconTrendingDown, IconTrendingFlat, IconTrendingUp, IconTune, IconTurnedIn, IconTurnedInNot, IconTv, IconUnarchive, IconUndo, IconUnfoldLess, IconUnfoldMore, IconUpdate, IconUsb, IconVerifiedUser, IconVerticalAlignBottom, IconVerticalAlignCenter, IconVerticalAlignTop, IconVibration, IconVideoCall, IconVideocam, IconVideocamOff, IconVideogameAsset, IconVideoLabel, IconVideoLibrary, IconViewAgenda, IconViewArray, IconViewCarousel, IconViewColumn, IconViewComfy, IconViewCompact, IconViewDay, IconViewHeadline, IconViewList, IconViewModule, IconViewQuilt, IconViewStream, IconViewWeek, IconVignette, IconVisibility, IconVisibilityOff, IconVoiceChat, IconVoicemail, IconVolumeDown, IconVolumeMute, IconVolumeOff, IconVolumeUp, IconVpnKey, IconVpnLock, IconWallpaper, IconWarning, IconWatch, IconWatchLater, IconWbAuto, IconWbCloudy, IconWbIncandescent, IconWbIridescent, IconWbSunny, IconWc, IconWeb, IconWebAsset, IconWeekend, IconWhatshot, IconWidgets, IconWifi, IconWifiLock, IconWifiTethering, IconWork, IconWrapText, IconYoutubeSearchedFor, IconZoomIn, IconZoomOut, IconZoomOutMap };
 export { Row, Col, Grid } from 'react-styled-flexboxgrid';
