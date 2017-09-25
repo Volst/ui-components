@@ -6,7 +6,7 @@ const Heading = styled.h1`
     font-size: 26px;
     margin: 0;
     padding: 20px 0;
-    color: ${props => props.color || theme(props, 'primaryColor')};
+    color: ${props => props.color || theme(props, 'textColor')};
 `;
 
 export default Heading;
