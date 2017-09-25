@@ -4,6 +4,7 @@ import { withInfo } from '@storybook/addon-info';
 import { Button, Link, ExternalLink } from './Button';
 import IconAdd from './icon/IconAddCircle';
 import IconDelete from './icon/IconDelete';
+import IconSearch from './icon/IconSearch';
 import IconMic from './icon/IconMic';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
@@ -75,9 +76,14 @@ storiesOf('General / Button', module)
         'with icon and text',
         withInfo()(() => {
             return (
-                <Button icon>
-                    <IconAdd /> Create user
-                </Button>
+                <div>
+                    <Button>
+                        <IconAdd /> Create user
+                    </Button>
+                    <Button>
+                        Search user <IconSearch />
+                    </Button>
+                </div>
             );
         })
     )
@@ -86,14 +92,19 @@ storiesOf('General / Button', module)
         withInfo()(() => {
             return (
                 <div>
-                    <Button icon unstyled>
+                    <p>without button styles</p>
+                    <Button icon>
                         <IconAdd />
                     </Button>
-                    <Link icon unstyled to="/">
+                    <Link icon to="/">
                         <IconDelete />
                     </Link>
-                    <Button icon unstyled>
+                    <p>with button styles</p>
+                    <Button>
                         <IconMic />
+                    </Button>
+                    <Button>
+                        <IconAdd />
                     </Button>
                 </div>
             );
@@ -125,6 +136,22 @@ storiesOf('General / Button', module)
                     <ExternalLink href="https://google.com" disabled>
                         <IconAdd /> Go to Google
                     </ExternalLink>
+                </div>
+            );
+        })
+    )
+    .add(
+        'shown inline',
+        withInfo()(() => {
+            return (
+                <div>
+                    {'Nowadays there are many social media like '}
+                    <ExternalLink link href="https://google.com">
+                        Google
+                    </ExternalLink>
+                    {' or '}
+                    <Button link>Facebook</Button>
+                    {'. Good filler text ey?'}
                 </div>
             );
         })

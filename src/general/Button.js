@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { omit } from 'lodash';
@@ -8,70 +8,110 @@ import { theme } from '../config';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
-const OMIT_PROPS = ['unstyled', 'fullWidth', 'tone'];
+const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children'];
+
+function insertSpanForTextNodes(child) {
+    if (typeof child === 'string') {
+        return <span>{child}</span>;
+    }
+    return child;
+}
+
+function getProps(props) {
+    const newProps = omit(props, OMIT_PROPS);
+    newProps.children = Children.map(props.children, insertSpanForTextNodes);
+    return newProps;
+}
+
+function getTextColor(props) {
+    const toneColor = props.tone ? theme(props, `${props.tone}Color`) : null;
+    if (props.link) {
+        return toneColor || theme(props, 'primaryColor');
+    }
+    if (props.icon) {
+        return toneColor || theme(props, 'textColor');
+    }
+    return props.tone === 'light' ? theme(props, 'textColor') : '#fff';
+}
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 export const Button = styled(props => (
-    <button type="button" {...omit(props, OMIT_PROPS)} />
+    <button type="button" {...getProps(props)} />
 ))`
-    display: inline-flex;
+    display: ${props => (props.link ? 'inline' : 'inline-flex')};
     align-items: center;
     justify-content: center;
     margin: 1px;
     padding: 0;
     border: 0;
     background: transparent;
-    cursor: pointer;
     line-height: 1;
     user-select: none;
+    font-size: 16px;
+    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 
     > svg {
-        margin: ${props => (props.unstyled ? '6px' : '0 6px 0 0')};
+        ${props =>
+            props.icon
+                ? `
+        margin: 6px;
+        `
+                : `
+        &:first-child {
+            margin-right: 6px;
+        }
+        &:last-child {
+            margin-left: 6px;
+        }
+        &:first-child:last-child {
+            margin: 0;
+        }
+        `};
     }
 
     ${props =>
-        props.icon
-            ? `
-        color: ${props.unstyled ? '#000' : '#fff'};
-    `
-            : ''} ${props =>
-            props.disabled
-                ? `
-        cursor: not-allowed;
-    `
-                : ''} ${props => {
-            const color = theme(props, `${props.tone || 'primary'}Color`);
-            return !props.unstyled
-                ? `
-        color: ${props.tone === 'light' ? theme(props, 'textColor') : '#fff'};
-        height: 30px;
-        padding: 0 10px;
-        margin: 5px;
-        text-decoration: none;
-        border-radius: 4px;
-        font-size: 16px;
-        vertical-align: middle;
-
-        ${props.fullWidth
-            ? `
-            margin: 5px 0;
-            width: 100%;
+        props.fullWidth &&
         `
-            : ''}
+        margin: 5px 0;
+        width: 100%;
+    `};
+    ${props => {
+        const color = theme(props, `${props.tone || 'primary'}Color`);
+        const textColor = `color: ${getTextColor(props)};`;
 
-        ${props.disabled
-            ? `
-            ${props.tone === 'light'
+        if (props.icon) {
+            return textColor;
+        }
+
+        if (props.link) {
+            return `
+                ${textColor}
+                text-decoration: underline;
+            `;
+        }
+
+        return `
+            ${textColor}
+            height: 30px;
+            padding: 0 10px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 4px;
+            vertical-align: middle;
+
+            ${props.disabled
                 ? `
-                background: ${tint(0.5, color)};
-                color: ${tint(0.4, theme(props, 'textColor'))};
+                ${props.tone === 'light'
+                    ? `
+                    background: ${tint(0.5, color)};
+                    color: ${tint(0.4, theme(props, 'textColor'))};
+                `
+                    : `
+                    background: ${tint(0.25, color)};
+                `}
             `
                 : `
-                background: ${tint(0.25, color)};
-            `}
-        `
-            : `
-            background: ${color};
+                background: ${color};
 
             &:hover {
                 background: ${darken(0.03, color)};
@@ -81,14 +121,13 @@ export const Button = styled(props => (
                 background: ${darken(0.07, color)};
             }
         `}
-    `
-                : '';
-        }};
+    `;
+    }};
 `;
 Button.displayName = 'Button';
 Button.propTypes = {
     onClick: PropTypes.func,
-    unstyled: PropTypes.bool,
+    link: PropTypes.bool,
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -97,16 +136,16 @@ Button.propTypes = {
 
 export const ExternalLink = Button.withComponent(props => {
     if (props.disabled) {
-        return <button {...omit(props, OMIT_PROPS)} />;
+        return <button {...getProps(props)} />;
     }
-    return <a {...omit(props, OMIT_PROPS)} />;
+    return <a {...getProps(props)} />;
 });
 ExternalLink.displayName = 'ExternalLink';
 
 export const Link = Button.withComponent(props => {
     if (props.disabled) {
-        return <button {...omit(props, OMIT_PROPS)} />;
+        return <button {...getProps(props)} />;
     }
-    return <RouterLink {...omit(props, OMIT_PROPS)} />;
+    return <RouterLink {...getProps(props)} />;
 });
 Link.displayName = 'Link';
