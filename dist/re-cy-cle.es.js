@@ -1336,7 +1336,7 @@ var _temp2$13;
 
 const StyledContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledContainer'
-})(['background-color:', ';border-radius:4px;'], props => theme(props, 'light'));
+})(['background-color:', ';border-radius:4px;'], props => theme(props, 'lightColor'));
 
 const StyledContent = styled.div.withConfig({
     displayName: 'Accordion__StyledContent'
@@ -1506,7 +1506,7 @@ const StyledAside = styled.aside.withConfig({
     const width = props.medium ? 450 : 350;
     return `
             width: ${width}px;
-            background: ${theme(props, 'light')};
+            background: ${theme(props, 'lightColor')};
 
             &.slide-right-enter,
             &.slide-right-leave.slide-right-leave-active {
