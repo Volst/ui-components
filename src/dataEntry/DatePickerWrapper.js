@@ -164,8 +164,9 @@ const DatePickerWrapper = styled.div`
     .DayPickerInput-Overlay {
         left: 0;
         position: absolute;
-        background: white;
+        background: ${props => theme(props, 'componentBackground')};
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        z-index: 100;
     }
 `;
 
