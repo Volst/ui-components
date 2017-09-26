@@ -11,7 +11,7 @@ const StyledSvg = styled.svg`
 `;
 
 function Icon(props) {
-    return <StyledSvg focusable={false} {...props} />;
+    return <StyledSvg focusable="false" {...props} />;
 }
 
 Icon.propTypes = {
