@@ -1,6 +1,4 @@
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
-import { observable } from 'mobx';
 import React, { Component } from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import styled from 'styled-components';
@@ -64,64 +62,64 @@ const StyledInput = styled.input`
     }
 `;
 
-export default observer(
-    class RadioButtons extends Component {
-        static propTypes = {
-            onChange: PropTypes.func,
-            name: PropTypes.string,
-            disabled: PropTypes.bool,
-            options: OptionsPropType,
-            value: ValuePropType,
-        };
+export default class RadioButtons extends Component {
+    static propTypes = {
+        onChange: PropTypes.func,
+        name: PropTypes.string,
+        disabled: PropTypes.bool,
+        options: OptionsPropType,
+        value: ValuePropType,
+    };
 
-        @observable hasFocus = false;
+    state = {
+        hasFocus: false,
+    };
 
-        handleChange = value => {
-            if (!this.props.disabled) {
-                this.props.onChange(this.props.name, value);
-            }
-        };
-
-        renderItem = item => {
-            const handleChange = () => this.handleChange(item.value);
-            return (
-                <Option key={item.value}>
-                    <StyledInput
-                        tabIndex="0"
-                        type="radio"
-                        name={this.props.name}
-                        checked={item.value === this.props.value}
-                        onChange={handleChange}
-                        disabled={this.props.disabled}
-                    />
-                    <StyledLabel
-                        onClick={handleChange}
-                        disabled={this.props.disabled}
-                    >
-                        {item.label}
-                    </StyledLabel>
-                </Option>
-            );
-        };
-
-        handleFocus = () => {
-            this.hasFocus = true;
-        };
-
-        handleBlur = () => {
-            this.hasFocus = false;
-        };
-
-        render() {
-            return (
-                <StyledDiv
-                    onFocus={this.handleFocus}
-                    onBlur={this.handleBlur}
-                    focus={this.hasFocus}
-                >
-                    {this.props.options.map(this.renderItem)}
-                </StyledDiv>
-            );
+    handleChange = value => {
+        if (!this.props.disabled) {
+            this.props.onChange(this.props.name, value);
         }
+    };
+
+    renderItem = item => {
+        const handleChange = () => this.handleChange(item.value);
+        return (
+            <Option key={item.value}>
+                <StyledInput
+                    tabIndex="0"
+                    type="radio"
+                    name={this.props.name}
+                    checked={item.value === this.props.value}
+                    onChange={handleChange}
+                    disabled={this.props.disabled}
+                />
+                <StyledLabel
+                    onClick={handleChange}
+                    disabled={this.props.disabled}
+                >
+                    {item.label}
+                </StyledLabel>
+            </Option>
+        );
+    };
+
+    handleFocus = () => {
+        this.setState({ hasFocus: true });
+    };
+
+    handleBlur = () => {
+        this.setState({ hasFocus: false });
+    };
+
+    render() {
+        return (
+            <StyledDiv
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                focus={this.state.hasFocus}
+            >
+                {this.props.options.map(this.renderItem)}
+            </StyledDiv>
+        );
     }
-);
+}

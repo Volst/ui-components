@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
 import { Button } from '../../general/Button';
 
 const TRANSITION_TIME = 500;
 
-@observer
 export default class NotificationItem extends Component {
     static propTypes = {
         message: PropTypes.string.isRequired,
@@ -19,6 +16,10 @@ export default class NotificationItem extends Component {
     static defaultProps = {
         dismissAfter: 3100,
         type: 'info',
+    };
+
+    state = {
+        active: false,
     };
 
     componentDidMount() {
@@ -42,10 +43,8 @@ export default class NotificationItem extends Component {
         this.props.onDismiss();
     };
 
-    @observable active = false;
-
     animateIn() {
-        this.active = true;
+        this.setState({ active: true });
     }
 
     forceDismiss = e => {
@@ -54,13 +53,13 @@ export default class NotificationItem extends Component {
     };
 
     expire() {
-        this.active = false;
+        this.setState({ active: false });
         this.transitionTimeout = setTimeout(this.onDismiss, TRANSITION_TIME);
     }
 
     render() {
         return (
-            <StyledItem active={this.active} type={this.props.type}>
+            <StyledItem active={this.state.active} type={this.props.type}>
                 {this.props.message}
                 <CloseButton icon onClick={this.onDismiss}>
                     ✕

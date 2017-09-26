@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
@@ -19,7 +18,6 @@ const StyledInput = styled.input`
     top: -1px;
 `;
 
-@observer
 export default class RadioList extends Component {
     static propTypes = {
         onChange: PropTypes.func,

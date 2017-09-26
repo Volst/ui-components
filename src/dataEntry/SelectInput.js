@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { observer } from 'mobx-react';
 import { t } from 'i18next';
 import { theme } from '../config';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
@@ -33,7 +32,6 @@ const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
     }
 `;
 
-@observer
 export default class SelectInput extends Component {
     static propTypes = {
         children: PropTypes.node,

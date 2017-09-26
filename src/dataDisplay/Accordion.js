@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Button } from '../general/Button';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
-import { observer } from 'mobx-react';
 import { theme } from '../config';
 import { withTheme } from 'styled-components';
 
@@ -30,7 +29,6 @@ const StyledTitleContainer = styled.div`
     align-items: center;
 `;
 
-@observer
 @withTheme
 export default class Accordion extends Component {
     static propTypes = {

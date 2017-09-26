@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component, Children } from 'react';
 import styled from 'styled-components';
 import LabelText from './LabelText';
-import { observer, PropTypes as MobxTypes } from 'mobx-react';
 import { readableColor } from 'polished';
 import { theme } from '../config';
 import { t } from 'i18next';
@@ -57,13 +56,13 @@ function validationErrorMapper(errorCode) {
     return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-@observer
 export default class FormField extends Component {
     static propTypes = {
         children: PropTypes.node.isRequired,
         label: PropTypes.string,
         helpText: PropTypes.string,
-        error: MobxTypes.arrayOrObservableArray,
+        // Also accepts an object because MobX arrays are objects.
+        error: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
         // TODO: I don't like the name `noPadding`
         noPadding: PropTypes.bool,
         required: PropTypes.bool,

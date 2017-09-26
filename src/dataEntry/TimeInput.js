@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
 import { StyledInput } from './TextInput';
 import RTimeInput from 'react-time-input';
 import moment from 'moment';
 
 const MyInput = StyledInput.withComponent(RTimeInput);
 
-@observer
 export default class TimeInput extends Component {
     static propTypes = {
         onChange: PropTypes.func,
