@@ -155,6 +155,7 @@ const DatePickerWrapper = styled.div`
 
     .DayPickerInput {
         display: inline-block;
+        width: 100%;
     }
 
     .DayPickerInput-OverlayWrapper {
