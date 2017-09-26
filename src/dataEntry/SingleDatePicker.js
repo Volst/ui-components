@@ -4,21 +4,52 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DatePickerWrapper from './DatePickerWrapper';
 import moment from 'moment';
 import { StyledInput } from './TextInput';
+import MaskedInput from 'react-text-mask';
+import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { withTheme } from 'styled-components';
 import { theme } from '../config';
 
+const StyledMaskedInput = StyledInput.withComponent(
+    ({ hasError, _ref, ...props }) => <MaskedInput {...props} ref={_ref} />
+);
+
 // This is not a hack, it is a documented workaround (in react-day-picker)!
-class MyInputWithFocus extends Component {
+class MaskedDateInput extends Component {
+    // Okay specifically this is a horrible hack.
+    static contextTypes = {
+        inputDateFormat: PropTypes.string,
+    };
+
     focus = () => {
-        this.input.focus();
+        this.input.inputElement.focus();
     };
 
     setRef = el => {
         this.input = el;
     };
 
+    // In our config we have a date format like "dd-mm-yyyy". We need to translate this to an input mask like this;
+    // [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+    getMaskBasedOnDateFormat(dateFormat) {
+        return dateFormat.split('').map(char => {
+            if (/[a-z]/i.test(char)) {
+                return /\d/;
+            }
+            return char;
+        });
+    }
+
     render() {
-        return <StyledInput _ref={this.setRef} {...this.props} />;
+        const dateFormat = this.context.inputDateFormat.toLowerCase();
+        return (
+            <StyledMaskedInput
+                _ref={this.setRef}
+                {...this.props}
+                mask={this.getMaskBasedOnDateFormat(dateFormat)}
+                pipe={createAutoCorrectedDatePipe(dateFormat)}
+                keepCharPositions
+            />
+        );
     }
 }
 
@@ -37,6 +68,18 @@ export default class SingleDatePicker extends Component {
         placeholder: '',
         value: null,
     };
+
+    // The context hack is a hack we have to pull because making <MaskedDateInput /> have a @withTheme decorator
+    // makes react-day-picker break. So instead of using the `theme` prop, we pass the relevant theme config as `context`.
+    static childContextTypes = {
+        inputDateFormat: PropTypes.string,
+    };
+
+    getChildContext() {
+        return {
+            inputDateFormat: theme(this.props, 'dateFormat'),
+        };
+    }
 
     handleChange = (selectedDay, { disabled }) => {
         if (!this.props.onChange) return;
@@ -58,7 +101,7 @@ export default class SingleDatePicker extends Component {
         return (
             <DatePickerWrapper>
                 <DayPickerInput
-                    component={MyInputWithFocus}
+                    component={MaskedDateInput}
                     onDayChange={this.handleChange}
                     value={value}
                     disabled={this.props.disabled}
