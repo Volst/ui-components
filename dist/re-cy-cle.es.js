@@ -8,9 +8,7 @@ import PropTypes from 'prop-types';
 import { omit, pick, uniqueId } from 'lodash';
 import { Link, NavLink } from 'react-router-dom';
 import { darken, readableColor, tint } from 'polished';
-import { PropTypes as PropTypes$1, observer } from 'mobx-react';
 import { t } from 'i18next';
-import { observable } from 'mobx';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import RTimeInput from 'react-time-input';
@@ -311,7 +309,6 @@ let LabelText = (_temp = _class$2 = class LabelText extends Component {
 }, _temp);
 
 var _class$1;
-var _class2;
 var _temp2$1;
 
 const Field = styled.div.withConfig({
@@ -333,7 +330,7 @@ function validationErrorMapper(errorCode) {
     return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-let FormField = observer(_class$1 = (_temp2$1 = _class2 = class FormField extends Component {
+let FormField = (_temp2$1 = _class$1 = class FormField extends Component {
     constructor(...args) {
         var _temp;
 
@@ -399,15 +396,16 @@ let FormField = observer(_class$1 = (_temp2$1 = _class2 = class FormField extend
             this.renderError()
         );
     }
-}, _class2.propTypes = {
+}, _class$1.propTypes = {
     children: PropTypes.node.isRequired,
     label: PropTypes.string,
     helpText: PropTypes.string,
-    error: PropTypes$1.arrayOrObservableArray,
+    // Also accepts an object because MobX arrays are objects.
+    error: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     // TODO: I don't like the name `noPadding`
     noPadding: PropTypes.bool,
     required: PropTypes.bool
-}, _temp2$1)) || _class$1;
+}, _temp2$1);
 
 const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
 
@@ -417,48 +415,7 @@ const OptionsPropType = PropTypes.arrayOf(PropTypes.shape({
 })).isRequired;
 
 var _class$3;
-var _descriptor;
-var _class2$1;
 var _temp2$2;
-
-function _initDefineProp(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-        enumerable: descriptor.enumerable,
-        configurable: descriptor.configurable,
-        writable: descriptor.writable,
-        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
-}
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
-
-    return desc;
-}
 
 const StyledDiv = styled.div.withConfig({
     displayName: 'RadioButtons__StyledDiv'
@@ -478,11 +435,13 @@ const StyledInput = styled.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
 })(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:', ';box-shadow:-1px 0 ', ';}'], props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => readableColor(theme(props, 'primaryColor')), props => theme(props, 'primaryColor'));
 
-var RadioButtons = observer((_class$3 = (_temp2$2 = _class2$1 = class RadioButtons extends Component {
+let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends Component {
     constructor(...args) {
         var _temp;
 
-        return _temp = super(...args), _initDefineProp(this, 'hasFocus', _descriptor, this), this.handleChange = value => {
+        return _temp = super(...args), this.state = {
+            hasFocus: false
+        }, this.handleChange = value => {
             if (!this.props.disabled) {
                 this.props.onChange(this.props.name, value);
             }
@@ -509,9 +468,9 @@ var RadioButtons = observer((_class$3 = (_temp2$2 = _class2$1 = class RadioButto
                 )
             );
         }, this.handleFocus = () => {
-            this.hasFocus = true;
+            this.setState({ hasFocus: true });
         }, this.handleBlur = () => {
-            this.hasFocus = false;
+            this.setState({ hasFocus: false });
         }, _temp;
     }
 
@@ -521,26 +480,20 @@ var RadioButtons = observer((_class$3 = (_temp2$2 = _class2$1 = class RadioButto
             {
                 onFocus: this.handleFocus,
                 onBlur: this.handleBlur,
-                focus: this.hasFocus
+                focus: this.state.hasFocus
             },
             this.props.options.map(this.renderItem)
         );
     }
-}, _class2$1.propTypes = {
+}, _class$3.propTypes = {
     onChange: PropTypes.func,
     name: PropTypes.string,
     disabled: PropTypes.bool,
     options: OptionsPropType,
     value: ValuePropType
-}, _temp2$2), (_descriptor = _applyDecoratedDescriptor(_class$3.prototype, 'hasFocus', [observable], {
-    enumerable: true,
-    initializer: function () {
-        return false;
-    }
-})), _class$3));
+}, _temp2$2);
 
 var _class$4;
-var _class2$2;
 var _temp2$3;
 
 const StyledDiv$1 = styled.div.withConfig({
@@ -555,7 +508,7 @@ const StyledInput$1 = styled.input.withConfig({
     displayName: 'RadioList__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let RadioList = observer(_class$4 = (_temp2$3 = _class2$2 = class RadioList extends Component {
+let RadioList = (_temp2$3 = _class$4 = class RadioList extends Component {
     constructor(...args) {
         var _temp;
 
@@ -582,13 +535,13 @@ let RadioList = observer(_class$4 = (_temp2$3 = _class2$2 = class RadioList exte
             this.props.options.map(this.renderItem)
         );
     }
-}, _class2$2.propTypes = {
+}, _class$4.propTypes = {
     onChange: PropTypes.func,
     name: PropTypes.string,
     disabled: PropTypes.bool,
     options: OptionsPropType,
     value: ValuePropType
-}, _temp2$3)) || _class$4;
+}, _temp2$3);
 
 var _class$5;
 var _temp2$4;
@@ -812,12 +765,11 @@ let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends Component {
 }, _temp2$6);
 
 var _class$8;
-var _class2$3;
 var _temp2$7;
 
 const MyInput$1 = StyledInput$3.withComponent(RTimeInput);
 
-let TimeInput = observer(_class$8 = (_temp2$7 = _class2$3 = class TimeInput extends Component {
+let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends Component {
     constructor(...args) {
         var _temp;
 
@@ -849,16 +801,16 @@ let TimeInput = observer(_class$8 = (_temp2$7 = _class2$3 = class TimeInput exte
             onTimeChange: this.onChange
         });
     }
-}, _class2$3.propTypes = {
+}, _class$8.propTypes = {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     name: PropTypes.string,
     disabled: PropTypes.bool,
     value: PropTypes.instanceOf(moment)
-}, _class2$3.defaultProps = {
+}, _class$8.defaultProps = {
     placeholder: ' ',
     value: ''
-}, _temp2$7)) || _class$8;
+}, _temp2$7);
 
 var _class$9;
 var _temp2$8;
@@ -914,7 +866,7 @@ const StyledSvg = styled.svg.withConfig({
 })(['display:inline-block;fill:currentColor;height:', 'px;width:', 'px;user-select:none;'], props => props.height || 18, props => props.width || 18);
 
 function Icon(props) {
-    return React.createElement(StyledSvg, Object.assign({ focusable: false }, props));
+    return React.createElement(StyledSvg, Object.assign({ focusable: 'false' }, props));
 }
 
 Icon.propTypes = {
@@ -1196,7 +1148,6 @@ let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends Component {
 }, _temp2$9);
 
 var _class$12;
-var _class2$4;
 var _temp2$11;
 
 const StyledSelect = styled((_ref) => {
@@ -1207,7 +1158,7 @@ const StyledSelect = styled((_ref) => {
     displayName: 'SelectInput__StyledSelect'
 })(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'componentBackground'), props => theme(props, 'primaryColor'), props => theme(props, 'disabledColor'));
 
-let SelectInput = observer(_class$12 = (_temp2$11 = _class2$4 = class SelectInput extends Component {
+let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1243,7 +1194,7 @@ let SelectInput = observer(_class$12 = (_temp2$11 = _class2$4 = class SelectInpu
             this.props.options.map(this.renderOption)
         );
     }
-}, _class2$4.propTypes = {
+}, _class$12.propTypes = {
     children: PropTypes.node,
     onChange: PropTypes.func,
     name: PropTypes.string,
@@ -1254,15 +1205,15 @@ let SelectInput = observer(_class$12 = (_temp2$11 = _class2$4 = class SelectInpu
     value: ValuePropType,
     options: OptionsPropType,
     autoWidth: PropTypes.bool
-}, _temp2$11)) || _class$12;
+}, _temp2$11);
 
 const DatePickerWrapper = styled.div.withConfig({
     displayName: 'DatePickerWrapper__DatePickerWrapper'
-})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid #eaecec;text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:#fff;background-color:', ';}.DayPickerInput{display:inline-block;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:100;}'], props => theme(props, 'dangerColor'), props => theme(props, 'lightColor'), props => theme(props, 'disabledColor'), props => theme(props, 'lightColor'), props => theme(props, 'primaryColor'), props => theme(props, 'componentBackground'));
+})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid #eaecec;text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:#fff;background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:100;}'], props => theme(props, 'dangerColor'), props => theme(props, 'lightColor'), props => theme(props, 'disabledColor'), props => theme(props, 'lightColor'), props => theme(props, 'primaryColor'), props => theme(props, 'componentBackground'));
 
 var _class$13;
 var _temp2$12;
-var _class2$5;
+var _class2;
 var _class3;
 var _temp4;
 
@@ -1312,7 +1263,7 @@ let MaskedDateInput = (_temp2$12 = _class$13 = class MaskedDateInput extends Com
     inputDateFormat: PropTypes.string
 }, _temp2$12);
 
-let SingleDatePicker = withTheme(_class2$5 = (_temp4 = _class3 = class SingleDatePicker extends Component {
+let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDatePicker extends Component {
     constructor(...args) {
         var _temp3;
 
@@ -1368,7 +1319,7 @@ let SingleDatePicker = withTheme(_class2$5 = (_temp4 = _class3 = class SingleDat
     value: null
 }, _class3.childContextTypes = {
     inputDateFormat: PropTypes.string
-}, _temp4)) || _class2$5;
+}, _temp4)) || _class2;
 
 var _class$14;
 var _temp$1;
@@ -1411,7 +1362,7 @@ let IconKeyboardArrowUp = props => React.createElement(
 );
 
 var _class$15;
-var _class2$6;
+var _class2$1;
 var _temp2$13;
 
 const StyledContainer = styled.div.withConfig({
@@ -1430,7 +1381,7 @@ const StyledTitleContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
 
-let Accordion = observer(_class$15 = withTheme(_class$15 = (_temp2$13 = _class2$6 = class Accordion extends Component {
+let Accordion = withTheme(_class$15 = (_temp2$13 = _class2$1 = class Accordion extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1471,13 +1422,13 @@ let Accordion = observer(_class$15 = withTheme(_class$15 = (_temp2$13 = _class2$
             ) : null
         );
     }
-}, _class2$6.propTypes = {
+}, _class2$1.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     opened: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     action: PropTypes.node
-}, _temp2$13)) || _class$15) || _class$15;
+}, _temp2$13)) || _class$15;
 
 const Table = styled.table.withConfig({
     displayName: 'Table__Table'
@@ -1661,59 +1612,19 @@ Loader.propTypes = {
 };
 
 var _class$17;
-var _class2$7;
-var _descriptor$1;
-var _class3$1;
 var _temp2$15;
-
-function _initDefineProp$1(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-        enumerable: descriptor.enumerable,
-        configurable: descriptor.configurable,
-        writable: descriptor.writable,
-        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
-}
-
-function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
-
-    return desc;
-}
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = observer(_class$17 = (_class2$7 = (_temp2$15 = _class3$1 = class NotificationItem extends Component {
+let NotificationItem = (_temp2$15 = _class$17 = class NotificationItem extends Component {
     constructor(...args) {
         var _temp;
 
-        return _temp = super(...args), this.onDismiss = () => {
+        return _temp = super(...args), this.state = {
+            active: false
+        }, this.onDismiss = () => {
             this.props.onDismiss();
-        }, _initDefineProp$1(this, 'active', _descriptor$1, this), this.forceDismiss = e => {
+        }, this.forceDismiss = e => {
             if (e) e.preventDefault();
             this.expire();
         }, _temp;
@@ -1734,18 +1645,18 @@ let NotificationItem = observer(_class$17 = (_class2$7 = (_temp2$15 = _class3$1 
     }
 
     animateIn() {
-        this.active = true;
+        this.setState({ active: true });
     }
 
     expire() {
-        this.active = false;
+        this.setState({ active: false });
         this.transitionTimeout = setTimeout(this.onDismiss, TRANSITION_TIME);
     }
 
     render() {
         return React.createElement(
             StyledItem,
-            { active: this.active, type: this.props.type },
+            { active: this.state.active, type: this.props.type },
             this.props.message,
             React.createElement(
                 CloseButton,
@@ -1754,21 +1665,15 @@ let NotificationItem = observer(_class$17 = (_class2$7 = (_temp2$15 = _class3$1 
             )
         );
     }
-}, _class3$1.propTypes = {
+}, _class$17.propTypes = {
     message: PropTypes.string.isRequired,
     onDismiss: PropTypes.func.isRequired,
     dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
     type: PropTypes.oneOf(['info', 'error'])
-}, _class3$1.defaultProps = {
+}, _class$17.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$15), (_descriptor$1 = _applyDecoratedDescriptor$1(_class2$7.prototype, 'active', [observable], {
-    enumerable: true,
-    initializer: function () {
-        return false;
-    }
-})), _class2$7)) || _class$17;
-
+}, _temp2$15);
 const CloseButton = styled(Button).withConfig({
     displayName: 'Item__CloseButton'
 })(['margin-left:11px;position:absolute;top:13px;right:13px;font-size:15px;']);
