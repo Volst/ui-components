@@ -176,6 +176,7 @@ export default class FancySelect extends Component {
                 }
                 onChange={this.handleChange}
                 itemToString={this.itemToString}
+                defaultHighlightedIndex={0}
             >
                 {this.renderDownshift}
             </Downshift>
