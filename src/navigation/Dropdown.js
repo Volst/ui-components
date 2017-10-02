@@ -26,7 +26,6 @@ class MyDropdown extends Component {
     };
 
     handleClickOutside = () => {
-        console.log('click outside');
         this.hideOverlay();
     };
 
