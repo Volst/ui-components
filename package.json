@@ -32,6 +32,7 @@
     "prop-types": "^15.5.10",
     "react-custom-scrollbars": "^4.1.2",
     "react-day-picker": "^6.1.1",
+    "react-onclickoutside": "^6.6.0",
     "react-styled-flexboxgrid": "^2.0.3",
     "react-text-mask": "^5.0.2",
     "react-time-input": "SpaceK33z/react-time-input#fcc3215d8f1007c5542876af83e9fa216119ed4b",
