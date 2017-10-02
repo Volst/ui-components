@@ -26,6 +26,7 @@ var DayPickerInput = _interopDefault(require('react-day-picker/DayPickerInput'))
 var createAutoCorrectedDatePipe = _interopDefault(require('text-mask-addons/dist/createAutoCorrectedDatePipe'));
 var reactCustomScrollbars = require('react-custom-scrollbars');
 var reactStyledFlexboxgrid = require('react-styled-flexboxgrid');
+var onClickOutside = _interopDefault(require('react-onclickoutside'));
 
 const defaultConfig = {
     primaryColor: '#006b94',
@@ -142,7 +143,7 @@ function getTextColor(props) {
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
-    displayName: 'Button__Button'
+    displayName: 'Button'
 })(['display:', ';align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:16px;cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
         margin: 6px;
         ` : `
@@ -209,7 +210,7 @@ Button.propTypes = {
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
-    tone: PropTypes.oneOf(['success', 'warning', 'dark', 'light'])
+    tone: PropTypes.oneOf(['primary', 'success', 'warning', 'dark', 'light'])
 };
 
 const ExternalLink = Button.withComponent(props => {
@@ -229,11 +230,11 @@ const Link$1 = Button.withComponent(props => {
 Link$1.displayName = 'Link';
 
 const Heading = styled__default.h1.withConfig({
-    displayName: 'Heading__Heading'
+    displayName: 'Heading'
 })(['font-weight:bold;font-size:26px;margin:0;padding:20px 0;color:', ';'], props => props.color || theme(props, 'textColor'));
 
 const Subheading = styled__default.h2.withConfig({
-    displayName: 'Subheading__Subheading'
+    displayName: 'Subheading'
 })(['font-weight:normal;font-size:20px;margin:0;padding:20px 0;color:', ';'], props => props.color || theme(props, 'primaryColor'));
 
 var _class;
@@ -1044,7 +1045,8 @@ let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends React.Compo
             {
                 selectedItem: this.props.options.find(o => o.value === value) || value,
                 onChange: this.handleChange,
-                itemToString: this.itemToString
+                itemToString: this.itemToString,
+                defaultHighlightedIndex: 0
             },
             this.renderDownshift
         );
@@ -1216,7 +1218,7 @@ let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends React.Compo
 }, _temp2$11);
 
 const DatePickerWrapper = styled__default.div.withConfig({
-    displayName: 'DatePickerWrapper__DatePickerWrapper'
+    displayName: 'DatePickerWrapper'
 })(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid #eaecec;text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:#fff;background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:100;}'], props => theme(props, 'dangerColor'), props => theme(props, 'lightColor'), props => theme(props, 'disabledColor'), props => theme(props, 'lightColor'), props => theme(props, 'primaryColor'), props => theme(props, 'componentBackground'));
 
 var _class$13;
@@ -1439,7 +1441,7 @@ let Accordion = styled.withTheme(_class$15 = (_temp2$13 = _class2$1 = class Acco
 }, _temp2$13)) || _class$15;
 
 const Table = styled__default.table.withConfig({
-    displayName: 'Table__Table'
+    displayName: 'Table'
 })(['width:100%;border-collapse:collapse;']);
 
 Table.displayName = 'Table';
@@ -1603,7 +1605,7 @@ var Toolbar = styled__default.section.withConfig({
 const sweep = styled.keyframes(['to{transform:rotate(360deg);}']);
 
 const Loader = styled__default.div.withConfig({
-    displayName: 'Loader__Loader'
+    displayName: 'Loader'
 })(['width:18px;height:18px;animation:', ' 0.7s infinite linear;border-radius:8px;margin:5px;transition:200ms all linear;', ';'], sweep, props => {
     if (props.show) {
         return `
@@ -1905,6 +1907,53 @@ let NavItem = (_temp2$17 = _class$21 = class NavItem extends React.Component {
 var NavMenu = styled__default.nav.withConfig({
     displayName: 'NavMenu'
 })(['flex:1;display:flex;align-items:stretch;']);
+
+var _class$22;
+var _temp2$18;
+
+const RelativeWrapper = styled__default.div.withConfig({
+    displayName: 'Dropdown__RelativeWrapper'
+})(['position:relative;']);
+
+let MyDropdown = (_temp2$18 = _class$22 = class MyDropdown extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.state = {
+            opened: false
+        }, this.showOverlay = () => {
+            this.setState({ opened: true });
+        }, this.hideOverlay = () => {
+            this.setState({ opened: false });
+        }, this.handleClickOutside = () => {
+            console.log('click outside');
+            this.hideOverlay();
+        }, _temp;
+    }
+
+    render() {
+        return React__default.createElement(
+            RelativeWrapper,
+            { onClick: this.showOverlay },
+            this.props.children,
+            this.state.opened && this.props.overlay
+        );
+    }
+}, _class$22.propTypes = {
+    overlay: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired
+}, _temp2$18);
+
+
+const Dropdown$1 = onClickOutside(MyDropdown);
+
+const DropdownMenu = styled__default.div.withConfig({
+    displayName: 'Dropdown__DropdownMenu'
+})(['position:absolute;z-index:10;background:', ';border-radius:5px;display:flex;border:1px solid ', ';box-shadow:0 1px 5px rgba(0,0,0,0.15);flex-direction:column;overflow:hidden;'], props => theme(props, 'componentBackground'), props => theme(props, 'primaryColor'));
+
+const DropdownItem$1 = styled__default.div.withConfig({
+    displayName: 'Dropdown__DropdownItem'
+})(['padding:10px 15px;border-bottom:1px solid ', ';color:', ';cursor:pointer;user-select:none;&:hover{background:', ';}&:last-child{border-bottom-width:0;}'], props => theme(props, 'primaryColor'), props => theme(props, 'textColor'), props => polished.tint(0.2, theme(props, 'primaryColor')));
 
 let IconAccessAlarm = props => React__default.createElement(
     Icon,
@@ -7808,6 +7857,9 @@ exports.Logo = Logo;
 exports.MenuRow = MenuRow;
 exports.NavItem = NavItem;
 exports.NavMenu = NavMenu;
+exports.Dropdown = Dropdown$1;
+exports.DropdownMenu = DropdownMenu;
+exports.DropdownItem = DropdownItem$1;
 exports.IconAccessAlarm = IconAccessAlarm;
 exports.IconAccessAlarms = IconAccessAlarms;
 exports.IconAccessibility = IconAccessibility;
