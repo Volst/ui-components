@@ -5,6 +5,7 @@ import { Button, Link, ExternalLink } from './Button';
 import IconAdd from './icon/IconAddCircle';
 import IconDelete from './icon/IconDelete';
 import IconSearch from './icon/IconSearch';
+import IconBuild from './icon/IconBuild';
 import IconMic from './icon/IconMic';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
@@ -93,11 +94,14 @@ storiesOf('General / Button', module)
             return (
                 <div>
                     <p>without button styles</p>
-                    <Button icon>
+                    <Button icon tone="success">
                         <IconAdd />
                     </Button>
-                    <Link icon to="/">
+                    <Link icon to="/" tone="warning">
                         <IconDelete />
+                    </Link>
+                    <Link icon to="/" tone="primary">
+                        <IconBuild />
                     </Link>
                     <p>with button styles</p>
                     <Button>

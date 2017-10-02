@@ -131,7 +131,7 @@ Button.propTypes = {
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
-    tone: PropTypes.oneOf(['success', 'warning', 'dark', 'light']),
+    tone: PropTypes.oneOf(['primary', 'success', 'warning', 'dark', 'light']),
 };
 
 export const ExternalLink = Button.withComponent(props => {
