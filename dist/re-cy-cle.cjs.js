@@ -428,21 +428,39 @@ var _temp2$2;
 
 const StyledDiv = styled__default.div.withConfig({
     displayName: 'RadioButtons__StyledDiv'
-})(['display:flex;align-items:stretch;border:1px solid transparent;border-radius:4px;', ';'], props => props.focus && `
+})(['display:flex;align-items:stretch;flex-direction:', ';border:1px solid transparent;border-radius:4px;', ';'], props => props.vertical ? 'column' : 'row', props => props.focus && `
         border-color: ${theme(props, 'primaryColor')};
     `);
 
 const Option = styled__default.div.withConfig({
     displayName: 'RadioButtons__Option'
-})(['flex:1;display:flex;justify-content:center;&:first-child > label{border-top-left-radius:4px;border-bottom-left-radius:4px;border-left-width:1px;}&:last-child > label{border-top-right-radius:4px;border-bottom-right-radius:4px;}']);
+})(['flex:1;display:flex;justify-content:center;&:first-child > label{', ';}&:last-child > label{', ';}'], props => props.vertical ? `
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                border-top-width: 1px;
+            ` : `
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border-left-width: 1px;
+        `, props => props.vertical ? `
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+            ` : `
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+        `);
 
 const StyledLabel$1 = styled__default.label.withConfig({
     displayName: 'RadioButtons__StyledLabel'
-})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px 5px;text-align:center;border:1px solid ', ';border-left-width:0;background:', ';font-size:14px;color:rgba(0,0,0,0.5);white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer', props => theme(props, 'borderColor'), props => theme(props, 'componentBackground'));
+})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px 5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:rgba(0,0,0,0.5);white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer', props => theme(props, 'borderColor'), props => props.vertical ? `
+            border-top-width: 0;
+            ` : `
+        border-left-width: 0;
+    `, props => theme(props, 'componentBackground'));
 
 const StyledInput = styled__default.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
-})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:', ';box-shadow:-1px 0 ', ';}'], props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => polished.readableColor(theme(props, 'primaryColor')), props => theme(props, 'primaryColor'));
+})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:', ';box-shadow:', ';}'], props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => polished.readableColor(theme(props, 'primaryColor')), props => `${props.vertical ? '0px -1px' : '-1px 0'} ${theme(props, 'primaryColor')}`);
 
 let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends React.Component {
     constructor(...args) {
@@ -458,20 +476,22 @@ let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends React.Compo
             const handleChange = () => this.handleChange(item.value);
             return React__default.createElement(
                 Option,
-                { key: item.value },
+                { key: item.value, vertical: this.props.vertical },
                 React__default.createElement(StyledInput, {
                     tabIndex: '0',
                     type: 'radio',
                     name: this.props.name,
                     checked: item.value === this.props.value,
                     onChange: handleChange,
-                    disabled: this.props.disabled
+                    disabled: this.props.disabled,
+                    vertical: this.props.vertical
                 }),
                 React__default.createElement(
                     StyledLabel$1,
                     {
                         onClick: handleChange,
-                        disabled: this.props.disabled
+                        disabled: this.props.disabled,
+                        vertical: this.props.vertical
                     },
                     item.label
                 )
@@ -489,7 +509,8 @@ let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends React.Compo
             {
                 onFocus: this.handleFocus,
                 onBlur: this.handleBlur,
-                focus: this.state.hasFocus
+                focus: this.state.hasFocus,
+                vertical: this.props.vertical
             },
             this.props.options.map(this.renderItem)
         );
@@ -499,7 +520,8 @@ let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends React.Compo
     name: PropTypes.string,
     disabled: PropTypes.bool,
     options: OptionsPropType,
-    value: ValuePropType
+    value: ValuePropType,
+    vertical: PropTypes.bool
 }, _temp2$2);
 
 var _class$4;
@@ -1926,7 +1948,6 @@ let MyDropdown = (_temp2$18 = _class$22 = class MyDropdown extends React.Compone
         }, this.hideOverlay = () => {
             this.setState({ opened: false });
         }, this.handleClickOutside = () => {
-            console.log('click outside');
             this.hideOverlay();
         }, _temp;
     }
