@@ -8,6 +8,7 @@ import { theme } from '../config';
 const StyledDiv = styled.div`
     display: flex;
     align-items: stretch;
+    flex-direction: ${props => (props.vertical ? 'column' : 'row')};
     border: 1px solid transparent;
     border-radius: 4px;
     ${props =>
@@ -23,14 +24,31 @@ const Option = styled.div`
     justify-content: center;
 
     &:first-child > label {
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
-        border-left-width: 1px;
+        ${props =>
+            props.vertical
+                ? `
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                border-top-width: 1px;
+            `
+                : `
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border-left-width: 1px;
+        `};
     }
 
     &:last-child > label {
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
+        ${props =>
+            props.vertical
+                ? `
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+            `
+                : `
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+        `};
     }
 `;
 
@@ -43,7 +61,14 @@ const StyledLabel = styled.label`
     padding: 6px 5px;
     text-align: center;
     border: 1px solid ${props => theme(props, 'borderColor')};
-    border-left-width: 0;
+    ${props =>
+        props.vertical
+            ? `
+            border-top-width: 0;
+            `
+            : `
+        border-left-width: 0;
+    `};
     background: ${props => theme(props, 'componentBackground')};
     font-size: 14px;
     color: rgba(0, 0, 0, 0.5);
@@ -58,7 +83,11 @@ const StyledInput = styled.input`
         background: ${props => theme(props, 'primaryColor')};
         border-color: ${props => theme(props, 'primaryColor')};
         color: ${props => readableColor(theme(props, 'primaryColor'))};
-        box-shadow: -1px 0 ${props => theme(props, 'primaryColor')};
+        box-shadow: ${props =>
+            `${props.vertical ? '0px -1px' : '-1px 0'} ${theme(
+                props,
+                'primaryColor'
+            )}`};
     }
 `;
 
@@ -69,6 +98,7 @@ export default class RadioButtons extends Component {
         disabled: PropTypes.bool,
         options: OptionsPropType,
         value: ValuePropType,
+        vertical: PropTypes.bool,
     };
 
     state = {
@@ -84,7 +114,7 @@ export default class RadioButtons extends Component {
     renderItem = item => {
         const handleChange = () => this.handleChange(item.value);
         return (
-            <Option key={item.value}>
+            <Option key={item.value} vertical={this.props.vertical}>
                 <StyledInput
                     tabIndex="0"
                     type="radio"
@@ -92,10 +122,12 @@ export default class RadioButtons extends Component {
                     checked={item.value === this.props.value}
                     onChange={handleChange}
                     disabled={this.props.disabled}
+                    vertical={this.props.vertical}
                 />
                 <StyledLabel
                     onClick={handleChange}
                     disabled={this.props.disabled}
+                    vertical={this.props.vertical}
                 >
                     {item.label}
                 </StyledLabel>
@@ -117,6 +149,7 @@ export default class RadioButtons extends Component {
                 onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
                 focus={this.state.hasFocus}
+                vertical={this.props.vertical}
             >
                 {this.props.options.map(this.renderItem)}
             </StyledDiv>

@@ -14,12 +14,16 @@ const SOME_OPTIONS = [
         value: 'lion',
         label: 'Lion',
     },
+    {
+        value: 'elephant',
+        label: 'Elephant',
+    },
 ];
 
 storiesOf('Data Entry / RadioButtons', module)
     .addDecorator(CenterDecorator)
     .add(
-        'standard',
+        'horizontal',
         withInfo()(() => {
             return (
                 <RadioButtons
@@ -27,6 +31,20 @@ storiesOf('Data Entry / RadioButtons', module)
                     name="myname"
                     options={SOME_OPTIONS}
                     value="zebra"
+                />
+            );
+        })
+    )
+    .add(
+        'vertical',
+        withInfo()(() => {
+            return (
+                <RadioButtons
+                    onChange={action('change')}
+                    name="myname"
+                    options={SOME_OPTIONS}
+                    value="zebra"
+                    vertical
                 />
             );
         })
