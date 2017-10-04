@@ -4,6 +4,7 @@ import { ValuePropType, OptionsPropType } from '../PropTypes';
 import styled from 'styled-components';
 import { readableColor } from 'polished';
 import { theme } from '../config';
+import { uniqueId } from 'lodash';
 
 const StyledDiv = styled.div`
     -webkit-touch-callout: none;
@@ -16,7 +17,9 @@ const StyledDiv = styled.div`
     ${props =>
         props.focus &&
         `
-        border-color: ${theme(props, 'primaryColor')};
+        label {
+            border-color: ${theme(props, 'primaryColor')};
+        }
     `};
 `;
 
@@ -115,9 +118,12 @@ export default class RadioButtons extends Component {
 
     renderItem = item => {
         const handleChange = () => this.handleChange(item.value);
+        const id = `radiobuttons-${uniqueId()}`;
+
         return (
             <Option key={item.value} vertical={this.props.vertical}>
                 <StyledInput
+                    id={id}
                     tabIndex="0"
                     type="radio"
                     name={this.props.name}
@@ -127,7 +133,7 @@ export default class RadioButtons extends Component {
                     vertical={this.props.vertical}
                 />
                 <StyledLabel
-                    onClick={handleChange}
+                    htmlFor={id}
                     disabled={this.props.disabled}
                     vertical={this.props.vertical}
                 >
