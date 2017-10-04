@@ -6,6 +6,12 @@ import { readableColor } from 'polished';
 import { theme } from '../config';
 
 const StyledDiv = styled.div`
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     display: flex;
     align-items: stretch;
     flex-direction: ${props => (props.vertical ? 'column' : 'row')};
