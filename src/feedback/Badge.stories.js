@@ -31,4 +31,28 @@ storiesOf('Feedback / Badge', module)
                 </Button>
             );
         })
+    )
+    .add(
+        'hidden',
+        withInfo()(() => {
+            return (
+                <Button icon>
+                    <Badge count={0}>
+                        <IconChat width="30" height="30" color="#006b94" />
+                    </Badge>
+                </Button>
+            );
+        })
+    )
+    .add(
+        'without number',
+        withInfo()(() => {
+            return (
+                <Button icon>
+                    <Badge>
+                        <IconChat width="30" height="30" color="#006b94" />
+                    </Badge>
+                </Button>
+            );
+        })
     );

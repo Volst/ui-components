@@ -31,10 +31,11 @@ export default class Badge extends Component {
     };
 
     render() {
+        const { count, children } = this.props;
         return (
             <Wrapper>
-                {this.props.children}
-                <Bubble>{this.props.count}</Bubble>
+                {children}
+                {count !== 0 && <Bubble>{count}</Bubble>}
             </Wrapper>
         );
     }
