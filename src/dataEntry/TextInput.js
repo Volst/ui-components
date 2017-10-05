@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { theme } from '../config';
 
@@ -53,7 +53,7 @@ export const StyledInput = styled(
             : ''};
 `;
 
-export default class TextInput extends Component {
+export default class TextInput extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
         onBlur: PropTypes.func,

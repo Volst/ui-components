@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -14,7 +14,7 @@ const Container = styled.div`
 
 const StyledLabel = styled.label`text-transform: uppercase;`;
 
-export default class LabelText extends Component {
+export default class LabelText extends PureComponent {
     static propTypes = {
         helpText: PropTypes.string,
         htmlFor: PropTypes.string,

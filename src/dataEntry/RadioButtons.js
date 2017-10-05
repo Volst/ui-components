@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import styled from 'styled-components';
 import { readableColor } from 'polished';
@@ -96,7 +96,7 @@ const StyledInput = styled.input`
     }
 `;
 
-export default class RadioButtons extends Component {
+export default class RadioButtons extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
         name: PropTypes.string,

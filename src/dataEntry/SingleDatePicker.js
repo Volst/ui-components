@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DatePickerWrapper from './DatePickerWrapper';
 import moment from 'moment';
@@ -14,7 +14,7 @@ const StyledMaskedInput = StyledInput.withComponent(
 );
 
 // This is not a hack, it is a documented workaround (in react-day-picker)!
-class MaskedDateInput extends Component {
+class MaskedDateInput extends PureComponent {
     // Okay specifically this is a horrible hack.
     static contextTypes = {
         inputDateFormat: PropTypes.string,
@@ -54,7 +54,7 @@ class MaskedDateInput extends Component {
 }
 
 @withTheme
-export default class SingleDatePicker extends Component {
+export default class SingleDatePicker extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
         name: PropTypes.string,

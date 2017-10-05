@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 const StyledLabel = styled.label`
@@ -15,7 +15,7 @@ const StyledInput = styled.input`
     top: -1px;
 `;
 
-export default class Checkbox extends Component {
+export default class Checkbox extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         name: PropTypes.string,

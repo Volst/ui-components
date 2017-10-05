@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StyledInput } from './TextInput';
 import RTimeInput from 'react-time-input';
 import moment from 'moment';
 
 const MyInput = StyledInput.withComponent(RTimeInput);
 
-export default class TimeInput extends Component {
+export default class TimeInput extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
         placeholder: PropTypes.string,

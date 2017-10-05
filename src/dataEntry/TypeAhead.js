@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Downshift from 'downshift';
 import { StyledInput } from './TextInput';
 import { DropdownContainer, Dropdown, DropdownItem } from './FancySelect';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
-export default class TypeAhead extends Component {
+export default class TypeAhead extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         onSelect: PropTypes.func.isRequired,

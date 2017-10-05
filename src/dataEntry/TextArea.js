@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { theme } from '../config';
 
@@ -30,7 +30,7 @@ export const StyledTextarea = styled.textarea`
     }
 `;
 
-export default class TextArea extends Component {
+export default class TextArea extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
         placeholder: PropTypes.string,
