@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint } from 'polished';
-import { theme } from '../config';
+import { theme, readableColor } from '../config';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
@@ -23,15 +23,14 @@ function getProps(props) {
     return newProps;
 }
 
-function getTextColor(props) {
-    const toneColor = props.tone ? theme(props, `${props.tone}Color`) : null;
+function getTextColor(props, background) {
     if (props.link) {
-        return toneColor || theme(props, 'primaryColor');
+        return background;
     }
     if (props.icon) {
-        return toneColor || theme(props, 'textColor');
+        return props.tone ? background : theme(props, 'textColor');
     }
-    return props.tone === 'light' ? theme(props, 'textColor') : '#fff';
+    return readableColor(background);
 }
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
@@ -76,8 +75,8 @@ export const Button = styled(props => (
         width: 100%;
     `};
     ${props => {
-        const color = theme(props, `${props.tone || 'primary'}Color`);
-        const textColor = `color: ${getTextColor(props)};`;
+        const background = theme(props, `${props.tone || 'primary'}Color`);
+        const textColor = `color: ${getTextColor(props, background)};`;
 
         if (props.icon) {
             return textColor;
@@ -103,22 +102,22 @@ export const Button = styled(props => (
                 ? `
                 ${props.tone === 'light'
                     ? `
-                    background: ${tint(0.5, color)};
+                    background: ${tint(0.5, background)};
                     color: ${tint(0.4, theme(props, 'textColor'))};
                 `
                     : `
-                    background: ${tint(0.25, color)};
+                    background: ${tint(0.25, background)};
                 `}
             `
                 : `
-                background: ${color};
+                background: ${background};
 
             &:hover {
-                background: ${darken(0.03, color)};
+                background: ${darken(0.03, background)};
             }
 
             &:active {
-                background: ${darken(0.07, color)};
+                background: ${darken(0.07, background)};
             }
         `}
     `;

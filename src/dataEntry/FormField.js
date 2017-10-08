@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component, Children } from 'react';
 import styled from 'styled-components';
 import LabelText from './LabelText';
-import { readableColor } from 'polished';
-import { theme } from '../config';
+import { theme, readableColor } from '../config';
 import { t } from 'i18next';
 import { uniqueId } from 'lodash';
 

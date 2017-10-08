@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import styled from 'styled-components';
-import { readableColor } from 'polished';
-import { theme } from '../config';
+import { theme, readableColor } from '../config';
 import { uniqueId } from 'lodash';
 
 const StyledDiv = styled.div`
