@@ -75,7 +75,7 @@ const StyledLabel = styled.label`
     `};
     background: ${props => theme(props, 'componentBackground')};
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.5);
+    color: ${props => theme(props, 'textColor')};
     white-space: nowrap;
 `;
 

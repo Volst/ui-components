@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { tint } from 'polished';
-import { theme } from '../config';
+import { theme, readableColor } from '../config';
 import onClickOutside from 'react-onclickoutside';
 
 const RelativeWrapper = styled.div`position: relative;`;
@@ -60,7 +60,13 @@ export const DropdownItem = styled.div`
     cursor: pointer;
     user-select: none;
     &:hover {
-        background: ${props => tint(0.2, theme(props, 'primaryColor'))};
+        ${props => {
+            const background = tint(0.2, theme(props, 'primaryColor'));
+            return `
+                background: ${background};
+                color: ${readableColor(background)};
+            `;
+        }};
     }
     &:last-child {
         border-bottom-width: 0;

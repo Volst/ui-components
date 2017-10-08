@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import Downshift from 'downshift';
 import styled from 'styled-components';
 import { tint } from 'polished';
-import { theme } from '../config';
+import { theme, readableColor } from '../config';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
 import IconArrowDropUp from '../general/icon/IconArrowDropUp';
 import IconClose from '../general/icon/IconClose';
@@ -34,9 +34,15 @@ const DropdownToggle = styled.div`
 `;
 
 export const DropdownItem = styled.div`
-    background: ${props =>
-        props.highlighted ? tint(0.2, theme(props, 'primaryColor')) : 'white'};
-    color: ${props => theme(props, 'textColor')};
+    ${props => {
+        const background = props.highlighted
+            ? tint(0.2, theme(props, 'primaryColor'))
+            : theme(props, 'componentBackground');
+        return `
+            background: ${background};
+            color: ${readableColor(background)};
+        `;
+    }};
     font-weight: ${props => (props.selected ? 'bold' : 'normal')};
     padding: 4px;
     cursor: default;

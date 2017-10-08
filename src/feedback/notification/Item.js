@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Button } from '../../general/Button';
+import { readableColor } from '../../config';
 
 const TRANSITION_TIME = 500;
 
@@ -77,10 +78,21 @@ const CloseButton = styled(Button)`
     font-size: 15px;
 `;
 
+function getBackgroundColor(props) {
+    switch (props.type) {
+        case 'info':
+            return '#fbf2c4';
+        case 'error':
+            return '#f1a1a8';
+        default:
+            break;
+    }
+}
+
 const StyledItem = styled.div`
     width: 250px;
     padding: 10px 40px 10px 14px;
-    color: #000;
+    color: ${props => readableColor(getBackgroundColor(props))};
     margin-bottom: 15px;
     border-radius: 4px;
     position: relative;
@@ -96,14 +108,6 @@ const StyledItem = styled.div`
         visibility: hidden;
         opacity: 0;
     `
-            : ''} background: ${props => {
-            switch (props.type) {
-                case 'info':
-                    return '#fbf2c4';
-                case 'error':
-                    return '#f1a1a8';
-                default:
-                    break;
-            }
-        }};
+            : ''};
+    background: ${getBackgroundColor};
 `;

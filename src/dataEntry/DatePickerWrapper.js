@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme } from '../config';
+import { theme, readableColor } from '../config';
 
 const DatePickerWrapper = styled.div`
     .DayPicker {
@@ -45,13 +45,21 @@ const DatePickerWrapper = styled.div`
     .DayPicker-NavButton--prev {
         top: -0.2rem;
         left: 1rem;
-        background-image: url('data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+        background-image: url('data:image/svg+xml;utf8,<svg fill="${props =>
+            theme(
+                props,
+                'textColor'
+            )}" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     }
 
     .DayPicker-NavButton--next {
         top: -0.2rem;
         right: 1rem;
-        background-image: url('data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+        background-image: url('data:image/svg+xml;utf8,<svg fill="${props =>
+            theme(
+                props,
+                'textColor'
+            )}" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     }
 
     .DayPicker-NavButton--interactionDisabled {
@@ -91,7 +99,7 @@ const DatePickerWrapper = styled.div`
     .DayPicker-Day {
         display: table-cell;
         padding: 0.5rem;
-        border: 1px solid #eaecec;
+        border: 1px solid ${props => theme(props, 'borderColor')};
         text-align: center;
         cursor: pointer;
         vertical-align: middle;
@@ -147,7 +155,7 @@ const DatePickerWrapper = styled.div`
     }
 
     .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
-        color: #fff;
+        color: ${props => readableColor(theme(props, 'primaryColor'))};
         background-color: ${props => theme(props, 'primaryColor')};
     }
 

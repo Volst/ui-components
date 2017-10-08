@@ -8,7 +8,7 @@ const Background = styled.div`
     height: 100%;
 `;
 const Wrapper = styled.div`
-    background: #fff;
+    background: ${props => props.theme.bodyBackground || '#fff'};
     width: 350px;
     padding: 30px;
 `;
