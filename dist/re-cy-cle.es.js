@@ -1,13 +1,13 @@
-import React, { Children, Component } from 'react';
+import React, { Children, Component, PureComponent } from 'react';
 import styled, { ThemeProvider, injectGlobal, keyframes, withTheme } from 'styled-components';
 import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
+import { darken, parseToRgb, tint } from 'polished';
 import PropTypes from 'prop-types';
 import { omit, pick, uniqueId } from 'lodash';
 import { Link, NavLink } from 'react-router-dom';
-import { darken, readableColor, tint } from 'polished';
 import { t } from 'i18next';
 import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
@@ -39,6 +39,14 @@ const defaultConfig = {
 
 function theme(props, value) {
     return props.theme[value] || defaultConfig[value];
+}
+
+// This uses YIQ to  calculate the color contrast.
+// Same calculation as Bootstrap uses, seems to work better than polished's `readableColor()`
+function readableColor(color) {
+    const { red, green, blue } = parseToRgb(color);
+    var yiq = (red * 299 + green * 587 + blue * 114) / 1000;
+    return yiq >= 150 ? '#111' : '#fff';
 }
 
 const injectGlobalStyles = props => injectGlobal`
@@ -122,15 +130,14 @@ function getProps(props) {
     return newProps;
 }
 
-function getTextColor(props) {
-    const toneColor = props.tone ? theme(props, `${props.tone}Color`) : null;
+function getTextColor(props, background) {
     if (props.link) {
-        return toneColor || theme(props, 'primaryColor');
+        return background;
     }
     if (props.icon) {
-        return toneColor || theme(props, 'textColor');
+        return props.tone ? background : theme(props, 'textColor');
     }
-    return props.tone === 'light' ? theme(props, 'textColor') : '#fff';
+    return readableColor(background);
 }
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
@@ -152,8 +159,8 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
         margin: 5px 0;
         width: 100%;
     `, props => {
-    const color = theme(props, `${props.tone || 'primary'}Color`);
-    const textColor = `color: ${getTextColor(props)};`;
+    const background = theme(props, `${props.tone || 'primary'}Color`);
+    const textColor = `color: ${getTextColor(props, background)};`;
 
     if (props.icon) {
         return textColor;
@@ -177,20 +184,20 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
 
             ${props.disabled ? `
                 ${props.tone === 'light' ? `
-                    background: ${tint(0.5, color)};
+                    background: ${tint(0.5, background)};
                     color: ${tint(0.4, theme(props, 'textColor'))};
                 ` : `
-                    background: ${tint(0.25, color)};
+                    background: ${tint(0.25, background)};
                 `}
             ` : `
-                background: ${color};
+                background: ${background};
 
             &:hover {
-                background: ${darken(0.03, color)};
+                background: ${darken(0.03, background)};
             }
 
             &:active {
-                background: ${darken(0.07, color)};
+                background: ${darken(0.07, background)};
             }
         `}
     `;
@@ -285,7 +292,7 @@ const StyledLabel = styled.label.withConfig({
     displayName: 'LabelText__StyledLabel'
 })(['text-transform:uppercase;']);
 
-let LabelText = (_temp = _class$2 = class LabelText extends Component {
+let LabelText = (_temp = _class$2 = class LabelText extends PureComponent {
 
     render() {
         return React.createElement(
@@ -420,8 +427,10 @@ var _temp2$2;
 
 const StyledDiv = styled.div.withConfig({
     displayName: 'RadioButtons__StyledDiv'
-})(['display:flex;align-items:stretch;flex-direction:', ';border:1px solid transparent;border-radius:4px;', ';'], props => props.vertical ? 'column' : 'row', props => props.focus && `
-        border-color: ${theme(props, 'primaryColor')};
+})(['-webkit-touch-callout:none;user-select:none;display:flex;align-items:stretch;flex-direction:', ';border:1px solid transparent;border-radius:4px;', ';'], props => props.vertical ? 'column' : 'row', props => props.focus && `
+        label {
+            border-color: ${theme(props, 'primaryColor')};
+        }
     `);
 
 const Option = styled.div.withConfig({
@@ -444,17 +453,17 @@ const Option = styled.div.withConfig({
 
 const StyledLabel$1 = styled.label.withConfig({
     displayName: 'RadioButtons__StyledLabel'
-})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px 5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:rgba(0,0,0,0.5);white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer', props => theme(props, 'borderColor'), props => props.vertical ? `
+})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px 5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:', ';white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer', props => theme(props, 'borderColor'), props => props.vertical ? `
             border-top-width: 0;
             ` : `
         border-left-width: 0;
-    `, props => theme(props, 'componentBackground'));
+    `, props => theme(props, 'componentBackground'), props => theme(props, 'textColor'));
 
 const StyledInput = styled.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
 })(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:', ';box-shadow:', ';}'], props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => readableColor(theme(props, 'primaryColor')), props => `${props.vertical ? '0px -1px' : '-1px 0'} ${theme(props, 'primaryColor')}`);
 
-let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends Component {
+let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -466,10 +475,13 @@ let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends Component {
             }
         }, this.renderItem = item => {
             const handleChange = () => this.handleChange(item.value);
+            const id = `radiobuttons-${uniqueId()}`;
+
             return React.createElement(
                 Option,
                 { key: item.value, vertical: this.props.vertical },
                 React.createElement(StyledInput, {
+                    id: id,
                     tabIndex: '0',
                     type: 'radio',
                     name: this.props.name,
@@ -481,7 +493,7 @@ let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends Component {
                 React.createElement(
                     StyledLabel$1,
                     {
-                        onClick: handleChange,
+                        htmlFor: id,
                         disabled: this.props.disabled,
                         vertical: this.props.vertical
                     },
@@ -531,7 +543,7 @@ const StyledInput$1 = styled.input.withConfig({
     displayName: 'RadioList__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let RadioList = (_temp2$3 = _class$4 = class RadioList extends Component {
+let RadioList = (_temp2$3 = _class$4 = class RadioList extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -577,7 +589,7 @@ const StyledInput$2 = styled.input.withConfig({
     displayName: 'Checkbox__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let Checkbox = (_temp2$4 = _class$5 = class Checkbox extends Component {
+let Checkbox = (_temp2$4 = _class$5 = class Checkbox extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -645,7 +657,7 @@ const StyledInput$3 = styled((_ref2) => {
         border-bottom-right-radius: 0;
     ` : '');
 
-let TextInput = (_temp2$5 = _class$6 = class TextInput extends Component {
+let TextInput = (_temp2$5 = _class$6 = class TextInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -705,7 +717,7 @@ const MyInput = StyledInput$3.withComponent((_ref) => {
     return React.createElement(MaskedInput, props);
 });
 
-let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends Component {
+let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -792,7 +804,7 @@ var _temp2$7;
 
 const MyInput$1 = StyledInput$3.withComponent(RTimeInput);
 
-let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends Component {
+let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -842,7 +854,7 @@ const StyledTextarea = styled.textarea.withConfig({
     displayName: 'TextArea__StyledTextarea'
 })(['font-size:14px;color:', ';background:', ';padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{outline:0;border:1px solid ', ';}'], props => theme(props, 'textColor'), props => theme(props, 'componentBackground'), props => theme(props, 'borderColor'), props => theme(props, 'disabledColor'), props => theme(props, 'primaryColor'));
 
-let TextArea = (_temp2$8 = _class$9 = class TextArea extends Component {
+let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -943,14 +955,20 @@ const DropdownToggle = styled.div.withConfig({
 
 const DropdownItem = styled.div.withConfig({
     displayName: 'FancySelect__DropdownItem'
-})(['background:', ';color:', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.highlighted ? tint(0.2, theme(props, 'primaryColor')) : 'white', props => theme(props, 'textColor'), props => props.selected ? 'bold' : 'normal');
+})(['', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => {
+    const background = props.highlighted ? tint(0.2, theme(props, 'primaryColor')) : theme(props, 'componentBackground');
+    return `
+            background: ${background};
+            color: ${readableColor(background)};
+        `;
+}, props => props.selected ? 'bold' : 'normal');
 
 // Poor man's filtering.
 function fuzzySearch(options, inputValue) {
     return options.filter(o => o.label.toLowerCase().includes((inputValue || '').toLowerCase()));
 }
 
-let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends Component {
+let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1076,7 +1094,7 @@ let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends Component {
 var _class$10;
 var _temp2$9;
 
-let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends Component {
+let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1182,7 +1200,7 @@ const StyledSelect = styled((_ref) => {
     displayName: 'SelectInput__StyledSelect'
 })(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'componentBackground'), props => theme(props, 'primaryColor'), props => theme(props, 'disabledColor'));
 
-let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends Component {
+let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1233,7 +1251,7 @@ let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends Component {
 
 const DatePickerWrapper = styled.div.withConfig({
     displayName: 'DatePickerWrapper'
-})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid #eaecec;text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:#fff;background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:100;}'], props => theme(props, 'dangerColor'), props => theme(props, 'lightColor'), props => theme(props, 'disabledColor'), props => theme(props, 'lightColor'), props => theme(props, 'primaryColor'), props => theme(props, 'componentBackground'));
+})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:100;}'], props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'dangerColor'), props => theme(props, 'lightColor'), props => theme(props, 'disabledColor'), props => theme(props, 'lightColor'), props => readableColor(theme(props, 'primaryColor')), props => theme(props, 'primaryColor'), props => theme(props, 'componentBackground'));
 
 var _class$13;
 var _temp2$12;
@@ -1248,7 +1266,7 @@ const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
 });
 
 // This is not a hack, it is a documented workaround (in react-day-picker)!
-let MaskedDateInput = (_temp2$12 = _class$13 = class MaskedDateInput extends Component {
+let MaskedDateInput = (_temp2$12 = _class$13 = class MaskedDateInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1287,7 +1305,7 @@ let MaskedDateInput = (_temp2$12 = _class$13 = class MaskedDateInput extends Com
     inputDateFormat: PropTypes.string
 }, _temp2$12);
 
-let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDatePicker extends Component {
+let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDatePicker extends PureComponent {
     constructor(...args) {
         var _temp3;
 
@@ -1702,12 +1720,7 @@ const CloseButton = styled(Button).withConfig({
     displayName: 'Item__CloseButton'
 })(['margin-left:11px;position:absolute;top:13px;right:13px;font-size:15px;']);
 
-const StyledItem = styled.div.withConfig({
-    displayName: 'Item__StyledItem'
-})(['width:250px;padding:10px 40px 10px 14px;color:#000;margin-bottom:15px;border-radius:4px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);word-wrap:break-word;', ' background:', ';'], TRANSITION_TIME, props => !props.active ? `
-        visibility: hidden;
-        opacity: 0;
-    ` : '', props => {
+function getBackgroundColor(props) {
     switch (props.type) {
         case 'info':
             return '#fbf2c4';
@@ -1716,7 +1729,14 @@ const StyledItem = styled.div.withConfig({
         default:
             break;
     }
-});
+}
+
+const StyledItem = styled.div.withConfig({
+    displayName: 'Item__StyledItem'
+})(['width:250px;padding:10px 40px 10px 14px;color:', ';margin-bottom:15px;border-radius:4px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);word-wrap:break-word;', ';background:', ';'], props => readableColor(getBackgroundColor(props)), TRANSITION_TIME, props => !props.active ? `
+        visibility: hidden;
+        opacity: 0;
+    ` : '', getBackgroundColor);
 
 var _class$16;
 var _temp2$14;
@@ -1818,14 +1838,15 @@ const Wrapper = styled.div.withConfig({
 let Badge = (_temp$2 = _class$19 = class Badge extends Component {
 
     render() {
+        const { count, children } = this.props;
         return React.createElement(
             Wrapper,
             null,
-            this.props.children,
-            React.createElement(
+            children,
+            count !== 0 && React.createElement(
                 Bubble,
                 null,
-                this.props.count
+                count
             )
         );
     }
@@ -1966,7 +1987,13 @@ const DropdownMenu = styled.div.withConfig({
 
 const DropdownItem$1 = styled.div.withConfig({
     displayName: 'Dropdown__DropdownItem'
-})(['padding:10px 15px;border-bottom:1px solid ', ';color:', ';cursor:pointer;user-select:none;&:hover{background:', ';}&:last-child{border-bottom-width:0;}'], props => theme(props, 'primaryColor'), props => theme(props, 'textColor'), props => tint(0.2, theme(props, 'primaryColor')));
+})(['padding:10px 15px;border-bottom:1px solid ', ';color:', ';cursor:pointer;user-select:none;&:hover{', ';}&:last-child{border-bottom-width:0;}'], props => theme(props, 'primaryColor'), props => theme(props, 'textColor'), props => {
+    const background = tint(0.2, theme(props, 'primaryColor'));
+    return `
+                background: ${background};
+                color: ${readableColor(background)};
+            `;
+});
 
 let IconAccessAlarm = props => React.createElement(
     Icon,
