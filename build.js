@@ -12,7 +12,6 @@ const external = [
     'moment',
     'react-custom-scrollbars',
     'react-styled-flexboxgrid',
-    'react-time-input',
     'react-router-dom',
     'react-text-mask',
     'text-mask-addons/dist/createAutoCorrectedDatePipe',

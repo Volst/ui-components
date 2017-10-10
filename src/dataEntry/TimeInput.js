@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { StyledInput } from './TextInput';
-import RTimeInput from 'react-time-input';
 import moment from 'moment';
+import MaskedInput from 'react-text-mask';
+import textMaskDatePipe from './utils/textMaskDatePipe';
 
-const MyInput = StyledInput.withComponent(RTimeInput);
+const StyledMaskedInput = StyledInput.withComponent(
+    ({ hasError, _ref, ...props }) => <MaskedInput {...props} ref={_ref} />
+);
+
+const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 
 export default class TimeInput extends PureComponent {
     static propTypes = {
@@ -12,6 +17,9 @@ export default class TimeInput extends PureComponent {
         placeholder: PropTypes.string,
         name: PropTypes.string,
         disabled: PropTypes.bool,
+        hasError: PropTypes.bool,
+        id: PropTypes.string,
+        autoFocus: PropTypes.bool,
         value: PropTypes.instanceOf(moment),
     };
 
@@ -20,8 +28,11 @@ export default class TimeInput extends PureComponent {
         value: '',
     };
 
-    onChange = value => {
-        if (!this.props.onChange) return;
+    onChange = e => {
+        // When the user is still typing, we don't want to trigger an update,
+        // because at that point the time is not a valid moment instance yet.
+        const value = e.target.value.replace(/_/g, '');
+        if (!this.props.onChange || value.length < 5) return;
 
         let newValue = null;
         if (this.props.value) {
@@ -40,12 +51,18 @@ export default class TimeInput extends PureComponent {
         const formatted = value ? value.format('HH:mm') : '';
 
         return (
-            <MyInput
+            <StyledMaskedInput
                 name={this.props.name}
-                initTime={formatted}
                 placeholder={this.props.placeholder}
                 disabled={this.props.disabled}
-                onTimeChange={this.onChange}
+                hasError={this.props.hasError}
+                id={this.props.id}
+                autoFocus={this.props.autoFocus}
+                value={formatted}
+                onChange={this.onChange}
+                mask={TIME_MASK}
+                pipe={textMaskDatePipe('HH:MM')}
+                keepCharPositions
             />
         );
     }

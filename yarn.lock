@@ -5748,10 +5748,6 @@ react-text-mask@^5.0.2:
   dependencies:
     prop-types "^15.5.6"
 
-react-time-input@SpaceK33z/react-time-input#fcc3215d8f1007c5542876af83e9fa216119ed4b:
-  version "0.0.16"
-  resolved "https://codeload.github.com/SpaceK33z/react-time-input/tar.gz/fcc3215d8f1007c5542876af83e9fa216119ed4b"
-
 react-transition-group@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-1.2.0.tgz#b51fc921b0c3835a7ef7c571c79fc82c73e9204f"
