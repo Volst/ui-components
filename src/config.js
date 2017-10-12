@@ -3,10 +3,10 @@ import { parseToRgb } from 'polished';
 const defaultConfig = {
     primaryColor: '#006b94',
     successColor: '#58b96b',
-    warningColor: '#d45352',
+    dangerColor: '#dc0818',
+    warningColor: '#ffc107',
     darkColor: '#4c4c4c',
     lightColor: '#eee',
-    dangerColor: '#dc0818',
     textColor: 'rgba(0, 0, 0, 0.7)',
     borderColor: '#ccc',
     highlightColor: '#fbdba7',

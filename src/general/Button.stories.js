@@ -33,6 +33,12 @@ storiesOf('General / Button', module)
                         </Button>
                     </div>
                     <div>
+                        <Button tone="danger">Danger</Button>
+                        <Button tone="danger" disabled>
+                            Danger disabled
+                        </Button>
+                    </div>
+                    <div>
                         <Button tone="warning">Warning</Button>
                         <Button tone="warning" disabled>
                             Warning disabled

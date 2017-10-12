@@ -57,6 +57,7 @@ storiesOf('General / Typography', module)
                     <Text tone="primary">Primary text</Text>
                     <Text tone="success">Success text</Text>
                     <Text tone="danger">Danger text</Text>
+                    <Text tone="warning">Warning text</Text>
                     <Text tone="dark">Dark text</Text>
                     <Text tone="light">Light text</Text>
                     <Heading>Inline text with tones</Heading>
@@ -64,7 +65,8 @@ storiesOf('General / Typography', module)
                         This time we show the inline variant with its
                         <InlineText tone="primary"> primary</InlineText>,
                         <InlineText tone="success"> success</InlineText>,
-                        <InlineText tone="danger"> danger</InlineText>
+                        <InlineText tone="danger"> danger</InlineText>,
+                        <InlineText tone="warning"> warning</InlineText>,
                         <InlineText tone="dark"> dark</InlineText>,
                         <InlineText tone="light"> light</InlineText> tones.
                     </Text>
