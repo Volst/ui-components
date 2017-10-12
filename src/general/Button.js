@@ -5,6 +5,7 @@ import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint } from 'polished';
 import { theme, readableColor } from '../config';
+import { TonePropType } from '../PropTypes';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
@@ -130,7 +131,7 @@ Button.propTypes = {
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
-    tone: PropTypes.oneOf(['primary', 'success', 'warning', 'dark', 'light']),
+    tone: TonePropType,
 };
 
 export const ExternalLink = Button.withComponent(props => {

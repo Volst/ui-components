@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { theme } from '../../config';
+import { TonePropType } from '../../PropTypes';
+import PropTypes from 'prop-types';
 
 export const Text = styled.p`
     font-weight: ${props => (props.bold ? 'bold' : 'normal')};
@@ -10,4 +12,12 @@ export const Text = styled.p`
     font-size: ${props => (props.small ? '80%' : 'inherit')};
 `;
 
+Text.displayName = 'Text';
+Text.propTypes = {
+    tone: TonePropType,
+    bold: PropTypes.bool,
+    italic: PropTypes.bool,
+};
+
 export const InlineText = Text.withComponent('span');
+InlineText.displayName = 'InlineText';

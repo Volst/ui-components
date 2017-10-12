@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { theme } from '../../config';
 
@@ -7,5 +8,9 @@ const Heading = styled.h1`
     margin: 20px 0 7px 0;
     color: ${props => props.color || theme(props, 'textColor')};
 `;
+Heading.displayName = 'Heading';
+Heading.propTypes = {
+    color: PropTypes.string,
+};
 
 export default Heading;
