@@ -5,7 +5,7 @@ import DatePickerWrapper from './DatePickerWrapper';
 import moment from 'moment';
 import { StyledInput } from './TextInput';
 import MaskedInput from 'react-text-mask';
-import textMaskDatePipe from './utils/textMaskDatePipe';
+import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { withTheme } from 'styled-components';
 import { theme } from '../config';
 
@@ -46,7 +46,7 @@ class MaskedDateInput extends PureComponent {
                 _ref={this.setRef}
                 {...this.props}
                 mask={this.getMaskBasedOnDateFormat(dateFormat)}
-                pipe={textMaskDatePipe(dateFormat)}
+                pipe={createAutoCorrectedDatePipe(dateFormat)}
                 keepCharPositions
             />
         );

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { StyledInput } from './TextInput';
 import moment from 'moment';
 import MaskedInput from 'react-text-mask';
-import textMaskDatePipe from './utils/textMaskDatePipe';
+import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 
 const StyledMaskedInput = StyledInput.withComponent(
     ({ hasError, _ref, ...props }) => <MaskedInput {...props} ref={_ref} />
@@ -61,7 +61,7 @@ export default class TimeInput extends PureComponent {
                 value={formatted}
                 onChange={this.onChange}
                 mask={TIME_MASK}
-                pipe={textMaskDatePipe('HH:MM')}
+                pipe={createAutoCorrectedDatePipe('HH:MM')}
                 keepCharPositions
             />
         );
