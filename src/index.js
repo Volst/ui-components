@@ -2,6 +2,7 @@ export { default as ReCyCleTheme } from './ReCyCleTheme';
 export { Button, Link, ExternalLink } from './general/Button';
 export { default as Heading } from './general/typography/Heading';
 export { default as Subheading } from './general/typography/Subheading';
+export { Text, InlineText } from './general/typography/Text';
 
 export { default as Form } from './dataEntry/Form';
 export { default as FormField } from './dataEntry/FormField';
