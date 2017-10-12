@@ -6,12 +6,15 @@ import { theme } from '../config';
 export const StyledTextarea = styled.textarea`
     font-size: 14px;
     color: ${props => theme(props, 'textColor')};
-    background: ${props => theme(props, 'componentBackground')};
+    background: ${props =>
+        props.hasError ? '#fef2f2' : theme(props, 'componentBackground')};
     padding: 8px;
     min-height: 80px;
     text-decoration: none;
     border-radius: 4px;
-    border: 1px solid ${props => theme(props, 'borderColor')};
+    border: 1px solid
+        ${props =>
+            theme(props, props.hasError ? 'dangerColor' : 'borderColor')};
     width: 100%;
     resize: none;
 
@@ -25,8 +28,8 @@ export const StyledTextarea = styled.textarea`
     }
 
     &:focus {
-        outline: 0;
-        border: 1px solid ${props => theme(props, 'primaryColor')};
+        border-color: ${props =>
+            !props.hasError && theme(props, 'primaryColor')};
     }
 `;
 
@@ -41,6 +44,7 @@ export default class TextArea extends PureComponent {
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         autoFocus: PropTypes.bool,
         onBlur: PropTypes.func,
+        hasError: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -66,6 +70,7 @@ export default class TextArea extends PureComponent {
                 maxLength={this.props.maxLength}
                 autoFocus={this.props.autoFocus}
                 disabled={this.props.disabled}
+                hasError={this.props.hasError}
                 placeholder={this.props.placeholder}
                 onChange={this.onChange}
                 onBlur={this.props.onBlur}

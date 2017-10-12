@@ -21,6 +21,19 @@ storiesOf('Data Entry / SingleDatePicker', module)
         })
     )
     .add(
+        'with error',
+        withInfo()(() => {
+            return (
+                <SingleDatePicker
+                    hasError
+                    onChange={action('change')}
+                    name="myname"
+                    value={moment()}
+                />
+            );
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (

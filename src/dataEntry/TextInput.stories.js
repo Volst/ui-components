@@ -14,6 +14,14 @@ storiesOf('Data Entry / TextInput', module)
         })
     )
     .add(
+        'with error',
+        withInfo()(() => {
+            return (
+                <TextInput onChange={action('change')} name="myname" hasError />
+            );
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (

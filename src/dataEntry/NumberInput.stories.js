@@ -43,6 +43,18 @@ storiesOf('Data Entry / NumberInput', module)
         })
     )
     .add(
+        'with error',
+        withInfo()(() => {
+            return (
+                <NumberInput
+                    onChange={action('change')}
+                    name="dollars"
+                    hasError
+                />
+            );
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (

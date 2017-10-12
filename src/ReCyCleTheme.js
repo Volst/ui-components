@@ -52,6 +52,7 @@ const injectGlobalStyles = props => injectGlobal`
     }
 
     input:focus,
+    textarea:focus,
     button:focus {
         outline: 0;
     }

@@ -5,7 +5,9 @@ import { t } from 'i18next';
 import { theme } from '../config';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
-const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
+const StyledSelect = styled(({ autoWidth, hasError, ...props }) => (
+    <select {...props} />
+))`
     width: ${props => (props.autoWidth ? 'auto' : '100%')};
     height: 30px;
     font-size: 14px;
@@ -13,8 +15,11 @@ const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
     padding: 0 40px 0 10px;
     text-decoration: none;
     border-radius: 4px;
-    border: 1px solid ${props => theme(props, 'borderColor')};
-    background-color: ${props => theme(props, 'componentBackground')};
+    border: 1px solid
+        ${props =>
+            theme(props, props.hasError ? 'dangerColor' : 'borderColor')};
+    background-color: ${props =>
+        props.hasError ? '#fef2f2' : theme(props, 'componentBackground')};
     background-image: url('data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>');
     background-repeat: no-repeat;
     background-position: right 10px center;
@@ -23,7 +28,8 @@ const StyledSelect = styled(({ autoWidth, ...props }) => <select {...props} />)`
 
     &:focus {
         outline: 0;
-        border: 1px solid ${props => theme(props, 'primaryColor')};
+        border: 1px solid
+            ${props => !props.hasError && theme(props, 'primaryColor')};
     }
 
     &:disabled {
@@ -39,6 +45,7 @@ export default class SelectInput extends PureComponent {
         name: PropTypes.string,
         id: PropTypes.string,
         disabled: PropTypes.bool,
+        hasError: PropTypes.bool,
         placeholder: PropTypes.string,
         skipPlaceholder: PropTypes.bool,
         value: ValuePropType,
@@ -68,6 +75,7 @@ export default class SelectInput extends PureComponent {
                 value={this.props.value || ''}
                 onChange={this.onChange}
                 disabled={this.props.disabled}
+                hasError={this.props.hasError}
                 autoWidth={this.props.autoWidth}
             >
                 {!this.props.skipPlaceholder && (

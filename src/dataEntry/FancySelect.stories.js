@@ -77,6 +77,19 @@ storiesOf('Data Entry / FancySelect', module)
         })
     )
     .add(
+        'with error',
+        withInfo()(() => {
+            return (
+                <FancySelect
+                    onChange={action('change')}
+                    name="myname"
+                    options={SOME_OPTIONS}
+                    hasError
+                />
+            );
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (

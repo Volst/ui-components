@@ -61,6 +61,7 @@ export default class SingleDatePicker extends PureComponent {
         placeholder: PropTypes.string,
         value: PropTypes.instanceOf(moment),
         disabled: PropTypes.bool,
+        hasError: PropTypes.bool,
         disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
     };
 
@@ -105,6 +106,7 @@ export default class SingleDatePicker extends PureComponent {
                     onDayChange={this.handleChange}
                     value={value}
                     disabled={this.props.disabled}
+                    hasError={this.props.hasError}
                     placeholder={this.props.placeholder}
                     format={dateFormat}
                     dayPickerProps={dayPickerProps}

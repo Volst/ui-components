@@ -12,6 +12,7 @@ export default class TypeAhead extends PureComponent {
         name: PropTypes.string,
         value: ValuePropType,
         options: OptionsPropType,
+        hasError: PropTypes.bool,
         disabled: PropTypes.bool,
     };
 
@@ -91,6 +92,7 @@ export default class TypeAhead extends PureComponent {
                             <StyledInput
                                 {...getInputProps()}
                                 hasDropdown={isOpen && hasOptions}
+                                hasError={this.props.hasError}
                                 disabled={this.props.disabled}
                             />
                             {isOpen &&

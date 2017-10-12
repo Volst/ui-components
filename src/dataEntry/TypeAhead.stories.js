@@ -43,6 +43,20 @@ storiesOf('Data Entry / TypeAhead', module)
         })
     )
     .add(
+        'with error',
+        withInfo()(() => {
+            return (
+                <TypeAhead
+                    onChange={action('change')}
+                    onSelect={action('select')}
+                    name="myname"
+                    options={SOME_OPTIONS}
+                    hasError
+                />
+            );
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (

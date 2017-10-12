@@ -27,6 +27,14 @@ storiesOf('Data Entry / TimeInput', module)
         })
     )
     .add(
+        'with error',
+        withInfo()(() => {
+            return (
+                <TimeInput onChange={action('change')} name="myname" hasError />
+            );
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (

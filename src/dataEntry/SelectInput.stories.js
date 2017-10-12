@@ -32,6 +32,20 @@ storiesOf('Data Entry / SelectInput', module)
         })
     )
     .add(
+        'with error',
+        withInfo()(() => {
+            return (
+                <SelectInput
+                    hasError
+                    onChange={action('change')}
+                    name="myname"
+                    options={SOME_OPTIONS}
+                    value="zebra"
+                />
+            );
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (

@@ -18,6 +18,14 @@ storiesOf('Data Entry / TextArea', module)
         })
     )
     .add(
+        'with error',
+        withInfo()(() => {
+            return (
+                <TextArea onChange={action('change')} name="myname" hasError />
+            );
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (
