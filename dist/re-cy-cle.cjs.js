@@ -19,11 +19,10 @@ var reactRouterDom = require('react-router-dom');
 var i18next = require('i18next');
 var MaskedInput = _interopDefault(require('react-text-mask'));
 var createNumberMask = _interopDefault(require('text-mask-addons/dist/createNumberMask'));
-var RTimeInput = _interopDefault(require('react-time-input'));
 var moment = _interopDefault(require('moment'));
+var createAutoCorrectedDatePipe = _interopDefault(require('text-mask-addons/dist/createAutoCorrectedDatePipe'));
 var Downshift = _interopDefault(require('downshift'));
 var DayPickerInput = _interopDefault(require('react-day-picker/DayPickerInput'));
-var createAutoCorrectedDatePipe = _interopDefault(require('text-mask-addons/dist/createAutoCorrectedDatePipe'));
 var reactCustomScrollbars = require('react-custom-scrollbars');
 var reactStyledFlexboxgrid = require('react-styled-flexboxgrid');
 var onClickOutside = _interopDefault(require('react-onclickoutside'));
@@ -31,10 +30,10 @@ var onClickOutside = _interopDefault(require('react-onclickoutside'));
 const defaultConfig = {
     primaryColor: '#006b94',
     successColor: '#58b96b',
-    warningColor: '#d45352',
+    dangerColor: '#dc0818',
+    warningColor: '#ffc107',
     darkColor: '#4c4c4c',
     lightColor: '#eee',
-    dangerColor: '#dc0818',
     textColor: 'rgba(0, 0, 0, 0.7)',
     borderColor: '#ccc',
     highlightColor: '#fbdba7',
@@ -103,6 +102,7 @@ const injectGlobalStyles = props => styled.injectGlobal`
     }
 
     input:focus,
+    textarea:focus,
     button:focus {
         outline: 0;
     }
@@ -116,6 +116,15 @@ let ReCyCleTheme = class ReCyCleTheme extends React.Component {
         return React__default.createElement(styled.ThemeProvider, this.props);
     }
 };
+
+const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
+
+const OptionsPropType = PropTypes.arrayOf(PropTypes.shape({
+    value: ValuePropType.isRequired,
+    label: PropTypes.string.isRequired
+})).isRequired;
+
+const TonePropType = PropTypes.oneOf(['primary', 'success', 'warning', 'danger', 'light', 'dark']);
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
@@ -217,7 +226,7 @@ Button.propTypes = {
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
-    tone: PropTypes.oneOf(['primary', 'success', 'warning', 'dark', 'light'])
+    tone: TonePropType
 };
 
 const ExternalLink = Button.withComponent(props => {
@@ -238,11 +247,33 @@ Link$1.displayName = 'Link';
 
 const Heading = styled__default.h1.withConfig({
     displayName: 'Heading'
-})(['font-weight:bold;font-size:26px;margin:0;padding:20px 0;color:', ';'], props => props.color || theme(props, 'textColor'));
+})(['font-weight:bold;font-size:26px;margin:20px 0 7px 0;color:', ';'], props => props.color || theme(props, 'textColor'));
+Heading.displayName = 'Heading';
+Heading.propTypes = {
+    color: PropTypes.string
+};
 
 const Subheading = styled__default.h2.withConfig({
     displayName: 'Subheading'
-})(['font-weight:normal;font-size:20px;margin:0;padding:20px 0;color:', ';'], props => props.color || theme(props, 'primaryColor'));
+})(['font-weight:normal;font-size:20px;margin:20px 0 7px 0;color:', ';'], props => props.color || theme(props, 'primaryColor'));
+Subheading.displayName = 'Subheading';
+Subheading.propTypes = {
+    color: PropTypes.string
+};
+
+const Text = styled__default.p.withConfig({
+    displayName: 'Text'
+})(['font-weight:', ';font-style:', ';margin:0 0 20px 0;line-height:1.45;color:', ';font-size:', ';'], props => props.bold ? 'bold' : 'normal', props => props.italic ? 'italic' : 'normal', props => theme(props, `${props.tone || 'text'}Color`), props => props.small ? '80%' : 'inherit');
+
+Text.displayName = 'Text';
+Text.propTypes = {
+    tone: TonePropType,
+    bold: PropTypes.bool,
+    italic: PropTypes.bool
+};
+
+const InlineText = Text.withComponent('span');
+InlineText.displayName = 'InlineText';
 
 var _class;
 var _temp2;
@@ -422,13 +453,6 @@ let FormField = (_temp2$1 = _class$1 = class FormField extends React.Component {
     noPadding: PropTypes.bool,
     required: PropTypes.bool
 }, _temp2$1);
-
-const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
-
-const OptionsPropType = PropTypes.arrayOf(PropTypes.shape({
-    value: ValuePropType.isRequired,
-    label: PropTypes.string.isRequired
-})).isRequired;
 
 var _class$3;
 var _temp2$2;
@@ -810,14 +834,23 @@ let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends React.PureCom
 var _class$8;
 var _temp2$7;
 
-const MyInput$1 = StyledInput$3.withComponent(RTimeInput);
+const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
+    let { hasError, _ref } = _ref2,
+        props = objectWithoutProperties(_ref2, ['hasError', '_ref']);
+    return React__default.createElement(MaskedInput, Object.assign({}, props, { ref: _ref }));
+});
+
+const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 
 let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends React.PureComponent {
     constructor(...args) {
         var _temp;
 
-        return _temp = super(...args), this.onChange = value => {
-            if (!this.props.onChange) return;
+        return _temp = super(...args), this.onChange = e => {
+            // When the user is still typing, we don't want to trigger an update,
+            // because at that point the time is not a valid moment instance yet.
+            const value = e.target.value.replace(/_/g, '');
+            if (!this.props.onChange || value.length < 5) return;
 
             let newValue = null;
             if (this.props.value) {
@@ -836,12 +869,18 @@ let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends React.PureCompone
         const { value } = this.props;
         const formatted = value ? value.format('HH:mm') : '';
 
-        return React__default.createElement(MyInput$1, {
+        return React__default.createElement(StyledMaskedInput, {
             name: this.props.name,
-            initTime: formatted,
             placeholder: this.props.placeholder,
             disabled: this.props.disabled,
-            onTimeChange: this.onChange
+            hasError: this.props.hasError,
+            id: this.props.id,
+            autoFocus: this.props.autoFocus,
+            value: formatted,
+            onChange: this.onChange,
+            mask: TIME_MASK,
+            pipe: createAutoCorrectedDatePipe('HH:MM'),
+            keepCharPositions: true
         });
     }
 }, _class$8.propTypes = {
@@ -849,6 +888,9 @@ let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends React.PureCompone
     placeholder: PropTypes.string,
     name: PropTypes.string,
     disabled: PropTypes.bool,
+    hasError: PropTypes.bool,
+    id: PropTypes.string,
+    autoFocus: PropTypes.bool,
     value: PropTypes.instanceOf(moment)
 }, _class$8.defaultProps = {
     placeholder: ' ',
@@ -860,7 +902,7 @@ var _temp2$8;
 
 const StyledTextarea = styled__default.textarea.withConfig({
     displayName: 'TextArea__StyledTextarea'
-})(['font-size:14px;color:', ';background:', ';padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{outline:0;border:1px solid ', ';}'], props => theme(props, 'textColor'), props => theme(props, 'componentBackground'), props => theme(props, 'borderColor'), props => theme(props, 'disabledColor'), props => theme(props, 'primaryColor'));
+})(['font-size:14px;color:', ';background:', ';padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{border-color:', ';}'], props => theme(props, 'textColor'), props => props.hasError ? '#fef2f2' : theme(props, 'componentBackground'), props => theme(props, props.hasError ? 'dangerColor' : 'borderColor'), props => theme(props, 'disabledColor'), props => !props.hasError && theme(props, 'primaryColor'));
 
 let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.PureComponent {
     constructor(...args) {
@@ -883,6 +925,7 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.PureComponent
             maxLength: this.props.maxLength,
             autoFocus: this.props.autoFocus,
             disabled: this.props.disabled,
+            hasError: this.props.hasError,
             placeholder: this.props.placeholder,
             onChange: this.onChange,
             onBlur: this.props.onBlur
@@ -897,7 +940,8 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.PureComponent
     id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
-    onBlur: PropTypes.func
+    onBlur: PropTypes.func,
+    hasError: PropTypes.bool
 }, _class$9.defaultProps = {
     placeholder: '',
     value: '',
@@ -1037,6 +1081,7 @@ let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends React.PureC
                     value: inputProps.value || '',
                     hasDropdown: actuallyOpen,
                     disabled: this.props.disabled,
+                    hasError: this.props.hasError,
                     onClick: openMenu
                 })),
                 React__default.createElement(
@@ -1096,7 +1141,8 @@ let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends React.PureC
     name: PropTypes.string,
     value: ValuePropType,
     options: OptionsPropType,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    hasError: PropTypes.bool
 }, _temp2$10);
 
 var _class$10;
@@ -1176,6 +1222,7 @@ let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends React.PureCompon
                     getRootProps({ refKey: 'innerRef' }),
                     React__default.createElement(StyledInput$3, Object.assign({}, getInputProps(), {
                         hasDropdown: isOpen && hasOptions,
+                        hasError: this.props.hasError,
                         disabled: this.props.disabled
                     })),
                     isOpen && hasOptions && this.renderDropdown({
@@ -1194,6 +1241,7 @@ let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends React.PureCompon
     name: PropTypes.string,
     value: ValuePropType,
     options: OptionsPropType,
+    hasError: PropTypes.bool,
     disabled: PropTypes.bool
 }, _temp2$9);
 
@@ -1201,12 +1249,12 @@ var _class$12;
 var _temp2$11;
 
 const StyledSelect = styled__default((_ref) => {
-    let { autoWidth } = _ref,
-        props = objectWithoutProperties(_ref, ['autoWidth']);
+    let { autoWidth, hasError } = _ref,
+        props = objectWithoutProperties(_ref, ['autoWidth', 'hasError']);
     return React__default.createElement('select', props);
 }).withConfig({
     displayName: 'SelectInput__StyledSelect'
-})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'componentBackground'), props => theme(props, 'primaryColor'), props => theme(props, 'disabledColor'));
+})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => theme(props, 'textColor'), props => theme(props, props.hasError ? 'dangerColor' : 'borderColor'), props => props.hasError ? '#fef2f2' : theme(props, 'componentBackground'), props => !props.hasError && theme(props, 'primaryColor'), props => theme(props, 'disabledColor'));
 
 let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends React.PureComponent {
     constructor(...args) {
@@ -1234,6 +1282,7 @@ let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends React.PureC
                 value: this.props.value || '',
                 onChange: this.onChange,
                 disabled: this.props.disabled,
+                hasError: this.props.hasError,
                 autoWidth: this.props.autoWidth
             },
             !this.props.skipPlaceholder && React__default.createElement(
@@ -1250,6 +1299,7 @@ let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends React.PureC
     name: PropTypes.string,
     id: PropTypes.string,
     disabled: PropTypes.bool,
+    hasError: PropTypes.bool,
     placeholder: PropTypes.string,
     skipPlaceholder: PropTypes.bool,
     value: ValuePropType,
@@ -1267,7 +1317,7 @@ var _class2;
 var _class3;
 var _temp4;
 
-const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
+const StyledMaskedInput$1 = StyledInput$3.withComponent((_ref2) => {
     let { hasError, _ref } = _ref2,
         props = objectWithoutProperties(_ref2, ['hasError', '_ref']);
     return React__default.createElement(MaskedInput, Object.assign({}, props, { ref: _ref }));
@@ -1301,7 +1351,7 @@ let MaskedDateInput = (_temp2$12 = _class$13 = class MaskedDateInput extends Rea
 
     render() {
         const dateFormat = this.context.inputDateFormat.toLowerCase();
-        return React__default.createElement(StyledMaskedInput, Object.assign({
+        return React__default.createElement(StyledMaskedInput$1, Object.assign({
             _ref: this.setRef
         }, this.props, {
             mask: this.getMaskBasedOnDateFormat(dateFormat),
@@ -1351,6 +1401,7 @@ let SingleDatePicker = styled.withTheme(_class2 = (_temp4 = _class3 = class Sing
                 onDayChange: this.handleChange,
                 value: value,
                 disabled: this.props.disabled,
+                hasError: this.props.hasError,
                 placeholder: this.props.placeholder,
                 format: dateFormat,
                 dayPickerProps: dayPickerProps
@@ -1363,6 +1414,7 @@ let SingleDatePicker = styled.withTheme(_class2 = (_temp4 = _class3 = class Sing
     placeholder: PropTypes.string,
     value: PropTypes.instanceOf(moment),
     disabled: PropTypes.bool,
+    hasError: PropTypes.bool,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 }, _class3.defaultProps = {
     placeholder: '',
@@ -1784,7 +1836,7 @@ var _temp2$16;
 
 const Container$1 = styled__default.div.withConfig({
     displayName: 'Modal__Container'
-})(['position:fixed;top:0;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;']);
+})(['position:fixed;top:0;bottom:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:center;']);
 
 const Background = styled__default.div.withConfig({
     displayName: 'Modal__Background'
@@ -7866,6 +7918,8 @@ exports.Link = Link$1;
 exports.ExternalLink = ExternalLink;
 exports.Heading = Heading;
 exports.Subheading = Subheading;
+exports.Text = Text;
+exports.InlineText = InlineText;
 exports.Form = Form;
 exports.FormField = FormField;
 exports.RadioButtons = RadioButtons;
