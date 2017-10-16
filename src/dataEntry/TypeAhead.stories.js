@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import TypeAhead from './TypeAhead';
+import { Button } from '../general/Button';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
 const SOME_OPTIONS = [
@@ -73,13 +74,20 @@ storiesOf('Data Entry / TypeAhead', module)
 
                 render() {
                     return (
-                        <TypeAhead
-                            onChange={this.handleChange}
-                            onSelect={action('select')}
-                            name="myname"
-                            options={SOME_OPTIONS}
-                            value={this.state.value}
-                        />
+                        <div>
+                            <TypeAhead
+                                onChange={this.handleChange}
+                                onSelect={action('select')}
+                                name="myname"
+                                options={SOME_OPTIONS}
+                                value={this.state.value}
+                            />
+                            <Button
+                                onClick={() => this.setState({ value: '' })}
+                            >
+                                Reset
+                            </Button>
+                        </div>
                     );
                 }
             }
