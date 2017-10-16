@@ -103,7 +103,7 @@ storiesOf('General / Button', module)
                     <Button icon tone="success">
                         <IconAdd />
                     </Button>
-                    <Link icon to="/" tone="warning">
+                    <Link icon to="/" tone="danger">
                         <IconDelete />
                     </Link>
                     <Link icon to="/" tone="primary">

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
-import { darken, tint } from 'polished';
+import { darken, tint, rgba } from 'polished';
 import { theme, readableColor } from '../config';
 import { TonePropType } from '../PropTypes';
 
@@ -119,6 +119,10 @@ export const Button = styled(props => (
 
             &:active {
                 background: ${darken(0.07, background)};
+            }
+
+            &:focus {
+                box-shadow 0 0 0 3px ${rgba(background, 0.5)};
             }
         `}
     `;
