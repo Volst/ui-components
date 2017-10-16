@@ -21,6 +21,7 @@ const external = [
     'i18next',
     'react-day-picker/DayPickerInput',
     'react-onclickoutside',
+    'react-textarea-autosize',
     // TODO: use `external` as function and Regex this shit
     'typeface-roboto/files/roboto-latin-300.woff2',
     'typeface-roboto/files/roboto-latin-400.woff2',

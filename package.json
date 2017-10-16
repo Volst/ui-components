@@ -35,6 +35,7 @@
     "react-onclickoutside": "^6.6.0",
     "react-styled-flexboxgrid": "^2.0.3",
     "react-text-mask": "^5.0.2",
+    "react-textarea-autosize": "^5.1.0",
     "text-mask-addons": "^3.7.0",
     "typeface-roboto": "^0.0.35"
   },

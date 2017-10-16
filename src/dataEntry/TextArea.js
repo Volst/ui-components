@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { theme } from '../config';
+import AutoTextarea from 'react-textarea-autosize';
 
 export const StyledTextarea = styled.textarea`
     font-size: 14px;
@@ -9,7 +10,6 @@ export const StyledTextarea = styled.textarea`
     background: ${props =>
         props.hasError ? '#fef2f2' : theme(props, 'componentBackground')};
     padding: 8px;
-    min-height: 80px;
     text-decoration: none;
     border-radius: 4px;
     border: 1px solid
@@ -33,6 +33,8 @@ export const StyledTextarea = styled.textarea`
     }
 `;
 
+const StyledAutoTextarea = StyledTextarea.withComponent(AutoTextarea);
+
 export default class TextArea extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
@@ -43,14 +45,18 @@ export default class TextArea extends PureComponent {
         id: PropTypes.string,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         autoFocus: PropTypes.bool,
+        autoSize: PropTypes.bool,
         onBlur: PropTypes.func,
         hasError: PropTypes.bool,
+        rows: PropTypes.number,
+        maxRows: PropTypes.number,
     };
 
     static defaultProps = {
         placeholder: '',
         value: '',
         onBlur() {},
+        rows: 4,
     };
 
     onChange = e => {
@@ -62,19 +68,29 @@ export default class TextArea extends PureComponent {
     render() {
         const value = this.props.value !== null ? this.props.value : '';
 
-        return (
-            <StyledTextarea
-                name={this.props.name}
-                id={this.props.id}
-                value={value}
-                maxLength={this.props.maxLength}
-                autoFocus={this.props.autoFocus}
-                disabled={this.props.disabled}
-                hasError={this.props.hasError}
-                placeholder={this.props.placeholder}
-                onChange={this.onChange}
-                onBlur={this.props.onBlur}
-            />
-        );
+        const sharedProps = {
+            name: this.props.name,
+            id: this.props.id,
+            value: value,
+            maxLength: this.props.maxLength,
+            autoFocus: this.props.autoFocus,
+            disabled: this.props.disabled,
+            hasError: this.props.hasError,
+            placeholder: this.props.placeholder,
+            onChange: this.onChange,
+            onBlur: this.props.onBlur,
+        };
+
+        if (this.props.autoSize) {
+            return (
+                <StyledAutoTextarea
+                    {...sharedProps}
+                    minRows={this.props.rows}
+                    maxRows={this.props.maxRows}
+                />
+            );
+        }
+
+        return <StyledTextarea {...sharedProps} rows={this.props.rows} />;
     }
 }
