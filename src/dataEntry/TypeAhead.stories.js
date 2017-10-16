@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
@@ -54,6 +54,36 @@ storiesOf('Data Entry / TypeAhead', module)
                     hasError
                 />
             );
+        })
+    )
+    .add(
+        'controlled',
+        withInfo()(() => {
+            class MyComponent extends Component {
+                state = {
+                    value: '',
+                };
+
+                handleChange = (name, value) => {
+                    this.setState({
+                        value: value,
+                    });
+                    action('change')(name, value);
+                };
+
+                render() {
+                    return (
+                        <TypeAhead
+                            onChange={this.handleChange}
+                            onSelect={action('select')}
+                            name="myname"
+                            options={SOME_OPTIONS}
+                            value={this.state.value}
+                        />
+                    );
+                }
+            }
+            return <MyComponent />;
         })
     )
     .add(

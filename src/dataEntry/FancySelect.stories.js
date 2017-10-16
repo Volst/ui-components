@@ -68,12 +68,7 @@ storiesOf('Data Entry / FancySelect', module)
                     );
                 }
             }
-            return (
-                <div>
-                    <MyComponent />
-                    <p>This text should be overlapped with the dropdown.</p>
-                </div>
-            );
+            return <MyComponent />;
         })
     )
     .add(
