@@ -149,11 +149,12 @@ export default class FancySelect extends PureComponent {
                                 clearItems();
                                 this.handleClear();
                             }}
+                            tabIndex={-1}
                         >
                             <IconClose width="16" height="16" />
                         </Button>
                     )}
-                    <Button icon onClick={toggleMenu}>
+                    <Button icon onClick={toggleMenu} tabIndex={-1}>
                         {actuallyOpen ? (
                             <IconArrowDropUp />
                         ) : (
