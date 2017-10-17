@@ -4,7 +4,7 @@ import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
-import { darken, parseToRgb, tint } from 'polished';
+import { darken, parseToRgb, rgba, tint } from 'polished';
 import PropTypes from 'prop-types';
 import { omit, pick, uniqueId } from 'lodash';
 import { Link, NavLink } from 'react-router-dom';
@@ -13,6 +13,7 @@ import MaskedInput from 'react-text-mask';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import moment from 'moment';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
+import AutoTextarea from 'react-textarea-autosize';
 import Downshift from 'downshift';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -152,7 +153,7 @@ function getTextColor(props, background) {
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled(props => React.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
     displayName: 'Button'
-})(['display:', ';align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:16px;cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
+})(['display:', ';align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? '' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
         margin: 6px;
         ` : `
         &:first-child {
@@ -207,6 +208,10 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
 
             &:active {
                 background: ${darken(0.07, background)};
+            }
+
+            &:focus {
+                box-shadow 0 0 0 3px ${rgba(background, 0.5)};
             }
         `}
     `;
@@ -894,7 +899,9 @@ var _temp2$8;
 
 const StyledTextarea = styled.textarea.withConfig({
     displayName: 'TextArea__StyledTextarea'
-})(['font-size:14px;color:', ';background:', ';padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{border-color:', ';}'], props => theme(props, 'textColor'), props => props.hasError ? '#fef2f2' : theme(props, 'componentBackground'), props => theme(props, props.hasError ? 'dangerColor' : 'borderColor'), props => theme(props, 'disabledColor'), props => !props.hasError && theme(props, 'primaryColor'));
+})(['font-size:14px;color:', ';background:', ';padding:8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{border-color:', ';}'], props => theme(props, 'textColor'), props => props.hasError ? '#fef2f2' : theme(props, 'componentBackground'), props => theme(props, props.hasError ? 'dangerColor' : 'borderColor'), props => theme(props, 'disabledColor'), props => !props.hasError && theme(props, 'primaryColor'));
+
+const StyledAutoTextarea = StyledTextarea.withComponent(AutoTextarea);
 
 let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
     constructor(...args) {
@@ -910,7 +917,7 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
     render() {
         const value = this.props.value !== null ? this.props.value : '';
 
-        return React.createElement(StyledTextarea, {
+        const sharedProps = {
             name: this.props.name,
             id: this.props.id,
             value: value,
@@ -921,7 +928,16 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
             placeholder: this.props.placeholder,
             onChange: this.onChange,
             onBlur: this.props.onBlur
-        });
+        };
+
+        if (this.props.autoSize) {
+            return React.createElement(StyledAutoTextarea, Object.assign({}, sharedProps, {
+                minRows: this.props.rows,
+                maxRows: this.props.maxRows
+            }));
+        }
+
+        return React.createElement(StyledTextarea, Object.assign({}, sharedProps, { rows: this.props.rows }));
     }
 }, _class$9.propTypes = {
     onChange: PropTypes.func,
@@ -932,12 +948,16 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
     id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
+    autoSize: PropTypes.bool,
     onBlur: PropTypes.func,
-    hasError: PropTypes.bool
+    hasError: PropTypes.bool,
+    rows: PropTypes.number,
+    maxRows: PropTypes.number
 }, _class$9.defaultProps = {
     placeholder: '',
     value: '',
-    onBlur() {}
+    onBlur() {},
+    rows: 4
 }, _temp2$8);
 
 const StyledSvg = styled.svg.withConfig({
@@ -1086,13 +1106,14 @@ let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends PureCompone
                             onClick: () => {
                                 clearItems();
                                 this.handleClear();
-                            }
+                            },
+                            tabIndex: -1
                         },
                         React.createElement(IconClose, { width: '16', height: '16' })
                     ),
                     React.createElement(
                         Button,
-                        { icon: true, onClick: toggleMenu },
+                        { icon: true, onClick: toggleMenu, tabIndex: -1 },
                         actuallyOpen ? React.createElement(IconArrowDropUp, null) : React.createElement(IconArrowDropDown, null)
                     )
                 ),
@@ -1890,10 +1911,10 @@ const Wrapper = styled.div.withConfig({
 let Badge = (_temp$2 = _class$19 = class Badge extends Component {
 
     render() {
-        const { count, children } = this.props;
+        const { count, children, className } = this.props;
         return React.createElement(
             Wrapper,
-            null,
+            { className: className },
             children,
             count !== 0 && React.createElement(
                 Bubble,
@@ -1904,7 +1925,8 @@ let Badge = (_temp$2 = _class$19 = class Badge extends Component {
     }
 }, _class$19.propTypes = {
     count: PropTypes.number,
-    children: PropTypes.node
+    children: PropTypes.node,
+    className: PropTypes.string
 }, _temp$2);
 
 var _class$20;

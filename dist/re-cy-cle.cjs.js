@@ -21,6 +21,7 @@ var MaskedInput = _interopDefault(require('react-text-mask'));
 var createNumberMask = _interopDefault(require('text-mask-addons/dist/createNumberMask'));
 var moment = _interopDefault(require('moment'));
 var createAutoCorrectedDatePipe = _interopDefault(require('text-mask-addons/dist/createAutoCorrectedDatePipe'));
+var AutoTextarea = _interopDefault(require('react-textarea-autosize'));
 var Downshift = _interopDefault(require('downshift'));
 var DayPickerInput = _interopDefault(require('react-day-picker/DayPickerInput'));
 var reactCustomScrollbars = require('react-custom-scrollbars');
@@ -160,7 +161,7 @@ function getTextColor(props, background) {
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
     displayName: 'Button'
-})(['display:', ';align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:16px;cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
+})(['display:', ';align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? '' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
         margin: 6px;
         ` : `
         &:first-child {
@@ -215,6 +216,10 @@ const Button = styled__default(props => React__default.createElement('button', O
 
             &:active {
                 background: ${polished.darken(0.07, background)};
+            }
+
+            &:focus {
+                box-shadow 0 0 0 3px ${polished.rgba(background, 0.5)};
             }
         `}
     `;
@@ -902,7 +907,9 @@ var _temp2$8;
 
 const StyledTextarea = styled__default.textarea.withConfig({
     displayName: 'TextArea__StyledTextarea'
-})(['font-size:14px;color:', ';background:', ';padding:8px;min-height:80px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{border-color:', ';}'], props => theme(props, 'textColor'), props => props.hasError ? '#fef2f2' : theme(props, 'componentBackground'), props => theme(props, props.hasError ? 'dangerColor' : 'borderColor'), props => theme(props, 'disabledColor'), props => !props.hasError && theme(props, 'primaryColor'));
+})(['font-size:14px;color:', ';background:', ';padding:8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{border-color:', ';}'], props => theme(props, 'textColor'), props => props.hasError ? '#fef2f2' : theme(props, 'componentBackground'), props => theme(props, props.hasError ? 'dangerColor' : 'borderColor'), props => theme(props, 'disabledColor'), props => !props.hasError && theme(props, 'primaryColor'));
+
+const StyledAutoTextarea = StyledTextarea.withComponent(AutoTextarea);
 
 let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.PureComponent {
     constructor(...args) {
@@ -918,7 +925,7 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.PureComponent
     render() {
         const value = this.props.value !== null ? this.props.value : '';
 
-        return React__default.createElement(StyledTextarea, {
+        const sharedProps = {
             name: this.props.name,
             id: this.props.id,
             value: value,
@@ -929,7 +936,16 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.PureComponent
             placeholder: this.props.placeholder,
             onChange: this.onChange,
             onBlur: this.props.onBlur
-        });
+        };
+
+        if (this.props.autoSize) {
+            return React__default.createElement(StyledAutoTextarea, Object.assign({}, sharedProps, {
+                minRows: this.props.rows,
+                maxRows: this.props.maxRows
+            }));
+        }
+
+        return React__default.createElement(StyledTextarea, Object.assign({}, sharedProps, { rows: this.props.rows }));
     }
 }, _class$9.propTypes = {
     onChange: PropTypes.func,
@@ -940,12 +956,16 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends React.PureComponent
     id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
+    autoSize: PropTypes.bool,
     onBlur: PropTypes.func,
-    hasError: PropTypes.bool
+    hasError: PropTypes.bool,
+    rows: PropTypes.number,
+    maxRows: PropTypes.number
 }, _class$9.defaultProps = {
     placeholder: '',
     value: '',
-    onBlur() {}
+    onBlur() {},
+    rows: 4
 }, _temp2$8);
 
 const StyledSvg = styled__default.svg.withConfig({
@@ -1094,13 +1114,14 @@ let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends React.PureC
                             onClick: () => {
                                 clearItems();
                                 this.handleClear();
-                            }
+                            },
+                            tabIndex: -1
                         },
                         React__default.createElement(IconClose, { width: '16', height: '16' })
                     ),
                     React__default.createElement(
                         Button,
-                        { icon: true, onClick: toggleMenu },
+                        { icon: true, onClick: toggleMenu, tabIndex: -1 },
                         actuallyOpen ? React__default.createElement(IconArrowDropUp, null) : React__default.createElement(IconArrowDropDown, null)
                     )
                 ),
@@ -1898,10 +1919,10 @@ const Wrapper = styled__default.div.withConfig({
 let Badge = (_temp$2 = _class$19 = class Badge extends React.Component {
 
     render() {
-        const { count, children } = this.props;
+        const { count, children, className } = this.props;
         return React__default.createElement(
             Wrapper,
-            null,
+            { className: className },
             children,
             count !== 0 && React__default.createElement(
                 Bubble,
@@ -1912,7 +1933,8 @@ let Badge = (_temp$2 = _class$19 = class Badge extends React.Component {
     }
 }, _class$19.propTypes = {
     count: PropTypes.number,
-    children: PropTypes.node
+    children: PropTypes.node,
+    className: PropTypes.string
 }, _temp$2);
 
 var _class$20;
