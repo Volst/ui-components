@@ -28,12 +28,13 @@ export default class Badge extends Component {
     static propTypes = {
         count: PropTypes.number,
         children: PropTypes.node,
+        className: PropTypes.string,
     };
 
     render() {
-        const { count, children } = this.props;
+        const { count, children, className } = this.props;
         return (
-            <Wrapper>
+            <Wrapper className={className}>
                 {children}
                 {count !== 0 && <Bubble>{count}</Bubble>}
             </Wrapper>
