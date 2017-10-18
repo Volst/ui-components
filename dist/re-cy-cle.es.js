@@ -712,6 +712,7 @@ let TextInput = (_temp2$5 = _class$6 = class TextInput extends PureComponent {
             maxLength: this.props.maxLength,
             onChange: this.onChange,
             onBlur: this.onBlur,
+            onFocus: this.props.onFocus,
             autoFocus: this.props.autoFocus,
             hasError: this.props.hasError,
             id: this.props.id
@@ -722,6 +723,7 @@ let TextInput = (_temp2$5 = _class$6 = class TextInput extends PureComponent {
 }, _class$6.propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     hasError: PropTypes.bool,
@@ -794,6 +796,7 @@ let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends PureComponent
             maxLength: this.props.maxLength,
             onChange: this.onChange,
             onBlur: this.onBlur,
+            onFocus: this.props.onFocus,
             autoFocus: this.props.autoFocus,
             hasError: this.props.hasError,
             guide: false,
@@ -803,6 +806,7 @@ let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends PureComponent
 }, _class$7.propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     hasError: PropTypes.bool,
@@ -927,7 +931,8 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
             hasError: this.props.hasError,
             placeholder: this.props.placeholder,
             onChange: this.onChange,
-            onBlur: this.props.onBlur
+            onBlur: this.props.onBlur,
+            onFocus: this.props.onFocus
         };
 
         if (this.props.autoSize) {
@@ -950,13 +955,13 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
     autoFocus: PropTypes.bool,
     autoSize: PropTypes.bool,
     onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
     hasError: PropTypes.bool,
     rows: PropTypes.number,
     maxRows: PropTypes.number
 }, _class$9.defaultProps = {
     placeholder: '',
     value: '',
-    onBlur() {},
     rows: 4
 }, _temp2$8);
 
