@@ -57,6 +57,7 @@ export default class TextInput extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
         onBlur: PropTypes.func,
+        onFocus: PropTypes.func,
         placeholder: PropTypes.string,
         disabled: PropTypes.bool,
         hasError: PropTypes.bool,
@@ -97,6 +98,7 @@ export default class TextInput extends PureComponent {
             maxLength: this.props.maxLength,
             onChange: this.onChange,
             onBlur: this.onBlur,
+            onFocus: this.props.onFocus,
             autoFocus: this.props.autoFocus,
             hasError: this.props.hasError,
             id: this.props.id,
