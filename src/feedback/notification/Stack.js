@@ -34,7 +34,7 @@ export default class NotificationStack extends Component {
 const StackWrapper = styled.div`
     position: fixed;
     top: 20px;
-    z-index: ${props => theme(props, 'zIndexDropdownMenu')};
+    z-index: ${props => theme(props, 'zIndexNotificationStack')};
     width: 100%;
     display: flex;
     flex-flow: column wrap;
