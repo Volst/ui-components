@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { theme, readableColor } from '../config';
 
-const StyledTooltip = styled.div`
+const StyledTooltip = styled.span`
     position: relative;
     max-width: fit-content;
 
