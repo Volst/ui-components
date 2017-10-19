@@ -4,11 +4,10 @@ import styled from 'styled-components';
 import { Button } from '../general/Button';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
-import { theme } from '../config';
 import { withTheme } from 'styled-components';
 
 const StyledContainer = styled.div`
-    background-color: ${props => theme(props, 'lightColor')};
+    background-color: ${props => props.theme.lightColor};
     border-radius: 4px;
 `;
 

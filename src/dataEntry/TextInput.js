@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { theme } from '../config';
 
 export const StyledInput = styled(
     ({ hasError, hasDropdown, _ref, ...props }) => (
@@ -10,16 +9,16 @@ export const StyledInput = styled(
 )`
     height: 30px;
     font-size: 14px;
-    color: ${props => theme(props, 'textColor')};
-    background: ${props => theme(props, 'componentBackground')};
+    color: ${props => props.theme.textColor};
+    background: ${props => props.theme.componentBackground};
     padding: 0 8px;
     text-decoration: none;
     border-radius: 4px;
-    border: 1px solid ${props => theme(props, 'borderColor')};
+    border: 1px solid ${props => props.theme.borderColor};
     width: 100%;
 
     &:disabled {
-        background: ${props => theme(props, 'disabledColor')};
+        background: ${props => props.theme.disabledColor};
         cursor: not-allowed;
     }
 
@@ -30,17 +29,17 @@ export const StyledInput = styled(
     ${props =>
         props.hasError
             ? `
-        border-color: ${theme(props, 'dangerColor')};
+        border-color: ${props.theme.dangerColor};
         background: #fef2f2;
 
         &:focus {
-            background: ${props => theme(props, 'componentBackground')};
+            background: ${props => props.theme.componentBackground};
         }
     `
             : `
         &:focus {
             outline: 0;
-            border-color: ${theme(props, 'primaryColor')};
+            border-color: ${props.theme.primaryColor};
         }
     `};
 

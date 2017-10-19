@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component, Children } from 'react';
 import styled from 'styled-components';
 import LabelText from './LabelText';
-import { theme, readableColor } from '../config';
+import { readableColor } from '../config';
 import { t } from 'i18next';
 import { uniqueId } from 'lodash';
 
@@ -20,11 +20,11 @@ const ErrorTooltip = styled.div`
     position: absolute;
     top: 100%;
     font-size: 14px;
-    background: ${props => theme(props, 'dangerColor')};
-    color: ${props => readableColor(theme(props, 'dangerColor'))};
+    background: ${props => props.theme.dangerColor};
+    color: ${props => readableColor(props.theme.dangerColor)};
     padding: 5px 8px;
     border-radius: 4px;
-    z-index: ${props => theme(props, 'zIndexTooltip')};
+    z-index: ${props => props.theme.zIndexTooltip};
     margin-top: -5px;
     max-width: 100%;
     word-break: break-word;
@@ -41,12 +41,12 @@ const ErrorTooltip = styled.div`
         left: 10px;
         border-width: 0 5px 5px 5px;
         border-color: transparent transparent
-            ${props => theme(props, 'dangerColor')} transparent;
+            ${props => props.theme.dangerColor} transparent;
     }
 `;
 
 const RequiredMark = styled.span`
-    color: ${props => theme(props, 'dangerColor')};
+    color: ${props => props.theme.dangerColor};
 `;
 
 function validationErrorMapper(errorCode) {

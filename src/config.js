@@ -1,6 +1,6 @@
 import { parseToRgb } from 'polished';
 
-const defaultConfig = {
+export const defaultConfig = {
     primaryColor: '#006b94',
     successColor: '#58b96b',
     dangerColor: '#dc0818',
@@ -22,10 +22,6 @@ const defaultConfig = {
     zIndexTooltip: 100,
     zIndexSingleDatePickerOverlay: 100,
 };
-
-export function theme(props, value) {
-    return props.theme[value] || defaultConfig[value];
-}
 
 // This uses YIQ to  calculate the color contrast.
 // Same calculation as Bootstrap uses, seems to work better than polished's `readableColor()`

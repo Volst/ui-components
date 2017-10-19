@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { theme } from '../../config';
 import { TonePropType } from '../../PropTypes';
 import PropTypes from 'prop-types';
 
@@ -8,7 +7,7 @@ export const Text = styled.p`
     font-style: ${props => (props.italic ? 'italic' : 'normal')};
     margin: 0 0 20px 0;
     line-height: 1.45;
-    color: ${props => theme(props, `${props.tone || 'text'}Color`)};
+    color: ${props => props.theme[`${props.tone || 'text'}Color`]};
     font-size: ${props => (props.small ? '80%' : 'inherit')};
 `;
 

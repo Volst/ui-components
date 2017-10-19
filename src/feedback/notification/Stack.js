@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Item from './Item';
-import { theme } from '../../config';
 
 export default class NotificationStack extends Component {
     static propTypes = {
@@ -34,7 +33,7 @@ export default class NotificationStack extends Component {
 const StackWrapper = styled.div`
     position: fixed;
     top: 20px;
-    z-index: ${props => theme(props, 'zIndexNotificationStack')};
+    z-index: ${props => props.theme.zIndexNotificationStack};
     width: 100%;
     display: flex;
     flex-flow: column wrap;

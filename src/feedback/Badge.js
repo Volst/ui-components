@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { theme } from '../config';
 
 const Bubble = styled.sup`
-    background: ${props => theme(props, 'dangerColor')};
+    background: ${props => props.theme.dangerColor};
     position: absolute;
     min-width: 16px;
     height: 16px;

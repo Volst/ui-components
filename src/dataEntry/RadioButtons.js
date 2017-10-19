@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import styled from 'styled-components';
-import { theme, readableColor } from '../config';
+import { readableColor } from '../config';
 import { uniqueId } from 'lodash';
 
 const StyledDiv = styled.div`
@@ -18,7 +18,7 @@ const StyledDiv = styled.div`
         props.focus &&
         `
         label {
-            border-color: ${theme(props, 'primaryColor')};
+            border-color: ${props.theme.primaryColor};
         }
     `};
 `;
@@ -62,7 +62,7 @@ const StyledLabel = styled.label`
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
     padding: 6px 5px;
     text-align: center;
-    border: 1px solid ${props => theme(props, 'borderColor')};
+    border: 1px solid ${props => props.theme.borderColor};
     ${props =>
         props.vertical
             ? `
@@ -71,9 +71,9 @@ const StyledLabel = styled.label`
             : `
         border-left-width: 0;
     `};
-    background: ${props => theme(props, 'componentBackground')};
+    background: ${props => props.theme.componentBackground};
     font-size: 14px;
-    color: ${props => theme(props, 'textColor')};
+    color: ${props => props.theme.textColor};
     white-space: nowrap;
 `;
 
@@ -82,9 +82,9 @@ const StyledInput = styled.input`
     left: -999999px;
     opacity: 0;
     &:checked + label {
-        background: ${props => theme(props, 'primaryColor')};
-        border-color: ${props => theme(props, 'primaryColor')};
-        color: ${props => readableColor(theme(props, 'primaryColor'))};
+        background: ${props => props.theme.primaryColor};
+        border-color: ${props => props.theme.primaryColor};
+        color: ${props => readableColor(props.theme.primaryColor)};
         box-shadow: ${props =>
             `${props.vertical ? '0px -1px' : '-1px 0'} ${theme(
                 props,

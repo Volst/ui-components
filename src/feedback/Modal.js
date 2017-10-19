@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { theme } from '../config';
 
 const Container = styled.div`
     position: fixed;
@@ -9,7 +8,7 @@ const Container = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: ${props => theme(props, 'zIndexModal')};
+    z-index: ${props => props.theme.zIndexModal};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,7 +24,7 @@ const Background = styled.div`
 
 const Content = styled.div`
     position: relative;
-    background: ${props => theme(props, 'componentBackground')};
+    background: ${props => props.theme.componentBackground};
     border-radius: 4px;
     display: flex;
     overflow: hidden;

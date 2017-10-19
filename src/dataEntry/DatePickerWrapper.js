@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme, readableColor } from '../config';
+import { readableColor } from '../config';
 
 const DatePickerWrapper = styled.div`
     .DayPicker {
@@ -99,7 +99,7 @@ const DatePickerWrapper = styled.div`
     .DayPicker-Day {
         display: table-cell;
         padding: 0.5rem;
-        border: 1px solid ${props => theme(props, 'borderColor')};
+        border: 1px solid ${props => props.theme.borderColor};
         text-align: center;
         cursor: pointer;
         vertical-align: middle;
@@ -139,24 +139,24 @@ const DatePickerWrapper = styled.div`
     /* Default modifiers */
 
     .DayPicker-Day--today {
-        color: ${props => theme(props, 'dangerColor')};
+        color: ${props => props.theme.dangerColor};
         font-weight: 500;
     }
 
     .DayPicker-Day--disabled {
-        color: ${props => theme(props, 'lightColor')};
+        color: ${props => props.theme.lightColor};
         cursor: default;
-        background-color: ${props => theme(props, 'disabledColor')};
+        background-color: ${props => props.theme.disabledColor};
     }
 
     .DayPicker-Day--outside {
         cursor: default;
-        color: ${props => theme(props, 'lightColor')};
+        color: ${props => props.theme.lightColor};
     }
 
     .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
-        color: ${props => readableColor(theme(props, 'primaryColor'))};
-        background-color: ${props => theme(props, 'primaryColor')};
+        color: ${props => readableColor(props.theme.primaryColor)};
+        background-color: ${props => props.theme.primaryColor};
     }
 
     /* DayPickerInput */
@@ -173,9 +173,9 @@ const DatePickerWrapper = styled.div`
     .DayPickerInput-Overlay {
         left: 0;
         position: absolute;
-        background: ${props => theme(props, 'componentBackground')};
+        background: ${props => props.theme.componentBackground};
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-        z-index: ${props => theme(props, 'zIndexSingleDatePickerOverlay')};
+        z-index: ${props => props.theme.zIndexSingleDatePickerOverlay};
     }
 `;
 

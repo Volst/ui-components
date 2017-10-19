@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ThemeProvider, injectGlobal } from 'styled-components';
 import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
-import { theme } from './config';
+import { defaultConfig } from './config';
 
-const injectGlobalStyles = props => injectGlobal`
+const injectGlobalStyles = theme => injectGlobal`
     @font-face {
         font-family: 'Roboto';
         src: url('${RobotoLight}');
@@ -30,9 +31,9 @@ const injectGlobalStyles = props => injectGlobal`
 
     html {
         box-sizing: border-box;
-        background: ${theme(props, 'bodyBackground')};
-        font-family: ${theme(props, 'fontFamily')};
-        color: ${theme(props, 'textColor')};
+        background: ${theme.bodyBackground};
+        font-family: ${theme.fontFamily};
+        color: ${theme.textColor};
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
@@ -59,10 +60,21 @@ const injectGlobalStyles = props => injectGlobal`
 `;
 
 export default class ReCyCleTheme extends Component {
+    static propTypes = {
+        theme: PropTypes.object,
+        children: PropTypes.node,
+    };
+    getTheme = () => {
+        return Object.assign({}, defaultConfig, this.props.theme);
+    };
     componentDidMount() {
-        injectGlobalStyles(this.props);
+        injectGlobalStyles(this.getTheme());
     }
     render() {
-        return <ThemeProvider {...this.props} />;
+        return (
+            <ThemeProvider theme={this.getTheme()}>
+                {this.props.children}
+            </ThemeProvider>
+        );
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { theme, readableColor } from '../config';
+import { readableColor } from '../config';
 
 const StyledTooltip = styled.span`
     position: relative;
@@ -15,7 +15,7 @@ const StyledTooltip = styled.span`
         transform: translateX(-50%);
         display: none;
         pointer-events: none;
-        z-index: ${props => theme(props, 'zIndexTooltip')};
+        z-index: ${props => props.theme.zIndexTooltip};
     }
 
     &:before {
@@ -24,15 +24,15 @@ const StyledTooltip = styled.span`
         height: 0;
         border-left: solid 5px transparent;
         border-right: solid 5px transparent;
-        border-bottom: solid 5px ${props => theme(props, 'darkColor')};
+        border-bottom: solid 5px ${props => props.theme.darkColor};
         margin-top: -5px;
     }
 
     &:after {
         content: attr(aria-label);
         padding: 2px 10px;
-        background: ${props => theme(props, 'darkColor')};
-        color: ${props => readableColor(theme(props, 'darkColor'))};
+        background: ${props => props.theme.darkColor};
+        color: ${props => readableColor(props.theme.darkColor)};
         font-size: 12px;
         line-height: 1.7;
         white-space: nowrap;
@@ -45,7 +45,7 @@ const StyledTooltip = styled.span`
         margin: 0 0 -5px;
         border-left: solid 5px transparent;
         border-right: solid 5px transparent;
-        border-top: solid 5px ${props => theme(props, 'darkColor')};
+        border-top: solid 5px ${props => props.theme.darkColor};
         border-bottom: 0;
     }
 

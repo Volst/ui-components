@@ -2,14 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { theme } from '../../config';
 
 const StyledAside = styled.aside`
     ${props => {
         const width = props.medium ? 450 : 350;
         return `
             width: ${width}px;
-            background: ${theme(props, 'lightColor')};
+            background: ${props.theme.lightColor};
 
             &.slide-right-enter,
             &.slide-right-leave.slide-right-leave-active {
@@ -35,7 +34,9 @@ const StyledAside = styled.aside`
     }};
 `;
 
-const Content = styled.div`padding: 25px;`;
+const Content = styled.div`
+    padding: 25px;
+`;
 
 const Sidebar = ({ children, medium }) => (
     <StyledAside medium={medium}>

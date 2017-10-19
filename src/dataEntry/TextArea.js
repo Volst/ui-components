@@ -1,20 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { theme } from '../config';
 import AutoTextarea from 'react-textarea-autosize';
 
 export const StyledTextarea = styled.textarea`
     font-size: 14px;
-    color: ${props => theme(props, 'textColor')};
+    color: ${props => props.theme.textColor};
     background: ${props =>
-        props.hasError ? '#fef2f2' : theme(props, 'componentBackground')};
+        props.hasError ? '#fef2f2' : props.theme.componentBackground};
     padding: 8px;
     text-decoration: none;
     border-radius: 4px;
     border: 1px solid
-        ${props =>
-            theme(props, props.hasError ? 'dangerColor' : 'borderColor')};
+        ${props => props.theme[props.hasError ? 'dangerColor' : 'borderColor']};
     width: 100%;
     resize: none;
 
@@ -23,13 +21,12 @@ export const StyledTextarea = styled.textarea`
     }
 
     &:disabled {
-        background: ${props => theme(props, 'disabledColor')};
+        background: ${props => props.theme.disabledColor};
         cursor: not-allowed;
     }
 
     &:focus {
-        border-color: ${props =>
-            !props.hasError && theme(props, 'primaryColor')};
+        border-color: ${props => !props.hasError && props.theme.primaryColor};
     }
 `;
 

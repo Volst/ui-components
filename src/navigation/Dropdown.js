@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { tint } from 'polished';
-import { theme, readableColor } from '../config';
+import { readableColor } from '../config';
 import onClickOutside from 'react-onclickoutside';
 
 const RelativeWrapper = styled.div`
@@ -45,11 +45,11 @@ export const Dropdown = onClickOutside(MyDropdown);
 
 export const DropdownMenu = styled.div`
     position: absolute;
-    z-index: ${props => theme(props, 'zIndexDropdownMenu')};
-    background: ${props => theme(props, 'componentBackground')};
+    z-index: ${props => props.theme.zIndexDropdownMenu};
+    background: ${props => props.theme.componentBackground};
     border-radius: 5px;
     display: flex;
-    border: 1px solid ${props => theme(props, 'primaryColor')};
+    border: 1px solid ${props => props.theme.primaryColor};
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
     flex-direction: column;
     overflow: hidden;
@@ -57,13 +57,13 @@ export const DropdownMenu = styled.div`
 
 export const DropdownItem = styled.div`
     padding: 10px 15px;
-    border-bottom: 1px solid ${props => theme(props, 'primaryColor')};
-    color: ${props => theme(props, 'textColor')};
+    border-bottom: 1px solid ${props => props.theme.primaryColor};
+    color: ${props => props.theme.textColor};
     cursor: pointer;
     user-select: none;
     &:hover {
         ${props => {
-            const background = tint(0.2, theme(props, 'primaryColor'));
+            const background = tint(0.2, props.theme.primaryColor);
             return `
                 background: ${background};
                 color: ${readableColor(background)};

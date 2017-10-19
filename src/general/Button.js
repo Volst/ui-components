@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint, rgba } from 'polished';
-import { theme, readableColor } from '../config';
+import { readableColor } from '../config';
 import { TonePropType } from '../PropTypes';
 
 // I really really do not like this hack, but we can't pass made-up properties
@@ -29,7 +29,7 @@ function getTextColor(props, background) {
         return background;
     }
     if (props.icon) {
-        return props.tone ? background : theme(props, 'textColor');
+        return props.tone ? background : props.theme.textColor;
     }
     return readableColor(background);
 }
@@ -76,7 +76,7 @@ export const Button = styled(props => (
         width: 100%;
     `};
     ${props => {
-        const background = theme(props, `${props.tone || 'primary'}Color`);
+        const background = props.theme[`${props.tone || 'primary'}Color`];
         const textColor = `color: ${getTextColor(props, background)};`;
 
         if (props.icon) {
@@ -104,7 +104,7 @@ export const Button = styled(props => (
                 ${props.tone === 'light'
                     ? `
                     background: ${tint(0.5, background)};
-                    color: ${tint(0.4, theme(props, 'textColor'))};
+                    color: ${tint(0.4, props.theme.textColor)};
                 `
                     : `
                     background: ${tint(0.25, background)};
