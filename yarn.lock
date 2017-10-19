@@ -2401,8 +2401,8 @@ dot-prop@^4.1.0:
     is-obj "^1.0.0"
 
 downshift@^1.5.0:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.11.1.tgz#741777f4cc5ef718f0ecb32fff74cba40193cc21"
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.14.0.tgz#43b4c236c28c831db369e75affd6611ce6785a88"
 
 ecc-jsbn@~0.1.1:
   version "0.1.1"
@@ -2633,8 +2633,8 @@ eslint-scope@^3.7.1:
     estraverse "^4.1.1"
 
 eslint@^4.1.1:
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.8.0.tgz#229ef0e354e0e61d837c7a80fdfba825e199815e"
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.9.0.tgz#76879d274068261b191fe0f2f56c74c2f4208e8b"
   dependencies:
     ajv "^5.2.0"
     babel-code-frame "^6.22.0"
@@ -4258,11 +4258,12 @@ levn@^0.3.0, levn@~0.3.0:
     type-check "~0.3.2"
 
 lint-staged@^4.0.0:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-4.2.3.tgz#5a1f12256af06110b96225f109dbf215009a37a9"
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-4.3.0.tgz#ed0779ad9a42c0dc62bb3244e522870b41125879"
   dependencies:
     app-root-path "^2.0.0"
     chalk "^2.1.0"
+    commander "^2.11.0"
     cosmiconfig "^1.1.0"
     execa "^0.8.0"
     is-glob "^4.0.0"
@@ -5129,8 +5130,8 @@ podda@^1.2.2:
     immutable "^3.8.1"
 
 polished@^1.7.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-1.8.0.tgz#21d5389c23ebb47e872f991b0b07503c618d5feb"
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-1.8.1.tgz#e50b9f789d37d98da64912f1be2bf759d8bfae6c"
 
 postcss-calc@^5.2.0:
   version "5.3.1"
@@ -5629,8 +5630,8 @@ react-addons-create-fragment@^15.5.3:
     object-assign "^4.1.0"
 
 react-custom-scrollbars@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/react-custom-scrollbars/-/react-custom-scrollbars-4.1.2.tgz#0e60c4a46c4a61f9e4994a7663e2b9cbbc5187a3"
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-custom-scrollbars/-/react-custom-scrollbars-4.2.0.tgz#cb01aef03c413de9af9e99a1722c04e9350bb3f4"
   dependencies:
     dom-css "^2.0.0"
     prop-types "^15.5.10"
@@ -5717,8 +5718,8 @@ react-modal@^2.3.2:
     prop-types "^15.5.10"
 
 react-onclickoutside@^6.6.0:
-  version "6.6.0"
-  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.6.0.tgz#8526d0675fad26558e9f0a400c983b813c99ef3c"
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.6.1.tgz#d15e60c69c70cc281cf41f0cc3db709ca1e0c5e7"
 
 react-router-dom@^4.1.2:
   version "4.2.2"
