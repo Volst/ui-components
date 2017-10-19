@@ -42,7 +42,13 @@ const defaultConfig = {
     componentBackground: '#fff',
     bodyBackground: '#fff',
     fontFamily: 'Roboto, Arial, sans-serif',
-    dateFormat: 'DD-MM-YYYY'
+    dateFormat: 'DD-MM-YYYY',
+    zIndexNotificationStack: 1010,
+    zIndexModal: 1000,
+    zIndexDropdownMenu: 420,
+    zIndexFancySelectDropdown: 420,
+    zIndexTooltip: 100,
+    zIndexSingleDatePickerOverlay: 100
 };
 
 function theme(props, value) {
@@ -370,7 +376,7 @@ const Field = styled__default.div.withConfig({
 // TODO: This tooltip should definitely be its own component
 const ErrorTooltip = styled__default.div.withConfig({
     displayName: 'FormField__ErrorTooltip'
-})(['position:absolute;top:100%;font-size:14px;background:', ';color:', ';padding:5px 8px;border-radius:4px;z-index:1;margin-top:-5px;max-width:100%;word-break:break-word;&:before{content:\'\';display:block;position:absolute;top:0;width:0;height:0;border-style:solid;top:-5px;left:10px;border-width:0 5px 5px 5px;border-color:transparent transparent ', ' transparent;}'], props => theme(props, 'dangerColor'), props => readableColor(theme(props, 'dangerColor')), props => theme(props, 'dangerColor'));
+})(['position:absolute;top:100%;font-size:14px;background:', ';color:', ';padding:5px 8px;border-radius:4px;z-index:', ';margin-top:-5px;max-width:100%;word-break:break-word;&:before{content:\'\';display:block;position:absolute;top:0;width:0;height:0;border-style:solid;top:-5px;left:10px;border-width:0 5px 5px 5px;border-color:transparent transparent ', ' transparent;}'], props => theme(props, 'dangerColor'), props => readableColor(theme(props, 'dangerColor')), props => theme(props, 'zIndexTooltip'), props => theme(props, 'dangerColor'));
 
 const RequiredMark = styled__default.span.withConfig({
     displayName: 'FormField__RequiredMark'
@@ -1024,7 +1030,7 @@ const DropdownContainer = styled__default.div.withConfig({
 
 const Dropdown = styled__default.div.withConfig({
     displayName: 'FancySelect__Dropdown'
-})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:1000;'], props => theme(props, 'primaryColor'));
+})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:', ';'], props => theme(props, 'primaryColor'), props => theme(props, 'zIndexFancySelectDropdown'));
 
 const DropdownToggle = styled__default.div.withConfig({
     displayName: 'FancySelect__DropdownToggle'
@@ -1335,7 +1341,7 @@ let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends React.PureC
 
 const DatePickerWrapper = styled__default.div.withConfig({
     displayName: 'DatePickerWrapper'
-})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:100;}'], props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'dangerColor'), props => theme(props, 'lightColor'), props => theme(props, 'disabledColor'), props => theme(props, 'lightColor'), props => readableColor(theme(props, 'primaryColor')), props => theme(props, 'primaryColor'), props => theme(props, 'componentBackground'));
+})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}'], props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'dangerColor'), props => theme(props, 'lightColor'), props => theme(props, 'disabledColor'), props => theme(props, 'lightColor'), props => readableColor(theme(props, 'primaryColor')), props => theme(props, 'primaryColor'), props => theme(props, 'componentBackground'), props => theme(props, 'zIndexSingleDatePickerOverlay'));
 
 var _class$13;
 var _temp2$12;
@@ -1417,7 +1423,8 @@ let SingleDatePicker = styled.withTheme(_class2 = (_temp4 = _class3 = class Sing
         const value = this.props.value ? this.props.value.format(dateFormat) : '';
         // TODO: currently you cannot use most props you might need from the react-day-picker component
         const dayPickerProps = {
-            disabledDays: this.props.disabledDays
+            disabledDays: this.props.disabledDays,
+            firstDayOfWeek: 1
         };
         return React__default.createElement(
             DatePickerWrapper,
@@ -1454,7 +1461,7 @@ var _temp$1;
 
 const StyledTooltip = styled__default.div.withConfig({
     displayName: 'Tooltip__StyledTooltip'
-})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:1000;}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => theme(props, 'darkColor'), props => theme(props, 'darkColor'), props => readableColor(theme(props, 'darkColor')), props => theme(props, 'darkColor'));
+})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:', ';}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => theme(props, 'zIndexTooltip'), props => theme(props, 'darkColor'), props => theme(props, 'darkColor'), props => readableColor(theme(props, 'darkColor')), props => theme(props, 'darkColor'));
 
 let Tooltip = (_temp$1 = _class$14 = class Tooltip extends React.Component {
 
@@ -1855,14 +1862,14 @@ let NotificationStack = (_temp2$14 = _class$16 = class NotificationStack extends
 }, _temp2$14);
 const StackWrapper = styled__default.div.withConfig({
     displayName: 'Stack__StackWrapper'
-})(['position:fixed;top:20px;z-index:100;width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;']);
+})(['position:fixed;top:20px;z-index:', ';width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;'], props => theme(props, 'zIndexNotificationStack'));
 
 var _class$18;
 var _temp2$16;
 
 const Container$1 = styled__default.div.withConfig({
     displayName: 'Modal__Container'
-})(['position:fixed;top:0;bottom:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:center;']);
+})(['position:fixed;top:0;bottom:0;left:0;right:0;z-index:', ';display:flex;align-items:center;justify-content:center;'], props => theme(props, 'zIndexModal'));
 
 const Background = styled__default.div.withConfig({
     displayName: 'Modal__Background'
@@ -2070,7 +2077,7 @@ const Dropdown$1 = onClickOutside(MyDropdown);
 
 const DropdownMenu = styled__default.div.withConfig({
     displayName: 'Dropdown__DropdownMenu'
-})(['position:absolute;z-index:10;background:', ';border-radius:5px;display:flex;border:1px solid ', ';box-shadow:0 1px 5px rgba(0,0,0,0.15);flex-direction:column;overflow:hidden;'], props => theme(props, 'componentBackground'), props => theme(props, 'primaryColor'));
+})(['position:absolute;z-index:', ';background:', ';border-radius:5px;display:flex;border:1px solid ', ';box-shadow:0 1px 5px rgba(0,0,0,0.15);flex-direction:column;overflow:hidden;'], props => theme(props, 'zIndexDropdownMenu'), props => theme(props, 'componentBackground'), props => theme(props, 'primaryColor'));
 
 const DropdownItem$1 = styled__default.div.withConfig({
     displayName: 'Dropdown__DropdownItem'
