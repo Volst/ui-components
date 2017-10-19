@@ -24,7 +24,7 @@ export const TableRow = styled.tr`
     ${props =>
         props.highlight &&
         `
-        background: ${props => props.theme.highlightColor};
+        background: ${props.theme.highlightColor};
     `};
 `;
 TableRow.displayName = 'TableRow';
