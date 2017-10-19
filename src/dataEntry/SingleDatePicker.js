@@ -98,6 +98,7 @@ export default class SingleDatePicker extends PureComponent {
         // TODO: currently you cannot use most props you might need from the react-day-picker component
         const dayPickerProps = {
             disabledDays: this.props.disabledDays,
+            firstDayOfWeek: 1,
         };
         return (
             <DatePickerWrapper>
