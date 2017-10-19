@@ -5,7 +5,9 @@ import { tint } from 'polished';
 import { theme, readableColor } from '../config';
 import onClickOutside from 'react-onclickoutside';
 
-const RelativeWrapper = styled.div`position: relative;`;
+const RelativeWrapper = styled.div`
+    position: relative;
+`;
 
 class MyDropdown extends Component {
     static propTypes = {
@@ -43,7 +45,7 @@ export const Dropdown = onClickOutside(MyDropdown);
 
 export const DropdownMenu = styled.div`
     position: absolute;
-    z-index: 10;
+    z-index: ${props => theme(props, 'zIndexDropdownMenu')};
     background: ${props => theme(props, 'componentBackground')};
     border-radius: 5px;
     display: flex;

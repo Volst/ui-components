@@ -15,7 +15,7 @@ const StyledTooltip = styled.div`
         transform: translateX(-50%);
         display: none;
         pointer-events: none;
-        z-index: 1000;
+        z-index: ${props => theme(props, 'zIndexTooltip')};
     }
 
     &:before {

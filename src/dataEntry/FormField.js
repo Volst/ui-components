@@ -24,7 +24,7 @@ const ErrorTooltip = styled.div`
     color: ${props => readableColor(theme(props, 'dangerColor'))};
     padding: 5px 8px;
     border-radius: 4px;
-    z-index: 1;
+    z-index: ${props => theme(props, 'zIndexTooltip')};
     margin-top: -5px;
     max-width: 100%;
     word-break: break-word;

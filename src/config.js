@@ -15,6 +15,12 @@ const defaultConfig = {
     bodyBackground: '#fff',
     fontFamily: 'Roboto, Arial, sans-serif',
     dateFormat: 'DD-MM-YYYY',
+    zIndexNotificationStack: 1010,
+    zIndexModal: 1000,
+    zIndexDropdownMenu: 420,
+    zIndexFancySelectDropdown: 420,
+    zIndexTooltip: 100,
+    zIndexSingleDatePickerOverlay: 100,
 };
 
 export function theme(props, value) {

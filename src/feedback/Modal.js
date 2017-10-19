@@ -9,7 +9,7 @@ const Container = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: ${props => theme(props, 'zIndexModal')};
     display: flex;
     align-items: center;
     justify-content: center;

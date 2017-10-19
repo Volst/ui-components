@@ -175,7 +175,7 @@ const DatePickerWrapper = styled.div`
         position: absolute;
         background: ${props => theme(props, 'componentBackground')};
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-        z-index: 100;
+        z-index: ${props => theme(props, 'zIndexSingleDatePickerOverlay')};
     }
 `;
 

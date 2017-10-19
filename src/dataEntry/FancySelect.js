@@ -24,7 +24,7 @@ export const Dropdown = styled.div`
     border-bottom-right-radius: 4px;
     overflow: hidden;
     position: absolute;
-    z-index: 1000;
+    z-index: ${props => theme(props, 'zIndexFancySelectDropdown')};
 `;
 
 const DropdownToggle = styled.div`
