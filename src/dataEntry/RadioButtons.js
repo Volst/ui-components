@@ -11,6 +11,7 @@ const StyledDiv = styled.div`
     display: flex;
     align-items: stretch;
     flex-direction: ${props => (props.vertical ? 'column' : 'row')};
+    flex-wrap: nowrap;
     border: 1px solid transparent;
     border-radius: 4px;
     ${props =>
@@ -59,9 +60,6 @@ const Option = styled.div`
 const StyledLabel = styled.label`
     flex: 1;
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 6px 5px;
     text-align: center;
     border: 1px solid ${props => theme(props, 'borderColor')};
