@@ -41,7 +41,6 @@ export const Button = styled(props => (
     display: ${props => (props.link ? 'inline' : 'inline-flex')};
     align-items: center;
     justify-content: center;
-    margin: 1px;
     padding: 0;
     border: 0;
     background: transparent;
@@ -94,7 +93,7 @@ export const Button = styled(props => (
             ${textColor}
             height: 30px;
             padding: 0 10px;
-            margin: 5px;
+            margin: 5px 5px 5px 0;
             text-decoration: none;
             border-radius: 4px;
             vertical-align: middle;
