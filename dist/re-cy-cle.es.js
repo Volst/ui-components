@@ -1,11 +1,11 @@
 import React, { Children, Component, PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import styled, { ThemeProvider, injectGlobal, keyframes, withTheme } from 'styled-components';
 import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
 import { darken, parseToRgb, rgba, tint } from 'polished';
-import PropTypes from 'prop-types';
 import { omit, pick, uniqueId } from 'lodash';
 import { Link, NavLink } from 'react-router-dom';
 import { t } from 'i18next';
@@ -43,10 +43,6 @@ const defaultConfig = {
     zIndexSingleDatePickerOverlay: 100
 };
 
-function theme(props, value) {
-    return props.theme[value] || defaultConfig[value];
-}
-
 // This uses YIQ to  calculate the color contrast.
 // Same calculation as Bootstrap uses, seems to work better than polished's `readableColor()`
 function readableColor(color) {
@@ -55,7 +51,10 @@ function readableColor(color) {
     return yiq >= 150 ? '#111' : '#fff';
 }
 
-const injectGlobalStyles = props => injectGlobal`
+var _class;
+var _temp2;
+
+const injectGlobalStyles = theme => injectGlobal`
     @font-face {
         font-family: 'Roboto';
         src: url('${RobotoLight}');
@@ -79,9 +78,9 @@ const injectGlobalStyles = props => injectGlobal`
 
     html {
         box-sizing: border-box;
-        background: ${theme(props, 'bodyBackground')};
-        font-family: ${theme(props, 'fontFamily')};
-        color: ${theme(props, 'textColor')};
+        background: ${theme.bodyBackground};
+        font-family: ${theme.fontFamily};
+        color: ${theme.textColor};
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
@@ -107,14 +106,29 @@ const injectGlobalStyles = props => injectGlobal`
     }
 `;
 
-let ReCyCleTheme = class ReCyCleTheme extends Component {
+let ReCyCleTheme = (_temp2 = _class = class ReCyCleTheme extends Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.getTheme = () => {
+            return Object.assign({}, defaultConfig, this.props.theme);
+        }, _temp;
+    }
+
     componentDidMount() {
-        injectGlobalStyles(this.props);
+        injectGlobalStyles(this.getTheme());
     }
     render() {
-        return React.createElement(ThemeProvider, this.props);
+        return React.createElement(
+            ThemeProvider,
+            { theme: this.getTheme() },
+            this.props.children
+        );
     }
-};
+}, _class.propTypes = {
+    theme: PropTypes.object,
+    children: PropTypes.node
+}, _temp2);
 
 const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
 
@@ -151,7 +165,7 @@ function getTextColor(props, background) {
         return background;
     }
     if (props.icon) {
-        return props.tone ? background : theme(props, 'textColor');
+        return props.tone ? background : props.theme.textColor;
     }
     return readableColor(background);
 }
@@ -175,7 +189,7 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
         margin: 5px 0;
         width: 100%;
     `, props => {
-    const background = theme(props, `${props.tone || 'primary'}Color`);
+    const background = props.theme[`${props.tone || 'primary'}Color`];
     const textColor = `color: ${getTextColor(props, background)};`;
 
     if (props.icon) {
@@ -201,7 +215,7 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
             ${props.disabled ? `
                 ${props.tone === 'light' ? `
                     background: ${tint(0.5, background)};
-                    color: ${tint(0.4, theme(props, 'textColor'))};
+                    color: ${tint(0.4, props.theme.textColor)};
                 ` : `
                     background: ${tint(0.25, background)};
                 `}
@@ -250,7 +264,7 @@ Link$1.displayName = 'Link';
 
 const Heading = styled.h1.withConfig({
     displayName: 'Heading'
-})(['font-weight:bold;font-size:26px;margin:20px 0 7px 0;color:', ';'], props => props.color || theme(props, 'textColor'));
+})(['font-weight:bold;font-size:26px;margin:20px 0 7px 0;color:', ';'], props => props.color || props.theme.textColor);
 Heading.displayName = 'Heading';
 Heading.propTypes = {
     color: PropTypes.string
@@ -258,7 +272,7 @@ Heading.propTypes = {
 
 const Subheading = styled.h2.withConfig({
     displayName: 'Subheading'
-})(['font-weight:normal;font-size:20px;margin:20px 0 7px 0;color:', ';'], props => props.color || theme(props, 'primaryColor'));
+})(['font-weight:normal;font-size:20px;margin:20px 0 7px 0;color:', ';'], props => props.color || props.theme.primaryColor);
 Subheading.displayName = 'Subheading';
 Subheading.propTypes = {
     color: PropTypes.string
@@ -266,7 +280,7 @@ Subheading.propTypes = {
 
 const Text = styled.p.withConfig({
     displayName: 'Text'
-})(['font-weight:', ';font-style:', ';margin:0 0 20px 0;line-height:1.45;color:', ';font-size:', ';'], props => props.bold ? 'bold' : 'normal', props => props.italic ? 'italic' : 'normal', props => theme(props, `${props.tone || 'text'}Color`), props => props.small ? '80%' : 'inherit');
+})(['font-weight:', ';font-style:', ';margin:0 0 20px 0;line-height:1.45;color:', ';font-size:', ';'], props => props.bold ? 'bold' : 'normal', props => props.italic ? 'italic' : 'normal', props => props.theme[`${props.tone || 'text'}Color`], props => props.small ? '80%' : 'inherit');
 
 Text.displayName = 'Text';
 Text.propTypes = {
@@ -278,14 +292,14 @@ Text.propTypes = {
 const InlineText = Text.withComponent('span');
 InlineText.displayName = 'InlineText';
 
-var _class;
-var _temp2;
+var _class$1;
+var _temp2$1;
 
 const StyledForm = styled.form.withConfig({
     displayName: 'Form__StyledForm'
 })(['display:inherit;flex-grow:1;flex-direction:inherit;width:100%;height:100%;']);
 
-let Form = (_temp2 = _class = class Form extends Component {
+let Form = (_temp2$1 = _class$1 = class Form extends Component {
     constructor(...args) {
         var _temp;
 
@@ -319,11 +333,11 @@ let Form = (_temp2 = _class = class Form extends Component {
     render() {
         return React.createElement(StyledForm, Object.assign({}, this.props, { onSubmit: this.handleSubmit }));
     }
-}, _class.propTypes = {
+}, _class$1.propTypes = {
     onSubmit: PropTypes.func.isRequired
-}, _temp2);
+}, _temp2$1);
 
-var _class$2;
+var _class$3;
 var _temp;
 
 const Container = styled.div.withConfig({
@@ -334,7 +348,7 @@ const StyledLabel = styled.label.withConfig({
     displayName: 'LabelText__StyledLabel'
 })(['text-transform:uppercase;']);
 
-let LabelText = (_temp = _class$2 = class LabelText extends PureComponent {
+let LabelText = (_temp = _class$3 = class LabelText extends PureComponent {
 
     render() {
         return React.createElement(
@@ -352,14 +366,14 @@ let LabelText = (_temp = _class$2 = class LabelText extends PureComponent {
             )
         );
     }
-}, _class$2.propTypes = {
+}, _class$3.propTypes = {
     helpText: PropTypes.string,
     htmlFor: PropTypes.string,
     children: PropTypes.node.isRequired
 }, _temp);
 
-var _class$1;
-var _temp2$1;
+var _class$2;
+var _temp2$2;
 
 const Field = styled.div.withConfig({
     displayName: 'FormField__Field'
@@ -368,11 +382,11 @@ const Field = styled.div.withConfig({
 // TODO: This tooltip should definitely be its own component
 const ErrorTooltip = styled.div.withConfig({
     displayName: 'FormField__ErrorTooltip'
-})(['position:absolute;top:100%;font-size:14px;background:', ';color:', ';padding:5px 8px;border-radius:4px;z-index:', ';margin-top:-5px;max-width:100%;word-break:break-word;&:before{content:\'\';display:block;position:absolute;top:0;width:0;height:0;border-style:solid;top:-5px;left:10px;border-width:0 5px 5px 5px;border-color:transparent transparent ', ' transparent;}'], props => theme(props, 'dangerColor'), props => readableColor(theme(props, 'dangerColor')), props => theme(props, 'zIndexTooltip'), props => theme(props, 'dangerColor'));
+})(['position:absolute;top:100%;font-size:14px;background:', ';color:', ';padding:5px 8px;border-radius:4px;z-index:', ';margin-top:-5px;max-width:100%;word-break:break-word;&:before{content:\'\';display:block;position:absolute;top:0;width:0;height:0;border-style:solid;top:-5px;left:10px;border-width:0 5px 5px 5px;border-color:transparent transparent ', ' transparent;}'], props => props.theme.dangerColor, props => readableColor(props.theme.dangerColor), props => props.theme.zIndexTooltip, props => props.theme.dangerColor);
 
 const RequiredMark = styled.span.withConfig({
     displayName: 'FormField__RequiredMark'
-})(['color:', ';'], props => theme(props, 'dangerColor'));
+})(['color:', ';'], props => props.theme.dangerColor);
 
 function validationErrorMapper(errorCode) {
     // Fallback to untranslated error message.
@@ -380,7 +394,7 @@ function validationErrorMapper(errorCode) {
     return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-let FormField = (_temp2$1 = _class$1 = class FormField extends Component {
+let FormField = (_temp2$2 = _class$2 = class FormField extends Component {
     constructor(...args) {
         var _temp;
 
@@ -446,7 +460,7 @@ let FormField = (_temp2$1 = _class$1 = class FormField extends Component {
             this.renderError()
         );
     }
-}, _class$1.propTypes = {
+}, _class$2.propTypes = {
     children: PropTypes.node.isRequired,
     label: PropTypes.string,
     helpText: PropTypes.string,
@@ -455,16 +469,16 @@ let FormField = (_temp2$1 = _class$1 = class FormField extends Component {
     // TODO: I don't like the name `noPadding`
     noPadding: PropTypes.bool,
     required: PropTypes.bool
-}, _temp2$1);
+}, _temp2$2);
 
-var _class$3;
-var _temp2$2;
+var _class$4;
+var _temp2$3;
 
 const StyledDiv = styled.div.withConfig({
     displayName: 'RadioButtons__StyledDiv'
-})(['-webkit-touch-callout:none;user-select:none;display:flex;align-items:stretch;flex-direction:', ';border:1px solid transparent;border-radius:4px;', ';'], props => props.vertical ? 'column' : 'row', props => props.focus && `
+})(['-webkit-touch-callout:none;user-select:none;display:flex;align-items:stretch;flex-direction:', ';flex-wrap:nowrap;border:1px solid transparent;border-radius:4px;', ';'], props => props.vertical ? 'column' : 'row', props => props.focus && `
         label {
-            border-color: ${theme(props, 'primaryColor')};
+            border-color: ${props.theme.primaryColor};
         }
     `);
 
@@ -488,17 +502,17 @@ const Option = styled.div.withConfig({
 
 const StyledLabel$1 = styled.label.withConfig({
     displayName: 'RadioButtons__StyledLabel'
-})(['flex:1;cursor:', ';display:flex;align-items:center;justify-content:center;padding:6px 5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:', ';white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer', props => theme(props, 'borderColor'), props => props.vertical ? `
+})(['flex:1;cursor:', ';padding:6px 5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:', ';white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.theme.borderColor, props => props.vertical ? `
             border-top-width: 0;
             ` : `
         border-left-width: 0;
-    `, props => theme(props, 'componentBackground'), props => theme(props, 'textColor'));
+    `, props => props.theme.componentBackground, props => props.theme.textColor);
 
 const StyledInput = styled.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
-})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:', ';box-shadow:', ';}'], props => theme(props, 'primaryColor'), props => theme(props, 'primaryColor'), props => readableColor(theme(props, 'primaryColor')), props => `${props.vertical ? '0px -1px' : '-1px 0'} ${theme(props, 'primaryColor')}`);
+})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:', ';box-shadow:', ';}'], props => props.theme.primaryColor, props => props.theme.primaryColor, props => readableColor(props.theme.primaryColor), props => `${props.vertical ? '0px -1px' : '-1px 0'} ${props.theme.primaryColor}`);
 
-let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends PureComponent {
+let RadioButtons = (_temp2$3 = _class$4 = class RadioButtons extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -554,17 +568,17 @@ let RadioButtons = (_temp2$2 = _class$3 = class RadioButtons extends PureCompone
             this.props.options.map(this.renderItem)
         );
     }
-}, _class$3.propTypes = {
+}, _class$4.propTypes = {
     onChange: PropTypes.func,
     name: PropTypes.string,
     disabled: PropTypes.bool,
     options: OptionsPropType,
     value: ValuePropType,
     vertical: PropTypes.bool
-}, _temp2$2);
+}, _temp2$3);
 
-var _class$4;
-var _temp2$3;
+var _class$5;
+var _temp2$4;
 
 const StyledDiv$1 = styled.div.withConfig({
     displayName: 'RadioList__StyledDiv'
@@ -578,7 +592,7 @@ const StyledInput$1 = styled.input.withConfig({
     displayName: 'RadioList__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let RadioList = (_temp2$3 = _class$4 = class RadioList extends PureComponent {
+let RadioList = (_temp2$4 = _class$5 = class RadioList extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -605,16 +619,16 @@ let RadioList = (_temp2$3 = _class$4 = class RadioList extends PureComponent {
             this.props.options.map(this.renderItem)
         );
     }
-}, _class$4.propTypes = {
+}, _class$5.propTypes = {
     onChange: PropTypes.func,
     name: PropTypes.string,
     disabled: PropTypes.bool,
     options: OptionsPropType,
     value: ValuePropType
-}, _temp2$3);
+}, _temp2$4);
 
-var _class$5;
-var _temp2$4;
+var _class$6;
+var _temp2$5;
 
 const StyledLabel$3 = styled.label.withConfig({
     displayName: 'Checkbox__StyledLabel'
@@ -624,7 +638,7 @@ const StyledInput$2 = styled.input.withConfig({
     displayName: 'Checkbox__StyledInput'
 })(['margin-right:5px;position:relative;top:-1px;']);
 
-let Checkbox = (_temp2$4 = _class$5 = class Checkbox extends PureComponent {
+let Checkbox = (_temp2$5 = _class$6 = class Checkbox extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -646,13 +660,13 @@ let Checkbox = (_temp2$4 = _class$5 = class Checkbox extends PureComponent {
             this.props.label
         );
     }
-}, _class$5.propTypes = {
+}, _class$6.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.bool,
     disabled: PropTypes.bool
-}, _temp2$4);
+}, _temp2$5);
 
 var objectWithoutProperties = function (obj, keys) {
   var target = {};
@@ -666,8 +680,8 @@ var objectWithoutProperties = function (obj, keys) {
   return target;
 };
 
-var _class$6;
-var _temp2$5;
+var _class$7;
+var _temp2$6;
 
 const StyledInput$3 = styled((_ref2) => {
     let { hasError, hasDropdown, _ref } = _ref2,
@@ -675,24 +689,24 @@ const StyledInput$3 = styled((_ref2) => {
     return React.createElement('input', Object.assign({}, props, { ref: _ref }));
 }).withConfig({
     displayName: 'TextInput__StyledInput'
-})(['height:30px;font-size:14px;color:', ';background:', ';padding:0 8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;&:disabled{background:', ';cursor:not-allowed;}&::placeholder{color:rgba(0,0,0,0.35);}', ';', ';'], props => theme(props, 'textColor'), props => theme(props, 'componentBackground'), props => theme(props, 'borderColor'), props => theme(props, 'disabledColor'), props => props.hasError ? `
-        border-color: ${theme(props, 'dangerColor')};
+})(['height:30px;font-size:14px;color:', ';background:', ';padding:0 8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;&:disabled{background:', ';cursor:not-allowed;}&::placeholder{color:rgba(0,0,0,0.35);}', ';', ';'], props => props.theme.textColor, props => props.theme.componentBackground, props => props.theme.borderColor, props => props.theme.disabledColor, props => props.hasError ? `
+        border-color: ${props.theme.dangerColor};
         background: #fef2f2;
 
         &:focus {
-            background: ${props => theme(props, 'componentBackground')};
+            background: ${props => props.theme.componentBackground};
         }
     ` : `
         &:focus {
             outline: 0;
-            border-color: ${theme(props, 'primaryColor')};
+            border-color: ${props.theme.primaryColor};
         }
     `, props => props.hasDropdown ? `
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
     ` : '');
 
-let TextInput = (_temp2$5 = _class$6 = class TextInput extends PureComponent {
+let TextInput = (_temp2$6 = _class$7 = class TextInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -726,7 +740,7 @@ let TextInput = (_temp2$5 = _class$6 = class TextInput extends PureComponent {
 
         return React.createElement(StyledInput$3, Object.assign({ type: this.props.type }, sharedProps));
     }
-}, _class$6.propTypes = {
+}, _class$7.propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
@@ -739,14 +753,14 @@ let TextInput = (_temp2$5 = _class$6 = class TextInput extends PureComponent {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
     id: PropTypes.string
-}, _class$6.defaultProps = {
+}, _class$7.defaultProps = {
     type: 'text',
     placeholder: '',
     value: ''
-}, _temp2$5);
+}, _temp2$6);
 
-var _class$7;
-var _temp2$6;
+var _class$8;
+var _temp2$7;
 
 const MyInput = StyledInput$3.withComponent((_ref) => {
     let { hasError } = _ref,
@@ -754,7 +768,7 @@ const MyInput = StyledInput$3.withComponent((_ref) => {
     return React.createElement(MaskedInput, props);
 });
 
-let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends PureComponent {
+let NumberInput = (_temp2$7 = _class$8 = class NumberInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -809,7 +823,7 @@ let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends PureComponent
             mask: this.getMask(this.props)
         });
     }
-}, _class$7.propTypes = {
+}, _class$8.propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
@@ -830,16 +844,16 @@ let NumberInput = (_temp2$6 = _class$7 = class NumberInput extends PureComponent
     allowNegative: PropTypes.bool,
     decimalSymbol: PropTypes.string,
     decimalLimit: PropTypes.number
-}, _class$7.defaultProps = {
+}, _class$8.defaultProps = {
     placeholder: '',
     value: '',
     // text-mask-addons has some default values we don't like; by default we only want to force the field to contain numbers
     prefix: '',
     includeThousandsSeparator: false
-}, _temp2$6);
+}, _temp2$7);
 
-var _class$8;
-var _temp2$7;
+var _class$9;
+var _temp2$8;
 
 const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
     let { hasError, _ref } = _ref2,
@@ -849,7 +863,7 @@ const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
 
 const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 
-let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends PureComponent {
+let TimeInput = (_temp2$8 = _class$9 = class TimeInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -890,7 +904,7 @@ let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends PureComponent {
             keepCharPositions: true
         });
     }
-}, _class$8.propTypes = {
+}, _class$9.propTypes = {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     name: PropTypes.string,
@@ -899,21 +913,21 @@ let TimeInput = (_temp2$7 = _class$8 = class TimeInput extends PureComponent {
     id: PropTypes.string,
     autoFocus: PropTypes.bool,
     value: PropTypes.instanceOf(moment)
-}, _class$8.defaultProps = {
+}, _class$9.defaultProps = {
     placeholder: ' ',
     value: ''
-}, _temp2$7);
+}, _temp2$8);
 
-var _class$9;
-var _temp2$8;
+var _class$10;
+var _temp2$9;
 
 const StyledTextarea = styled.textarea.withConfig({
     displayName: 'TextArea__StyledTextarea'
-})(['font-size:14px;color:', ';background:', ';padding:8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{border-color:', ';}'], props => theme(props, 'textColor'), props => props.hasError ? '#fef2f2' : theme(props, 'componentBackground'), props => theme(props, props.hasError ? 'dangerColor' : 'borderColor'), props => theme(props, 'disabledColor'), props => !props.hasError && theme(props, 'primaryColor'));
+})(['font-size:14px;color:', ';background:', ';padding:8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{border-color:', ';}'], props => props.theme.textColor, props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.theme.disabledColor, props => !props.hasError && props.theme.primaryColor);
 
 const StyledAutoTextarea = StyledTextarea.withComponent(AutoTextarea);
 
-let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
+let TextArea = (_temp2$9 = _class$10 = class TextArea extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -950,7 +964,7 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
 
         return React.createElement(StyledTextarea, Object.assign({}, sharedProps, { rows: this.props.rows }));
     }
-}, _class$9.propTypes = {
+}, _class$10.propTypes = {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
@@ -965,11 +979,11 @@ let TextArea = (_temp2$8 = _class$9 = class TextArea extends PureComponent {
     hasError: PropTypes.bool,
     rows: PropTypes.number,
     maxRows: PropTypes.number
-}, _class$9.defaultProps = {
+}, _class$10.defaultProps = {
     placeholder: '',
     value: '',
     rows: 4
-}, _temp2$8);
+}, _temp2$9);
 
 const StyledSvg = styled.svg.withConfig({
     displayName: 'Icon__StyledSvg'
@@ -1013,8 +1027,8 @@ let IconClose = props => React.createElement(
     React.createElement('path', { d: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' })
 );
 
-var _class$11;
-var _temp2$10;
+var _class$12;
+var _temp2$11;
 
 const DropdownContainer = styled.div.withConfig({
     displayName: 'FancySelect__DropdownContainer'
@@ -1022,7 +1036,7 @@ const DropdownContainer = styled.div.withConfig({
 
 const Dropdown = styled.div.withConfig({
     displayName: 'FancySelect__Dropdown'
-})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:', ';'], props => theme(props, 'primaryColor'), props => theme(props, 'zIndexFancySelectDropdown'));
+})(['width:100%;border:1px solid ', ';border-top:none;border-bottom-left-radius:4px;border-bottom-right-radius:4px;overflow:hidden;position:absolute;z-index:', ';'], props => props.theme.primaryColor, props => props.theme.zIndexFancySelectDropdown);
 
 const DropdownToggle = styled.div.withConfig({
     displayName: 'FancySelect__DropdownToggle'
@@ -1031,7 +1045,7 @@ const DropdownToggle = styled.div.withConfig({
 const DropdownItem = styled.div.withConfig({
     displayName: 'FancySelect__DropdownItem'
 })(['', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => {
-    const background = props.highlighted ? tint(0.2, theme(props, 'primaryColor')) : theme(props, 'componentBackground');
+    const background = props.highlighted ? tint(0.2, props.theme.primaryColor) : props.theme.componentBackground;
     return `
             background: ${background};
             color: ${readableColor(background)};
@@ -1043,7 +1057,7 @@ function fuzzySearch(options, inputValue) {
     return options.filter(o => o.label.toLowerCase().includes((inputValue || '').toLowerCase()));
 }
 
-let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends PureComponent {
+let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1160,19 +1174,19 @@ let FancySelect = (_temp2$10 = _class$11 = class FancySelect extends PureCompone
             this.renderDownshift
         );
     }
-}, _class$11.propTypes = {
+}, _class$12.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
     value: ValuePropType,
     options: OptionsPropType,
     disabled: PropTypes.bool,
     hasError: PropTypes.bool
-}, _temp2$10);
+}, _temp2$11);
 
-var _class$10;
-var _temp2$9;
+var _class$11;
+var _temp2$10;
 
-let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends PureComponent {
+let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1259,7 +1273,7 @@ let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends PureComponent {
             )
         );
     }
-}, _class$10.propTypes = {
+}, _class$11.propTypes = {
     onChange: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     name: PropTypes.string,
@@ -1267,10 +1281,10 @@ let TypeAhead = (_temp2$9 = _class$10 = class TypeAhead extends PureComponent {
     options: OptionsPropType,
     hasError: PropTypes.bool,
     disabled: PropTypes.bool
-}, _temp2$9);
+}, _temp2$10);
 
-var _class$12;
-var _temp2$11;
+var _class$13;
+var _temp2$12;
 
 const StyledSelect = styled((_ref) => {
     let { autoWidth, hasError } = _ref,
@@ -1278,9 +1292,9 @@ const StyledSelect = styled((_ref) => {
     return React.createElement('select', props);
 }).withConfig({
     displayName: 'SelectInput__StyledSelect'
-})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => theme(props, 'textColor'), props => theme(props, props.hasError ? 'dangerColor' : 'borderColor'), props => props.hasError ? '#fef2f2' : theme(props, 'componentBackground'), props => !props.hasError && theme(props, 'primaryColor'), props => theme(props, 'disabledColor'));
+})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => props.theme.textColor, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => !props.hasError && props.theme.primaryColor, props => props.theme.disabledColor);
 
-let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends PureComponent {
+let SelectInput = (_temp2$12 = _class$13 = class SelectInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1317,7 +1331,7 @@ let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends PureCompone
             this.props.options.map(this.renderOption)
         );
     }
-}, _class$12.propTypes = {
+}, _class$13.propTypes = {
     children: PropTypes.node,
     onChange: PropTypes.func,
     name: PropTypes.string,
@@ -1329,14 +1343,14 @@ let SelectInput = (_temp2$11 = _class$12 = class SelectInput extends PureCompone
     value: ValuePropType,
     options: OptionsPropType,
     autoWidth: PropTypes.bool
-}, _temp2$11);
+}, _temp2$12);
 
 const DatePickerWrapper = styled.div.withConfig({
     displayName: 'DatePickerWrapper'
-})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}'], props => theme(props, 'textColor'), props => theme(props, 'textColor'), props => theme(props, 'borderColor'), props => theme(props, 'dangerColor'), props => theme(props, 'lightColor'), props => theme(props, 'disabledColor'), props => theme(props, 'lightColor'), props => readableColor(theme(props, 'primaryColor')), props => theme(props, 'primaryColor'), props => theme(props, 'componentBackground'), props => theme(props, 'zIndexSingleDatePickerOverlay'));
+})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}'], props => props.theme.textColor, props => props.theme.textColor, props => props.theme.borderColor, props => props.theme.dangerColor, props => props.theme.lightColor, props => props.theme.disabledColor, props => props.theme.lightColor, props => readableColor(props.theme.primaryColor), props => props.theme.primaryColor, props => props.theme.componentBackground, props => props.theme.zIndexSingleDatePickerOverlay);
 
-var _class$13;
-var _temp2$12;
+var _class$14;
+var _temp2$13;
 var _class2;
 var _class3;
 var _temp4;
@@ -1348,7 +1362,7 @@ const StyledMaskedInput$1 = StyledInput$3.withComponent((_ref2) => {
 });
 
 // This is not a hack, it is a documented workaround (in react-day-picker)!
-let MaskedDateInput = (_temp2$12 = _class$13 = class MaskedDateInput extends PureComponent {
+let MaskedDateInput = (_temp2$13 = _class$14 = class MaskedDateInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1383,9 +1397,9 @@ let MaskedDateInput = (_temp2$12 = _class$13 = class MaskedDateInput extends Pur
             keepCharPositions: true
         }));
     }
-}, _class$13.contextTypes = {
+}, _class$14.contextTypes = {
     inputDateFormat: PropTypes.string
-}, _temp2$12);
+}, _temp2$13);
 
 let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDatePicker extends PureComponent {
     constructor(...args) {
@@ -1406,12 +1420,12 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
 
     getChildContext() {
         return {
-            inputDateFormat: theme(this.props, 'dateFormat')
+            inputDateFormat: this.props.theme.dateFormat
         };
     }
 
     render() {
-        const dateFormat = theme(this.props, 'dateFormat');
+        const dateFormat = this.props.theme.dateFormat;
         const value = this.props.value ? this.props.value.format(dateFormat) : '';
         // TODO: currently you cannot use most props you might need from the react-day-picker component
         const dayPickerProps = {
@@ -1440,7 +1454,8 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
     value: PropTypes.instanceOf(moment),
     disabled: PropTypes.bool,
     hasError: PropTypes.bool,
-    disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+    disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    theme: PropTypes.object.isRequired
 }, _class3.defaultProps = {
     placeholder: '',
     value: null
@@ -1448,14 +1463,14 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
     inputDateFormat: PropTypes.string
 }, _temp4)) || _class2;
 
-var _class$14;
+var _class$15;
 var _temp$1;
 
-const StyledTooltip = styled.div.withConfig({
+const StyledTooltip = styled.span.withConfig({
     displayName: 'Tooltip__StyledTooltip'
-})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:', ';}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => theme(props, 'zIndexTooltip'), props => theme(props, 'darkColor'), props => theme(props, 'darkColor'), props => readableColor(theme(props, 'darkColor')), props => theme(props, 'darkColor'));
+})(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:', ';}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => props.theme.zIndexTooltip, props => props.theme.darkColor, props => props.theme.darkColor, props => readableColor(props.theme.darkColor), props => props.theme.darkColor);
 
-let Tooltip = (_temp$1 = _class$14 = class Tooltip extends Component {
+let Tooltip = (_temp$1 = _class$15 = class Tooltip extends Component {
 
     render() {
         const { direction, children } = this.props;
@@ -1468,11 +1483,11 @@ let Tooltip = (_temp$1 = _class$14 = class Tooltip extends Component {
             children
         );
     }
-}, _class$14.propTypes = {
+}, _class$15.propTypes = {
     message: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
-}, _class$14.defaultProps = {
+}, _class$15.defaultProps = {
     direction: 's'
 }, _temp$1);
 
@@ -1488,13 +1503,13 @@ let IconKeyboardArrowUp = props => React.createElement(
     React.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
 );
 
-var _class$15;
+var _class$16;
 var _class2$1;
-var _temp2$13;
+var _temp2$14;
 
 const StyledContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledContainer'
-})(['background-color:', ';border-radius:4px;'], props => theme(props, 'lightColor'));
+})(['background-color:', ';border-radius:4px;'], props => props.theme.lightColor);
 
 const StyledContent = styled.div.withConfig({
     displayName: 'Accordion__StyledContent'
@@ -1508,7 +1523,7 @@ const StyledTitleContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
 
-let Accordion = withTheme(_class$15 = (_temp2$13 = _class2$1 = class Accordion extends Component {
+let Accordion = withTheme(_class$16 = (_temp2$14 = _class2$1 = class Accordion extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1530,7 +1545,7 @@ let Accordion = withTheme(_class$15 = (_temp2$13 = _class2$1 = class Accordion e
                     Button,
                     { icon: true, onClick: this.handleClick },
                     React.createElement(IconToggle, {
-                        color: theme(this.props, 'primaryColor'),
+                        color: this.props.theme.primaryColor,
                         width: '24',
                         height: '24'
                     })
@@ -1554,8 +1569,9 @@ let Accordion = withTheme(_class$15 = (_temp2$13 = _class2$1 = class Accordion e
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     opened: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
-    action: PropTypes.node
-}, _temp2$13)) || _class$15;
+    action: PropTypes.node,
+    theme: PropTypes.object.isRequired
+}, _temp2$14)) || _class$16;
 
 const Table = styled.table.withConfig({
     displayName: 'Table'
@@ -1576,8 +1592,8 @@ TableBody.displayName = 'TableBody';
 
 const TableRow = styled.tr.withConfig({
     displayName: 'Table__TableRow'
-})(['border-bottom:1px solid ', ';', ';'], props => theme(props, 'borderColor'), props => props.highlight && `
-        background: ${props => theme(props, 'highlightColor')};
+})(['border-bottom:1px solid ', ';', ';'], props => props.theme.borderColor, props => props.highlight && `
+        background: ${props.theme.highlightColor};
     `);
 TableRow.displayName = 'TableRow';
 TableRow.propTypes = {
@@ -1622,7 +1638,7 @@ const StyledScrollbars = styled((_ref) => {
     return React.createElement(Scrollbars, props);
 }).withConfig({
     displayName: 'Content__StyledScrollbars'
-})(['flex:1;background:', ';'], props => props.tone === 'primary' ? tint(0.07, theme(props, 'primaryColor')) : theme(props, 'componentBackground'));
+})(['flex:1;background:', ';'], props => props.tone === 'primary' ? tint(0.07, props.theme.primaryColor) : props.theme.componentBackground);
 
 const Main = styled.main.withConfig({
     displayName: 'Content__Main'
@@ -1664,7 +1680,7 @@ const StyledAside = styled.aside.withConfig({
     const width = props.medium ? 450 : 350;
     return `
             width: ${width}px;
-            background: ${theme(props, 'lightColor')};
+            background: ${props.theme.lightColor};
 
             &.slide-right-enter,
             &.slide-right-leave.slide-right-leave-active {
@@ -1714,7 +1730,7 @@ Sidebar.propTypes = {
 
 var Toolbar = styled.section.withConfig({
     displayName: 'Toolbar'
-})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => tint(0.15, theme(props, 'primaryColor')));
+})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => tint(0.15, props.theme.primaryColor));
 
 // Jup, that's right. Nothing special going on here.
 // There will come a time where we want to change some behavior of this package, but not for now...
@@ -1738,12 +1754,12 @@ Loader.propTypes = {
     show: PropTypes.bool
 };
 
-var _class$17;
-var _temp2$15;
+var _class$18;
+var _temp2$16;
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = (_temp2$15 = _class$17 = class NotificationItem extends Component {
+let NotificationItem = (_temp2$16 = _class$18 = class NotificationItem extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1792,15 +1808,15 @@ let NotificationItem = (_temp2$15 = _class$17 = class NotificationItem extends C
             )
         );
     }
-}, _class$17.propTypes = {
+}, _class$18.propTypes = {
     message: PropTypes.string.isRequired,
     onDismiss: PropTypes.func.isRequired,
     dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
     type: PropTypes.oneOf(['info', 'error'])
-}, _class$17.defaultProps = {
+}, _class$18.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$15);
+}, _temp2$16);
 const CloseButton = styled(Button).withConfig({
     displayName: 'Item__CloseButton'
 })(['margin-left:11px;position:absolute;top:13px;right:13px;font-size:15px;']);
@@ -1823,10 +1839,10 @@ const StyledItem = styled.div.withConfig({
         opacity: 0;
     ` : '', getBackgroundColor);
 
-var _class$16;
-var _temp2$14;
+var _class$17;
+var _temp2$15;
 
-let NotificationStack = (_temp2$14 = _class$16 = class NotificationStack extends Component {
+let NotificationStack = (_temp2$15 = _class$17 = class NotificationStack extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1848,20 +1864,20 @@ let NotificationStack = (_temp2$14 = _class$16 = class NotificationStack extends
             this.props.notifications.map(this.renderNotification)
         );
     }
-}, _class$16.propTypes = {
+}, _class$17.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
-}, _temp2$14);
+}, _temp2$15);
 const StackWrapper = styled.div.withConfig({
     displayName: 'Stack__StackWrapper'
-})(['position:fixed;top:20px;z-index:', ';width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;'], props => theme(props, 'zIndexNotificationStack'));
+})(['position:fixed;top:20px;z-index:', ';width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;'], props => props.theme.zIndexNotificationStack);
 
-var _class$18;
-var _temp2$16;
+var _class$19;
+var _temp2$17;
 
 const Container$1 = styled.div.withConfig({
     displayName: 'Modal__Container'
-})(['position:fixed;top:0;bottom:0;left:0;right:0;z-index:', ';display:flex;align-items:center;justify-content:center;'], props => theme(props, 'zIndexModal'));
+})(['position:fixed;top:0;bottom:0;left:0;right:0;z-index:', ';display:flex;align-items:center;justify-content:center;'], props => props.theme.zIndexModal);
 
 const Background = styled.div.withConfig({
     displayName: 'Modal__Background'
@@ -1869,11 +1885,11 @@ const Background = styled.div.withConfig({
 
 const Content$3 = styled.div.withConfig({
     displayName: 'Modal__Content'
-})(['position:relative;background:', ';border-radius:4px;display:flex;overflow:hidden;height:80vh;width:80vw;max-width:800px;max-height:800px;'], props => theme(props, 'componentBackground'));
+})(['position:relative;background:', ';border-radius:4px;display:flex;overflow:hidden;height:80vh;width:80vw;max-width:800px;max-height:800px;'], props => props.theme.componentBackground);
 
 const ESCAPE_KEY = 27;
 
-let Modal = (_temp2$16 = _class$18 = class Modal extends Component {
+let Modal = (_temp2$17 = _class$19 = class Modal extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1904,23 +1920,23 @@ let Modal = (_temp2$16 = _class$18 = class Modal extends Component {
             )
         );
     }
-}, _class$18.propTypes = {
+}, _class$19.propTypes = {
     children: PropTypes.node.isRequired,
     onClose: PropTypes.func.isRequired
-}, _temp2$16);
+}, _temp2$17);
 
-var _class$19;
+var _class$20;
 var _temp$2;
 
 const Bubble = styled.sup.withConfig({
     displayName: 'Badge__Bubble'
-})(['background:', ';position:absolute;min-width:16px;height:16px;line-height:17px;padding:0 6px;white-space:nowrap;top:-8px;transform:translateX(-50%);border-radius:8px;text-align:center;color:#fff;font-size:11px;'], props => theme(props, 'dangerColor'));
+})(['background:', ';position:absolute;min-width:16px;height:16px;line-height:17px;padding:0 6px;white-space:nowrap;top:-8px;transform:translateX(-50%);border-radius:8px;text-align:center;color:#fff;font-size:11px;'], props => props.theme.dangerColor);
 
 const Wrapper = styled.div.withConfig({
     displayName: 'Badge__Wrapper'
 })(['position:relative;display:inline-block;']);
 
-let Badge = (_temp$2 = _class$19 = class Badge extends Component {
+let Badge = (_temp$2 = _class$20 = class Badge extends Component {
 
     render() {
         const { count, children, className } = this.props;
@@ -1935,20 +1951,20 @@ let Badge = (_temp$2 = _class$19 = class Badge extends Component {
             )
         );
     }
-}, _class$19.propTypes = {
+}, _class$20.propTypes = {
     count: PropTypes.number,
     children: PropTypes.node,
     className: PropTypes.string
 }, _temp$2);
 
-var _class$20;
+var _class$21;
 var _temp$3;
 
 const Menu = styled.header.withConfig({
     displayName: 'TopMenu__Menu'
 })(['display:flex;align-items:stretch;flex-direction:column;']);
 
-let TopMenu = (_temp$3 = _class$20 = class TopMenu extends Component {
+let TopMenu = (_temp$3 = _class$21 = class TopMenu extends Component {
 
     render() {
         return React.createElement(
@@ -1957,7 +1973,7 @@ let TopMenu = (_temp$3 = _class$20 = class TopMenu extends Component {
             this.props.children
         );
     }
-}, _class$20.propTypes = {
+}, _class$21.propTypes = {
     children: PropTypes.node.isRequired
 }, _temp$3);
 
@@ -1977,25 +1993,25 @@ Logo.propTypes = {
 
 var MenuRow = styled.div.withConfig({
     displayName: 'MenuRow'
-})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => theme(props, 'primaryColor'), props => props.inContent && `
+})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => props.theme.primaryColor, props => props.inContent && `
         margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${theme(props, 'primaryColor')};
+        border-bottom: 1px solid ${props.theme.primaryColor};
         .nav-item:after {
             content: '';
         }
         .nav-item:before {
-            border-bottom-color: ${theme(props, 'primaryColor')};
+            border-bottom-color: ${props.theme.primaryColor};
         }
     `);
 
-var _class$21;
-var _temp2$17;
+var _class$22;
+var _temp2$18;
 
 const Item = styled(NavLink).withConfig({
     displayName: 'NavItem__Item'
-})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => theme(props, 'primaryColor'));
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primaryColor);
 
-let NavItem = (_temp2$17 = _class$21 = class NavItem extends Component {
+let NavItem = (_temp2$18 = _class$22 = class NavItem extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2018,25 +2034,25 @@ let NavItem = (_temp2$17 = _class$21 = class NavItem extends Component {
             this.props.title
         );
     }
-}, _class$21.propTypes = {
+}, _class$22.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     to: PropTypes.string,
     onClick: PropTypes.func,
     activePath: PropTypes.string
-}, _temp2$17);
+}, _temp2$18);
 
 var NavMenu = styled.nav.withConfig({
     displayName: 'NavMenu'
 })(['flex:1;display:flex;align-items:stretch;']);
 
-var _class$22;
-var _temp2$18;
+var _class$23;
+var _temp2$19;
 
 const RelativeWrapper = styled.div.withConfig({
     displayName: 'Dropdown__RelativeWrapper'
 })(['position:relative;']);
 
-let MyDropdown = (_temp2$18 = _class$22 = class MyDropdown extends Component {
+let MyDropdown = (_temp2$19 = _class$23 = class MyDropdown extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2059,22 +2075,22 @@ let MyDropdown = (_temp2$18 = _class$22 = class MyDropdown extends Component {
             this.state.opened && this.props.overlay
         );
     }
-}, _class$22.propTypes = {
+}, _class$23.propTypes = {
     overlay: PropTypes.element.isRequired,
     children: PropTypes.node.isRequired
-}, _temp2$18);
+}, _temp2$19);
 
 
 const Dropdown$1 = onClickOutside(MyDropdown);
 
 const DropdownMenu = styled.div.withConfig({
     displayName: 'Dropdown__DropdownMenu'
-})(['position:absolute;z-index:', ';background:', ';border-radius:5px;display:flex;border:1px solid ', ';box-shadow:0 1px 5px rgba(0,0,0,0.15);flex-direction:column;overflow:hidden;'], props => theme(props, 'zIndexDropdownMenu'), props => theme(props, 'componentBackground'), props => theme(props, 'primaryColor'));
+})(['position:absolute;z-index:', ';background:', ';border-radius:5px;display:flex;border:1px solid ', ';box-shadow:0 1px 5px rgba(0,0,0,0.15);flex-direction:column;overflow:hidden;'], props => props.theme.zIndexDropdownMenu, props => props.theme.componentBackground, props => props.theme.primaryColor);
 
 const DropdownItem$1 = styled.div.withConfig({
     displayName: 'Dropdown__DropdownItem'
-})(['padding:10px 15px;border-bottom:1px solid ', ';color:', ';cursor:pointer;user-select:none;&:hover{', ';}&:last-child{border-bottom-width:0;}'], props => theme(props, 'primaryColor'), props => theme(props, 'textColor'), props => {
-    const background = tint(0.2, theme(props, 'primaryColor'));
+})(['padding:10px 15px;border-bottom:1px solid ', ';color:', ';cursor:pointer;user-select:none;&:hover{', ';}&:last-child{border-bottom-width:0;}'], props => props.theme.primaryColor, props => props.theme.textColor, props => {
+    const background = tint(0.2, props.theme.primaryColor);
     return `
                 background: ${background};
                 color: ${readableColor(background)};
