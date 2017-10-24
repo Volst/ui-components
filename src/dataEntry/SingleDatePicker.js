@@ -62,6 +62,7 @@ export default class SingleDatePicker extends PureComponent {
         disabled: PropTypes.bool,
         hasError: PropTypes.bool,
         disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+        theme: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
@@ -77,7 +78,7 @@ export default class SingleDatePicker extends PureComponent {
 
     getChildContext() {
         return {
-            inputDateFormat: theme(this.props, 'dateFormat'),
+            inputDateFormat: this.props.theme.dateFormat,
         };
     }
 
@@ -90,7 +91,7 @@ export default class SingleDatePicker extends PureComponent {
     };
 
     render() {
-        const dateFormat = theme(this.props, 'dateFormat');
+        const dateFormat = this.props.theme.dateFormat;
         const value = this.props.value
             ? this.props.value.format(dateFormat)
             : '';

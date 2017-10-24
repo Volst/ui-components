@@ -37,6 +37,7 @@ export default class Accordion extends Component {
         opened: PropTypes.bool.isRequired,
         onChange: PropTypes.func.isRequired,
         action: PropTypes.node,
+        theme: PropTypes.object.isRequired,
     };
 
     handleClick = () => {
@@ -51,7 +52,7 @@ export default class Accordion extends Component {
                 <StyledTitleContainer>
                     <Button icon onClick={this.handleClick}>
                         <IconToggle
-                            color={theme(this.props, 'primaryColor')}
+                            color={this.props.theme.primaryColor}
                             width="24"
                             height="24"
                         />

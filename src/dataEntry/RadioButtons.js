@@ -86,10 +86,8 @@ const StyledInput = styled.input`
         border-color: ${props => props.theme.primaryColor};
         color: ${props => readableColor(props.theme.primaryColor)};
         box-shadow: ${props =>
-            `${props.vertical ? '0px -1px' : '-1px 0'} ${theme(
-                props,
-                'primaryColor'
-            )}`};
+            `${props.vertical ? '0px -1px' : '-1px 0'} ${props.theme
+                .primaryColor}`};
     }
 `;
 
