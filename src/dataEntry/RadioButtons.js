@@ -72,7 +72,8 @@ const StyledLabel = styled.label`
             : `
         border-left-width: 0;
     `};
-    background: ${props => props.theme.componentBackground};
+    background: ${props =>
+        props.theme[props.disabled ? 'disabledColor' : 'componentBackground']};
     font-size: 14px;
     color: ${props => props.theme.textColor};
     white-space: nowrap;
