@@ -48,6 +48,7 @@ export default class TextArea extends PureComponent {
         hasError: PropTypes.bool,
         rows: PropTypes.number,
         maxRows: PropTypes.number,
+        className: PropTypes.string,
     };
 
     static defaultProps = {
@@ -77,6 +78,7 @@ export default class TextArea extends PureComponent {
             onChange: this.onChange,
             onBlur: this.props.onBlur,
             onFocus: this.props.onFocus,
+            className: this.props.className,
         };
 
         if (this.props.autoSize) {

@@ -65,6 +65,7 @@ export default class TextInput extends PureComponent {
         name: PropTypes.string,
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         autoFocus: PropTypes.bool,
+        className: PropTypes.string,
         id: PropTypes.string,
     };
 
@@ -100,6 +101,7 @@ export default class TextInput extends PureComponent {
             onFocus: this.props.onFocus,
             autoFocus: this.props.autoFocus,
             hasError: this.props.hasError,
+            className: this.props.className,
             id: this.props.id,
         };
 
