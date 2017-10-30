@@ -181,7 +181,7 @@ function getTextColor(props, background) {
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
     displayName: 'Button'
-})(['display:', ';align-items:center;justify-content:center;margin:1px;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? '' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
+})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? '' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
         margin: 6px;
         ` : `
         &:first-child {
@@ -215,7 +215,7 @@ const Button = styled__default(props => React__default.createElement('button', O
             ${textColor}
             height: 30px;
             padding: 0 10px;
-            margin: 5px;
+            margin: 5px 5px 5px 0;
             text-decoration: none;
             border-radius: 4px;
             vertical-align: middle;
@@ -514,11 +514,19 @@ const StyledLabel$1 = styled__default.label.withConfig({
             border-top-width: 0;
             ` : `
         border-left-width: 0;
-    `, props => props.theme.componentBackground, props => props.theme.textColor);
+    `, props => props.theme[props.disabled ? 'disabledColor' : 'componentBackground'], props => props.theme.textColor);
 
 const StyledInput = styled__default.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
-})(['position:fixed;left:-999999px;opacity:0;&:checked + label{background:', ';border-color:', ';color:', ';box-shadow:', ';}'], props => props.theme.primaryColor, props => props.theme.primaryColor, props => readableColor(props.theme.primaryColor), props => `${props.vertical ? '0px -1px' : '-1px 0'} ${props.theme.primaryColor}`);
+})(['position:fixed;left:-999999px;opacity:0;&:checked + label{', ';}'], props => {
+    const background = props.disabled ? polished.tint(0.25, props.theme.primaryColor) : props.theme.primaryColor;
+    return `
+                background: ${background};
+                border-color: ${background};
+                box-shadow: ${`${props.vertical ? '0px -1px' : '-1px 0'} ${background}`};
+                color: ${readableColor(background)};
+            `;
+});
 
 let RadioButtons = (_temp2$3 = _class$4 = class RadioButtons extends React.PureComponent {
     constructor(...args) {
@@ -743,6 +751,7 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends React.PureCompone
             onFocus: this.props.onFocus,
             autoFocus: this.props.autoFocus,
             hasError: this.props.hasError,
+            className: this.props.className,
             id: this.props.id
         };
 
@@ -760,6 +769,7 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends React.PureCompone
     name: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
+    className: PropTypes.string,
     id: PropTypes.string
 }, _class$7.defaultProps = {
     type: 'text',
@@ -929,11 +939,19 @@ let TimeInput = (_temp2$8 = _class$9 = class TimeInput extends React.PureCompone
 var _class$10;
 var _temp2$9;
 
-const StyledTextarea = styled__default.textarea.withConfig({
+const StyledTextarea = styled__default((_ref) => {
+    let { hasError } = _ref,
+        props = objectWithoutProperties(_ref, ['hasError']);
+    return React__default.createElement('textarea', props);
+}).withConfig({
     displayName: 'TextArea__StyledTextarea'
 })(['font-size:14px;color:', ';background:', ';padding:8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;resize:none;&::placeholder{color:rgba(0,0,0,0.35);}&:disabled{background:', ';cursor:not-allowed;}&:focus{border-color:', ';}'], props => props.theme.textColor, props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.theme.disabledColor, props => !props.hasError && props.theme.primaryColor);
 
-const StyledAutoTextarea = StyledTextarea.withComponent(AutoTextarea);
+const StyledAutoTextarea = StyledTextarea.withComponent((_ref2) => {
+    let { hasError } = _ref2,
+        props = objectWithoutProperties(_ref2, ['hasError']);
+    return React__default.createElement(AutoTextarea, props);
+});
 
 let TextArea = (_temp2$9 = _class$10 = class TextArea extends React.PureComponent {
     constructor(...args) {
@@ -960,7 +978,8 @@ let TextArea = (_temp2$9 = _class$10 = class TextArea extends React.PureComponen
             placeholder: this.props.placeholder,
             onChange: this.onChange,
             onBlur: this.props.onBlur,
-            onFocus: this.props.onFocus
+            onFocus: this.props.onFocus,
+            className: this.props.className
         };
 
         if (this.props.autoSize) {
@@ -986,7 +1005,8 @@ let TextArea = (_temp2$9 = _class$10 = class TextArea extends React.PureComponen
     onFocus: PropTypes.func,
     hasError: PropTypes.bool,
     rows: PropTypes.number,
-    maxRows: PropTypes.number
+    maxRows: PropTypes.number,
+    className: PropTypes.string
 }, _class$10.defaultProps = {
     placeholder: '',
     value: '',
