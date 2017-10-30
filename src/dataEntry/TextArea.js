@@ -3,7 +3,9 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import AutoTextarea from 'react-textarea-autosize';
 
-export const StyledTextarea = styled.textarea`
+export const StyledTextarea = styled(({ hasError, ...props }) => (
+    <textarea {...props} />
+))`
     font-size: 14px;
     color: ${props => props.theme.textColor};
     background: ${props =>
@@ -30,7 +32,9 @@ export const StyledTextarea = styled.textarea`
     }
 `;
 
-const StyledAutoTextarea = StyledTextarea.withComponent(AutoTextarea);
+const StyledAutoTextarea = StyledTextarea.withComponent(
+    ({ hasError, ...props }) => <AutoTextarea {...props} />
+);
 
 export default class TextArea extends PureComponent {
     static propTypes = {
