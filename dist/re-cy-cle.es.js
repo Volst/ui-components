@@ -1819,9 +1819,13 @@ let NotificationItem = (_temp2$16 = _class$18 = class NotificationItem extends C
     render() {
         return React.createElement(
             StyledItem,
-            { active: this.state.active, type: this.props.type },
+            {
+                active: this.state.active,
+                type: this.props.type,
+                onClick: this.props.onClick
+            },
             this.props.message,
-            React.createElement(
+            this.props.dismissible !== false && React.createElement(
                 CloseButton,
                 { icon: true, onClick: this.onDismiss },
                 '\u2715'
@@ -1831,7 +1835,9 @@ let NotificationItem = (_temp2$16 = _class$18 = class NotificationItem extends C
 }, _class$18.propTypes = {
     message: PropTypes.string.isRequired,
     onDismiss: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+    dismissible: PropTypes.bool,
     type: PropTypes.oneOf(['info', 'error'])
 }, _class$18.defaultProps = {
     dismissAfter: 3100,
@@ -1854,10 +1860,10 @@ function getBackgroundColor(props) {
 
 const StyledItem = styled.div.withConfig({
     displayName: 'Item__StyledItem'
-})(['width:250px;padding:10px 40px 10px 14px;color:', ';margin-bottom:15px;border-radius:4px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);word-wrap:break-word;', ';background:', ';'], props => readableColor(getBackgroundColor(props)), TRANSITION_TIME, props => !props.active ? `
+})(['width:250px;padding:10px 40px 10px 14px;color:', ';margin-bottom:15px;border-radius:4px;position:relative;background-size:20px 20px;background-repeat:no-repeat;background-position:10px 10px;pointer-events:all;transition:', 'ms cubic-bezier(0.89,0.01,0.5,1.1);word-wrap:break-word;', ';background:', ';cursor:', ';'], props => readableColor(getBackgroundColor(props)), TRANSITION_TIME, props => !props.active ? `
         visibility: hidden;
         opacity: 0;
-    ` : '', getBackgroundColor);
+    ` : '', getBackgroundColor, props => props.onClick ? 'pointer' : 'default');
 
 var _class$17;
 var _temp2$15;
@@ -1867,12 +1873,15 @@ let NotificationStack = (_temp2$15 = _class$17 = class NotificationStack extends
         var _temp;
 
         return _temp = super(...args), this.renderNotification = notification => {
+            const onDismiss = () => this.props.onDismiss(notification);
             return React.createElement(NotificationItem, {
                 key: notification.key,
                 type: notification.type,
                 message: notification.message,
                 dismissAfter: notification.dismissAfter,
-                onDismiss: () => this.props.onDismiss(notification)
+                onDismiss: onDismiss,
+                onClick: notification.onClick ? () => notification.onClick(notification, onDismiss) : null,
+                dismissible: notification.dismissible
             });
         }, _temp;
     }
