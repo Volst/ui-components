@@ -11,6 +11,7 @@ export default class NotificationItem extends Component {
         message: PropTypes.string.isRequired,
         onDismiss: PropTypes.func.isRequired,
         dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+        dismissible: PropTypes.bool,
         type: PropTypes.oneOf(['info', 'error']),
     };
 
@@ -62,9 +63,11 @@ export default class NotificationItem extends Component {
         return (
             <StyledItem active={this.state.active} type={this.props.type}>
                 {this.props.message}
-                <CloseButton icon onClick={this.onDismiss}>
-                    ✕
-                </CloseButton>
+                {this.props.dismissible !== false && (
+                    <CloseButton icon onClick={this.onDismiss}>
+                        ✕
+                    </CloseButton>
+                )}
             </StyledItem>
         );
     }

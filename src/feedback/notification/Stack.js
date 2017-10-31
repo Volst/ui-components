@@ -17,6 +17,7 @@ export default class NotificationStack extends Component {
                 message={notification.message}
                 dismissAfter={notification.dismissAfter}
                 onDismiss={() => this.props.onDismiss(notification)}
+                dismissible={notification.dismissible}
             />
         );
     };

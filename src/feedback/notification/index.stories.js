@@ -17,6 +17,13 @@ const notifications = [
         dismissAfter: 8000,
     },
     {
+        key: 'undestroyable',
+        message:
+            'Notification that is not dismissible and will never disappear',
+        dismissAfter: false,
+        dismissible: false,
+    },
+    {
         key: 'spare-me',
         message: 'Spare me!',
         type: 'error',
