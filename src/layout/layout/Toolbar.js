@@ -6,4 +6,5 @@ export default styled.section`
     background-color: ${props => tint(0.15, props.theme.primaryColor)};
     display: flex;
     align-items: center;
+    padding: 0 25px 0 25px;
 `;
