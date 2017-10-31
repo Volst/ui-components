@@ -10,13 +10,19 @@ export default class NotificationStack extends Component {
     };
 
     renderNotification = notification => {
+        const onDismiss = () => this.props.onDismiss(notification);
         return (
             <Item
                 key={notification.key}
                 type={notification.type}
                 message={notification.message}
                 dismissAfter={notification.dismissAfter}
-                onDismiss={() => this.props.onDismiss(notification)}
+                onDismiss={onDismiss}
+                onClick={
+                    notification.onClick
+                        ? () => notification.onClick(notification, onDismiss)
+                        : null
+                }
                 dismissible={notification.dismissible}
             />
         );

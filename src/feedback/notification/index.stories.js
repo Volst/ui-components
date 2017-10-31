@@ -29,6 +29,15 @@ const notifications = [
         type: 'error',
         dismissAfter: 5000,
     },
+    {
+        key: 'onclick',
+        message: 'This notification has an onClick handler',
+        onClick: (n, dismiss) => {
+            action('click')(n);
+            dismiss();
+        },
+        dismissAfter: false,
+    },
 ];
 
 storiesOf('Feedback / Notification', module)

@@ -10,6 +10,7 @@ export default class NotificationItem extends Component {
     static propTypes = {
         message: PropTypes.string.isRequired,
         onDismiss: PropTypes.func.isRequired,
+        onClick: PropTypes.func,
         dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
         dismissible: PropTypes.bool,
         type: PropTypes.oneOf(['info', 'error']),
@@ -61,7 +62,11 @@ export default class NotificationItem extends Component {
 
     render() {
         return (
-            <StyledItem active={this.state.active} type={this.props.type}>
+            <StyledItem
+                active={this.state.active}
+                type={this.props.type}
+                onClick={this.props.onClick}
+            >
                 {this.props.message}
                 {this.props.dismissible !== false && (
                     <CloseButton icon onClick={this.onDismiss}>
@@ -113,4 +118,5 @@ const StyledItem = styled.div`
     `
             : ''};
     background: ${getBackgroundColor};
+    cursor: ${props => (props.onClick ? 'pointer' : 'default')};
 `;
