@@ -62,12 +62,14 @@ export default class SingleDatePicker extends PureComponent {
         disabled: PropTypes.bool,
         hasError: PropTypes.bool,
         disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+        showWeekNumbers: PropTypes.bool,
         theme: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         placeholder: '',
         value: null,
+        showWeekNumbers: true,
     };
 
     // The context hack is a hack we have to pull because making <MaskedDateInput /> have a @withTheme decorator
@@ -99,6 +101,7 @@ export default class SingleDatePicker extends PureComponent {
         const dayPickerProps = {
             disabledDays: this.props.disabledDays,
             firstDayOfWeek: 1,
+            showWeekNumbers: this.props.showWeekNumbers,
         };
         return (
             <DatePickerWrapper>
