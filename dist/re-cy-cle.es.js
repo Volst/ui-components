@@ -1450,7 +1450,8 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
         // TODO: currently you cannot use most props you might need from the react-day-picker component
         const dayPickerProps = {
             disabledDays: this.props.disabledDays,
-            firstDayOfWeek: 1
+            firstDayOfWeek: 1,
+            showWeekNumbers: this.props.showWeekNumbers
         };
         return React.createElement(
             DatePickerWrapper,
@@ -1475,10 +1476,12 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
     disabled: PropTypes.bool,
     hasError: PropTypes.bool,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    showWeekNumbers: PropTypes.bool,
     theme: PropTypes.object.isRequired
 }, _class3.defaultProps = {
     placeholder: '',
-    value: null
+    value: null,
+    showWeekNumbers: true
 }, _class3.childContextTypes = {
     inputDateFormat: PropTypes.string
 }, _temp4)) || _class2;
@@ -1750,7 +1753,7 @@ Sidebar.propTypes = {
 
 var Toolbar = styled.section.withConfig({
     displayName: 'Toolbar'
-})(['height:40px;background-color:', ';display:flex;align-items:center;'], props => tint(0.15, props.theme.primaryColor));
+})(['height:40px;background-color:', ';display:flex;align-items:center;padding:0 25px 0 25px;'], props => tint(0.15, props.theme.primaryColor));
 
 // Jup, that's right. Nothing special going on here.
 // There will come a time where we want to change some behavior of this package, but not for now...
