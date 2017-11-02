@@ -46,7 +46,7 @@ export default class Accordion extends Component {
 
     render() {
         const { opened, children, action, title } = this.props;
-        const IconToggle = opened ? KeyboardArrowDown : KeyboardArrowUp;
+        const IconToggle = opened ? KeyboardArrowUp : KeyboardArrowDown;
         return (
             <StyledContainer>
                 <StyledTitleContainer>
