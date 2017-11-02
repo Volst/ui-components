@@ -10,9 +10,12 @@ const Container = styled.div`
     justify-content: space-between;
     white-space: nowrap;
     overflow: hidden;
+    line-height: 1.45;
 `;
 
-const StyledLabel = styled.label`text-transform: uppercase;`;
+const StyledLabel = styled.label`
+    text-transform: uppercase;
+`;
 
 export default class LabelText extends PureComponent {
     static propTypes = {

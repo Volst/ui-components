@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component, Children } from 'react';
 import styled from 'styled-components';
 import LabelText from './LabelText';
+import { InlineText } from '../general/typography/Text';
 import { readableColor } from '../config';
 import { t } from 'i18next';
 import { uniqueId } from 'lodash';
@@ -45,10 +46,6 @@ const ErrorTooltip = styled.div`
     }
 `;
 
-const RequiredMark = styled.span`
-    color: ${props => props.theme.dangerColor};
-`;
-
 function validationErrorMapper(errorCode) {
     // Fallback to untranslated error message.
     // Forcing to String is important, since the error code Binder uses when a field is null, is `null` (not as string).
@@ -79,7 +76,7 @@ export default class FormField extends Component {
                 <div>
                     {this.props.label}
                     {this.props.required && (
-                        <RequiredMark>&nbsp;*</RequiredMark>
+                        <InlineText tone="danger">&nbsp;*</InlineText>
                     )}
                 </div>
             </LabelText>
