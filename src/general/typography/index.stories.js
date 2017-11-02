@@ -4,6 +4,7 @@ import { withInfo } from '@storybook/addon-info';
 import FullDecorator from '../../../storybook/FullDecorator';
 import Heading from './Heading';
 import Subheading from './Subheading';
+import SuperText from './SuperText';
 import { Text, InlineText } from './Text';
 
 storiesOf('General / Typography', module)
@@ -43,6 +44,11 @@ storiesOf('General / Typography', module)
                         in ut libero. Nunc malesuada vel mauris non dignissim.
                         Duis scelerisque fringilla nulla, non auctor justo
                         suscipit eu. Phasellus egestas risus ac blandit feugiat.
+                    </Text>
+                    <SuperText>A smaller heading</SuperText>
+                    <Text>
+                        Eu laoreet nibh lacinia himenaeos curae montes mollis
+                        primis sed
                     </Text>
                 </div>
             );
