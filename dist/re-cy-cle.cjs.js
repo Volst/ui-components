@@ -286,6 +286,14 @@ Subheading.propTypes = {
     color: PropTypes.string
 };
 
+const SuperText = styled__default.h3.withConfig({
+    displayName: 'SuperText'
+})(['font-weight:bold;text-transform:uppercase;font-size:16px;margin:20px 0 7px 0;color:', ';'], props => props.color);
+SuperText.displayName = 'SuperText';
+SuperText.propTypes = {
+    color: PropTypes.string
+};
+
 const Text = styled__default.p.withConfig({
     displayName: 'Text'
 })(['font-weight:', ';font-style:', ';margin:0 0 20px 0;line-height:1.45;color:', ';font-size:', ';'], props => props.bold ? 'bold' : 'normal', props => props.italic ? 'italic' : 'normal', props => props.theme[`${props.tone || 'text'}Color`], props => props.small ? '80%' : 'inherit');
@@ -350,7 +358,7 @@ var _temp;
 
 const Container = styled__default.div.withConfig({
     displayName: 'LabelText__Container'
-})(['font-size:12px;padding:0 0 2px;opacity:0.75;display:flex;justify-content:space-between;white-space:nowrap;overflow:hidden;']);
+})(['font-size:12px;padding:0 0 2px;opacity:0.75;display:flex;justify-content:space-between;white-space:nowrap;overflow:hidden;line-height:1.45;']);
 
 const StyledLabel = styled__default.label.withConfig({
     displayName: 'LabelText__StyledLabel'
@@ -391,10 +399,6 @@ const Field = styled__default.div.withConfig({
 const ErrorTooltip = styled__default.div.withConfig({
     displayName: 'FormField__ErrorTooltip'
 })(['position:absolute;top:100%;font-size:14px;background:', ';color:', ';padding:5px 8px;border-radius:4px;z-index:', ';margin-top:-5px;max-width:100%;word-break:break-word;&:before{content:\'\';display:block;position:absolute;top:0;width:0;height:0;border-style:solid;top:-5px;left:10px;border-width:0 5px 5px 5px;border-color:transparent transparent ', ' transparent;}'], props => props.theme.dangerColor, props => readableColor(props.theme.dangerColor), props => props.theme.zIndexTooltip, props => props.theme.dangerColor);
-
-const RequiredMark = styled__default.span.withConfig({
-    displayName: 'FormField__RequiredMark'
-})(['color:', ';'], props => props.theme.dangerColor);
 
 function validationErrorMapper(errorCode) {
     // Fallback to untranslated error message.
@@ -438,8 +442,8 @@ let FormField = (_temp2$2 = _class$2 = class FormField extends React.Component {
                 null,
                 this.props.label,
                 this.props.required && React__default.createElement(
-                    RequiredMark,
-                    null,
+                    InlineText,
+                    { tone: 'danger' },
                     '\xA0*'
                 )
             )
@@ -1565,7 +1569,7 @@ let Accordion = styled.withTheme(_class$16 = (_temp2$14 = _class2$1 = class Acco
 
     render() {
         const { opened, children, action, title } = this.props;
-        const IconToggle = opened ? IconKeyboardArrowDown : IconKeyboardArrowUp;
+        const IconToggle = opened ? IconKeyboardArrowUp : IconKeyboardArrowDown;
         return React__default.createElement(
             StyledContainer,
             null,
@@ -8000,10 +8004,12 @@ exports.Link = Link$1;
 exports.ExternalLink = ExternalLink;
 exports.Heading = Heading;
 exports.Subheading = Subheading;
+exports.SuperText = SuperText;
 exports.Text = Text;
 exports.InlineText = InlineText;
 exports.Form = Form;
 exports.FormField = FormField;
+exports.LabelText = LabelText;
 exports.RadioButtons = RadioButtons;
 exports.RadioList = RadioList;
 exports.Checkbox = Checkbox;
