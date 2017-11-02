@@ -6,6 +6,7 @@ export { Text, InlineText } from './general/typography/Text';
 
 export { default as Form } from './dataEntry/Form';
 export { default as FormField } from './dataEntry/FormField';
+export { default as LabelText } from './dataEntry/LabelText';
 export { default as RadioButtons } from './dataEntry/RadioButtons';
 export { default as RadioList } from './dataEntry/RadioList';
 export { default as Checkbox } from './dataEntry/Checkbox';
