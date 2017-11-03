@@ -756,7 +756,8 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends React.PureCompone
             autoFocus: this.props.autoFocus,
             hasError: this.props.hasError,
             className: this.props.className,
-            id: this.props.id
+            id: this.props.id,
+            autoComplete: this.props.autoComplete === false ? 'off' : undefined
         };
 
         return React__default.createElement(StyledInput$3, Object.assign({ type: this.props.type }, sharedProps));
@@ -774,7 +775,8 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends React.PureCompone
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
-    id: PropTypes.string
+    id: PropTypes.string,
+    autoComplete: PropTypes.bool
 }, _class$7.defaultProps = {
     type: 'text',
     placeholder: '',
@@ -1610,7 +1612,7 @@ let Accordion = styled.withTheme(_class$16 = (_temp2$14 = _class2$1 = class Acco
 
 const Table = styled__default.table.withConfig({
     displayName: 'Table'
-})(['width:100%;border-collapse:collapse;']);
+})(['width:100%;border-collapse:collapse;margin-bottom:20px;']);
 
 Table.displayName = 'Table';
 
