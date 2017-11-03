@@ -28,4 +28,22 @@ storiesOf('Data Entry / TextInput', module)
                 <TextInput onChange={action('change')} name="myname" disabled />
             );
         })
+    )
+    .add(
+        'without browser autoComplete',
+        withInfo()(() => {
+            return (
+                <div>
+                    <TextInput
+                        onChange={action('change')}
+                        name="myname"
+                        autoComplete={false}
+                    />
+                    <p>
+                        Make sure you have your browsers auto-fill feature
+                        enabled. It should be disabled for this field.
+                    </p>
+                </div>
+            );
+        })
     );
