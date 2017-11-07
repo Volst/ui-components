@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
@@ -41,6 +41,33 @@ storiesOf('Data Entry / TextInput', module)
                     />
                     <p>
                         Make sure you have your browsers auto-fill feature
+                        enabled. It should be disabled for this field.
+                    </p>
+                </div>
+            );
+        })
+    )
+    .add(
+        'without browser spellCheck',
+        withInfo()(() => {
+            class MyComponent extends Component {
+                state = { value: '' };
+                render() {
+                    return (
+                        <TextInput
+                            onChange={(name, value) => this.setState({ value })}
+                            name="myname"
+                            value={this.state.value}
+                            spellCheck={false}
+                        />
+                    );
+                }
+            }
+            return (
+                <div>
+                    <MyComponent />
+                    <p>
+                        Make sure you have your operating system's auto-correct
                         enabled. It should be disabled for this field.
                     </p>
                 </div>

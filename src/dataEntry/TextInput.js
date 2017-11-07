@@ -68,6 +68,7 @@ export default class TextInput extends PureComponent {
         className: PropTypes.string,
         id: PropTypes.string,
         autoComplete: PropTypes.bool,
+        spellCheck: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -105,6 +106,7 @@ export default class TextInput extends PureComponent {
             className: this.props.className,
             id: this.props.id,
             autoComplete: this.props.autoComplete === false ? 'off' : undefined,
+            spellCheck: this.props.spellCheck === false ? 'false' : undefined,
         };
 
         return <StyledInput type={this.props.type} {...sharedProps} />;
