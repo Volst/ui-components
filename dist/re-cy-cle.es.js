@@ -749,7 +749,8 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends PureComponent {
             hasError: this.props.hasError,
             className: this.props.className,
             id: this.props.id,
-            autoComplete: this.props.autoComplete === false ? 'off' : undefined
+            autoComplete: this.props.autoComplete === false ? 'off' : undefined,
+            spellCheck: this.props.spellCheck === false ? 'false' : undefined
         };
 
         return React.createElement(StyledInput$3, Object.assign({ type: this.props.type }, sharedProps));
@@ -768,7 +769,8 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends PureComponent {
     autoFocus: PropTypes.bool,
     className: PropTypes.string,
     id: PropTypes.string,
-    autoComplete: PropTypes.bool
+    autoComplete: PropTypes.bool,
+    spellCheck: PropTypes.bool
 }, _class$7.defaultProps = {
     type: 'text',
     placeholder: '',
@@ -977,7 +979,8 @@ let TextArea = (_temp2$9 = _class$10 = class TextArea extends PureComponent {
             onChange: this.onChange,
             onBlur: this.props.onBlur,
             onFocus: this.props.onFocus,
-            className: this.props.className
+            className: this.props.className,
+            spellCheck: this.props.spellCheck === false ? 'false' : undefined
         };
 
         if (this.props.autoSize) {
@@ -1004,7 +1007,8 @@ let TextArea = (_temp2$9 = _class$10 = class TextArea extends PureComponent {
     hasError: PropTypes.bool,
     rows: PropTypes.number,
     maxRows: PropTypes.number,
-    className: PropTypes.string
+    className: PropTypes.string,
+    spellCheck: PropTypes.bool
 }, _class$10.defaultProps = {
     placeholder: '',
     value: '',
