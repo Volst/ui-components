@@ -19,7 +19,8 @@ class MyDropdown extends Component {
         opened: false,
     };
 
-    showOverlay = () => {
+    showOverlay = e => {
+        e.stopPropagation();
         this.setState({ opened: true });
     };
 
