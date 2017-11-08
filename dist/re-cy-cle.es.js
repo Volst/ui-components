@@ -2100,7 +2100,8 @@ let MyDropdown = (_temp2$19 = _class$23 = class MyDropdown extends Component {
 
         return _temp = super(...args), this.state = {
             opened: false
-        }, this.showOverlay = () => {
+        }, this.showOverlay = e => {
+            e.stopPropagation();
             this.setState({ opened: true });
         }, this.hideOverlay = () => {
             this.setState({ opened: false });
