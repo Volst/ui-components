@@ -13,6 +13,8 @@ class MyDropdown extends Component {
     static propTypes = {
         overlay: PropTypes.element.isRequired,
         children: PropTypes.node.isRequired,
+        opened: PropTypes.bool,
+        onChange: PropTypes.func,
     };
 
     state = {
@@ -21,11 +23,19 @@ class MyDropdown extends Component {
 
     showOverlay = e => {
         e.stopPropagation();
-        this.setState({ opened: true });
+        if (this.props.onChange) {
+            this.props.onChange(true);
+        } else {
+            this.setState({ opened: true });
+        }
     };
 
     hideOverlay = () => {
-        this.setState({ opened: false });
+        if (this.props.onChange) {
+            this.props.onChange(false);
+        } else {
+            this.setState({ opened: false });
+        }
     };
 
     handleClickOutside = () => {
@@ -36,7 +46,7 @@ class MyDropdown extends Component {
         return (
             <RelativeWrapper onClick={this.showOverlay}>
                 {this.props.children}
-                {this.state.opened && this.props.overlay}
+                {(this.state.opened || this.props.opened) && this.props.overlay}
             </RelativeWrapper>
         );
     }
