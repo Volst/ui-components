@@ -3,7 +3,12 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { action } from '@storybook/addon-actions';
 import { Button } from '../general/Button';
-import { Dropdown, DropdownMenu, DropdownItem } from './Dropdown';
+import {
+    Dropdown,
+    DropdownOverlay,
+    DropdownMenu,
+    DropdownItem,
+} from './Dropdown';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
@@ -12,19 +17,23 @@ storiesOf('Navigation / Dropdown', module)
     .add(
         'standard',
         withInfo()(() => {
-            const menu = (
-                <DropdownMenu>
-                    <DropdownItem onClick={action('click')}>Lions</DropdownItem>
-                    <DropdownItem onClick={action('click')}>
-                        Elephants
-                    </DropdownItem>
-                    <DropdownItem onClick={action('click')}>
-                        Dogs with unibrows
-                    </DropdownItem>
-                </DropdownMenu>
+            const overlay = (
+                <DropdownOverlay>
+                    <DropdownMenu>
+                        <DropdownItem onClick={action('click')}>
+                            Lions
+                        </DropdownItem>
+                        <DropdownItem onClick={action('click')}>
+                            Elephants
+                        </DropdownItem>
+                        <DropdownItem onClick={action('click')}>
+                            Dogs with unibrows
+                        </DropdownItem>
+                    </DropdownMenu>
+                </DropdownOverlay>
             );
             return (
-                <Dropdown overlay={menu}>
+                <Dropdown overlay={overlay}>
                     <Button>
                         Click on me <IconArrowDropDown />
                     </Button>

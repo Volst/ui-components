@@ -44,9 +44,12 @@ class MyDropdown extends Component {
 
 export const Dropdown = onClickOutside(MyDropdown);
 
-export const DropdownMenu = styled.div`
+export const DropdownOverlay = styled.div`
     position: absolute;
     z-index: ${props => props.theme.zIndexDropdownMenu};
+`;
+
+export const DropdownMenu = styled.div`
     background: ${props => props.theme.componentBackground};
     border-radius: 5px;
     display: flex;
