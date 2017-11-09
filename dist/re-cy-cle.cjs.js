@@ -2110,9 +2110,17 @@ let MyDropdown = (_temp2$19 = _class$23 = class MyDropdown extends React.Compone
             opened: false
         }, this.showOverlay = e => {
             e.stopPropagation();
-            this.setState({ opened: true });
+            if (this.props.onChange) {
+                this.props.onChange(true);
+            } else {
+                this.setState({ opened: true });
+            }
         }, this.hideOverlay = () => {
-            this.setState({ opened: false });
+            if (this.props.onChange) {
+                this.props.onChange(false);
+            } else {
+                this.setState({ opened: false });
+            }
         }, this.handleClickOutside = () => {
             this.hideOverlay();
         }, _temp;
@@ -2123,12 +2131,14 @@ let MyDropdown = (_temp2$19 = _class$23 = class MyDropdown extends React.Compone
             RelativeWrapper,
             { onClick: this.showOverlay },
             this.props.children,
-            this.state.opened && this.props.overlay
+            (this.state.opened || this.props.opened) && this.props.overlay
         );
     }
 }, _class$23.propTypes = {
     overlay: PropTypes.element.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    opened: PropTypes.bool,
+    onChange: PropTypes.func
 }, _temp2$19);
 
 
