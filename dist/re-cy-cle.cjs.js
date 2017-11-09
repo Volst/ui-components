@@ -2134,9 +2134,13 @@ let MyDropdown = (_temp2$19 = _class$23 = class MyDropdown extends React.Compone
 
 const Dropdown$1 = onClickOutside(MyDropdown);
 
+const DropdownOverlay = styled__default.div.withConfig({
+    displayName: 'Dropdown__DropdownOverlay'
+})(['position:absolute;z-index:', ';'], props => props.theme.zIndexDropdownMenu);
+
 const DropdownMenu = styled__default.div.withConfig({
     displayName: 'Dropdown__DropdownMenu'
-})(['position:absolute;z-index:', ';background:', ';border-radius:5px;display:flex;border:1px solid ', ';box-shadow:0 1px 5px rgba(0,0,0,0.15);flex-direction:column;overflow:hidden;'], props => props.theme.zIndexDropdownMenu, props => props.theme.componentBackground, props => props.theme.primaryColor);
+})(['background:', ';border-radius:5px;display:flex;border:1px solid ', ';box-shadow:0 1px 5px rgba(0,0,0,0.15);flex-direction:column;overflow:hidden;'], props => props.theme.componentBackground, props => props.theme.primaryColor);
 
 const DropdownItem$1 = styled__default.div.withConfig({
     displayName: 'Dropdown__DropdownItem'
@@ -8055,6 +8059,7 @@ exports.MenuRow = MenuRow;
 exports.NavItem = NavItem;
 exports.NavMenu = NavMenu;
 exports.Dropdown = Dropdown$1;
+exports.DropdownOverlay = DropdownOverlay;
 exports.DropdownMenu = DropdownMenu;
 exports.DropdownItem = DropdownItem$1;
 exports.IconAccessAlarm = IconAccessAlarm;
