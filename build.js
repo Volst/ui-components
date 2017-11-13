@@ -14,6 +14,7 @@ const external = [
     'react-styled-flexboxgrid',
     'react-router-dom',
     'react-text-mask',
+    'react-input-autosize',
     'text-mask-addons/dist/createAutoCorrectedDatePipe',
     'text-mask-addons/dist/createNumberMask',
     'lodash',

@@ -27,7 +27,7 @@ export const Dropdown = styled.div`
     z-index: ${props => props.theme.zIndexFancySelectDropdown};
 `;
 
-const DropdownToggle = styled.div`
+export const DropdownToggle = styled.div`
     position: absolute;
     top: -1px;
     right: 0;
@@ -52,7 +52,7 @@ export const DropdownItem = styled.div`
 `;
 
 // Poor man's filtering.
-function fuzzySearch(options, inputValue) {
+export function fuzzySearch(options, inputValue) {
     return options.filter(o =>
         o.label.toLowerCase().includes((inputValue || '').toLowerCase())
     );
