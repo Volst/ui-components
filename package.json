@@ -67,7 +67,7 @@
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.1.2",
     "react-test-renderer": "^16.0.0",
-    "rollup": "^0.47.6",
+    "rollup": "^0.51.5",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-multi-entry": "^2.0.1",
     "styled-components": "^2.1.0"

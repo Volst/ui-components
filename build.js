@@ -31,7 +31,7 @@ const external = [
 
 rollup
     .rollup({
-        entry: ['./src/index.js', './src/general/icon/index.js'],
+        input: ['./src/index.js', './src/general/icon/index.js'],
         external,
         plugins: [
             multiEntry(),
@@ -46,11 +46,11 @@ rollup
     .then(bundle => {
         bundle.write({
             format: 'es',
-            dest: 'dist/re-cy-cle.es.js',
+            file: 'dist/re-cy-cle.es.js',
         });
         bundle.write({
             format: 'cjs',
-            dest: 'dist/re-cy-cle.cjs.js',
+            file: 'dist/re-cy-cle.cjs.js',
         });
     })
     .catch(err => {
