@@ -23,6 +23,7 @@ var moment = _interopDefault(require('moment'));
 var createAutoCorrectedDatePipe = _interopDefault(require('text-mask-addons/dist/createAutoCorrectedDatePipe'));
 var AutoTextarea = _interopDefault(require('react-textarea-autosize'));
 var Downshift = _interopDefault(require('downshift'));
+var AutosizeInput = _interopDefault(require('react-input-autosize'));
 var DayPickerInput = _interopDefault(require('react-day-picker/DayPickerInput'));
 var reactCustomScrollbars = require('react-custom-scrollbars');
 var reactStyledFlexboxgrid = require('react-styled-flexboxgrid');
@@ -1387,12 +1388,240 @@ let SelectInput = (_temp2$12 = _class$13 = class SelectInput extends React.PureC
     autoWidth: PropTypes.bool
 }, _temp2$12);
 
+var _class$14;
+var _temp2$13;
+
+// This should look like <TextInput /> as much as possible.
+const InputValueWrapper = styled__default.div.withConfig({
+    displayName: 'MultiSelect__InputValueWrapper'
+})(['display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;padding:1px 30px 1px 1px;border:1px solid ', ';border-radius:4px;outline:0;', ' ', ' ', ';', ';'], props => props.theme.borderColor, props => props.disabled && `
+        background: ${props.theme.disabledColor};
+    `, props => props.hasError && `
+        border-color: ${props.theme.dangerColor};
+        background: ${props.focused ? props.theme.componentBackground : '#fef2f2'};
+        `, props => props.focused && `
+        border-color: ${props.theme.primaryColor};
+    `, props => props.hasDropdown && `
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    `);
+
+const TagValue = styled__default.div.withConfig({
+    displayName: 'MultiSelect__TagValue'
+})(['background:', ';color:', ';padding:3px 5px;border-radius:2px;margin:2px;font-size:14px;display:flex;max-width:100%;'], props => props.disabled ? '#aaa' : props.theme.primaryColor, props => readableColor(props.theme.primaryColor));
+
+const TagText = styled__default.div.withConfig({
+    displayName: 'MultiSelect__TagText'
+})(['overflow:hidden;text-overflow:ellipsis;white-space:nowrap;']);
+
+const Input = styled__default(AutosizeInput).withConfig({
+    displayName: 'MultiSelect__Input'
+})(['max-width:100%;input{border:none;outline:none;cursor:inherit;background-color:transparent;font-size:14px;color:', ';padding:4px;max-width:100%;}'], props => props.theme.textColor);
+
+// TODO: I got lazy
+const CloseButton = styled__default.span.withConfig({
+    displayName: 'MultiSelect__CloseButton'
+})(['cursor:pointer;margin-left:4px;']);
+
+let MultiSelect = (_temp2$13 = _class$14 = class MultiSelect extends React.PureComponent {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.state = { inputValue: '', focused: false }, this.handleItemAdd = option => {
+            this.setState({ inputValue: '' });
+            if (this.props.value.indexOf(option.value) === -1) {
+                this.props.onChange(this.props.name, [...this.props.value, option.value]);
+            }
+        }, this.handleItemRemove = option => {
+            const newValue = this.props.value.slice();
+            const index = newValue.indexOf(option.value);
+            if (index >= 0) {
+                newValue.splice(index, 1);
+                this.props.onChange(this.props.name, newValue);
+            }
+        }, this.handleInputChange = event => {
+            this.setState({ inputValue: event.target.value });
+        }, this.handleWrapperClick = e => {
+            if (this._inputWrapper === e.target || this._input === e.target) {
+                this.focusOnInput();
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        }, this.handleInputKeyDown = e => {
+            const currentValue = e.target.value;
+            switch (e.keyCode) {
+                case 8:
+                    // backspace
+                    if (!currentValue) {
+                        e.preventDefault();
+                        this.popValue();
+                    }
+                    return;
+                case 46:
+                    // backspace
+                    if (!this.state.inputValue) {
+                        e.preventDefault();
+                        this.popValue();
+                    }
+                    return;
+                default:
+                    return;
+            }
+        }, this.renderDropdown = ({
+            isOpen,
+            getItemProps,
+            inputValue,
+            highlightedIndex,
+            selectedItem,
+            options
+        }) => {
+            return React__default.createElement(
+                Dropdown,
+                null,
+                options.map((item, index) => React__default.createElement(
+                    DropdownItem,
+                    getItemProps({
+                        key: item.value,
+                        index,
+                        item,
+                        highlighted: highlightedIndex === index
+                    }),
+                    item.label
+                ))
+            );
+        }, this.renderDownshift = (_ref) => {
+            let {
+                getRootProps,
+                getInputProps,
+                getItemProps,
+                isOpen,
+                inputValue,
+                highlightedIndex,
+                selectedItem,
+                openMenu,
+                toggleMenu,
+                clearItems
+            } = _ref,
+                rest = objectWithoutProperties(_ref, ['getRootProps', 'getInputProps', 'getItemProps', 'isOpen', 'inputValue', 'highlightedIndex', 'selectedItem', 'openMenu', 'toggleMenu', 'clearItems']);
+
+            const options = fuzzySearch(this.props.options, this.state.inputValue);
+            const unselectedOptions = options.filter(item => !selectedItem.includes(item));
+            const actuallyOpen = isOpen && unselectedOptions.length > 0;
+
+            const inputProps = getInputProps({
+                value: this.state.inputValue,
+                onChange: this.handleInputChange,
+                innerRef: c => this._input = c,
+                onKeyDown: this.handleInputKeyDown,
+                disabled: this.props.disabled
+            });
+            return React__default.createElement(
+                DropdownContainer,
+                getRootProps({ refKey: 'innerRef' }),
+                React__default.createElement(
+                    InputValueWrapper,
+                    {
+                        onClick: e => !this.props.disabled && (openMenu() || this.handleWrapperClick(e)),
+                        innerRef: c => this._inputWrapper = c,
+                        tabIndex: '-1',
+                        hasDropdown: actuallyOpen,
+                        focused: this.state.focused,
+                        onFocus: () => !this.props.disabled && this.setState({ focused: true }),
+                        onBlur: () => this.setState({ focused: false }),
+                        hasError: this.props.hasError,
+                        disabled: this.props.disabled
+                    },
+                    selectedItem.map(item => React__default.createElement(
+                        TagValue,
+                        {
+                            key: item.value,
+                            disabled: this.props.disabled
+                        },
+                        React__default.createElement(
+                            TagText,
+                            null,
+                            item.label,
+                            ' '
+                        ),
+                        !this.props.disabled && React__default.createElement(
+                            CloseButton,
+                            {
+                                onClick: () => this.handleItemRemove(item)
+                            },
+                            '\xD7'
+                        )
+                    )),
+                    React__default.createElement(Input, inputProps),
+                    React__default.createElement(
+                        DropdownToggle,
+                        null,
+                        React__default.createElement(
+                            Button,
+                            { icon: true, onClick: toggleMenu, tabIndex: -1 },
+                            actuallyOpen ? React__default.createElement(IconArrowDropUp, null) : React__default.createElement(IconArrowDropDown, null)
+                        )
+                    )
+                ),
+                actuallyOpen && this.renderDropdown({
+                    getItemProps,
+                    inputValue,
+                    highlightedIndex,
+                    selectedItem,
+                    options: unselectedOptions
+                })
+            );
+        }, _temp;
+    }
+
+    focusOnInput() {
+        this._input.focus();
+        if (typeof this._input.getInput === 'function') {
+            this._input.getInput().focus();
+        }
+    }
+
+    popValue() {
+        const newValue = this.props.value.slice();
+        newValue.pop();
+        this.props.onChange(this.props.name, newValue);
+    }
+
+    itemToString(item) {
+        if (item == null) {
+            return '';
+        }
+        return item.label;
+    }
+
+    render() {
+        const value = this.props.value;
+
+        return React__default.createElement(
+            Downshift,
+            {
+                selectedItem: value.map(v => this.props.options.find(o => o.value === v) || v),
+                onChange: this.handleItemAdd,
+                itemToString: this.itemToString,
+                defaultHighlightedIndex: 0
+            },
+            this.renderDownshift
+        );
+    }
+}, _class$14.propTypes = {
+    onChange: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    value: PropTypes.arrayOf(ValuePropType).isRequired,
+    options: OptionsPropType,
+    disabled: PropTypes.bool,
+    hasError: PropTypes.bool
+}, _temp2$13);
+
 const DatePickerWrapper = styled__default.div.withConfig({
     displayName: 'DatePickerWrapper'
 })(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}'], props => props.theme.textColor, props => props.theme.textColor, props => props.theme.borderColor, props => props.theme.dangerColor, props => props.theme.lightColor, props => props.theme.disabledColor, props => props.theme.lightColor, props => readableColor(props.theme.primaryColor), props => props.theme.primaryColor, props => props.theme.componentBackground, props => props.theme.zIndexSingleDatePickerOverlay);
 
-var _class$14;
-var _temp2$13;
+var _class$15;
+var _temp2$14;
 var _class2;
 var _class3;
 var _temp4;
@@ -1404,7 +1633,7 @@ const StyledMaskedInput$1 = StyledInput$3.withComponent((_ref2) => {
 });
 
 // This is not a hack, it is a documented workaround (in react-day-picker)!
-let MaskedDateInput = (_temp2$13 = _class$14 = class MaskedDateInput extends React.PureComponent {
+let MaskedDateInput = (_temp2$14 = _class$15 = class MaskedDateInput extends React.PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1439,9 +1668,9 @@ let MaskedDateInput = (_temp2$13 = _class$14 = class MaskedDateInput extends Rea
             keepCharPositions: true
         }));
     }
-}, _class$14.contextTypes = {
+}, _class$15.contextTypes = {
     inputDateFormat: PropTypes.string
-}, _temp2$13);
+}, _temp2$14);
 
 let SingleDatePicker = styled.withTheme(_class2 = (_temp4 = _class3 = class SingleDatePicker extends React.PureComponent {
     constructor(...args) {
@@ -1508,14 +1737,14 @@ let SingleDatePicker = styled.withTheme(_class2 = (_temp4 = _class3 = class Sing
     inputDateFormat: PropTypes.string
 }, _temp4)) || _class2;
 
-var _class$15;
+var _class$16;
 var _temp$1;
 
 const StyledTooltip = styled__default.span.withConfig({
     displayName: 'Tooltip__StyledTooltip'
 })(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:', ';}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => props.theme.zIndexTooltip, props => props.theme.darkColor, props => props.theme.darkColor, props => readableColor(props.theme.darkColor), props => props.theme.darkColor);
 
-let Tooltip = (_temp$1 = _class$15 = class Tooltip extends React.Component {
+let Tooltip = (_temp$1 = _class$16 = class Tooltip extends React.Component {
 
     render() {
         const { direction, children } = this.props;
@@ -1528,11 +1757,11 @@ let Tooltip = (_temp$1 = _class$15 = class Tooltip extends React.Component {
             children
         );
     }
-}, _class$15.propTypes = {
+}, _class$16.propTypes = {
     message: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
-}, _class$15.defaultProps = {
+}, _class$16.defaultProps = {
     direction: 's'
 }, _temp$1);
 
@@ -1548,9 +1777,9 @@ let IconKeyboardArrowUp = props => React__default.createElement(
     React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
 );
 
-var _class$16;
+var _class$17;
 var _class2$1;
-var _temp2$14;
+var _temp2$15;
 
 const StyledContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledContainer'
@@ -1568,7 +1797,7 @@ const StyledTitleContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
 
-let Accordion = styled.withTheme(_class$16 = (_temp2$14 = _class2$1 = class Accordion extends React.Component {
+let Accordion = styled.withTheme(_class$17 = (_temp2$15 = _class2$1 = class Accordion extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1616,7 +1845,7 @@ let Accordion = styled.withTheme(_class$16 = (_temp2$14 = _class2$1 = class Acco
     onChange: PropTypes.func.isRequired,
     action: PropTypes.node,
     theme: PropTypes.object.isRequired
-}, _temp2$14)) || _class$16;
+}, _temp2$15)) || _class$17;
 
 const Table = styled__default.table.withConfig({
     displayName: 'Table'
@@ -1799,12 +2028,12 @@ Loader.propTypes = {
     show: PropTypes.bool
 };
 
-var _class$18;
-var _temp2$16;
+var _class$19;
+var _temp2$17;
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = (_temp2$16 = _class$18 = class NotificationItem extends React.Component {
+let NotificationItem = (_temp2$17 = _class$19 = class NotificationItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1851,24 +2080,24 @@ let NotificationItem = (_temp2$16 = _class$18 = class NotificationItem extends R
             },
             this.props.message,
             this.props.dismissible !== false && React__default.createElement(
-                CloseButton,
+                CloseButton$1,
                 { icon: true, onClick: this.onDismiss },
                 '\u2715'
             )
         );
     }
-}, _class$18.propTypes = {
+}, _class$19.propTypes = {
     message: PropTypes.string.isRequired,
     onDismiss: PropTypes.func.isRequired,
     onClick: PropTypes.func,
     dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
     dismissible: PropTypes.bool,
     type: PropTypes.oneOf(['info', 'error'])
-}, _class$18.defaultProps = {
+}, _class$19.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$16);
-const CloseButton = styled__default(Button).withConfig({
+}, _temp2$17);
+const CloseButton$1 = styled__default(Button).withConfig({
     displayName: 'Item__CloseButton'
 })(['margin-left:11px;position:absolute;top:13px;right:13px;font-size:15px;']);
 
@@ -1890,10 +2119,10 @@ const StyledItem = styled__default.div.withConfig({
         opacity: 0;
     ` : '', getBackgroundColor, props => props.onClick ? 'pointer' : 'default');
 
-var _class$17;
-var _temp2$15;
+var _class$18;
+var _temp2$16;
 
-let NotificationStack = (_temp2$15 = _class$17 = class NotificationStack extends React.Component {
+let NotificationStack = (_temp2$16 = _class$18 = class NotificationStack extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1918,16 +2147,16 @@ let NotificationStack = (_temp2$15 = _class$17 = class NotificationStack extends
             this.props.notifications.map(this.renderNotification)
         );
     }
-}, _class$17.propTypes = {
+}, _class$18.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
-}, _temp2$15);
+}, _temp2$16);
 const StackWrapper = styled__default.div.withConfig({
     displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:', ';width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;'], props => props.theme.zIndexNotificationStack);
 
-var _class$19;
-var _temp2$17;
+var _class$20;
+var _temp2$18;
 
 const Container$1 = styled__default.div.withConfig({
     displayName: 'Modal__Container'
@@ -1943,7 +2172,7 @@ const Content$3 = styled__default.div.withConfig({
 
 const ESCAPE_KEY = 27;
 
-let Modal = (_temp2$17 = _class$19 = class Modal extends React.Component {
+let Modal = (_temp2$18 = _class$20 = class Modal extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -1974,12 +2203,12 @@ let Modal = (_temp2$17 = _class$19 = class Modal extends React.Component {
             )
         );
     }
-}, _class$19.propTypes = {
+}, _class$20.propTypes = {
     children: PropTypes.node.isRequired,
     onClose: PropTypes.func.isRequired
-}, _temp2$17);
+}, _temp2$18);
 
-var _class$20;
+var _class$21;
 var _temp$2;
 
 const Bubble = styled__default.sup.withConfig({
@@ -1990,7 +2219,7 @@ const Wrapper = styled__default.div.withConfig({
     displayName: 'Badge__Wrapper'
 })(['position:relative;display:inline-block;']);
 
-let Badge = (_temp$2 = _class$20 = class Badge extends React.Component {
+let Badge = (_temp$2 = _class$21 = class Badge extends React.Component {
 
     render() {
         const { count, children, className } = this.props;
@@ -2005,20 +2234,20 @@ let Badge = (_temp$2 = _class$20 = class Badge extends React.Component {
             )
         );
     }
-}, _class$20.propTypes = {
+}, _class$21.propTypes = {
     count: PropTypes.number,
     children: PropTypes.node,
     className: PropTypes.string
 }, _temp$2);
 
-var _class$21;
+var _class$22;
 var _temp$3;
 
 const Menu = styled__default.header.withConfig({
     displayName: 'TopMenu__Menu'
 })(['display:flex;align-items:stretch;flex-direction:column;']);
 
-let TopMenu = (_temp$3 = _class$21 = class TopMenu extends React.Component {
+let TopMenu = (_temp$3 = _class$22 = class TopMenu extends React.Component {
 
     render() {
         return React__default.createElement(
@@ -2027,7 +2256,7 @@ let TopMenu = (_temp$3 = _class$21 = class TopMenu extends React.Component {
             this.props.children
         );
     }
-}, _class$21.propTypes = {
+}, _class$22.propTypes = {
     children: PropTypes.node.isRequired
 }, _temp$3);
 
@@ -2058,14 +2287,14 @@ var MenuRow = styled__default.div.withConfig({
         }
     `);
 
-var _class$22;
-var _temp2$18;
+var _class$23;
+var _temp2$19;
 
 const StyledNavLink$1 = styled__default(reactRouterDom.NavLink).withConfig({
     displayName: 'NavItem__StyledNavLink'
 })(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primaryColor);
 
-let NavItem = (_temp2$18 = _class$22 = class NavItem extends React.Component {
+let NavItem = (_temp2$19 = _class$23 = class NavItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -2088,12 +2317,12 @@ let NavItem = (_temp2$18 = _class$22 = class NavItem extends React.Component {
             this.props.title
         );
     }
-}, _class$22.propTypes = {
+}, _class$23.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     to: PropTypes.string,
     onClick: PropTypes.func,
     activePath: PropTypes.string
-}, _temp2$18);
+}, _temp2$19);
 
 var NavItemExternal = StyledNavLink$1.withComponent((_ref) => {
     let { title } = _ref,
@@ -2109,14 +2338,14 @@ var NavMenu = styled__default.nav.withConfig({
     displayName: 'NavMenu'
 })(['flex:1;display:flex;align-items:stretch;']);
 
-var _class$23;
-var _temp2$19;
+var _class$24;
+var _temp2$20;
 
 const RelativeWrapper = styled__default.div.withConfig({
     displayName: 'Dropdown__RelativeWrapper'
 })(['position:relative;']);
 
-let MyDropdown = (_temp2$19 = _class$23 = class MyDropdown extends React.Component {
+let MyDropdown = (_temp2$20 = _class$24 = class MyDropdown extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -2148,12 +2377,12 @@ let MyDropdown = (_temp2$19 = _class$23 = class MyDropdown extends React.Compone
             (this.state.opened || this.props.opened) && this.props.overlay
         );
     }
-}, _class$23.propTypes = {
+}, _class$24.propTypes = {
     overlay: PropTypes.element.isRequired,
     children: PropTypes.node.isRequired,
     opened: PropTypes.bool,
     onChange: PropTypes.func
-}, _temp2$19);
+}, _temp2$20);
 
 
 const Dropdown$1 = onClickOutside(MyDropdown);
@@ -8055,6 +8284,7 @@ exports.TextArea = TextArea;
 exports.TypeAhead = TypeAhead;
 exports.SelectInput = SelectInput;
 exports.FancySelect = FancySelect;
+exports.MultiSelect = MultiSelect;
 exports.SingleDatePicker = SingleDatePicker;
 exports.Tooltip = Tooltip;
 exports.Accordion = Accordion;
