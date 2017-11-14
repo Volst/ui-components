@@ -6,7 +6,7 @@ const StyledLabel = styled.label`
     width: 100%;
     display: block;
     margin-bottom: 3px;
-    cursor: pointer;
+    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 `;
 
 const StyledInput = styled.input`
@@ -30,7 +30,7 @@ export default class Checkbox extends PureComponent {
 
     render() {
         return (
-            <StyledLabel>
+            <StyledLabel disabled={this.props.disabled}>
                 <StyledInput
                     type="checkbox"
                     onChange={this.handleChange}
