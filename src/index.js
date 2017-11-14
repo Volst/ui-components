@@ -48,6 +48,9 @@ export { default as TopMenu } from './navigation/topMenu/TopMenu';
 export { default as Logo } from './navigation/topMenu/Logo';
 export { default as MenuRow } from './navigation/topMenu/MenuRow';
 export { default as NavItem } from './navigation/topMenu/NavItem';
+export {
+    default as NavItemExternal,
+} from './navigation/topMenu/NavItemExternal';
 export { default as NavMenu } from './navigation/topMenu/NavMenu';
 export {
     Dropdown,

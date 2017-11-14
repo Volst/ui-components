@@ -6,6 +6,7 @@ import FullDecorator from '../../../storybook/FullDecorator';
 import Logo from './Logo';
 import MenuRow from './MenuRow';
 import NavItem from './NavItem';
+import NavItemExternal from './NavItemExternal';
 import NavMenu from './NavMenu';
 import TopMenu from './TopMenu';
 import Body from '../../layout/layout/Body';
@@ -92,6 +93,46 @@ storiesOf('Navigation / TopMenu', module)
                         </ContentContainer>
                     </Body>
                 </AppContainer>
+            );
+        })
+    )
+    .add(
+        'with external link',
+        withInfo()(() => {
+            return (
+                <TopMenu>
+                    <MenuRow>
+                        <Logo>TMS</Logo>
+                        <NavMenu>
+                            <NavItem
+                                title="Orders"
+                                to="/orders/planning"
+                                activePath="/orders"
+                            />
+                            <NavItem title="Settings" to="/settings" />
+                            <NavItemExternal
+                                title="External"
+                                href="/external"
+                            />
+                        </NavMenu>
+                        <NavItem title="Account" to="/account" />
+                    </MenuRow>
+                    <Route
+                        path="/orders"
+                        render={() => (
+                            <MenuRow>
+                                <NavItem
+                                    title="Planning"
+                                    to="/orders/planning"
+                                />
+                                <NavItem
+                                    title="Invoices"
+                                    to="/orders/invoices"
+                                />
+                            </MenuRow>
+                        )}
+                    />
+                </TopMenu>
             );
         })
     );

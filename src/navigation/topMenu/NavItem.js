@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-const Item = styled(NavLink)`
+export const StyledNavLink = styled(NavLink)`
     display: flex;
     align-items: center;
     padding: 0 10px;
@@ -64,7 +64,7 @@ export default class NavItem extends Component {
     render() {
         const { activePath } = this.props;
         return (
-            <Item
+            <StyledNavLink
                 to={this.props.to}
                 onClick={this.props.onClick}
                 className="nav-item"
@@ -72,7 +72,7 @@ export default class NavItem extends Component {
                 isActive={activePath ? this.checkActive : null}
             >
                 {this.props.title}
-            </Item>
+            </StyledNavLink>
         );
     }
 }
