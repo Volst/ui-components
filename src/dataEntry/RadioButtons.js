@@ -4,7 +4,6 @@ import { ValuePropType, OptionsPropType } from '../PropTypes';
 import styled from 'styled-components';
 import { readableColor } from '../config';
 import { uniqueId } from 'lodash';
-import { tint } from 'polished';
 
 const StyledDiv = styled.div`
     -webkit-touch-callout: none;
@@ -86,14 +85,14 @@ const StyledInput = styled.input`
     &:checked + label {
         ${props => {
             const background = props.disabled
-                ? tint(0.25, props.theme.primaryColor)
+                ? props.theme.borderColor
                 : props.theme.primaryColor;
             return `
                 background: ${background};
                 border-color: ${background};
-                box-shadow: ${`${props.vertical
-                    ? '0px -1px'
-                    : '-1px 0'} ${background}`};
+                box-shadow: ${`${props.vertical ? '0px -1px' : '-1px 0'} ${
+                    background
+                }`};
                 color: ${readableColor(background)};
             `;
         }};
