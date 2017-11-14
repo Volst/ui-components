@@ -16,6 +16,7 @@ const Bubble = styled.sup`
     text-align: center;
     color: #fff;
     font-size: 11px;
+    font-weight: bold;
 `;
 
 const Wrapper = styled.div`
