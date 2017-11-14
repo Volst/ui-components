@@ -22,14 +22,18 @@ const InputValueWrapper = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    padding: 4px 8px;
+    padding: 1px 30px 1px 1px;
     border: 1px solid ${props => props.theme.borderColor};
     border-radius: 4px;
     outline: 0;
 
     ${props =>
-        props.hasError &&
+        props.disabled &&
         `
+        background: ${props.theme.disabledColor};
+    `} ${props =>
+            props.hasError &&
+            `
         border-color: ${props.theme.dangerColor};
         background: ${
             props.focused ? props.theme.componentBackground : '#fef2f2'
@@ -48,24 +52,42 @@ const InputValueWrapper = styled.div`
 `;
 
 const TagValue = styled.div`
-    background: ${props => props.theme.primaryColor};
+    background: ${props =>
+        props.disabled ? '#aaa' : props.theme.primaryColor};
     color: ${props => readableColor(props.theme.primaryColor)};
-    margin-right: 4px;
+    padding: 3px 5px;
+    border-radius: 2px;
+    margin: 2px;
+    font-size: 14px;
+    display: flex;
+    max-width: 100%;
+`;
+
+const TagText = styled.div`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;
 
 const Input = styled(AutosizeInput)`
+    max-width: 100%;
+
     input {
         border: none;
         outline: none;
         cursor: inherit;
         background-color: transparent;
-        font-size: inherit;
+        font-size: 14px;
+        color: ${props => props.theme.textColor};
+        padding: 4px;
+        max-width: 100%;
     }
 `;
 
 // TODO: I got lazy
 const CloseButton = styled.span`
     cursor: pointer;
+    margin-left: 4px;
 `;
 
 export default class MultiSelect extends PureComponent {
@@ -161,7 +183,6 @@ export default class MultiSelect extends PureComponent {
                             index,
                             item,
                             highlighted: highlightedIndex === index,
-                            selected: selectedItem.includes(item),
                         })}
                     >
                         {item.label}
@@ -192,7 +213,10 @@ export default class MultiSelect extends PureComponent {
         ...rest
     }) => {
         const options = fuzzySearch(this.props.options, this.state.inputValue);
-        const actuallyOpen = isOpen && options.length > 0;
+        const unselectedOptions = options.filter(
+            item => !selectedItem.includes(item)
+        );
+        const actuallyOpen = isOpen && unselectedOptions.length > 0;
 
         const inputProps = getInputProps({
             value: this.state.inputValue,
@@ -217,10 +241,14 @@ export default class MultiSelect extends PureComponent {
                     }
                     onBlur={() => this.setState({ focused: false })}
                     hasError={this.props.hasError}
+                    disabled={this.props.disabled}
                 >
                     {selectedItem.map(item => (
-                        <TagValue key={item.value}>
-                            {item.label}{' '}
+                        <TagValue
+                            key={item.value}
+                            disabled={this.props.disabled}
+                        >
+                            <TagText>{item.label} </TagText>
                             {!this.props.disabled && (
                                 <CloseButton
                                     onClick={() => this.handleItemRemove(item)}
@@ -247,7 +275,7 @@ export default class MultiSelect extends PureComponent {
                         inputValue,
                         highlightedIndex,
                         selectedItem,
-                        options,
+                        options: unselectedOptions,
                     })}
             </DropdownContainer>
         );

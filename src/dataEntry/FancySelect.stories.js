@@ -22,6 +22,10 @@ const SOME_OPTIONS = [
         value: 4,
         label: 'Elephant',
     },
+    {
+        value: 5,
+        label: 'Parastratiosphecomyiastratiosphecomyioides',
+    },
 ];
 
 storiesOf('Data Entry / FancySelect', module)

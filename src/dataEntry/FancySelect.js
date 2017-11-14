@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import Downshift from 'downshift';
 import styled from 'styled-components';
-import { tint } from 'polished';
+import { setLightness } from 'polished';
 import { readableColor } from '../config';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
 import IconArrowDropUp from '../general/icon/IconArrowDropUp';
 import IconClose from '../general/icon/IconClose';
-import { StyledInput } from './TextInput';
+import { StyledInput as TextInput } from './TextInput';
 import { Button } from '../general/Button';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
@@ -29,14 +29,15 @@ export const Dropdown = styled.div`
 
 export const DropdownToggle = styled.div`
     position: absolute;
-    top: -1px;
+    top: 50%;
     right: 0;
+    transform: translateY(-50%);
 `;
 
 export const DropdownItem = styled.div`
     ${props => {
         const background = props.highlighted
-            ? tint(0.2, props.theme.primaryColor)
+            ? setLightness(0.93, props.theme.primaryColor)
             : props.theme.componentBackground;
         return `
             background: ${background};
@@ -49,6 +50,10 @@ export const DropdownItem = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+`;
+
+const StyledInput = styled(TextInput)`
+    padding: 0 60px 0 8px;
 `;
 
 // Poor man's filtering.
