@@ -82,6 +82,10 @@ const DatePickerWrapper = styled.div`
         font-size: 0.875em;
         text-align: center;
         color: #8b9898;
+
+        abbr {
+            text-decoration: none;
+        }
     }
 
     .DayPicker-Body {
