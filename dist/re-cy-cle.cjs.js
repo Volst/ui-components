@@ -523,7 +523,7 @@ const StyledLabel$1 = styled__default.label.withConfig({
 const StyledInput = styled__default.input.withConfig({
     displayName: 'RadioButtons__StyledInput'
 })(['position:fixed;left:-999999px;opacity:0;&:checked + label{', ';}'], props => {
-    const background = props.disabled ? polished.tint(0.25, props.theme.primaryColor) : props.theme.primaryColor;
+    const background = props.disabled ? props.theme.borderColor : props.theme.primaryColor;
     return `
                 background: ${background};
                 border-color: ${background};
@@ -1078,17 +1078,21 @@ const Dropdown = styled__default.div.withConfig({
 
 const DropdownToggle = styled__default.div.withConfig({
     displayName: 'FancySelect__DropdownToggle'
-})(['position:absolute;top:-1px;right:0;']);
+})(['position:absolute;top:50%;right:0;transform:translateY(-50%);']);
 
 const DropdownItem = styled__default.div.withConfig({
     displayName: 'FancySelect__DropdownItem'
 })(['', ';font-weight:', ';padding:4px;cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => {
-    const background = props.highlighted ? polished.tint(0.2, props.theme.primaryColor) : props.theme.componentBackground;
+    const background = props.highlighted ? polished.setLightness(0.93, props.theme.primaryColor) : props.theme.componentBackground;
     return `
             background: ${background};
             color: ${readableColor(background)};
         `;
 }, props => props.selected ? 'bold' : 'normal');
+
+const StyledInput$4 = styled__default(StyledInput$3).withConfig({
+    displayName: 'FancySelect__StyledInput'
+})(['padding:0 60px 0 8px;']);
 
 // Poor man's filtering.
 function fuzzySearch(options, inputValue) {
@@ -1152,7 +1156,7 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends React.PureC
             return React__default.createElement(
                 DropdownContainer,
                 getRootProps({ refKey: 'innerRef' }),
-                React__default.createElement(StyledInput$3, Object.assign({}, inputProps, {
+                React__default.createElement(StyledInput$4, Object.assign({}, inputProps, {
                     value: inputProps.value || '',
                     hasDropdown: actuallyOpen,
                     disabled: this.props.disabled,
@@ -2057,8 +2061,8 @@ var MenuRow = styled__default.div.withConfig({
 var _class$22;
 var _temp2$18;
 
-const Item = styled__default(reactRouterDom.NavLink).withConfig({
-    displayName: 'NavItem__Item'
+const StyledNavLink$1 = styled__default(reactRouterDom.NavLink).withConfig({
+    displayName: 'NavItem__StyledNavLink'
 })(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primaryColor);
 
 let NavItem = (_temp2$18 = _class$22 = class NavItem extends React.Component {
@@ -2073,7 +2077,7 @@ let NavItem = (_temp2$18 = _class$22 = class NavItem extends React.Component {
     render() {
         const { activePath } = this.props;
         return React__default.createElement(
-            Item,
+            StyledNavLink$1,
             {
                 to: this.props.to,
                 onClick: this.props.onClick,
@@ -2090,6 +2094,16 @@ let NavItem = (_temp2$18 = _class$22 = class NavItem extends React.Component {
     onClick: PropTypes.func,
     activePath: PropTypes.string
 }, _temp2$18);
+
+var NavItemExternal = StyledNavLink$1.withComponent((_ref) => {
+    let { title } = _ref,
+        props = objectWithoutProperties(_ref, ['title']);
+    return React__default.createElement(
+        'a',
+        props,
+        title
+    );
+});
 
 var NavMenu = styled__default.nav.withConfig({
     displayName: 'NavMenu'
@@ -2155,7 +2169,7 @@ const DropdownMenu = styled__default.div.withConfig({
 const DropdownItem$1 = styled__default.div.withConfig({
     displayName: 'Dropdown__DropdownItem'
 })(['padding:10px 15px;border-bottom:1px solid ', ';color:', ';cursor:pointer;user-select:none;&:hover{', ';}&:last-child{border-bottom-width:0;}'], props => props.theme.primaryColor, props => props.theme.textColor, props => {
-    const background = polished.tint(0.2, props.theme.primaryColor);
+    const background = polished.setLightness(0.93, props.theme.primaryColor);
     return `
                 background: ${background};
                 color: ${readableColor(background)};
@@ -8067,6 +8081,7 @@ exports.TopMenu = TopMenu;
 exports.Logo = Logo;
 exports.MenuRow = MenuRow;
 exports.NavItem = NavItem;
+exports.NavItemExternal = NavItemExternal;
 exports.NavMenu = NavMenu;
 exports.Dropdown = Dropdown$1;
 exports.DropdownOverlay = DropdownOverlay;
