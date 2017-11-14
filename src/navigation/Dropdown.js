@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { tint } from 'polished';
+import { setLightness } from 'polished';
 import { readableColor } from '../config';
 import onClickOutside from 'react-onclickoutside';
 
@@ -77,7 +77,7 @@ export const DropdownItem = styled.div`
     user-select: none;
     &:hover {
         ${props => {
-            const background = tint(0.2, props.theme.primaryColor);
+            const background = setLightness(0.93, props.theme.primaryColor);
             return `
                 background: ${background};
                 color: ${readableColor(background)};
