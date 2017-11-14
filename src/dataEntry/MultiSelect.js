@@ -24,6 +24,7 @@ const InputValueWrapper = styled.div`
     align-items: center;
     padding: 1px 30px 1px 1px;
     border: 1px solid ${props => props.theme.borderColor};
+    background: ${props => props.theme.componentBackground};
     border-radius: 4px;
     outline: 0;
 
