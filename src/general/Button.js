@@ -46,7 +46,7 @@ export const Button = styled(props => (
     background: transparent;
     line-height: 1;
     user-select: none;
-    font-size: ${props => (props.link ? '' : '16px')};
+    font-size: ${props => (props.link ? 'inherit' : '16px')};
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 
     > svg {
@@ -98,18 +98,21 @@ export const Button = styled(props => (
             border-radius: 4px;
             vertical-align: middle;
 
-            ${props.disabled
-                ? `
-                ${props.tone === 'light'
+            ${
+                props.disabled
                     ? `
+                ${
+                    props.tone === 'light'
+                        ? `
                     background: ${tint(0.5, background)};
                     color: ${tint(0.4, props.theme.textColor)};
                 `
-                    : `
+                        : `
                     background: ${tint(0.25, background)};
-                `}
+                `
+                }
             `
-                : `
+                    : `
                 background: ${background};
 
             &:hover {
@@ -123,7 +126,8 @@ export const Button = styled(props => (
             &:focus {
                 box-shadow 0 0 0 3px ${rgba(background, 0.5)};
             }
-        `}
+        `
+            }
     `;
     }};
 `;
