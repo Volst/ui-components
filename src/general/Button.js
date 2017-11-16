@@ -75,7 +75,7 @@ export const Button = styled(props => (
         width: 100%;
     `};
     ${props => {
-        const background = props.theme[`${props.tone || 'primary'}Color`];
+        const background = props.theme[`${props.tone || 'primaryButton'}Color`];
         const textColor = `color: ${getTextColor(props, background)};`;
 
         if (props.icon) {

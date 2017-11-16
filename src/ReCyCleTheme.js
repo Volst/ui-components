@@ -5,7 +5,7 @@ import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
-import { defaultConfig } from './config';
+import { defaultConfig, overridablePrimaryColors } from './config';
 
 const injectGlobalStyles = theme => injectGlobal`
     @font-face {
@@ -65,7 +65,17 @@ export default class ReCyCleTheme extends Component {
         children: PropTypes.node,
     };
     getTheme = () => {
-        return Object.assign({}, defaultConfig, this.props.theme);
+        const theme = this.props.theme;
+        const primaryColor = theme.primaryColor || defaultConfig.primaryColor;
+
+        // Object with every overridable primaryColorProp set to the primaryColor
+        // of the given theme.
+        const fallback = {};
+        overridablePrimaryColors.forEach(propName => {
+            fallback[propName] = primaryColor;
+        });
+
+        return Object.assign({}, defaultConfig, fallback, theme);
     };
     componentDidMount() {
         injectGlobalStyles(this.getTheme());

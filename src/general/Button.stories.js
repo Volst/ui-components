@@ -7,6 +7,7 @@ import IconDelete from './icon/IconDelete';
 import IconSearch from './icon/IconSearch';
 import IconBuild from './icon/IconBuild';
 import IconMic from './icon/IconMic';
+import ReCyCleTheme from '../ReCyCleTheme';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('General / Button', module)
@@ -57,6 +58,20 @@ storiesOf('General / Button', module)
                         </Button>
                     </div>
                 </div>
+            );
+        })
+    )
+    .add(
+        'with an overwritten primaryColor',
+        withInfo()(() => {
+            return (
+                <ReCyCleTheme theme={{ primaryButtonColor: '#DE0000' }}>
+                    <div>
+                        <Button>Primary</Button>
+                        <Button tone="success">Success</Button>
+                        <Button tone="warning">Warning</Button>
+                    </div>
+                </ReCyCleTheme>
             );
         })
     )

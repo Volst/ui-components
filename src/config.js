@@ -23,6 +23,8 @@ export const defaultConfig = {
     zIndexSingleDatePickerOverlay: 100,
 };
 
+export const overridablePrimaryColors = ['primaryButtonColor'];
+
 // This uses YIQ to  calculate the color contrast.
 // Same calculation as Bootstrap uses, seems to work better than polished's `readableColor()`
 export function readableColor(color) {
