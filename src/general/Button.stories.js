@@ -65,7 +65,7 @@ storiesOf('General / Button', module)
         'with an overwritten primaryColor',
         withInfo()(() => {
             return (
-                <ReCyCleTheme theme={{ primaryButtonColor: '#DE0000' }}>
+                <ReCyCleTheme theme={{ buttonPrimaryColor: '#DE0000' }}>
                     <div>
                         <Button>Primary</Button>
                         <Button tone="success">Success</Button>

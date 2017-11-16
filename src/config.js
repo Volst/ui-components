@@ -27,8 +27,8 @@ export const defaultConfig = {
 // If overrideProps isn't specified in the recycleTheme,
 // we fall back to the value of the fallbackProp.
 export const themeOverrides = {
-    primaryButtonColor: 'primaryColor',
-    textHeadingColor: 'textColor',
+    buttonPrimaryColor: 'primaryColor',
+    headingTextColor: 'textColor',
 };
 
 // This uses YIQ to  calculate the color contrast.
