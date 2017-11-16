@@ -5,7 +5,8 @@ import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
-import { defaultConfig, overridablePrimaryColors } from './config';
+import { defaultConfig, themeOverrides } from './config';
+import { mapValues } from 'lodash';
 
 const injectGlobalStyles = theme => injectGlobal`
     @font-face {
@@ -64,16 +65,18 @@ export default class ReCyCleTheme extends Component {
         theme: PropTypes.object,
         children: PropTypes.node,
     };
+    static defaultProps = {
+        theme: {},
+    };
     getTheme = () => {
         const theme = this.props.theme;
-        const primaryColor = theme.primaryColor || defaultConfig.primaryColor;
-
-        // Object with every overridable primaryColorProp set to the primaryColor
-        // of the given theme.
-        const fallback = {};
-        overridablePrimaryColors.forEach(propName => {
-            fallback[propName] = primaryColor;
-        });
+        // Fallback to the value of the fallbackProp
+        const fallback = mapValues(
+            themeOverrides,
+            (fallbackProp, overrideProp) => {
+                return theme[fallbackProp] || defaultConfig[fallbackProp];
+            }
+        );
 
         return Object.assign({}, defaultConfig, fallback, theme);
     };

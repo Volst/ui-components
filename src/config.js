@@ -23,7 +23,13 @@ export const defaultConfig = {
     zIndexSingleDatePickerOverlay: 100,
 };
 
-export const overridablePrimaryColors = ['primaryButtonColor'];
+// overrideProp : fallbackProp
+// If overrideProps isn't specified in the recycleTheme,
+// we fall back to the value of the fallbackProp.
+export const themeOverrides = {
+    primaryButtonColor: 'primaryColor',
+    textHeadingColor: 'textColor',
+};
 
 // This uses YIQ to  calculate the color contrast.
 // Same calculation as Bootstrap uses, seems to work better than polished's `readableColor()`
