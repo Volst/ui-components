@@ -58,6 +58,11 @@ const injectGlobalStyles = theme => injectGlobal`
     button:focus {
         outline: 0;
     }
+
+    select:-moz-focusring, select::-moz-focus-inner {
+       color: transparent;
+       text-shadow: 0 0 0 #000;
+    }
 `;
 
 export default class ReCyCleTheme extends Component {

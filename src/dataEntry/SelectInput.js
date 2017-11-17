@@ -25,7 +25,6 @@ const StyledSelect = styled(({ autoWidth, hasError, ...props }) => (
     -webkit-appearance: none;
 
     &:focus {
-        outline: 0;
         border: 1px solid
             ${props => !props.hasError && props.theme.primaryColor};
     }
