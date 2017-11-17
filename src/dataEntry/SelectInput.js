@@ -18,9 +18,9 @@ const StyledSelect = styled(({ autoWidth, hasError, ...props }) => (
         ${props => props.theme[props.hasError ? 'dangerColor' : 'borderColor']};
     background-color: ${props =>
         props.hasError ? '#fef2f2' : props.theme.componentBackground};
-    background-image: url('data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg width="19" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z" fill="rgba(0,0,0,0.7)" /></svg>');
     background-repeat: no-repeat;
-    background-position: right 10px center;
+    background-position: top 1px right 10px;
     -moz-appearance: none;
     -webkit-appearance: none;
 
