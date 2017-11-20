@@ -159,7 +159,12 @@ export default class FancySelect extends PureComponent {
                             <IconClose width="16" height="16" />
                         </Button>
                     )}
-                    <Button icon onClick={toggleMenu} tabIndex={-1}>
+                    <Button
+                        icon
+                        disabled={this.props.disabled}
+                        onClick={toggleMenu}
+                        tabIndex={-1}
+                    >
                         {actuallyOpen ? (
                             <IconArrowDropUp />
                         ) : (
