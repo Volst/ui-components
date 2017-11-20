@@ -6,7 +6,7 @@ import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
 import { darken, parseToRgb, rgba, setLightness, tint } from 'polished';
-import { omit, pick, uniqueId } from 'lodash';
+import { mapValues, omit, pick, uniqueId } from 'lodash';
 import { Link, NavLink } from 'react-router-dom';
 import { t } from 'i18next';
 import MaskedInput from 'react-text-mask';
@@ -42,6 +42,14 @@ const defaultConfig = {
     zIndexFancySelectDropdown: 420,
     zIndexTooltip: 100,
     zIndexSingleDatePickerOverlay: 100
+};
+
+// overrideProp : fallbackProp
+// If overrideProps isn't specified in the recycleTheme,
+// we fall back to the value of the fallbackProp.
+const themeOverrides = {
+    buttonPrimaryColor: 'primaryColor',
+    headingTextColor: 'textColor'
 };
 
 // This uses YIQ to  calculate the color contrast.
@@ -105,6 +113,11 @@ const injectGlobalStyles = theme => injectGlobal`
     button:focus {
         outline: 0;
     }
+
+    select:-moz-focusring, select::-moz-focus-inner {
+       color: transparent;
+       text-shadow: 0 0 0 #000;
+    }
 `;
 
 let ReCyCleTheme = (_temp2 = _class = class ReCyCleTheme extends Component {
@@ -112,7 +125,13 @@ let ReCyCleTheme = (_temp2 = _class = class ReCyCleTheme extends Component {
         var _temp;
 
         return _temp = super(...args), this.getTheme = () => {
-            return Object.assign({}, defaultConfig, this.props.theme);
+            const theme = this.props.theme;
+            // Fallback to the value of the fallbackProp
+            const fallback = mapValues(themeOverrides, (fallbackProp, overrideProp) => {
+                return theme[fallbackProp] || defaultConfig[fallbackProp];
+            });
+
+            return Object.assign({}, defaultConfig, fallback, theme);
         }, _temp;
     }
 
@@ -129,6 +148,8 @@ let ReCyCleTheme = (_temp2 = _class = class ReCyCleTheme extends Component {
 }, _class.propTypes = {
     theme: PropTypes.object,
     children: PropTypes.node
+}, _class.defaultProps = {
+    theme: {}
 }, _temp2);
 
 const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
@@ -174,7 +195,7 @@ function getTextColor(props, background) {
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled(props => React.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
     displayName: 'Button'
-})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? '' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
+})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? 'inherit' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
         margin: 6px;
         ` : `
         &:first-child {
@@ -190,7 +211,7 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
         margin: 5px 0;
         width: 100%;
     `, props => {
-    const background = props.theme[`${props.tone || 'primary'}Color`];
+    const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
     const textColor = `color: ${getTextColor(props, background)};`;
 
     if (props.icon) {
@@ -265,7 +286,7 @@ Link$1.displayName = 'Link';
 
 const Heading = styled.h1.withConfig({
     displayName: 'Heading'
-})(['font-weight:bold;font-size:26px;margin:20px 0 7px 0;color:', ';'], props => props.color || props.theme.textColor);
+})(['font-weight:bold;font-size:26px;margin:20px 0 7px 0;color:', ';'], props => props.color || props.theme.headingTextColor);
 Heading.displayName = 'Heading';
 Heading.propTypes = {
     color: PropTypes.string
@@ -645,7 +666,7 @@ var _temp2$5;
 
 const StyledLabel$3 = styled.label.withConfig({
     displayName: 'Checkbox__StyledLabel'
-})(['width:100%;display:block;margin-bottom:3px;cursor:pointer;']);
+})(['width:100%;display:block;margin-bottom:3px;cursor:', ';'], props => props.disabled ? 'not-allowed' : 'pointer');
 
 const StyledInput$2 = styled.input.withConfig({
     displayName: 'Checkbox__StyledInput'
@@ -663,7 +684,7 @@ let Checkbox = (_temp2$5 = _class$6 = class Checkbox extends PureComponent {
     render() {
         return React.createElement(
             StyledLabel$3,
-            null,
+            { disabled: this.props.disabled },
             React.createElement(StyledInput$2, {
                 type: 'checkbox',
                 onChange: this.handleChange,
@@ -1173,7 +1194,12 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends PureCompone
                     ),
                     React.createElement(
                         Button,
-                        { icon: true, onClick: toggleMenu, tabIndex: -1 },
+                        {
+                            icon: true,
+                            disabled: this.props.disabled,
+                            onClick: toggleMenu,
+                            tabIndex: -1
+                        },
                         actuallyOpen ? React.createElement(IconArrowDropUp, null) : React.createElement(IconArrowDropDown, null)
                     )
                 ),
@@ -1327,7 +1353,7 @@ const StyledSelect = styled((_ref) => {
     return React.createElement('select', props);
 }).withConfig({
     displayName: 'SelectInput__StyledSelect'
-})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="10" viewBox="0 0 19 10" xmlns="http://www.w3.org/2000/svg"><g stroke="#BED6E4" fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M.5.5l9 9M18.5.5l-9 9"/></g></svg>\');background-repeat:no-repeat;background-position:right 10px center;-moz-appearance:none;-webkit-appearance:none;&:focus{outline:0;border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => props.theme.textColor, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => !props.hasError && props.theme.primaryColor, props => props.theme.disabledColor);
+})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z" fill="rgba(0,0,0,0.7)" /></svg>\');background-repeat:no-repeat;background-position:top 1px right 10px;-moz-appearance:none;-webkit-appearance:none;&:focus{border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => props.theme.textColor, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => !props.hasError && props.theme.primaryColor, props => props.theme.disabledColor);
 
 let SelectInput = (_temp2$12 = _class$13 = class SelectInput extends PureComponent {
     constructor(...args) {
@@ -1386,7 +1412,7 @@ var _temp2$13;
 // This should look like <TextInput /> as much as possible.
 const InputValueWrapper = styled.div.withConfig({
     displayName: 'MultiSelect__InputValueWrapper'
-})(['display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;padding:1px 30px 1px 1px;border:1px solid ', ';border-radius:4px;outline:0;', ' ', ' ', ';', ';'], props => props.theme.borderColor, props => props.disabled && `
+})(['display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;padding:1px 30px 1px 1px;border:1px solid ', ';background:', ';border-radius:4px;outline:0;', ' ', ' ', ';', ';'], props => props.theme.borderColor, props => props.theme.componentBackground, props => props.disabled && `
         background: ${props.theme.disabledColor};
     `, props => props.hasError && `
         border-color: ${props.theme.dangerColor};
@@ -1549,7 +1575,12 @@ let MultiSelect = (_temp2$13 = _class$14 = class MultiSelect extends PureCompone
                         null,
                         React.createElement(
                             Button,
-                            { icon: true, onClick: toggleMenu, tabIndex: -1 },
+                            {
+                                icon: true,
+                                disabled: this.props.disabled,
+                                onClick: toggleMenu,
+                                tabIndex: -1
+                            },
                             actuallyOpen ? React.createElement(IconArrowDropUp, null) : React.createElement(IconArrowDropDown, null)
                         )
                     )
@@ -1610,7 +1641,7 @@ let MultiSelect = (_temp2$13 = _class$14 = class MultiSelect extends PureCompone
 
 const DatePickerWrapper = styled.div.withConfig({
     displayName: 'DatePickerWrapper'
-})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}'], props => props.theme.textColor, props => props.theme.textColor, props => props.theme.borderColor, props => props.theme.dangerColor, props => props.theme.lightColor, props => props.theme.disabledColor, props => props.theme.lightColor, props => readableColor(props.theme.primaryColor), props => props.theme.primaryColor, props => props.theme.componentBackground, props => props.theme.zIndexSingleDatePickerOverlay);
+})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;abbr{text-decoration:none;}}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}'], props => props.theme.textColor, props => props.theme.textColor, props => props.theme.borderColor, props => props.theme.dangerColor, props => props.theme.lightColor, props => props.theme.disabledColor, props => props.theme.lightColor, props => readableColor(props.theme.primaryColor), props => props.theme.primaryColor, props => props.theme.componentBackground, props => props.theme.zIndexSingleDatePickerOverlay);
 
 var _class$15;
 var _temp2$14;
@@ -2205,7 +2236,7 @@ var _temp$2;
 
 const Bubble = styled.sup.withConfig({
     displayName: 'Badge__Bubble'
-})(['background:', ';position:absolute;min-width:16px;height:16px;line-height:17px;padding:0 6px;white-space:nowrap;top:-8px;transform:translateX(-50%);border-radius:8px;text-align:center;color:#fff;font-size:11px;'], props => props.theme.dangerColor);
+})(['background:', ';position:absolute;min-width:16px;height:16px;line-height:17px;padding:0 6px;white-space:nowrap;top:-8px;transform:translateX(-50%);border-radius:8px;text-align:center;color:#fff;font-size:11px;font-weight:bold;'], props => props.theme.dangerColor);
 
 const Wrapper = styled.div.withConfig({
     displayName: 'Badge__Wrapper'
