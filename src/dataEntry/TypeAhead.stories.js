@@ -57,43 +57,38 @@ storiesOf('Data Entry / TypeAhead', module)
             );
         })
     )
-    .add(
-        'controlled',
-        withInfo()(() => {
-            class MyComponent extends Component {
-                state = {
-                    value: '',
-                };
+    .add('controlled', () => {
+        class MyComponent extends Component {
+            state = {
+                value: '',
+            };
 
-                handleChange = (name, value) => {
-                    this.setState({
-                        value: value,
-                    });
-                    action('change')(name, value);
-                };
+            handleChange = (name, value) => {
+                this.setState({
+                    value: value,
+                });
+                action('change')(name, value);
+            };
 
-                render() {
-                    return (
-                        <div>
-                            <TypeAhead
-                                onChange={this.handleChange}
-                                onSelect={action('select')}
-                                name="myname"
-                                options={SOME_OPTIONS}
-                                value={this.state.value}
-                            />
-                            <Button
-                                onClick={() => this.setState({ value: '' })}
-                            >
-                                Reset
-                            </Button>
-                        </div>
-                    );
-                }
+            render() {
+                return (
+                    <div>
+                        <TypeAhead
+                            onChange={this.handleChange}
+                            onSelect={action('select')}
+                            name="myname"
+                            options={SOME_OPTIONS}
+                            value={this.state.value}
+                        />
+                        <Button onClick={() => this.setState({ value: '' })}>
+                            Reset
+                        </Button>
+                    </div>
+                );
             }
-            return <MyComponent />;
-        })
-    )
+        }
+        return <MyComponent />;
+    })
     .add(
         'disabled',
         withInfo()(() => {

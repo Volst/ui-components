@@ -31,34 +31,44 @@ const SOME_OPTIONS = [
 storiesOf('Data Entry / MultiSelect', module)
     .addDecorator(CenterDecorator)
     .add(
-        'controlled',
+        'standard',
         withInfo()(() => {
-            class MyComponent extends Component {
-                state = {
-                    value: [2],
-                };
-
-                handleChange = (name, value) => {
-                    this.setState({
-                        value: value,
-                    });
-                    action('change')(name, value);
-                };
-
-                render() {
-                    return (
-                        <MultiSelect
-                            onChange={this.handleChange}
-                            name="myname"
-                            options={SOME_OPTIONS}
-                            value={this.state.value}
-                        />
-                    );
-                }
-            }
-            return <MyComponent />;
+            return (
+                <MultiSelect
+                    onChange={action('change')}
+                    name="myname"
+                    options={SOME_OPTIONS}
+                    value={[2, 3]}
+                />
+            );
         })
     )
+    .add('controlled', () => {
+        class MyComponent extends Component {
+            state = {
+                value: [2],
+            };
+
+            handleChange = (name, value) => {
+                this.setState({
+                    value: value,
+                });
+                action('change')(name, value);
+            };
+
+            render() {
+                return (
+                    <MultiSelect
+                        onChange={this.handleChange}
+                        name="myname"
+                        options={SOME_OPTIONS}
+                        value={this.state.value}
+                    />
+                );
+            }
+        }
+        return <MyComponent />;
+    })
     .add(
         'with error',
         withInfo()(() => {

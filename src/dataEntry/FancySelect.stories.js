@@ -46,35 +46,32 @@ storiesOf('Data Entry / FancySelect', module)
             );
         })
     )
-    .add(
-        'controlled',
-        withInfo()(() => {
-            class MyComponent extends Component {
-                state = {
-                    value: '',
-                };
+    .add('controlled', () => {
+        class MyComponent extends Component {
+            state = {
+                value: '',
+            };
 
-                handleChange = (name, value) => {
-                    this.setState({
-                        value: value,
-                    });
-                    action('change')(name, value);
-                };
+            handleChange = (name, value) => {
+                this.setState({
+                    value: value,
+                });
+                action('change')(name, value);
+            };
 
-                render() {
-                    return (
-                        <FancySelect
-                            onChange={this.handleChange}
-                            name="myname"
-                            options={SOME_OPTIONS}
-                            value={this.state.value}
-                        />
-                    );
-                }
+            render() {
+                return (
+                    <FancySelect
+                        onChange={this.handleChange}
+                        name="myname"
+                        options={SOME_OPTIONS}
+                        value={this.state.value}
+                    />
+                );
             }
-            return <MyComponent />;
-        })
-    )
+        }
+        return <MyComponent />;
+    })
     .add(
         'with error',
         withInfo()(() => {
