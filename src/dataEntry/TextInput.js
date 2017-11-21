@@ -89,6 +89,16 @@ export default class TextInput extends PureComponent {
         this.props.onBlur(this.props.name, e.target.value);
     };
 
+    setInputRef = c => {
+        this.inputRef = c;
+    };
+
+    // This method can be used externally; it's just a convenience method
+    // since a "normal" <input> element also has a `.focus()` method
+    focus() {
+        this.inputRef.focus();
+    }
+
     render() {
         const value = this.props.value !== null ? this.props.value : '';
 
@@ -109,6 +119,12 @@ export default class TextInput extends PureComponent {
             spellCheck: this.props.spellCheck === false ? 'false' : undefined,
         };
 
-        return <StyledInput type={this.props.type} {...sharedProps} />;
+        return (
+            <StyledInput
+                type={this.props.type}
+                {...sharedProps}
+                _ref={this.setInputRef}
+            />
+        );
     }
 }
