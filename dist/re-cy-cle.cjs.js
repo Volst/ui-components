@@ -760,7 +760,15 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends React.PureCompone
             if (!this.props.onBlur) return;
 
             this.props.onBlur(this.props.name, e.target.value);
+        }, this.setInputRef = c => {
+            this.inputRef = c;
         }, _temp;
+    }
+
+    // This method can be used externally; it's just a convenience method
+    // since a "normal" <input> element also has a `.focus()` method
+    focus() {
+        this.inputRef.focus();
     }
 
     render() {
@@ -783,7 +791,11 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends React.PureCompone
             spellCheck: this.props.spellCheck === false ? 'false' : undefined
         };
 
-        return React__default.createElement(StyledInput$3, Object.assign({ type: this.props.type }, sharedProps));
+        return React__default.createElement(StyledInput$3, Object.assign({
+            type: this.props.type
+        }, sharedProps, {
+            _ref: this.setInputRef
+        }));
     }
 }, _class$7.propTypes = {
     onChange: PropTypes.func,
