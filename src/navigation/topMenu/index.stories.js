@@ -33,21 +33,23 @@ storiesOf('Navigation / TopMenu', module)
                         </NavMenu>
                         <NavItem title="Account" to="/account" />
                     </MenuRow>
-                    <Route
-                        path="/orders"
-                        render={() => (
-                            <MenuRow>
+                    <MenuRow>
+                        <Route
+                            path="/orders"
+                            render={() => [
                                 <NavItem
+                                    key="planning"
                                     title="Planning"
                                     to="/orders/planning"
-                                />
+                                />,
                                 <NavItem
+                                    key="invoices"
                                     title="Invoices"
                                     to="/orders/invoices"
-                                />
-                            </MenuRow>
-                        )}
-                    />
+                                />,
+                            ]}
+                        />
+                    </MenuRow>
                 </TopMenu>
             );
         })
@@ -117,21 +119,23 @@ storiesOf('Navigation / TopMenu', module)
                         </NavMenu>
                         <NavItem title="Account" to="/account" />
                     </MenuRow>
-                    <Route
-                        path="/orders"
-                        render={() => (
-                            <MenuRow>
+                    <MenuRow>
+                        <Route
+                            path="/orders"
+                            render={() => [
                                 <NavItem
+                                    key="planning"
                                     title="Planning"
                                     to="/orders/planning"
-                                />
+                                />,
                                 <NavItem
+                                    key="invoices"
                                     title="Invoices"
                                     to="/orders/invoices"
-                                />
-                            </MenuRow>
-                        )}
-                    />
+                                />,
+                            ]}
+                        />
+                    </MenuRow>
                 </TopMenu>
             );
         })

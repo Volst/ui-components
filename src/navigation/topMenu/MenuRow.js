@@ -5,6 +5,12 @@ export default styled.div`
     display: flex;
     align-items: stretch;
 
+    transition: 175ms height ease;
+
+    &:empty {
+        height: 10px;
+    }
+
     &:nth-child(even) {
         background: ${props => props.theme.primaryColor};
         color: white;
