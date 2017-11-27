@@ -17,6 +17,7 @@ import AutoTextarea from 'react-textarea-autosize';
 import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import { formatDate, parseDate } from 'react-day-picker/moment';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import onClickOutside from 'react-onclickoutside';
@@ -1365,7 +1366,7 @@ const StyledSelect = styled((_ref) => {
     return React.createElement('select', props);
 }).withConfig({
     displayName: 'SelectInput__StyledSelect'
-})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 10px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z" fill="rgba(0,0,0,0.7)" /></svg>\');background-repeat:no-repeat;background-position:top 1px right 10px;-moz-appearance:none;-webkit-appearance:none;&:focus{border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => props.theme.textColor, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => !props.hasError && props.theme.primaryColor, props => props.theme.disabledColor);
+})(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 7px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z" fill="rgba(0,0,0,0.7)" /></svg>\');background-repeat:no-repeat;background-position:top 1px right 10px;-moz-appearance:none;-webkit-appearance:none;&:focus{border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => props.theme.textColor, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => !props.hasError && props.theme.primaryColor, props => props.theme.disabledColor);
 
 let SelectInput = (_temp2$12 = _class$13 = class SelectInput extends PureComponent {
     constructor(...args) {
@@ -1748,6 +1749,8 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
                 value: value,
                 disabled: this.props.disabled,
                 hasError: this.props.hasError,
+                formatDate: formatDate,
+                parseDate: parseDate,
                 placeholder: this.props.placeholder,
                 format: dateFormat,
                 dayPickerProps: dayPickerProps
@@ -1818,11 +1821,13 @@ var _temp2$15;
 
 const StyledContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledContainer'
-})(['background-color:', ';border-radius:4px;'], props => props.theme.lightColor);
+})(['background-color:', ';border-radius:4px;margin-bottom:10px;overflow:hidden;'], props => props.theme.lightColor);
 
 const StyledContent = styled.div.withConfig({
     displayName: 'Accordion__StyledContent'
-})(['padding:0 10px 10px 10px;margin-bottom:10px;']);
+})(['padding:10px;', ';'], props => props.background ? `
+        background: ${props.background};
+    ` : '');
 
 const StyledTitle = styled.div.withConfig({
     displayName: 'Accordion__StyledTitle'
@@ -1830,7 +1835,7 @@ const StyledTitle = styled.div.withConfig({
 
 const StyledTitleContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
-})(['margin-bottom:10px;position:relative;display:flex;align-items:center;']);
+})(['position:relative;display:flex;align-items:center;']);
 
 let Accordion = withTheme(_class$17 = (_temp2$15 = _class2$1 = class Accordion extends Component {
     constructor(...args) {
@@ -1842,7 +1847,13 @@ let Accordion = withTheme(_class$17 = (_temp2$15 = _class2$1 = class Accordion e
     }
 
     render() {
-        const { opened, children, action, title } = this.props;
+        const {
+            opened,
+            children,
+            action,
+            title,
+            contentBackground
+        } = this.props;
         const IconToggle = opened ? IconKeyboardArrowUp : IconKeyboardArrowDown;
         return React.createElement(
             StyledContainer,
@@ -1868,7 +1879,7 @@ let Accordion = withTheme(_class$17 = (_temp2$15 = _class2$1 = class Accordion e
             ),
             opened ? React.createElement(
                 StyledContent,
-                null,
+                { background: contentBackground },
                 children
             ) : null
         );
@@ -1879,7 +1890,8 @@ let Accordion = withTheme(_class$17 = (_temp2$15 = _class2$1 = class Accordion e
     opened: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     action: PropTypes.node,
-    theme: PropTypes.object.isRequired
+    theme: PropTypes.object.isRequired,
+    contentBackground: PropTypes.string
 }, _temp2$15)) || _class$17;
 
 const Table = styled.table.withConfig({
@@ -2311,7 +2323,7 @@ Logo.propTypes = {
 
 var MenuRow = styled.div.withConfig({
     displayName: 'MenuRow'
-})(['height:50px;display:flex;align-items:stretch;&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => props.theme.primaryColor, props => props.inContent && `
+})(['height:50px;display:flex;align-items:stretch;transition:175ms height ease;&:empty{height:10px;}&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => props.theme.primaryColor, props => props.inContent && `
         margin: -20px -20px 0 -20px;
         border-bottom: 1px solid ${props.theme.primaryColor};
         .nav-item:after {
