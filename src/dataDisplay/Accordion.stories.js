@@ -34,6 +34,32 @@ storiesOf('Data Display / Accordion', module)
         })
     )
     .add(
+        'with custom background',
+        withInfo()(() => {
+            return (
+                <div>
+                    <Accordion
+                        title="Closed one"
+                        opened={false}
+                        onChange={action('open')}
+                        contentBackground="#BADA55"
+                    >
+                        Some hidden content.
+                    </Accordion>
+                    <Accordion
+                        title="Opened one"
+                        opened
+                        onChange={action('open')}
+                        contentBackground="#BADA55"
+                    >
+                        Some visible content bla bla, just filling the line so
+                        we can see it wraps properly.
+                    </Accordion>
+                </div>
+            );
+        })
+    )
+    .add(
         'with delete actions',
         withInfo()(() => {
             const actionComponent = (

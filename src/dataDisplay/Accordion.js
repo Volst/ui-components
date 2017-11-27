@@ -9,11 +9,19 @@ import { withTheme } from 'styled-components';
 const StyledContainer = styled.div`
     background-color: ${props => props.theme.lightColor};
     border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
 `;
 
 const StyledContent = styled.div`
-    padding: 0 10px 10px 10px;
-    margin-bottom: 10px;
+    padding: 10px;
+
+    ${props =>
+        props.background
+            ? `
+        background: ${props.background};
+    `
+            : ''};
 `;
 
 const StyledTitle = styled.div`
@@ -22,7 +30,6 @@ const StyledTitle = styled.div`
 `;
 
 const StyledTitleContainer = styled.div`
-    margin-bottom: 10px;
     position: relative;
     display: flex;
     align-items: center;
@@ -38,6 +45,7 @@ export default class Accordion extends Component {
         onChange: PropTypes.func.isRequired,
         action: PropTypes.node,
         theme: PropTypes.object.isRequired,
+        contentBackground: PropTypes.string,
     };
 
     handleClick = () => {
@@ -45,7 +53,13 @@ export default class Accordion extends Component {
     };
 
     render() {
-        const { opened, children, action, title } = this.props;
+        const {
+            opened,
+            children,
+            action,
+            title,
+            contentBackground,
+        } = this.props;
         const IconToggle = opened ? KeyboardArrowUp : KeyboardArrowDown;
         return (
             <StyledContainer>
@@ -60,7 +74,11 @@ export default class Accordion extends Component {
                     <StyledTitle>{title}</StyledTitle>
                     {action}
                 </StyledTitleContainer>
-                {opened ? <StyledContent>{children}</StyledContent> : null}
+                {opened ? (
+                    <StyledContent background={contentBackground}>
+                        {children}
+                    </StyledContent>
+                ) : null}
             </StyledContainer>
         );
     }
