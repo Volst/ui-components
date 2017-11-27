@@ -20,7 +20,17 @@ i18next.init({
     lng: 'en',
     resources: {
         en: {
-            translation: {},
+            translation: {
+                form: {
+                    multiPick: {
+                        searchPlaceholder: 'Search…',
+                        selectedText: '$1 of $2 selected',
+                        noneSelectedText: 'None selected',
+                        selectAllButton: 'Select all',
+                        selectNoneButton: 'Select none',
+                    }
+                }
+            },
         },
     },
 });
