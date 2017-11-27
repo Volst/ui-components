@@ -11,7 +11,7 @@ const StyledSelect = styled(({ autoWidth, hasError, ...props }) => (
     height: 30px;
     font-size: 14px;
     color: ${props => props.theme.textColor};
-    padding: 0 40px 0 10px;
+    padding: 0 40px 0 7px;
     text-decoration: none;
     border-radius: 4px;
     border: 1px solid
