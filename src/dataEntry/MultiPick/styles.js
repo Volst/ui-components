@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import TextInput from '../TextInput';
+import { setLightness } from 'polished';
 
 export const Container = styled.div`
     width: 100%;
@@ -28,11 +29,8 @@ export const DropdownItem = styled.label`
         background: #ddd;
     }
 
-    ${props =>
-        props.checked &&
-        `
-        background: #f9f9f9;
-    `};
+    background: ${props =>
+        props.checked ? setLightness(0.93, props.theme.primaryColor) : ''};
 `;
 
 export const DropdownActionBar = styled.div`
