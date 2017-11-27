@@ -6,8 +6,9 @@ import { Container } from './styles';
 import { Button } from '../../general/Button';
 import KeyboardArrowDown from '../../general/icon/IconKeyboardArrowDown';
 import { ValuePropType, OptionsPropType } from '../../PropTypes';
+import onClickOutside from 'react-onclickoutside';
 
-export default class MultiPick extends Component {
+class MultiPick extends Component {
     static propTypes = {
         options: OptionsPropType,
         value: PropTypes.arrayOf(ValuePropType).isRequired,
@@ -42,6 +43,14 @@ export default class MultiPick extends Component {
 
     handleToggle = () => {
         this.setState(prevState => ({ opened: !prevState.opened }));
+    };
+
+    hideOverlay = () => {
+        this.setState({ opened: false });
+    };
+
+    handleClickOutside = () => {
+        this.hideOverlay();
     };
 
     handleSearchChange = searchValue => {
@@ -95,3 +104,5 @@ export default class MultiPick extends Component {
         );
     }
 }
+
+export default onClickOutside(MultiPick);
