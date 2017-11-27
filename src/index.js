@@ -19,6 +19,7 @@ export { default as TypeAhead } from './dataEntry/TypeAhead';
 export { default as SelectInput } from './dataEntry/SelectInput';
 export { default as FancySelect } from './dataEntry/FancySelect';
 export { default as MultiSelect } from './dataEntry/MultiSelect';
+export { default as MultiPick } from './dataEntry/MultiPick/index';
 export { default as SingleDatePicker } from './dataEntry/SingleDatePicker';
 
 export { default as Tooltip } from './dataDisplay/Tooltip';
