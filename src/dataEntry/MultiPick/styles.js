@@ -1,14 +1,10 @@
 import styled from 'styled-components';
+import TextInput from '../TextInput';
 
 export const Container = styled.div`
     width: 100%;
     position: relative;
     box-sizing: border-box;
-`;
-
-export const Button = styled.button`
-    width: 100%;
-    box-sizing: inherit;
 `;
 
 export const Dropdown = styled.div`
@@ -45,15 +41,12 @@ export const DropdownActionBar = styled.div`
     margin-bottom: 10px;
 `;
 
-export const DropdownAction = styled.button``;
-
 export const DropdownList = styled.div`
     height: 180px;
     overflow-y: scroll;
     margin: 0 -10px;
 `;
 
-export const DropdownSearch = styled.input`
-    width: 100%;
+export const DropdownSearch = styled(TextInput)`
     margin-bottom: 10px;
 `;

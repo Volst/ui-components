@@ -7,9 +7,10 @@ import {
     DropdownList,
     DropdownItem,
     DropdownActionBar,
-    DropdownAction,
     DropdownSearch,
 } from './styles';
+import Checkbox from '../Checkbox';
+import { Button } from '../../general/Button';
 
 export default class MultipickDropdown extends Component {
     static propTypes = {
@@ -42,8 +43,8 @@ export default class MultipickDropdown extends Component {
         this.props.onChange(newValue);
     };
 
-    handleSearchChange = e => {
-        this.props.onSearchChange(e.currentTarget.value);
+    handleSearchChange = (name, value) => {
+        this.props.onSearchChange(value);
     };
 
     selectAll = () => {
@@ -58,12 +59,11 @@ export default class MultipickDropdown extends Component {
         const checked = this.props.value.indexOf(item.value) >= 0;
         return (
             <DropdownItem key={item.value} checked={checked}>
-                <input
-                    type="checkbox"
-                    checked={checked}
+                <Checkbox
                     onChange={() => this.handleItemChange(item.value, checked)}
+                    value={checked}
+                    label={item.label}
                 />
-                {item.label}
             </DropdownItem>
         );
     };
@@ -96,12 +96,12 @@ export default class MultipickDropdown extends Component {
                     ? this.renderSearch()
                     : null}
                 <DropdownActionBar>
-                    <DropdownAction type="button" onClick={this.selectAll}>
+                    <Button onClick={this.selectAll} tone="light">
                         {selectAllText || t('form.multiPick.selectAllButton')}
-                    </DropdownAction>
-                    <DropdownAction type="button" onClick={this.selectNone}>
+                    </Button>
+                    <Button onClick={this.selectNone} tone="light">
                         {selectNoneText || t('form.multiPick.selectNoneButton')}
-                    </DropdownAction>
+                    </Button>
                 </DropdownActionBar>
                 <DropdownList>
                     {this.props.filteredOptions.map(this.renderItem)}
