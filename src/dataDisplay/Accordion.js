@@ -10,7 +10,6 @@ const StyledContainer = styled.div`
     background-color: ${props => props.theme.lightColor};
     border-radius: 4px;
     margin-bottom: 10px;
-    overflow: hidden;
 `;
 
 const StyledContent = styled.div`
@@ -20,6 +19,7 @@ const StyledContent = styled.div`
         props.background
             ? `
         background: ${props.background};
+        border-radius: 0 0 4px 4px;
     `
             : ''};
 `;
