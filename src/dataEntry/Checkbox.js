@@ -7,12 +7,12 @@ const StyledLabel = styled.label`
     display: block;
     margin-bottom: 3px;
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+    display: flex;
+    word-break: break-word;
 `;
 
 const StyledInput = styled.input`
     margin-right: 5px;
-    position: relative;
-    top: -1px;
 `;
 
 export default class Checkbox extends PureComponent {
