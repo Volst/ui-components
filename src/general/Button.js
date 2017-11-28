@@ -101,16 +101,15 @@ export const Button = styled(props => (
             ${
                 props.disabled
                     ? `
-                ${
-                    props.tone === 'light'
-                        ? `
-                    background: ${tint(0.5, background)};
-                    color: ${tint(0.4, props.theme.textColor)};
-                `
-                        : `
-                    background: ${tint(0.25, background)};
-                `
-                }
+                background: ${tint(
+                    props.tone === 'light' ? 0.5 : 0.25,
+                    background
+                )};
+                color: ${
+                    ['light', 'warning'].includes(props.tone)
+                        ? tint(0.4, props.theme.textColor)
+                        : ''
+                };
             `
                     : `
                 background: ${background};
