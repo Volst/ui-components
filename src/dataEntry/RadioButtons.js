@@ -76,6 +76,8 @@ const StyledLabel = styled.label`
     font-size: 14px;
     color: ${props => props.theme.textColor};
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const StyledInput = styled.input`
