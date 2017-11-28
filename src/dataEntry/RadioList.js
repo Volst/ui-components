@@ -10,6 +10,8 @@ const StyledLabel = styled.label`
     display: block;
     margin-bottom: 3px;
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+    display: flex;
+    word-break: break-word;
 `;
 
 const StyledInput = styled.input`
