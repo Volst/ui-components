@@ -77,21 +77,21 @@ export const Button = styled(props => (
     `};
     ${props => {
         const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
-        const textColor = `color: ${getTextColor(props, background)};`;
+        const textColor = getTextColor(props, background);
 
         if (props.icon) {
-            return textColor;
+            return `color: ${textColor};`;
         }
 
         if (props.link) {
             return `
-                ${textColor}
+                color: ${textColor};
                 text-decoration: underline;
             `;
         }
 
         return `
-            ${textColor}
+            color: ${textColor};
             height: 30px;
             padding: 0 10px;
             margin: 5px 5px 5px 0;
@@ -106,27 +106,23 @@ export const Button = styled(props => (
                     props.tone === 'light' ? 0.5 : 0.25,
                     background
                 )};
-                color: ${
-                    ['light', 'warning'].includes(props.tone)
-                        ? tint(0.4, props.theme.textColor)
-                        : ''
-                };
+                color: ${tint(0.4, textColor)};
             `
                     : `
                 background: ${background};
 
-            &:hover {
-                background: ${darken(0.03, background)};
-            }
+                &:hover {
+                    background: ${darken(0.03, background)};
+                }
 
-            &:active {
-                background: ${darken(0.07, background)};
-            }
+                &:active {
+                    background: ${darken(0.07, background)};
+                }
 
-            &:focus {
-                box-shadow 0 0 0 3px ${rgba(background, 0.5)};
-            }
-        `
+                &:focus {
+                    box-shadow 0 0 0 3px ${rgba(background, 0.5)};
+                }
+            `
             }
     `;
     }};
