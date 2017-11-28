@@ -17,6 +17,7 @@ export const Dropdown = styled.div`
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 10px;
+    z-index: 1;
 `;
 
 export const MultiPickButton = styled(Button)`
