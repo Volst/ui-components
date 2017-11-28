@@ -7,7 +7,6 @@ const StyledDiv = styled.div``;
 
 const StyledLabel = styled.label`
     width: 100%;
-    display: block;
     margin-bottom: 3px;
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
     display: flex;
@@ -17,7 +16,6 @@ const StyledLabel = styled.label`
 const StyledInput = styled.input`
     margin-right: 5px;
     position: relative;
-    top: -1px;
 `;
 
 export default class RadioList extends PureComponent {
