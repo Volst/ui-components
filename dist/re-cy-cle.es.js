@@ -188,7 +188,8 @@ function getTextColor(props, background) {
         return background;
     }
     if (props.icon) {
-        return props.tone ? background : props.theme.textColor;
+        const color = props.tone ? background : props.theme.textColor;
+        return props.disabled ? tint(0.25, color) : color;
     }
     return readableColor(background);
 }
@@ -213,21 +214,21 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
         width: 100%;
     `, props => {
     const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
-    const textColor = `color: ${getTextColor(props, background)};`;
+    const textColor = getTextColor(props, background);
 
     if (props.icon) {
-        return textColor;
+        return `color: ${textColor};`;
     }
 
     if (props.link) {
         return `
-                ${textColor}
+                color: ${textColor};
                 text-decoration: underline;
             `;
     }
 
     return `
-            ${textColor}
+            color: ${textColor};
             height: 30px;
             padding: 0 10px;
             margin: 5px 5px 5px 0;
@@ -236,27 +237,23 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
             vertical-align: middle;
 
             ${props.disabled ? `
-                ${props.tone === 'light' ? `
-                    background: ${tint(0.5, background)};
-                    color: ${tint(0.4, props.theme.textColor)};
-                ` : `
-                    background: ${tint(0.25, background)};
-                `}
+                background: ${tint(props.tone === 'light' ? 0.5 : 0.25, background)};
+                color: ${tint(0.4, textColor)};
             ` : `
                 background: ${background};
 
-            &:hover {
-                background: ${darken(0.03, background)};
-            }
+                &:hover {
+                    background: ${darken(0.03, background)};
+                }
 
-            &:active {
-                background: ${darken(0.07, background)};
-            }
+                &:active {
+                    background: ${darken(0.07, background)};
+                }
 
-            &:focus {
-                box-shadow 0 0 0 3px ${rgba(background, 0.5)};
-            }
-        `}
+                &:focus {
+                    box-shadow 0 0 0 3px ${rgba(background, 0.5)};
+                }
+            `}
     `;
 });
 Button.displayName = 'Button';
@@ -529,7 +526,7 @@ const Option = styled.div.withConfig({
 
 const StyledLabel$1 = styled.label.withConfig({
     displayName: 'RadioButtons__StyledLabel'
-})(['flex:1;cursor:', ';padding:6px 5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:', ';white-space:nowrap;'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.theme.borderColor, props => props.vertical ? `
+})(['flex:1;cursor:', ';padding:6px 5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:', ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.theme.borderColor, props => props.vertical ? `
             border-top-width: 0;
             ` : `
         border-left-width: 0;
@@ -621,11 +618,11 @@ const StyledDiv$1 = styled.div.withConfig({
 
 const StyledLabel$2 = styled.label.withConfig({
     displayName: 'RadioList__StyledLabel'
-})(['width:100%;display:block;margin-bottom:3px;cursor:', ';'], props => props.disabled ? 'not-allowed' : 'pointer');
+})(['width:100%;margin-bottom:3px;cursor:', ';display:flex;word-break:break-word;'], props => props.disabled ? 'not-allowed' : 'pointer');
 
 const StyledInput$1 = styled.input.withConfig({
     displayName: 'RadioList__StyledInput'
-})(['margin-right:5px;position:relative;top:-1px;']);
+})(['margin-right:5px;position:relative;']);
 
 let RadioList = (_temp2$4 = _class$5 = class RadioList extends PureComponent {
     constructor(...args) {
@@ -667,11 +664,11 @@ var _temp2$5;
 
 const StyledLabel$3 = styled.label.withConfig({
     displayName: 'Checkbox__StyledLabel'
-})(['width:100%;display:block;margin-bottom:3px;cursor:', ';'], props => props.disabled ? 'not-allowed' : 'pointer');
+})(['width:100%;display:block;margin-bottom:3px;cursor:', ';display:flex;word-break:break-word;'], props => props.disabled ? 'not-allowed' : 'pointer');
 
 const StyledInput$2 = styled.input.withConfig({
     displayName: 'Checkbox__StyledInput'
-})(['margin-right:5px;position:relative;top:-1px;']);
+})(['margin-right:5px;']);
 
 let Checkbox = (_temp2$5 = _class$6 = class Checkbox extends PureComponent {
     constructor(...args) {
@@ -1658,7 +1655,11 @@ const Container$1 = styled.div.withConfig({
 
 const Dropdown$1 = styled.div.withConfig({
     displayName: 'styles__Dropdown'
-})(['box-sizing:inherit;position:absolute;width:100%;background:#fff;border:1px solid #ccc;padding:10px;margin-top:10px;']);
+})(['box-sizing:inherit;position:absolute;width:100%;background:#fff;border:1px solid #ccc;padding:10px;margin-top:10px;z-index:1;']);
+
+const MultiPickButton = styled(Button).withConfig({
+    displayName: 'styles__MultiPickButton'
+})(['margin:0;']);
 
 const DropdownItem$1 = styled.label.withConfig({
     displayName: 'styles__DropdownItem'
@@ -1828,7 +1829,7 @@ let MultiPick = (_temp2$14 = _class$15 = class MultiPick extends Component {
             Container$1,
             null,
             React.createElement(
-                Button,
+                MultiPickButton,
                 {
                     onClick: this.handleToggle,
                     disabled: this.props.disabled
@@ -1921,7 +1922,7 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
             if (!this.props.onChange) return;
 
             if (!disabled) {
-                this.props.onChange(this.props.name, selectedDay);
+                this.props.onChange(this.props.name, moment(selectedDay));
             }
         }, _temp3;
     }
@@ -2020,12 +2021,13 @@ var _temp2$17;
 
 const StyledContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledContainer'
-})(['background-color:', ';border-radius:4px;margin-bottom:10px;overflow:hidden;'], props => props.theme.lightColor);
+})(['background-color:', ';border-radius:4px;margin-bottom:10px;'], props => props.theme.lightColor);
 
 const StyledContent = styled.div.withConfig({
     displayName: 'Accordion__StyledContent'
 })(['padding:10px;', ';'], props => props.background ? `
         background: ${props.background};
+        border-radius: 0 0 4px 4px;
     ` : '');
 
 const StyledTitle = styled.div.withConfig({
