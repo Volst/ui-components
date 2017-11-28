@@ -124,11 +124,17 @@ storiesOf('General / Button', module)
                     <Link icon to="/" tone="primary">
                         <IconBuild />
                     </Link>
+                    <Link icon to="/" tone="primary" disabled>
+                        <IconBuild />
+                    </Link>
                     <p>with button styles</p>
                     <Button>
                         <IconMic />
                     </Button>
                     <Button>
+                        <IconAdd />
+                    </Button>
+                    <Button disabled>
                         <IconAdd />
                     </Button>
                 </div>

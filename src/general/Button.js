@@ -29,7 +29,8 @@ function getTextColor(props, background) {
         return background;
     }
     if (props.icon) {
-        return props.tone ? background : props.theme.textColor;
+        const color = props.tone ? background : props.theme.textColor;
+        return props.disabled ? tint(0.25, color) : color;
     }
     return readableColor(background);
 }
