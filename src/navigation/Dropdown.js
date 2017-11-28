@@ -53,6 +53,7 @@ class MyDropdown extends Component {
 }
 
 export const Dropdown = onClickOutside(MyDropdown);
+Dropdown.displayName = 'Dropdown';
 
 export const DropdownOverlay = styled.div`
     position: absolute;
