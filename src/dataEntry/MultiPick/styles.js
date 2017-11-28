@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import TextInput from '../TextInput';
 import { setLightness } from 'polished';
+import { Button } from '../../general/Button';
 
 export const Container = styled.div`
     width: 100%;
@@ -16,6 +17,10 @@ export const Dropdown = styled.div`
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 10px;
+`;
+
+export const MultiPickButton = styled(Button)`
+    margin: 0;
 `;
 
 export const DropdownItem = styled.label`

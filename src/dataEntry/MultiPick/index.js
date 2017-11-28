@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { t } from 'i18next';
 import Dropdown from './Dropdown';
-import { Container } from './styles';
-import { Button } from '../../general/Button';
+import { Container, MultiPickButton } from './styles';
 import KeyboardArrowDown from '../../general/icon/IconKeyboardArrowDown';
 import { ValuePropType, OptionsPropType } from '../../PropTypes';
 import onClickOutside from 'react-onclickoutside';
@@ -92,13 +91,13 @@ class MultiPick extends Component {
     render() {
         return (
             <Container>
-                <Button
+                <MultiPickButton
                     onClick={this.handleToggle}
                     disabled={this.props.disabled}
                 >
                     {this.generateButtonText()}
                     <KeyboardArrowDown />
-                </Button>
+                </MultiPickButton>
                 {this.renderDropdown()}
             </Container>
         );
