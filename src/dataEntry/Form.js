@@ -38,7 +38,7 @@ export default class Form extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.onSubmit();
+        this.props.onSubmit(e);
     };
 
     render() {
