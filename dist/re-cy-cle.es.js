@@ -343,7 +343,7 @@ let Form = (_temp2$1 = _class$1 = class Form extends Component {
             }
         }, this.handleSubmit = e => {
             e.preventDefault();
-            this.props.onSubmit();
+            this.props.onSubmit(e);
         }, _temp;
     }
 
@@ -2634,6 +2634,7 @@ let MyDropdown = (_temp2$22 = _class$26 = class MyDropdown extends Component {
 
 
 const Dropdown$2 = onClickOutside(MyDropdown);
+Dropdown$2.displayName = 'Dropdown';
 
 const DropdownOverlay = styled.div.withConfig({
     displayName: 'Dropdown__DropdownOverlay'
