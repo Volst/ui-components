@@ -103,6 +103,9 @@ export default class SingleDatePicker extends PureComponent {
             disabledDays: this.props.disabledDays,
             firstDayOfWeek: 1,
             showWeekNumbers: this.props.showWeekNumbers,
+            // If the state gets changed externally, e.g. `this.setState({ value: moment('1995-01-01') })`, react-day-picker will
+            // not modify the date picker to select that month. We work around this by forcing its internal state to that month.
+            month: this.props.value && this.props.value.toDate(),
         };
         return (
             <DatePickerWrapper>
