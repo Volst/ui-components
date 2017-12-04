@@ -60,7 +60,7 @@
     "husky": "^0.14.1",
     "i18next": "^10.0.7",
     "jest": "^21.1.0",
-    "lint-staged": "^5.0.0",
+    "lint-staged": "^6.0.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "prettier": "^1.5.2",
@@ -68,7 +68,7 @@
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.1.2",
     "react-test-renderer": "^16.0.0",
-    "rollup": "^0.51.5",
+    "rollup": "^0.52.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-multi-entry": "^2.0.1",
     "styled-components": "^2.1.0"
