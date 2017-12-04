@@ -1944,7 +1944,10 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
         const dayPickerProps = {
             disabledDays: this.props.disabledDays,
             firstDayOfWeek: 1,
-            showWeekNumbers: this.props.showWeekNumbers
+            showWeekNumbers: this.props.showWeekNumbers,
+            // If the state gets changed externally, e.g. `this.setState({ value: moment('1995-01-01') })`, react-day-picker will
+            // not modify the date picker to select that month. We work around this by forcing its internal state to that month.
+            month: this.props.value && this.props.value.toDate()
         };
         return React.createElement(
             DatePickerWrapper,
