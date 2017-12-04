@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
@@ -20,6 +20,31 @@ storiesOf('Data Entry / SingleDatePicker', module)
             );
         })
     )
+    .add('controlled', () => {
+        class MyComponent extends Component {
+            state = {
+                value: moment(),
+            };
+
+            handleChange = (name, value) => {
+                this.setState({
+                    value: value,
+                });
+                action('change')(name, value);
+            };
+
+            render() {
+                return (
+                    <SingleDatePicker
+                        onChange={this.handleChange}
+                        name="myname"
+                        value={this.state.value}
+                    />
+                );
+            }
+        }
+        return <MyComponent />;
+    })
     .add(
         'with error',
         withInfo()(() => {
