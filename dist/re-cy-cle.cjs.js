@@ -27,6 +27,8 @@ var AutosizeInput = _interopDefault(require('react-input-autosize'));
 var onClickOutside = _interopDefault(require('react-onclickoutside'));
 var DayPickerInput = _interopDefault(require('react-day-picker/DayPickerInput'));
 var moment$1 = require('react-day-picker/moment');
+var DayPicker = require('react-day-picker');
+var DayPicker__default = _interopDefault(DayPicker);
 var reactCustomScrollbars = require('react-custom-scrollbars');
 var reactStyledFlexboxgrid = require('react-styled-flexboxgrid');
 
@@ -1430,7 +1432,7 @@ var _temp2$13;
 // This should look like <TextInput /> as much as possible.
 const InputValueWrapper = styled__default.div.withConfig({
     displayName: 'MultiSelect__InputValueWrapper'
-})(['display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;padding:1px 30px 1px 1px;border:1px solid ', ';background:', ';border-radius:4px;outline:0;', ' ', ' ', ';', ';'], props => props.theme.borderColor, props => props.theme.componentBackground, props => props.disabled && `
+})(['display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;padding:1px 30px 1px 1px;border:1px solid ', ';background:', ';border-radius:4px;outline:0;', ';', ';', ';', ';'], props => props.theme.borderColor, props => props.theme.componentBackground, props => props.disabled && `
         background: ${props.theme.disabledColor};
     `, props => props.hasError && `
         border-color: ${props.theme.dangerColor};
@@ -1868,7 +1870,7 @@ var index = onClickOutside(MultiPick);
 
 const DatePickerWrapper = styled__default.div.withConfig({
     displayName: 'DatePickerWrapper'
-})(['.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;abbr{text-decoration:none;}}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;border:1px solid ', ';text-align:center;cursor:pointer;vertical-align:middle;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}'], props => props.theme.textColor, props => props.theme.textColor, props => props.theme.borderColor, props => props.theme.dangerColor, props => props.theme.lightColor, props => props.theme.disabledColor, props => props.theme.lightColor, props => readableColor(props.theme.primaryColor), props => props.theme.primaryColor, props => props.theme.componentBackground, props => props.theme.zIndexSingleDatePickerOverlay);
+})(['text-align:center;.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;abbr{text-decoration:none;}}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;text-align:center;cursor:pointer;vertical-align:middle;outline:none;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside){background-color:', ' !important;color:', ';}.Selectable .DayPicker-Day{border-radius:0 !important;}.Selectable .DayPicker-Day--start{border-top-left-radius:50% !important;border-bottom-left-radius:50% !important;}.Selectable .DayPicker-Day--end{border-top-right-radius:50% !important;border-bottom-right-radius:50% !important;}'], props => props.theme.textColor, props => props.theme.textColor, props => props.theme.dangerColor, props => props.theme.lightColor, props => props.theme.disabledColor, props => props.theme.lightColor, props => readableColor(props.theme.primaryColor), props => props.theme.primaryColor, props => props.theme.componentBackground, props => props.theme.zIndexSingleDatePickerOverlay, props => polished.setLightness(0.93, props.theme.primaryColor), props => props.theme.textColor);
 
 var _class$17;
 var _temp2$16;
@@ -1992,14 +1994,138 @@ let SingleDatePicker = styled.withTheme(_class2 = (_temp4 = _class3 = class Sing
     inputDateFormat: PropTypes.string
 }, _temp4)) || _class2;
 
+let IconClear = props => React__default.createElement(
+    Icon,
+    props,
+    React__default.createElement('path', { d: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' })
+);
+
+let IconNavigateNext = props => React__default.createElement(
+    Icon,
+    props,
+    React__default.createElement('path', { d: 'M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z' })
+);
+
 var _class$18;
+var _class2$1;
+var _temp2$17;
+
+function toDate(moment$$1) {
+    return moment$$1 ? moment$$1.toDate() : undefined;
+}
+
+const CombinedInput = styled__default.div.withConfig({
+    displayName: 'DateRangePicker__CombinedInput'
+})(['height:30px;display:flex;background:', ';border:1px solid ', ';border-radius:4px;font-size:14px;align-items:center;', ';'], props => props.theme.componentBackground, props => props.theme.borderColor, props => props.hasError && `
+        border-color: ${props.theme.dangerColor};
+        background: #fef2f2;
+        `);
+
+const CombinedInputItem = styled__default.div.withConfig({
+    displayName: 'DateRangePicker__CombinedInputItem'
+})(['flex:1;display:flex;padding-left:10px;cursor:', ';user-select:none;'], props => props.onClick ? 'pointer' : 'not-allowed');
+
+let DateRangePicker = styled.withTheme(_class$18 = (_temp2$17 = _class2$1 = class DateRangePicker extends React.Component {
+    constructor(...args) {
+        var _temp;
+
+        return _temp = super(...args), this.state = {
+            opened: false
+        }, this.handleChange = day => {
+            const range = DayPicker.DateUtils.addDayToRange(day, {
+                from: toDate(this.props.startDate),
+                to: toDate(this.props.endDate)
+            });
+            this.props.onChange(this.props.name, {
+                startDate: range.from ? moment(range.from) : null,
+                endDate: range.to ? moment(range.to) : null
+            });
+        }, this.clear = () => {
+            this.props.onChange(this.props.name, {
+                startDate: null,
+                endDate: null
+            });
+        }, this.toggleOpened = () => {
+            this.setState(prevState => ({ opened: !prevState.opened }));
+        }, _temp;
+    }
+
+    render() {
+        const { startDate, endDate, disabled, theme } = this.props;
+        const onClick = disabled ? null : this.toggleOpened;
+        const _startDate = toDate(startDate);
+        const _endDate = toDate(endDate);
+        const modifiers = { start: _startDate, end: _endDate };
+        return React__default.createElement(
+            'div',
+            null,
+            React__default.createElement(
+                CombinedInput,
+                { hasError: this.props.hasError },
+                React__default.createElement(
+                    CombinedInputItem,
+                    { onClick: onClick },
+                    startDate ? startDate.format(theme.dateFormat) : this.props.placeholder || i18next.t('form.dateRangePlaceholder')
+                ),
+                React__default.createElement(IconNavigateNext, { width: '22', height: '22' }),
+                React__default.createElement(
+                    CombinedInputItem,
+                    { onClick: onClick },
+                    endDate && endDate.format(theme.dateFormat)
+                ),
+                React__default.createElement(
+                    Button,
+                    {
+                        icon: true,
+                        onClick: this.clear,
+                        disabled: disabled || !startDate || !endDate
+                    },
+                    React__default.createElement(IconClear, null)
+                )
+            ),
+            this.state.opened && React__default.createElement(
+                DatePickerWrapper,
+                null,
+                React__default.createElement(DayPicker__default, {
+                    className: 'Selectable',
+                    numberOfMonths: 1,
+                    firstDayOfWeek: 1,
+                    onDayClick: this.handleChange,
+                    modifiers: modifiers,
+                    month: _endDate,
+                    showWeekNumbers: this.props.showWeekNumbers,
+                    disabledDays: this.props.disabledDays,
+                    selectedDays: [_startDate, {
+                        from: _startDate,
+                        to: _endDate
+                    }]
+                })
+            )
+        );
+    }
+}, _class2$1.propTypes = {
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    startDate: PropTypes.instanceOf(moment),
+    endDate: PropTypes.instanceOf(moment),
+    theme: PropTypes.object.isRequired,
+    disabled: PropTypes.bool,
+    showWeekNumbers: PropTypes.bool,
+    disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    hasError: PropTypes.bool,
+    placeholder: PropTypes.string
+}, _class2$1.defaultProps = {
+    showWeekNumbers: true
+}, _temp2$17)) || _class$18;
+
+var _class$19;
 var _temp$1;
 
 const StyledTooltip = styled__default.span.withConfig({
     displayName: 'Tooltip__StyledTooltip'
 })(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:', ';}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => props.theme.zIndexTooltip, props => props.theme.darkColor, props => props.theme.darkColor, props => readableColor(props.theme.darkColor), props => props.theme.darkColor);
 
-let Tooltip = (_temp$1 = _class$18 = class Tooltip extends React.Component {
+let Tooltip = (_temp$1 = _class$19 = class Tooltip extends React.Component {
 
     render() {
         const { direction, children } = this.props;
@@ -2012,11 +2138,11 @@ let Tooltip = (_temp$1 = _class$18 = class Tooltip extends React.Component {
             children
         );
     }
-}, _class$18.propTypes = {
+}, _class$19.propTypes = {
     message: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
-}, _class$18.defaultProps = {
+}, _class$19.defaultProps = {
     direction: 's'
 }, _temp$1);
 
@@ -2026,9 +2152,9 @@ let IconKeyboardArrowUp = props => React__default.createElement(
     React__default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
 );
 
-var _class$19;
-var _class2$1;
-var _temp2$17;
+var _class$20;
+var _class2$2;
+var _temp2$18;
 
 const StyledContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledContainer'
@@ -2049,7 +2175,7 @@ const StyledTitleContainer = styled__default.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['position:relative;display:flex;align-items:center;']);
 
-let Accordion = styled.withTheme(_class$19 = (_temp2$17 = _class2$1 = class Accordion extends React.Component {
+let Accordion = styled.withTheme(_class$20 = (_temp2$18 = _class2$2 = class Accordion extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -2096,7 +2222,7 @@ let Accordion = styled.withTheme(_class$19 = (_temp2$17 = _class2$1 = class Acco
             ) : null
         );
     }
-}, _class2$1.propTypes = {
+}, _class2$2.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     opened: PropTypes.bool.isRequired,
@@ -2104,7 +2230,7 @@ let Accordion = styled.withTheme(_class$19 = (_temp2$17 = _class2$1 = class Acco
     action: PropTypes.node,
     theme: PropTypes.object.isRequired,
     contentBackground: PropTypes.string
-}, _temp2$17)) || _class$19;
+}, _temp2$18)) || _class$20;
 
 const Table = styled__default.table.withConfig({
     displayName: 'Table'
@@ -2287,12 +2413,12 @@ Loader.propTypes = {
     show: PropTypes.bool
 };
 
-var _class$21;
-var _temp2$19;
+var _class$22;
+var _temp2$20;
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = (_temp2$19 = _class$21 = class NotificationItem extends React.Component {
+let NotificationItem = (_temp2$20 = _class$22 = class NotificationItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -2345,17 +2471,17 @@ let NotificationItem = (_temp2$19 = _class$21 = class NotificationItem extends R
             )
         );
     }
-}, _class$21.propTypes = {
+}, _class$22.propTypes = {
     message: PropTypes.string.isRequired,
     onDismiss: PropTypes.func.isRequired,
     onClick: PropTypes.func,
     dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
     dismissible: PropTypes.bool,
     type: PropTypes.oneOf(['info', 'error'])
-}, _class$21.defaultProps = {
+}, _class$22.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$19);
+}, _temp2$20);
 const CloseButton$1 = styled__default(Button).withConfig({
     displayName: 'Item__CloseButton'
 })(['margin-left:11px;position:absolute;top:13px;right:13px;font-size:15px;']);
@@ -2378,10 +2504,10 @@ const StyledItem = styled__default.div.withConfig({
         opacity: 0;
     ` : '', getBackgroundColor, props => props.onClick ? 'pointer' : 'default');
 
-var _class$20;
-var _temp2$18;
+var _class$21;
+var _temp2$19;
 
-let NotificationStack = (_temp2$18 = _class$20 = class NotificationStack extends React.Component {
+let NotificationStack = (_temp2$19 = _class$21 = class NotificationStack extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -2406,16 +2532,16 @@ let NotificationStack = (_temp2$18 = _class$20 = class NotificationStack extends
             this.props.notifications.map(this.renderNotification)
         );
     }
-}, _class$20.propTypes = {
+}, _class$21.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
-}, _temp2$18);
+}, _temp2$19);
 const StackWrapper = styled__default.div.withConfig({
     displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:', ';width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;'], props => props.theme.zIndexNotificationStack);
 
-var _class$22;
-var _temp2$20;
+var _class$23;
+var _temp2$21;
 
 const Container$2 = styled__default.div.withConfig({
     displayName: 'Modal__Container'
@@ -2431,7 +2557,7 @@ const Content$3 = styled__default.div.withConfig({
 
 const ESCAPE_KEY = 27;
 
-let Modal = (_temp2$20 = _class$22 = class Modal extends React.Component {
+let Modal = (_temp2$21 = _class$23 = class Modal extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -2462,12 +2588,12 @@ let Modal = (_temp2$20 = _class$22 = class Modal extends React.Component {
             )
         );
     }
-}, _class$22.propTypes = {
+}, _class$23.propTypes = {
     children: PropTypes.node.isRequired,
     onClose: PropTypes.func.isRequired
-}, _temp2$20);
+}, _temp2$21);
 
-var _class$23;
+var _class$24;
 var _temp$2;
 
 const Bubble = styled__default.sup.withConfig({
@@ -2478,7 +2604,7 @@ const Wrapper = styled__default.div.withConfig({
     displayName: 'Badge__Wrapper'
 })(['position:relative;display:inline-block;']);
 
-let Badge = (_temp$2 = _class$23 = class Badge extends React.Component {
+let Badge = (_temp$2 = _class$24 = class Badge extends React.Component {
 
     render() {
         const { count, children, className } = this.props;
@@ -2493,20 +2619,20 @@ let Badge = (_temp$2 = _class$23 = class Badge extends React.Component {
             )
         );
     }
-}, _class$23.propTypes = {
+}, _class$24.propTypes = {
     count: PropTypes.number,
     children: PropTypes.node,
     className: PropTypes.string
 }, _temp$2);
 
-var _class$24;
+var _class$25;
 var _temp$3;
 
 const Menu = styled__default.header.withConfig({
     displayName: 'TopMenu__Menu'
 })(['display:flex;align-items:stretch;flex-direction:column;']);
 
-let TopMenu = (_temp$3 = _class$24 = class TopMenu extends React.Component {
+let TopMenu = (_temp$3 = _class$25 = class TopMenu extends React.Component {
 
     render() {
         return React__default.createElement(
@@ -2515,7 +2641,7 @@ let TopMenu = (_temp$3 = _class$24 = class TopMenu extends React.Component {
             this.props.children
         );
     }
-}, _class$24.propTypes = {
+}, _class$25.propTypes = {
     children: PropTypes.node.isRequired
 }, _temp$3);
 
@@ -2546,14 +2672,14 @@ var MenuRow = styled__default.div.withConfig({
         }
     `);
 
-var _class$25;
-var _temp2$21;
+var _class$26;
+var _temp2$22;
 
 const StyledNavLink$1 = styled__default(reactRouterDom.NavLink).withConfig({
     displayName: 'NavItem__StyledNavLink'
 })(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primaryColor);
 
-let NavItem = (_temp2$21 = _class$25 = class NavItem extends React.Component {
+let NavItem = (_temp2$22 = _class$26 = class NavItem extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -2576,12 +2702,12 @@ let NavItem = (_temp2$21 = _class$25 = class NavItem extends React.Component {
             this.props.title
         );
     }
-}, _class$25.propTypes = {
+}, _class$26.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     to: PropTypes.string,
     onClick: PropTypes.func,
     activePath: PropTypes.string
-}, _temp2$21);
+}, _temp2$22);
 
 var NavItemExternal = StyledNavLink$1.withComponent((_ref) => {
     let { title } = _ref,
@@ -2597,14 +2723,14 @@ var NavMenu = styled__default.nav.withConfig({
     displayName: 'NavMenu'
 })(['flex:1;display:flex;align-items:stretch;']);
 
-var _class$26;
-var _temp2$22;
+var _class$27;
+var _temp2$23;
 
 const RelativeWrapper = styled__default.div.withConfig({
     displayName: 'Dropdown__RelativeWrapper'
 })(['position:relative;']);
 
-let MyDropdown = (_temp2$22 = _class$26 = class MyDropdown extends React.Component {
+let MyDropdown = (_temp2$23 = _class$27 = class MyDropdown extends React.Component {
     constructor(...args) {
         var _temp;
 
@@ -2636,12 +2762,12 @@ let MyDropdown = (_temp2$22 = _class$26 = class MyDropdown extends React.Compone
             (this.state.opened || this.props.opened) && this.props.overlay
         );
     }
-}, _class$26.propTypes = {
+}, _class$27.propTypes = {
     overlay: PropTypes.element.isRequired,
     children: PropTypes.node.isRequired,
     opened: PropTypes.bool,
     onChange: PropTypes.func
-}, _temp2$22);
+}, _temp2$23);
 
 
 const Dropdown$2 = onClickOutside(MyDropdown);
@@ -3763,12 +3889,6 @@ let IconClass = props => React__default.createElement(
     Icon,
     props,
     React__default.createElement('path', { d: 'M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z' })
-);
-
-let IconClear = props => React__default.createElement(
-    Icon,
-    props,
-    React__default.createElement('path', { d: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' })
 );
 
 let IconClearAll = props => React__default.createElement(
@@ -6092,12 +6212,6 @@ let IconNavigateBefore = props => React__default.createElement(
     Icon,
     props,
     React__default.createElement('path', { d: 'M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z' })
-);
-
-let IconNavigateNext = props => React__default.createElement(
-    Icon,
-    props,
-    React__default.createElement('path', { d: 'M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z' })
 );
 
 let IconNavigation = props => React__default.createElement(
@@ -8547,6 +8661,7 @@ exports.FancySelect = FancySelect;
 exports.MultiSelect = MultiSelect;
 exports.MultiPick = index;
 exports.SingleDatePicker = SingleDatePicker;
+exports.DateRangePicker = DateRangePicker;
 exports.Tooltip = Tooltip;
 exports.Accordion = Accordion;
 exports.Table = Table;
