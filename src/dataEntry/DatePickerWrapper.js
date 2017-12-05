@@ -105,6 +105,7 @@ const DatePickerWrapper = styled.div`
         text-align: center;
         cursor: pointer;
         vertical-align: middle;
+        outline: none;
     }
 
     .DayPicker-WeekNumber {

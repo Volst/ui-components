@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { t } from 'i18next';
 import { Button } from '../general/Button';
 import IconClear from '../general/icon/IconClear';
+import IconNavigateNext from '../general/icon/IconNavigateNext';
 import styled, { withTheme } from 'styled-components';
 import DatePickerWrapper from './DatePickerWrapper';
 import DayPicker, { DateUtils } from 'react-day-picker';
@@ -18,6 +20,7 @@ const CombinedInput = styled.div`
     border: 1px solid ${props => props.theme.borderColor};
     border-radius: 4px;
     font-size: 14px;
+    align-items: center;
 
     ${props =>
         props.hasError &&
@@ -30,15 +33,9 @@ const CombinedInput = styled.div`
 const CombinedInputItem = styled.div`
     flex: 1;
     display: flex;
-    align-items: center;
     padding-left: 10px;
-    border-right: 1px solid #ccc;
     cursor: ${props => (props.onClick ? 'pointer' : 'not-allowed')};
     user-select: none;
-
-    & + & {
-        border-right: none;
-    }
 `;
 
 @withTheme
@@ -53,6 +50,7 @@ export default class DateRangePicker extends Component {
         showWeekNumbers: PropTypes.bool,
         disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
         hasError: PropTypes.bool,
+        placeholder: PropTypes.string,
     };
 
     state = {
@@ -95,8 +93,12 @@ export default class DateRangePicker extends Component {
             <div>
                 <CombinedInput hasError={this.props.hasError}>
                     <CombinedInputItem onClick={onClick}>
-                        {startDate && startDate.format(theme.dateFormat)}
+                        {startDate
+                            ? startDate.format(theme.dateFormat)
+                            : this.props.placeholder ||
+                              t('form.dateRangePlaceholder')}
                     </CombinedInputItem>
+                    <IconNavigateNext width="22" height="22" />
                     <CombinedInputItem onClick={onClick}>
                         {endDate && endDate.format(theme.dateFormat)}
                     </CombinedInputItem>

@@ -32,16 +32,18 @@ const InputValueWrapper = styled.div`
         props.disabled &&
         `
         background: ${props.theme.disabledColor};
-    `} ${props =>
-            props.hasError &&
-            `
+    `};
+    ${props =>
+        props.hasError &&
+        `
         border-color: ${props.theme.dangerColor};
         background: ${
             props.focused ? props.theme.componentBackground : '#fef2f2'
         };
-        `} ${props =>
-            props.focused &&
-            `
+        `};
+    ${props =>
+        props.focused &&
+        `
         border-color: ${props.theme.primaryColor};
     `};
     ${props =>

@@ -40,6 +40,7 @@ storiesOf('Data Entry / DateRangePicker', module)
                         name="myname"
                         startDate={this.state.startDate}
                         endDate={this.state.endDate}
+                        placeholder="Select date..."
                     />
                 );
             }
