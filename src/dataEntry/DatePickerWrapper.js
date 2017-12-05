@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { readableColor } from '../config';
+import { setLightness } from 'polished';
 
 const DatePickerWrapper = styled.div`
+    text-align: center;
+
     .DayPicker {
         display: inline-block;
     }
@@ -99,7 +102,6 @@ const DatePickerWrapper = styled.div`
     .DayPicker-Day {
         display: table-cell;
         padding: 0.5rem;
-        border: 1px solid ${props => props.theme.borderColor};
         text-align: center;
         cursor: pointer;
         vertical-align: middle;
@@ -176,6 +178,24 @@ const DatePickerWrapper = styled.div`
         background: ${props => props.theme.componentBackground};
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
         z-index: ${props => props.theme.zIndexSingleDatePickerOverlay};
+    }
+
+    /* DateRange stuff */
+    .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+        background-color: ${props =>
+            setLightness(0.93, props.theme.primaryColor)} !important;
+        color: ${props => props.theme.textColor};
+    }
+    .Selectable .DayPicker-Day {
+        border-radius: 0 !important;
+    }
+    .Selectable .DayPicker-Day--start {
+        border-top-left-radius: 50% !important;
+        border-bottom-left-radius: 50% !important;
+    }
+    .Selectable .DayPicker-Day--end {
+        border-top-right-radius: 50% !important;
+        border-bottom-right-radius: 50% !important;
     }
 `;
 

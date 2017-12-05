@@ -21,6 +21,7 @@ export { default as FancySelect } from './dataEntry/FancySelect';
 export { default as MultiSelect } from './dataEntry/MultiSelect';
 export { default as MultiPick } from './dataEntry/MultiPick/index';
 export { default as SingleDatePicker } from './dataEntry/SingleDatePicker';
+export { default as DateRangePicker } from './dataEntry/DateRangePicker';
 
 export { default as Tooltip } from './dataDisplay/Tooltip';
 export { default as Accordion } from './dataDisplay/Accordion';
