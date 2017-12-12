@@ -61,6 +61,10 @@ export default class DateRangePicker extends Component {
         showWeekNumbers: true,
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     handleChange = day => {
         const range = DateUtils.addDayToRange(day, {
             from: toDate(this.props.startDate),
@@ -91,7 +95,11 @@ export default class DateRangePicker extends Component {
         const modifiers = { start: _startDate, end: _endDate };
         return (
             <div>
-                <CombinedInput hasError={this.props.hasError}>
+                <CombinedInput
+                    hasError={
+                        this.props.hasError || this.context.formFieldHasError
+                    }
+                >
                     <CombinedInputItem onClick={onClick}>
                         {startDate
                             ? startDate.format(theme.dateFormat)

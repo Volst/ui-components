@@ -16,6 +16,10 @@ export default class TypeAhead extends PureComponent {
         disabled: PropTypes.bool,
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     handleSelect = option => {
         this.props.onSelect(option.value);
     };
@@ -92,7 +96,10 @@ export default class TypeAhead extends PureComponent {
                             <StyledInput
                                 {...getInputProps()}
                                 hasDropdown={isOpen && hasOptions}
-                                hasError={this.props.hasError}
+                                hasError={
+                                    this.props.hasError ||
+                                    this.context.formFieldHasError
+                                }
                                 disabled={this.props.disabled}
                             />
                             {isOpen &&

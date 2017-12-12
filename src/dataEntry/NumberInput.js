@@ -41,6 +41,10 @@ export default class NumberInput extends PureComponent {
         includeThousandsSeparator: false,
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     parseValue = e => {
         let value = e.target.value;
         const { prefix, suffix, thousandsSeparatorSymbol } = this.props;
@@ -103,7 +107,7 @@ export default class NumberInput extends PureComponent {
                 onBlur={this.onBlur}
                 onFocus={this.props.onFocus}
                 autoFocus={this.props.autoFocus}
-                hasError={this.props.hasError}
+                hasError={this.props.hasError || this.context.formFieldHasError}
                 guide={false}
                 mask={this.getMask(this.props)}
             />

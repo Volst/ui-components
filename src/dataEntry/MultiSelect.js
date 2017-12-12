@@ -103,6 +103,10 @@ export default class MultiSelect extends PureComponent {
         hasError: PropTypes.bool,
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     state = { inputValue: '', focused: false };
 
     handleItemAdd = option => {
@@ -243,7 +247,9 @@ export default class MultiSelect extends PureComponent {
                         !this.props.disabled && this.setState({ focused: true })
                     }
                     onBlur={() => this.setState({ focused: false })}
-                    hasError={this.props.hasError}
+                    hasError={
+                        this.props.hasError || this.context.formFieldHasError
+                    }
                     disabled={this.props.disabled}
                 >
                     {selectedItem.map(item => (

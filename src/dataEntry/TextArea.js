@@ -62,6 +62,10 @@ export default class TextArea extends PureComponent {
         rows: 4,
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     onChange = e => {
         if (!this.props.onChange) return;
         let value = e.target.value;
@@ -78,7 +82,7 @@ export default class TextArea extends PureComponent {
             maxLength: this.props.maxLength,
             autoFocus: this.props.autoFocus,
             disabled: this.props.disabled,
-            hasError: this.props.hasError,
+            hasError: this.props.hasError || this.context.formFieldHasError,
             placeholder: this.props.placeholder,
             onChange: this.onChange,
             onBlur: this.props.onBlur,

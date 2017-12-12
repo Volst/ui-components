@@ -77,6 +77,10 @@ export default class TextInput extends PureComponent {
         value: '',
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     onChange = e => {
         if (!this.props.onChange) return;
 
@@ -112,7 +116,7 @@ export default class TextInput extends PureComponent {
             onBlur: this.onBlur,
             onFocus: this.props.onFocus,
             autoFocus: this.props.autoFocus,
-            hasError: this.props.hasError,
+            hasError: this.props.hasError || this.context.formFieldHasError,
             className: this.props.className,
             id: this.props.id,
             autoComplete: this.props.autoComplete === false ? 'off' : undefined,

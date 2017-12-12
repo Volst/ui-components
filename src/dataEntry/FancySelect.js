@@ -73,6 +73,10 @@ export default class FancySelect extends PureComponent {
         hasError: PropTypes.bool,
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     handleChange = option => {
         this.props.onChange(this.props.name, option.value);
     };
@@ -143,7 +147,9 @@ export default class FancySelect extends PureComponent {
                     value={inputProps.value || ''}
                     hasDropdown={actuallyOpen}
                     disabled={this.props.disabled}
-                    hasError={this.props.hasError}
+                    hasError={
+                        this.props.hasError || this.context.formFieldHasError
+                    }
                     onClick={openMenu}
                 />
                 <DropdownToggle>

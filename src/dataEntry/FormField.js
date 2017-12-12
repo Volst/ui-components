@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component, Children } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import LabelText from './LabelText';
 import { InlineText } from '../general/typography/Text';
@@ -64,6 +64,16 @@ export default class FormField extends Component {
         required: PropTypes.bool,
     };
 
+    static childContextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
+    getChildContext() {
+        return {
+            formFieldHasError: this.props.error && this.props.error.length > 0,
+        };
+    }
+
     componentWillMount() {
         this.uniqueId = `formfield-${uniqueId()}`;
     }
@@ -94,32 +104,11 @@ export default class FormField extends Component {
         );
     }
 
-    cloneProp = child => {
-        if (child) {
-            const error = this.props.error || [];
-            // Only modify the child when its a React component;
-            // with real DOM elements you'd get a React warning about invalid props.
-            if (typeof child.type === 'function') {
-                return React.cloneElement(child, {
-                    hasError: error.length > 0,
-                    id: this.uniqueId,
-                });
-            }
-            return child;
-        }
-        return null;
-    };
-
     render() {
-        const childrenWithProps = Children.map(
-            this.props.children,
-            this.cloneProp
-        );
-
         return (
             <Field noPadding={this.props.noPadding}>
                 {this.renderLabel()}
-                {childrenWithProps}
+                {this.props.children}
                 {this.renderError()}
             </Field>
         );

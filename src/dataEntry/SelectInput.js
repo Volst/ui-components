@@ -50,6 +50,10 @@ export default class SelectInput extends PureComponent {
         autoWidth: PropTypes.bool,
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     onChange = e => {
         if (!this.props.onChange) return;
 
@@ -72,7 +76,7 @@ export default class SelectInput extends PureComponent {
                 value={this.props.value || ''}
                 onChange={this.onChange}
                 disabled={this.props.disabled}
-                hasError={this.props.hasError}
+                hasError={this.props.hasError || this.context.formFieldHasError}
                 autoWidth={this.props.autoWidth}
             >
                 {!this.props.skipPlaceholder && (

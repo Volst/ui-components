@@ -78,6 +78,10 @@ export default class SingleDatePicker extends PureComponent {
         inputDateFormat: PropTypes.string,
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     getChildContext() {
         return {
             inputDateFormat: this.props.theme.dateFormat,
@@ -113,7 +117,9 @@ export default class SingleDatePicker extends PureComponent {
                     onDayChange={this.handleChange}
                     value={value}
                     disabled={this.props.disabled}
-                    hasError={this.props.hasError}
+                    hasError={
+                        this.props.hasError || this.context.formFieldHasError
+                    }
                     placeholder={this.props.placeholder}
                     format={dateFormat}
                     dayPickerProps={dayPickerProps}

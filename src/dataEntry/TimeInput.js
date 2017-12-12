@@ -28,6 +28,10 @@ export default class TimeInput extends PureComponent {
         value: '',
     };
 
+    static contextTypes = {
+        formFieldHasError: PropTypes.bool,
+    };
+
     onChange = e => {
         // When the user is still typing, we don't want to trigger an update,
         // because at that point the time is not a valid moment instance yet.
@@ -55,7 +59,7 @@ export default class TimeInput extends PureComponent {
                 name={this.props.name}
                 placeholder={this.props.placeholder}
                 disabled={this.props.disabled}
-                hasError={this.props.hasError}
+                hasError={this.props.hasError || this.context.formFieldHasError}
                 id={this.props.id}
                 autoFocus={this.props.autoFocus}
                 value={formatted}
