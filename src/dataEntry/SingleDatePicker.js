@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import { formatDate, parseDate } from 'react-day-picker/moment';
 import DatePickerWrapper from './DatePickerWrapper';
 import moment from 'moment';
 import { StyledInput } from './TextInput';
@@ -115,8 +114,6 @@ export default class SingleDatePicker extends PureComponent {
                     value={value}
                     disabled={this.props.disabled}
                     hasError={this.props.hasError}
-                    formatDate={formatDate}
-                    parseDate={parseDate}
                     placeholder={this.props.placeholder}
                     format={dateFormat}
                     dayPickerProps={dayPickerProps}
