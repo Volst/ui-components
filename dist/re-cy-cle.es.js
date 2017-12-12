@@ -18,7 +18,6 @@ import Downshift from 'downshift';
 import AutosizeInput from 'react-input-autosize';
 import onClickOutside from 'react-onclickoutside';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import { formatDate, parseDate } from 'react-day-picker/moment';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -367,7 +366,7 @@ let Form = (_temp2$1 = _class$1 = class Form extends Component {
 }, _temp2$1);
 
 var _class$3;
-var _temp;
+var _temp$1;
 
 const Container = styled.div.withConfig({
     displayName: 'LabelText__Container'
@@ -377,7 +376,7 @@ const StyledLabel = styled.label.withConfig({
     displayName: 'LabelText__StyledLabel'
 })(['text-transform:uppercase;']);
 
-let LabelText = (_temp = _class$3 = class LabelText extends PureComponent {
+let LabelText = (_temp$1 = _class$3 = class LabelText extends PureComponent {
 
     render() {
         return React.createElement(
@@ -399,10 +398,10 @@ let LabelText = (_temp = _class$3 = class LabelText extends PureComponent {
     helpText: PropTypes.string,
     htmlFor: PropTypes.string,
     children: PropTypes.node.isRequired
-}, _temp);
+}, _temp$1);
 
 var _class$2;
-var _temp2$2;
+var _temp;
 
 const Field = styled.div.withConfig({
     displayName: 'FormField__Field'
@@ -419,25 +418,12 @@ function validationErrorMapper(errorCode) {
     return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-let FormField = (_temp2$2 = _class$2 = class FormField extends Component {
-    constructor(...args) {
-        var _temp;
+let FormField = (_temp = _class$2 = class FormField extends Component {
 
-        return _temp = super(...args), this.cloneProp = child => {
-            if (child) {
-                const error = this.props.error || [];
-                // Only modify the child when its a React component;
-                // with real DOM elements you'd get a React warning about invalid props.
-                if (typeof child.type === 'function') {
-                    return React.cloneElement(child, {
-                        hasError: error.length > 0,
-                        id: this.uniqueId
-                    });
-                }
-                return child;
-            }
-            return null;
-        }, _temp;
+    getChildContext() {
+        return {
+            formFieldHasError: this.props.error && this.props.error.length > 0
+        };
     }
 
     componentWillMount() {
@@ -475,13 +461,11 @@ let FormField = (_temp2$2 = _class$2 = class FormField extends Component {
     }
 
     render() {
-        const childrenWithProps = Children.map(this.props.children, this.cloneProp);
-
         return React.createElement(
             Field,
             { noPadding: this.props.noPadding },
             this.renderLabel(),
-            childrenWithProps,
+            this.props.children,
             this.renderError()
         );
     }
@@ -494,10 +478,12 @@ let FormField = (_temp2$2 = _class$2 = class FormField extends Component {
     // TODO: I don't like the name `noPadding`
     noPadding: PropTypes.bool,
     required: PropTypes.bool
-}, _temp2$2);
+}, _class$2.childContextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp);
 
 var _class$4;
-var _temp2$3;
+var _temp2$2;
 
 const StyledDiv = styled.div.withConfig({
     displayName: 'RadioButtons__StyledDiv'
@@ -527,7 +513,7 @@ const Option = styled.div.withConfig({
 
 const StyledLabel$1 = styled.label.withConfig({
     displayName: 'RadioButtons__StyledLabel'
-})(['flex:1;cursor:', ';padding:6px 5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:', ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.theme.borderColor, props => props.vertical ? `
+})(['flex:1;cursor:', ';padding:5px;text-align:center;border:1px solid ', ';', ';background:', ';font-size:14px;color:', ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'], props => props.disabled ? 'not-allowed' : 'pointer', props => props.theme.borderColor, props => props.vertical ? `
             border-top-width: 0;
             ` : `
         border-left-width: 0;
@@ -545,7 +531,7 @@ const StyledInput = styled.input.withConfig({
             `;
 });
 
-let RadioButtons = (_temp2$3 = _class$4 = class RadioButtons extends PureComponent {
+let RadioButtons = (_temp2$2 = _class$4 = class RadioButtons extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -608,10 +594,10 @@ let RadioButtons = (_temp2$3 = _class$4 = class RadioButtons extends PureCompone
     options: OptionsPropType,
     value: ValuePropType,
     vertical: PropTypes.bool
-}, _temp2$3);
+}, _temp2$2);
 
 var _class$5;
-var _temp2$4;
+var _temp2$3;
 
 const StyledDiv$1 = styled.div.withConfig({
     displayName: 'RadioList__StyledDiv'
@@ -625,7 +611,7 @@ const StyledInput$1 = styled.input.withConfig({
     displayName: 'RadioList__StyledInput'
 })(['margin-right:5px;position:relative;']);
 
-let RadioList = (_temp2$4 = _class$5 = class RadioList extends PureComponent {
+let RadioList = (_temp2$3 = _class$5 = class RadioList extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -658,10 +644,10 @@ let RadioList = (_temp2$4 = _class$5 = class RadioList extends PureComponent {
     disabled: PropTypes.bool,
     options: OptionsPropType,
     value: ValuePropType
-}, _temp2$4);
+}, _temp2$3);
 
 var _class$6;
-var _temp2$5;
+var _temp2$4;
 
 const StyledLabel$3 = styled.label.withConfig({
     displayName: 'Checkbox__StyledLabel'
@@ -671,7 +657,7 @@ const StyledInput$2 = styled.input.withConfig({
     displayName: 'Checkbox__StyledInput'
 })(['margin-right:5px;']);
 
-let Checkbox = (_temp2$5 = _class$6 = class Checkbox extends PureComponent {
+let Checkbox = (_temp2$4 = _class$6 = class Checkbox extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -699,7 +685,7 @@ let Checkbox = (_temp2$5 = _class$6 = class Checkbox extends PureComponent {
     label: PropTypes.string,
     value: PropTypes.bool,
     disabled: PropTypes.bool
-}, _temp2$5);
+}, _temp2$4);
 
 var objectWithoutProperties = function (obj, keys) {
   var target = {};
@@ -714,7 +700,7 @@ var objectWithoutProperties = function (obj, keys) {
 };
 
 var _class$7;
-var _temp2$6;
+var _temp2$5;
 
 const StyledInput$3 = styled((_ref2) => {
     let { hasError, hasDropdown, _ref } = _ref2,
@@ -722,7 +708,7 @@ const StyledInput$3 = styled((_ref2) => {
     return React.createElement('input', Object.assign({}, props, { ref: _ref }));
 }).withConfig({
     displayName: 'TextInput__StyledInput'
-})(['height:30px;font-size:14px;color:', ';background:', ';padding:0 8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;&:disabled{background:', ';cursor:not-allowed;}&::placeholder{color:rgba(0,0,0,0.35);}', ';', ';'], props => props.theme.textColor, props => props.theme.componentBackground, props => props.theme.borderColor, props => props.theme.disabledColor, props => props.hasError ? `
+})(['font-size:14px;color:', ';background:', ';padding:6px 8px;text-decoration:none;border-radius:4px;border:1px solid ', ';width:100%;&:disabled{background:', ';cursor:not-allowed;}&::placeholder{color:rgba(0,0,0,0.35);}', ';', ';'], props => props.theme.textColor, props => props.theme.componentBackground, props => props.theme.borderColor, props => props.theme.disabledColor, props => props.hasError ? `
         border-color: ${props.theme.dangerColor};
         background: #fef2f2;
 
@@ -739,7 +725,7 @@ const StyledInput$3 = styled((_ref2) => {
         border-bottom-right-radius: 0;
     ` : '');
 
-let TextInput = (_temp2$6 = _class$7 = class TextInput extends PureComponent {
+let TextInput = (_temp2$5 = _class$7 = class TextInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -775,7 +761,7 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends PureComponent {
             onBlur: this.onBlur,
             onFocus: this.props.onFocus,
             autoFocus: this.props.autoFocus,
-            hasError: this.props.hasError,
+            hasError: this.props.hasError || this.context.formFieldHasError,
             className: this.props.className,
             id: this.props.id,
             autoComplete: this.props.autoComplete === false ? 'off' : undefined,
@@ -808,10 +794,12 @@ let TextInput = (_temp2$6 = _class$7 = class TextInput extends PureComponent {
     type: 'text',
     placeholder: '',
     value: ''
-}, _temp2$6);
+}, _class$7.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$5);
 
 var _class$8;
-var _temp2$7;
+var _temp2$6;
 
 const MyInput = StyledInput$3.withComponent((_ref) => {
     let { hasError } = _ref,
@@ -819,7 +807,7 @@ const MyInput = StyledInput$3.withComponent((_ref) => {
     return React.createElement(MaskedInput, props);
 });
 
-let NumberInput = (_temp2$7 = _class$8 = class NumberInput extends PureComponent {
+let NumberInput = (_temp2$6 = _class$8 = class NumberInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -869,7 +857,7 @@ let NumberInput = (_temp2$7 = _class$8 = class NumberInput extends PureComponent
             onBlur: this.onBlur,
             onFocus: this.props.onFocus,
             autoFocus: this.props.autoFocus,
-            hasError: this.props.hasError,
+            hasError: this.props.hasError || this.context.formFieldHasError,
             guide: false,
             mask: this.getMask(this.props)
         });
@@ -901,10 +889,12 @@ let NumberInput = (_temp2$7 = _class$8 = class NumberInput extends PureComponent
     // text-mask-addons has some default values we don't like; by default we only want to force the field to contain numbers
     prefix: '',
     includeThousandsSeparator: false
-}, _temp2$7);
+}, _class$8.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$6);
 
 var _class$9;
-var _temp2$8;
+var _temp2$7;
 
 const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
     let { hasError, _ref } = _ref2,
@@ -914,7 +904,7 @@ const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
 
 const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 
-let TimeInput = (_temp2$8 = _class$9 = class TimeInput extends PureComponent {
+let TimeInput = (_temp2$7 = _class$9 = class TimeInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -945,7 +935,7 @@ let TimeInput = (_temp2$8 = _class$9 = class TimeInput extends PureComponent {
             name: this.props.name,
             placeholder: this.props.placeholder,
             disabled: this.props.disabled,
-            hasError: this.props.hasError,
+            hasError: this.props.hasError || this.context.formFieldHasError,
             id: this.props.id,
             autoFocus: this.props.autoFocus,
             value: formatted,
@@ -967,10 +957,12 @@ let TimeInput = (_temp2$8 = _class$9 = class TimeInput extends PureComponent {
 }, _class$9.defaultProps = {
     placeholder: ' ',
     value: ''
-}, _temp2$8);
+}, _class$9.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$7);
 
 var _class$10;
-var _temp2$9;
+var _temp2$8;
 
 const StyledTextarea = styled((_ref) => {
     let { hasError } = _ref,
@@ -986,7 +978,7 @@ const StyledAutoTextarea = StyledTextarea.withComponent((_ref2) => {
     return React.createElement(AutoTextarea, props);
 });
 
-let TextArea = (_temp2$9 = _class$10 = class TextArea extends PureComponent {
+let TextArea = (_temp2$8 = _class$10 = class TextArea extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1007,7 +999,7 @@ let TextArea = (_temp2$9 = _class$10 = class TextArea extends PureComponent {
             maxLength: this.props.maxLength,
             autoFocus: this.props.autoFocus,
             disabled: this.props.disabled,
-            hasError: this.props.hasError,
+            hasError: this.props.hasError || this.context.formFieldHasError,
             placeholder: this.props.placeholder,
             onChange: this.onChange,
             onBlur: this.props.onBlur,
@@ -1046,7 +1038,9 @@ let TextArea = (_temp2$9 = _class$10 = class TextArea extends PureComponent {
     placeholder: '',
     value: '',
     rows: 4
-}, _temp2$9);
+}, _class$10.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$8);
 
 const StyledSvg = styled.svg.withConfig({
     displayName: 'Icon__StyledSvg'
@@ -1091,7 +1085,7 @@ let IconClose = props => React.createElement(
 );
 
 var _class$12;
-var _temp2$11;
+var _temp2$10;
 
 const DropdownContainer = styled.div.withConfig({
     displayName: 'FancySelect__DropdownContainer'
@@ -1124,7 +1118,7 @@ function fuzzySearch(options, inputValue) {
     return options.filter(o => o.label.toLowerCase().includes((inputValue || '').toLowerCase()));
 }
 
-let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends PureComponent {
+let FancySelect = (_temp2$10 = _class$12 = class FancySelect extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1185,7 +1179,7 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends PureCompone
                     value: inputProps.value || '',
                     hasDropdown: actuallyOpen,
                     disabled: this.props.disabled,
-                    hasError: this.props.hasError,
+                    hasError: this.props.hasError || this.context.formFieldHasError,
                     onClick: openMenu
                 })),
                 React.createElement(
@@ -1253,12 +1247,14 @@ let FancySelect = (_temp2$11 = _class$12 = class FancySelect extends PureCompone
     options: OptionsPropType,
     disabled: PropTypes.bool,
     hasError: PropTypes.bool
-}, _temp2$11);
+}, _class$12.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$10);
 
 var _class$11;
-var _temp2$10;
+var _temp2$9;
 
-let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends PureComponent {
+let TypeAhead = (_temp2$9 = _class$11 = class TypeAhead extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1332,7 +1328,7 @@ let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends PureComponent {
                     getRootProps({ refKey: 'innerRef' }),
                     React.createElement(StyledInput$3, Object.assign({}, getInputProps(), {
                         hasDropdown: isOpen && hasOptions,
-                        hasError: this.props.hasError,
+                        hasError: this.props.hasError || this.context.formFieldHasError,
                         disabled: this.props.disabled
                     })),
                     isOpen && hasOptions && this.renderDropdown({
@@ -1353,10 +1349,12 @@ let TypeAhead = (_temp2$10 = _class$11 = class TypeAhead extends PureComponent {
     options: OptionsPropType,
     hasError: PropTypes.bool,
     disabled: PropTypes.bool
-}, _temp2$10);
+}, _class$11.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$9);
 
 var _class$13;
-var _temp2$12;
+var _temp2$11;
 
 const StyledSelect = styled((_ref) => {
     let { autoWidth, hasError } = _ref,
@@ -1366,7 +1364,7 @@ const StyledSelect = styled((_ref) => {
     displayName: 'SelectInput__StyledSelect'
 })(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 7px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z" fill="rgba(0,0,0,0.7)" /></svg>\');background-repeat:no-repeat;background-position:top 1px right 10px;-moz-appearance:none;-webkit-appearance:none;&:focus{border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => props.theme.textColor, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => !props.hasError && props.theme.primaryColor, props => props.theme.disabledColor);
 
-let SelectInput = (_temp2$12 = _class$13 = class SelectInput extends PureComponent {
+let SelectInput = (_temp2$11 = _class$13 = class SelectInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1392,7 +1390,7 @@ let SelectInput = (_temp2$12 = _class$13 = class SelectInput extends PureCompone
                 value: this.props.value || '',
                 onChange: this.onChange,
                 disabled: this.props.disabled,
-                hasError: this.props.hasError,
+                hasError: this.props.hasError || this.context.formFieldHasError,
                 autoWidth: this.props.autoWidth
             },
             !this.props.skipPlaceholder && React.createElement(
@@ -1415,10 +1413,12 @@ let SelectInput = (_temp2$12 = _class$13 = class SelectInput extends PureCompone
     value: ValuePropType,
     options: OptionsPropType,
     autoWidth: PropTypes.bool
-}, _temp2$12);
+}, _class$13.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$11);
 
 var _class$14;
-var _temp2$13;
+var _temp2$12;
 
 // This should look like <TextInput /> as much as possible.
 const InputValueWrapper = styled.div.withConfig({
@@ -1452,7 +1452,7 @@ const CloseButton = styled.span.withConfig({
     displayName: 'MultiSelect__CloseButton'
 })(['cursor:pointer;margin-left:4px;']);
 
-let MultiSelect = (_temp2$13 = _class$14 = class MultiSelect extends PureComponent {
+let MultiSelect = (_temp2$12 = _class$14 = class MultiSelect extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1557,7 +1557,7 @@ let MultiSelect = (_temp2$13 = _class$14 = class MultiSelect extends PureCompone
                         focused: this.state.focused,
                         onFocus: () => !this.props.disabled && this.setState({ focused: true }),
                         onBlur: () => this.setState({ focused: false }),
-                        hasError: this.props.hasError,
+                        hasError: this.props.hasError || this.context.formFieldHasError,
                         disabled: this.props.disabled
                     },
                     selectedItem.map(item => React.createElement(
@@ -1648,7 +1648,9 @@ let MultiSelect = (_temp2$13 = _class$14 = class MultiSelect extends PureCompone
     options: OptionsPropType,
     disabled: PropTypes.bool,
     hasError: PropTypes.bool
-}, _temp2$13);
+}, _class$14.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$12);
 
 const Container$1 = styled.div.withConfig({
     displayName: 'styles__Container'
@@ -1679,9 +1681,9 @@ const DropdownSearch = styled(TextInput).withConfig({
 })(['margin-bottom:10px;']);
 
 var _class$16;
-var _temp2$15;
+var _temp2$14;
 
-let MultipickDropdown = (_temp2$15 = _class$16 = class MultipickDropdown extends Component {
+let MultipickDropdown = (_temp2$14 = _class$16 = class MultipickDropdown extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1770,7 +1772,7 @@ let MultipickDropdown = (_temp2$15 = _class$16 = class MultipickDropdown extends
     selectNoneText: PropTypes.string
 }, _class$16.defaultProps = {
     searchValue: ''
-}, _temp2$15);
+}, _temp2$14);
 
 let IconKeyboardArrowDown = props => React.createElement(
     Icon,
@@ -1779,9 +1781,9 @@ let IconKeyboardArrowDown = props => React.createElement(
 );
 
 var _class$15;
-var _temp2$14;
+var _temp2$13;
 
-let MultiPick = (_temp2$14 = _class$15 = class MultiPick extends Component {
+let MultiPick = (_temp2$13 = _class$15 = class MultiPick extends Component {
     constructor(...args) {
         var _temp;
 
@@ -1854,7 +1856,7 @@ let MultiPick = (_temp2$14 = _class$15 = class MultiPick extends Component {
     disabled: PropTypes.bool
 }, _class$15.defaultProps = {
     searchAppearsAfterCount: 5
-}, _temp2$14);
+}, _temp2$13);
 
 
 var index = onClickOutside(MultiPick);
@@ -1864,7 +1866,7 @@ const DatePickerWrapper = styled.div.withConfig({
 })(['text-align:center;.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;abbr{text-decoration:none;}}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;text-align:center;cursor:pointer;vertical-align:middle;outline:none;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside){background-color:', ' !important;color:', ';}.Selectable .DayPicker-Day{border-radius:0 !important;}.Selectable .DayPicker-Day--start{border-top-left-radius:50% !important;border-bottom-left-radius:50% !important;}.Selectable .DayPicker-Day--end{border-top-right-radius:50% !important;border-bottom-right-radius:50% !important;}'], props => props.theme.textColor, props => props.theme.textColor, props => props.theme.dangerColor, props => props.theme.lightColor, props => props.theme.disabledColor, props => props.theme.lightColor, props => readableColor(props.theme.primaryColor), props => props.theme.primaryColor, props => props.theme.componentBackground, props => props.theme.zIndexSingleDatePickerOverlay, props => setLightness(0.93, props.theme.primaryColor), props => props.theme.textColor);
 
 var _class$17;
-var _temp2$16;
+var _temp2$15;
 var _class2;
 var _class3;
 var _temp4;
@@ -1876,7 +1878,7 @@ const StyledMaskedInput$1 = StyledInput$3.withComponent((_ref2) => {
 });
 
 // This is not a hack, it is a documented workaround (in react-day-picker)!
-let MaskedDateInput = (_temp2$16 = _class$17 = class MaskedDateInput extends PureComponent {
+let MaskedDateInput = (_temp2$15 = _class$17 = class MaskedDateInput extends PureComponent {
     constructor(...args) {
         var _temp;
 
@@ -1913,7 +1915,7 @@ let MaskedDateInput = (_temp2$16 = _class$17 = class MaskedDateInput extends Pur
     }
 }, _class$17.contextTypes = {
     inputDateFormat: PropTypes.string
-}, _temp2$16);
+}, _temp2$15);
 
 let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDatePicker extends PureComponent {
     constructor(...args) {
@@ -1958,9 +1960,7 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
                 onDayChange: this.handleChange,
                 value: value,
                 disabled: this.props.disabled,
-                hasError: this.props.hasError,
-                formatDate: formatDate,
-                parseDate: parseDate,
+                hasError: this.props.hasError || this.context.formFieldHasError,
                 placeholder: this.props.placeholder,
                 format: dateFormat,
                 dayPickerProps: dayPickerProps
@@ -1983,6 +1983,8 @@ let SingleDatePicker = withTheme(_class2 = (_temp4 = _class3 = class SingleDateP
     showWeekNumbers: true
 }, _class3.childContextTypes = {
     inputDateFormat: PropTypes.string
+}, _class3.contextTypes = {
+    formFieldHasError: PropTypes.bool
 }, _temp4)) || _class2;
 
 let IconClear = props => React.createElement(
@@ -1999,7 +2001,7 @@ let IconNavigateNext = props => React.createElement(
 
 var _class$18;
 var _class2$1;
-var _temp2$17;
+var _temp2$16;
 
 function toDate(moment$$1) {
     return moment$$1 ? moment$$1.toDate() : undefined;
@@ -2016,7 +2018,7 @@ const CombinedInputItem = styled.div.withConfig({
     displayName: 'DateRangePicker__CombinedInputItem'
 })(['flex:1;display:flex;padding-left:10px;cursor:', ';user-select:none;'], props => props.onClick ? 'pointer' : 'not-allowed');
 
-let DateRangePicker = withTheme(_class$18 = (_temp2$17 = _class2$1 = class DateRangePicker extends Component {
+let DateRangePicker = withTheme(_class$18 = (_temp2$16 = _class2$1 = class DateRangePicker extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2052,7 +2054,9 @@ let DateRangePicker = withTheme(_class$18 = (_temp2$17 = _class2$1 = class DateR
             null,
             React.createElement(
                 CombinedInput,
-                { hasError: this.props.hasError },
+                {
+                    hasError: this.props.hasError || this.context.formFieldHasError
+                },
                 React.createElement(
                     CombinedInputItem,
                     { onClick: onClick },
@@ -2107,16 +2111,18 @@ let DateRangePicker = withTheme(_class$18 = (_temp2$17 = _class2$1 = class DateR
     placeholder: PropTypes.string
 }, _class2$1.defaultProps = {
     showWeekNumbers: true
-}, _temp2$17)) || _class$18;
+}, _class2$1.contextTypes = {
+    formFieldHasError: PropTypes.bool
+}, _temp2$16)) || _class$18;
 
 var _class$19;
-var _temp$1;
+var _temp$2;
 
 const StyledTooltip = styled.span.withConfig({
     displayName: 'Tooltip__StyledTooltip'
 })(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:', ';}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => props.theme.zIndexTooltip, props => props.theme.darkColor, props => props.theme.darkColor, props => readableColor(props.theme.darkColor), props => props.theme.darkColor);
 
-let Tooltip = (_temp$1 = _class$19 = class Tooltip extends Component {
+let Tooltip = (_temp$2 = _class$19 = class Tooltip extends Component {
 
     render() {
         const { direction, children } = this.props;
@@ -2135,7 +2141,7 @@ let Tooltip = (_temp$1 = _class$19 = class Tooltip extends Component {
     direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
 }, _class$19.defaultProps = {
     direction: 's'
-}, _temp$1);
+}, _temp$2);
 
 let IconKeyboardArrowUp = props => React.createElement(
     Icon,
@@ -2145,7 +2151,7 @@ let IconKeyboardArrowUp = props => React.createElement(
 
 var _class$20;
 var _class2$2;
-var _temp2$18;
+var _temp2$17;
 
 const StyledContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledContainer'
@@ -2166,7 +2172,7 @@ const StyledTitleContainer = styled.div.withConfig({
     displayName: 'Accordion__StyledTitleContainer'
 })(['position:relative;display:flex;align-items:center;']);
 
-let Accordion = withTheme(_class$20 = (_temp2$18 = _class2$2 = class Accordion extends Component {
+let Accordion = withTheme(_class$20 = (_temp2$17 = _class2$2 = class Accordion extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2221,7 +2227,7 @@ let Accordion = withTheme(_class$20 = (_temp2$18 = _class2$2 = class Accordion e
     action: PropTypes.node,
     theme: PropTypes.object.isRequired,
     contentBackground: PropTypes.string
-}, _temp2$18)) || _class$20;
+}, _temp2$17)) || _class$20;
 
 const Table = styled.table.withConfig({
     displayName: 'Table'
@@ -2405,11 +2411,11 @@ Loader.propTypes = {
 };
 
 var _class$22;
-var _temp2$20;
+var _temp2$19;
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = (_temp2$20 = _class$22 = class NotificationItem extends Component {
+let NotificationItem = (_temp2$19 = _class$22 = class NotificationItem extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2472,7 +2478,7 @@ let NotificationItem = (_temp2$20 = _class$22 = class NotificationItem extends C
 }, _class$22.defaultProps = {
     dismissAfter: 3100,
     type: 'info'
-}, _temp2$20);
+}, _temp2$19);
 const CloseButton$1 = styled(Button).withConfig({
     displayName: 'Item__CloseButton'
 })(['margin-left:11px;position:absolute;top:13px;right:13px;font-size:15px;']);
@@ -2496,9 +2502,9 @@ const StyledItem = styled.div.withConfig({
     ` : '', getBackgroundColor, props => props.onClick ? 'pointer' : 'default');
 
 var _class$21;
-var _temp2$19;
+var _temp2$18;
 
-let NotificationStack = (_temp2$19 = _class$21 = class NotificationStack extends Component {
+let NotificationStack = (_temp2$18 = _class$21 = class NotificationStack extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2526,13 +2532,13 @@ let NotificationStack = (_temp2$19 = _class$21 = class NotificationStack extends
 }, _class$21.propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired
-}, _temp2$19);
+}, _temp2$18);
 const StackWrapper = styled.div.withConfig({
     displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:', ';width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;'], props => props.theme.zIndexNotificationStack);
 
 var _class$23;
-var _temp2$21;
+var _temp2$20;
 
 const Container$2 = styled.div.withConfig({
     displayName: 'Modal__Container'
@@ -2548,7 +2554,7 @@ const Content$3 = styled.div.withConfig({
 
 const ESCAPE_KEY = 27;
 
-let Modal = (_temp2$21 = _class$23 = class Modal extends Component {
+let Modal = (_temp2$20 = _class$23 = class Modal extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2582,10 +2588,10 @@ let Modal = (_temp2$21 = _class$23 = class Modal extends Component {
 }, _class$23.propTypes = {
     children: PropTypes.node.isRequired,
     onClose: PropTypes.func.isRequired
-}, _temp2$21);
+}, _temp2$20);
 
 var _class$24;
-var _temp$2;
+var _temp$3;
 
 const Bubble = styled.sup.withConfig({
     displayName: 'Badge__Bubble'
@@ -2595,7 +2601,7 @@ const Wrapper = styled.div.withConfig({
     displayName: 'Badge__Wrapper'
 })(['position:relative;display:inline-block;']);
 
-let Badge = (_temp$2 = _class$24 = class Badge extends Component {
+let Badge = (_temp$3 = _class$24 = class Badge extends Component {
 
     render() {
         const { count, children, className } = this.props;
@@ -2614,16 +2620,16 @@ let Badge = (_temp$2 = _class$24 = class Badge extends Component {
     count: PropTypes.number,
     children: PropTypes.node,
     className: PropTypes.string
-}, _temp$2);
+}, _temp$3);
 
 var _class$25;
-var _temp$3;
+var _temp$4;
 
 const Menu = styled.header.withConfig({
     displayName: 'TopMenu__Menu'
 })(['display:flex;align-items:stretch;flex-direction:column;']);
 
-let TopMenu = (_temp$3 = _class$25 = class TopMenu extends Component {
+let TopMenu = (_temp$4 = _class$25 = class TopMenu extends Component {
 
     render() {
         return React.createElement(
@@ -2634,7 +2640,7 @@ let TopMenu = (_temp$3 = _class$25 = class TopMenu extends Component {
     }
 }, _class$25.propTypes = {
     children: PropTypes.node.isRequired
-}, _temp$3);
+}, _temp$4);
 
 const StyledNavLink = styled(NavLink).withConfig({
     displayName: 'Logo__StyledNavLink'
@@ -2664,13 +2670,13 @@ var MenuRow = styled.div.withConfig({
     `);
 
 var _class$26;
-var _temp2$22;
+var _temp2$21;
 
 const StyledNavLink$1 = styled(NavLink).withConfig({
     displayName: 'NavItem__StyledNavLink'
 })(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primaryColor);
 
-let NavItem = (_temp2$22 = _class$26 = class NavItem extends Component {
+let NavItem = (_temp2$21 = _class$26 = class NavItem extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2698,7 +2704,7 @@ let NavItem = (_temp2$22 = _class$26 = class NavItem extends Component {
     to: PropTypes.string,
     onClick: PropTypes.func,
     activePath: PropTypes.string
-}, _temp2$22);
+}, _temp2$21);
 
 var NavItemExternal = StyledNavLink$1.withComponent((_ref) => {
     let { title } = _ref,
@@ -2715,13 +2721,13 @@ var NavMenu = styled.nav.withConfig({
 })(['flex:1;display:flex;align-items:stretch;']);
 
 var _class$27;
-var _temp2$23;
+var _temp2$22;
 
 const RelativeWrapper = styled.div.withConfig({
     displayName: 'Dropdown__RelativeWrapper'
 })(['position:relative;']);
 
-let MyDropdown = (_temp2$23 = _class$27 = class MyDropdown extends Component {
+let MyDropdown = (_temp2$22 = _class$27 = class MyDropdown extends Component {
     constructor(...args) {
         var _temp;
 
@@ -2758,7 +2764,7 @@ let MyDropdown = (_temp2$23 = _class$27 = class MyDropdown extends Component {
     children: PropTypes.node.isRequired,
     opened: PropTypes.bool,
     onChange: PropTypes.func
-}, _temp2$23);
+}, _temp2$22);
 
 
 const Dropdown$2 = onClickOutside(MyDropdown);
