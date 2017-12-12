@@ -7,11 +7,10 @@ export const StyledInput = styled(
         <input {...props} ref={_ref} />
     )
 )`
-    height: 30px;
     font-size: 14px;
     color: ${props => props.theme.textColor};
     background: ${props => props.theme.componentBackground};
-    padding: 0 8px;
+    padding: 6px 8px;
     text-decoration: none;
     border-radius: 4px;
     border: 1px solid ${props => props.theme.borderColor};

@@ -60,7 +60,7 @@ const Option = styled.div`
 const StyledLabel = styled.label`
     flex: 1;
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-    padding: 6px 5px;
+    padding: 5px;
     text-align: center;
     border: 1px solid ${props => props.theme.borderColor};
     ${props =>
@@ -92,9 +92,9 @@ const StyledInput = styled.input`
             return `
                 background: ${background};
                 border-color: ${background};
-                box-shadow: ${`${props.vertical ? '0px -1px' : '-1px 0'} ${
-                    background
-                }`};
+                box-shadow: ${`${
+                    props.vertical ? '0px -1px' : '-1px 0'
+                } ${background}`};
                 color: ${readableColor(background)};
             `;
         }};
