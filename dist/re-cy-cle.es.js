@@ -164,7 +164,7 @@ const TonePropType = PropTypes.oneOf(['primary', 'success', 'warning', 'danger',
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
-const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children'];
+const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children', 'small'];
 
 function insertSpanForTextNodes(child) {
     if (typeof child === 'string') {
@@ -197,7 +197,7 @@ function getTextColor(props, background) {
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled(props => React.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
     displayName: 'Button'
-})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? 'inherit' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
+})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? 'inherit' : props.small ? '14px' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
         margin: 6px;
         ` : `
         &:first-child {
@@ -229,8 +229,8 @@ const Button = styled(props => React.createElement('button', Object.assign({ typ
 
     return `
             color: ${textColor};
-            height: 30px;
-            padding: 0 10px;
+            height: ${props.small ? '24px' : '30px'};
+            padding: ${props.small ? '0 5px' : '0 10px'};
             margin: 5px 5px 5px 0;
             text-decoration: none;
             border-radius: 4px;
@@ -263,7 +263,8 @@ Button.propTypes = {
     icon: PropTypes.bool,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
-    tone: TonePropType
+    tone: TonePropType,
+    small: PropTypes.bool
 };
 
 const ExternalLink = Button.withComponent(props => {
@@ -1111,7 +1112,7 @@ const DropdownItem = styled.div.withConfig({
 
 const StyledInput$4 = styled(StyledInput$3).withConfig({
     displayName: 'FancySelect__StyledInput'
-})(['padding:0 60px 0 8px;']);
+})(['padding-right:60px;']);
 
 // Poor man's filtering.
 function fuzzySearch(options, inputValue) {
