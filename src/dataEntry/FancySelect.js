@@ -53,7 +53,7 @@ export const DropdownItem = styled.div`
 `;
 
 const StyledInput = styled(TextInput)`
-    padding: 0 60px 0 8px;
+    padding-right: 60px;
 `;
 
 // Poor man's filtering.
