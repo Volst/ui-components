@@ -82,6 +82,12 @@ storiesOf('General / Button', module)
         })
     )
     .add(
+        'small',
+        withInfo()(() => {
+            return <Button small>Save thingy</Button>;
+        })
+    )
+    .add(
         'disabled',
         withInfo()(() => {
             return (

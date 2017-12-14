@@ -9,7 +9,7 @@ import { TonePropType } from '../PropTypes';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
-const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children'];
+const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children', 'small'];
 
 function insertSpanForTextNodes(child) {
     if (typeof child === 'string') {
@@ -47,7 +47,8 @@ export const Button = styled(props => (
     background: transparent;
     line-height: 1;
     user-select: none;
-    font-size: ${props => (props.link ? 'inherit' : '16px')};
+    font-size: ${props =>
+        props.link ? 'inherit' : props.small ? '14px' : '16px'};
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 
     > svg {
@@ -92,8 +93,8 @@ export const Button = styled(props => (
 
         return `
             color: ${textColor};
-            height: 30px;
-            padding: 0 10px;
+            height: ${props.small ? '24px' : '30px'};
+            padding: ${props.small ? '0 5px' : '0 10px'};
             margin: 5px 5px 5px 0;
             text-decoration: none;
             border-radius: 4px;
@@ -135,6 +136,7 @@ Button.propTypes = {
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
     tone: TonePropType,
+    small: PropTypes.bool,
 };
 
 export const ExternalLink = Button.withComponent(props => {
