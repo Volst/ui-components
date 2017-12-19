@@ -92,30 +92,26 @@ export default class SingleDatePicker extends PureComponent {
         if (!this.props.onChange) return;
 
         if (!disabled) {
-            this.props.onChange(this.props.name, moment(selectedDay));
+            this.props.onChange(this.props.name, selectedDay);
         }
     };
 
     render() {
+        const { value } = this.props;
         const dateFormat = this.props.theme.dateFormat;
-        const value = this.props.value
-            ? this.props.value.format(dateFormat)
-            : '';
+        const formattedValue = value ? value.format(dateFormat) : '';
         // TODO: currently you cannot use most props you might need from the react-day-picker component
         const dayPickerProps = {
             disabledDays: this.props.disabledDays,
             firstDayOfWeek: 1,
             showWeekNumbers: this.props.showWeekNumbers,
-            // If the state gets changed externally, e.g. `this.setState({ value: moment('1995-01-01') })`, react-day-picker will
-            // not modify the date picker to select that month. We work around this by forcing its internal state to that month.
-            month: this.props.value && this.props.value.toDate(),
         };
         return (
             <DatePickerWrapper>
                 <DayPickerInput
                     component={MaskedDateInput}
                     onDayChange={this.handleChange}
-                    value={value}
+                    value={formattedValue}
                     disabled={this.props.disabled}
                     hasError={
                         this.props.hasError || this.context.formFieldHasError

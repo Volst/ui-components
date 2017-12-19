@@ -23,8 +23,12 @@ storiesOf('Data Entry / SingleDatePicker', module)
     .add('controlled', () => {
         class MyComponent extends Component {
             state = {
-                value: moment(),
+                value: null,
             };
+
+            componentDidMount() {
+                this.setState({ value: moment('1995-01-01') });
+            }
 
             handleChange = (name, value) => {
                 this.setState({
