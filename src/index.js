@@ -1,4 +1,4 @@
-export { default as ReCyCleTheme } from './ReCyCleTheme';
+export { default as VolstTheme } from './VolstTheme';
 export { Button, Link, ExternalLink } from './general/Button';
 export { default as Heading } from './general/typography/Heading';
 export { default as Subheading } from './general/typography/Subheading';

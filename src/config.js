@@ -24,7 +24,7 @@ export const defaultConfig = {
 };
 
 // overrideProp : fallbackProp
-// If overrideProps isn't specified in the recycleTheme,
+// If overrideProps isn't specified in the volstTheme,
 // we fall back to the value of the fallbackProp.
 export const themeOverrides = {
     buttonPrimaryColor: 'primaryColor',

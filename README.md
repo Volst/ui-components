@@ -1,48 +1,46 @@
-# re-cy-cle
+# Volst UI Components
 
-A React component library for Code Yellow.
+A React component library for Volst.
 
-**Note that this library is still experimental**; we're using it in one production application in Code Yellow now. A lot of components still need to be added and fine-tuned.
-
-[**Demo / overview of all components**](https://codeyellowbv.github.io/re-cy-cle/)
+[**Demo / overview of all components**](https://volst.github.io/ui-components/)
 
 ## Install
 
 ```
-yarn add re-cy-cle
-npm i re-cy-cle --save
+yarn add @volst/ui-components
+npm i @volst/ui-components --save
 ```
 
 ## Usage
 
-The components are [documented in the demo](https://codeyellowbv.github.io/re-cy-cle/), in the top-right you can press "Show Info" to see all the possible props for that component.
+The components are [documented in the demo](https://volst.github.io/ui-components/), in the top-right you can press "Show Info" to see all the possible props for that component.
 
 An example:
 
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ReCyCleTheme, Button } from 're-cy-cle';
+import { VolstTheme, Button } from '@volst/ui-components';
 
 ReactDOM.render(
-    <ReCyCleTheme>
+    <VolstTheme>
         <Button>Foobar</Button>
-    </ReCyCleTheme>,
+    </VolstTheme>,
     document.getElementById('root')
 );
 ```
 
-`<ReCyCleTheme />` accepts a `theme` prop, which can be used to change some project-wide settings. An example:
+`<VolstTheme />` accepts a `theme` prop, which can be used to change some project-wide settings. An example:
 
 ```jsx
 const theme = {
     primaryColor: '#006b94',
 };
 
-<ReCyCleTheme theme={theme} />
+<VolstTheme theme={theme} />
 ```
 
-See [all settings](https://github.com/CodeYellowBV/re-cy-cle/blob/master/src/config.js).
+See [all settings](https://github.com/Volst/ui-components/blob/master/src/config.js).
 
 ## Contributing
 

@@ -48,11 +48,11 @@ rollup
     .then(bundle => {
         bundle.write({
             format: 'es',
-            file: 'dist/re-cy-cle.es.js',
+            file: 'dist/volst-ui-components.es.js',
         });
         bundle.write({
             format: 'cjs',
-            file: 'dist/re-cy-cle.cjs.js',
+            file: 'dist/volst-ui-components.cjs.js',
         });
     })
     .catch(err => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReCyCleTheme from '../src/ReCyCleTheme';
+import VolstTheme from '../src/VolstTheme';
 import { BrowserRouter } from 'react-router-dom';
 import i18next from 'i18next';
 
@@ -36,10 +36,10 @@ i18next.init({
 });
 
 const PageBootstrap = ({ children }) => // eslint-disable-line
-    <ReCyCleTheme theme={theme}>
+    <VolstTheme theme={theme}>
         <BrowserRouter>
             {children}
         </BrowserRouter>
-    </ReCyCleTheme>;
+    </VolstTheme>;
 
 export default PageBootstrap;

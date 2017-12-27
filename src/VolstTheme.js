@@ -65,7 +65,7 @@ const injectGlobalStyles = theme => injectGlobal`
     }
 `;
 
-export default class ReCyCleTheme extends Component {
+export default class VolstTheme extends Component {
     static propTypes = {
         theme: PropTypes.object,
         children: PropTypes.node,

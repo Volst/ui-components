@@ -1,6 +1,6 @@
 To get started, clone this repository and run `yarn install`.
 
-After that, you can run Storybook with `yarn start`. In your browser, open `http://localhost:9001`. Storybook is an UI development environment; you can see all components of re-cy-cle separately here and visually test them.
+After that, you can run Storybook with `yarn start`. In your browser, open `http://localhost:9001`. Storybook is an UI development environment; you can see all components separately here and visually test them.
 
 The components you see in Storybook are generated from `*.stories.js` files in the `src/` directory.
 
