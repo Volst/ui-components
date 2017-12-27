@@ -67,13 +67,13 @@ export default class NumberInput extends PureComponent {
   onChange = e => {
     if (!this.props.onChange) return;
 
-    this.props.onChange(this.props.name, this.parseValue(e));
+    this.props.onChange(this.parseValue(e));
   };
 
   onBlur = e => {
     if (!this.props.onBlur) return;
 
-    this.props.onBlur(this.props.name, this.parseValue(e));
+    this.props.onBlur(this.parseValue(e));
   };
 
   getMask(props) {

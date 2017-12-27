@@ -69,7 +69,7 @@ export default class TextArea extends PureComponent {
   onChange = e => {
     if (!this.props.onChange) return;
     let value = e.target.value;
-    this.props.onChange(this.props.name, value);
+    this.props.onChange(value);
   };
 
   render() {

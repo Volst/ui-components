@@ -117,7 +117,7 @@ export default class RadioButtons extends PureComponent {
 
   handleChange = value => {
     if (!this.props.disabled) {
-      this.props.onChange(this.props.name, value);
+      this.props.onChange(value);
     }
   };
 

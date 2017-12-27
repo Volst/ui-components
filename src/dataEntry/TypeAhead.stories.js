@@ -63,11 +63,11 @@ storiesOf('Data Entry / TypeAhead', module)
         value: '',
       };
 
-      handleChange = (name, value) => {
+      handleChange = value => {
         this.setState({
           value: value,
         });
-        action('change')(name, value);
+        action('change')(value);
       };
 
       render() {

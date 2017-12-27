@@ -28,7 +28,7 @@ export default class RadioList extends PureComponent {
   };
 
   renderItem = item => {
-    const handleChange = () => this.props.onChange(this.props.name, item.value);
+    const handleChange = () => this.props.onChange(item.value);
     return (
       <StyledLabel key={item.value} disabled={this.props.disabled}>
         <StyledInput

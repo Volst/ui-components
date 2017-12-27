@@ -49,11 +49,11 @@ storiesOf('Data Entry / MultiSelect', module)
         value: [2],
       };
 
-      handleChange = (name, value) => {
+      handleChange = value => {
         this.setState({
           value: value,
         });
-        action('change')(name, value);
+        action('change')(value);
       };
 
       render() {

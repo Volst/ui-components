@@ -78,11 +78,11 @@ export default class FancySelect extends PureComponent {
   };
 
   handleChange = option => {
-    this.props.onChange(this.props.name, option.value);
+    this.props.onChange(option.value);
   };
 
   handleClear = () => {
-    this.props.onChange(this.props.name, '');
+    this.props.onChange('');
   };
 
   renderDropdown = ({

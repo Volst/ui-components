@@ -52,11 +52,11 @@ storiesOf('Data Entry / FancySelect', module)
         value: '',
       };
 
-      handleChange = (name, value) => {
+      handleChange = value => {
         this.setState({
           value: value,
         });
-        action('change')(name, value);
+        action('change')(value);
       };
 
       render() {

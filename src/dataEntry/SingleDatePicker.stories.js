@@ -30,11 +30,11 @@ storiesOf('Data Entry / SingleDatePicker', module)
         this.setState({ value: moment('1995-01-01') });
       }
 
-      handleChange = (name, value) => {
+      handleChange = value => {
         this.setState({
           value: value,
         });
-        action('change')(name, value);
+        action('change')(value);
       };
 
       render() {

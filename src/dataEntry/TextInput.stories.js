@@ -51,7 +51,7 @@ storiesOf('Data Entry / TextInput', module)
         render() {
           return (
             <TextInput
-              onChange={(name, value) => this.setState({ value })}
+              onChange={value => this.setState({ value })}
               name="myname"
               value={this.state.value}
               spellCheck={false}
