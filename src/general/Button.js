@@ -12,52 +12,52 @@ import { TonePropType } from '../PropTypes';
 const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children', 'small'];
 
 function insertSpanForTextNodes(child) {
-    if (typeof child === 'string') {
-        return <span>{child}</span>;
-    }
-    return child;
+  if (typeof child === 'string') {
+    return <span>{child}</span>;
+  }
+  return child;
 }
 
 function getProps(props) {
-    const newProps = omit(props, OMIT_PROPS);
-    newProps.children = Children.map(props.children, insertSpanForTextNodes);
-    return newProps;
+  const newProps = omit(props, OMIT_PROPS);
+  newProps.children = Children.map(props.children, insertSpanForTextNodes);
+  return newProps;
 }
 
 function getTextColor(props, background) {
-    if (props.link) {
-        return background;
-    }
-    if (props.icon) {
-        const color = props.tone ? background : props.theme.textColor;
-        return props.disabled ? tint(0.25, color) : color;
-    }
-    return readableColor(background);
+  if (props.link) {
+    return background;
+  }
+  if (props.icon) {
+    const color = props.tone ? background : props.theme.textColor;
+    return props.disabled ? tint(0.25, color) : color;
+  }
+  return readableColor(background);
 }
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 export const Button = styled(props => (
-    <button type="button" {...getProps(props)} />
+  <button type="button" {...getProps(props)} />
 ))`
-    display: ${props => (props.link ? 'inline' : 'inline-flex')};
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    line-height: 1;
-    user-select: none;
-    font-size: ${props =>
-        props.link ? 'inherit' : props.small ? '14px' : '16px'};
-    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  display: ${props => (props.link ? 'inline' : 'inline-flex')};
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 1;
+  user-select: none;
+  font-size: ${props =>
+    props.link ? 'inherit' : props.small ? '14px' : '16px'};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 
-    > svg {
-        ${props =>
-            props.icon
-                ? `
+  > svg {
+    ${props =>
+      props.icon
+        ? `
         margin: 6px;
         `
-                : `
+        : `
         &:first-child {
             margin-right: 6px;
         }
@@ -68,30 +68,30 @@ export const Button = styled(props => (
             margin: 0;
         }
         `};
-    }
+  }
 
-    ${props =>
-        props.fullWidth &&
-        `
+  ${props =>
+    props.fullWidth &&
+    `
         margin: 5px 0;
         width: 100%;
     `};
-    ${props => {
-        const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
-        const textColor = getTextColor(props, background);
+  ${props => {
+    const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
+    const textColor = getTextColor(props, background);
 
-        if (props.icon) {
-            return `color: ${textColor};`;
-        }
+    if (props.icon) {
+      return `color: ${textColor};`;
+    }
 
-        if (props.link) {
-            return `
+    if (props.link) {
+      return `
                 color: ${textColor};
                 text-decoration: underline;
             `;
-        }
+    }
 
-        return `
+    return `
             color: ${textColor};
             height: ${props.small ? '24px' : '30px'};
             padding: ${props.small ? '0 5px' : '0 10px'};
@@ -101,15 +101,15 @@ export const Button = styled(props => (
             vertical-align: middle;
 
             ${
-                props.disabled
-                    ? `
+              props.disabled
+                ? `
                 background: ${tint(
-                    props.tone === 'light' ? 0.5 : 0.25,
-                    background
+                  props.tone === 'light' ? 0.5 : 0.25,
+                  background
                 )};
                 color: ${tint(0.4, textColor)};
             `
-                    : `
+                : `
                 background: ${background};
 
                 &:hover {
@@ -126,31 +126,31 @@ export const Button = styled(props => (
             `
             }
     `;
-    }};
+  }};
 `;
 Button.displayName = 'Button';
 Button.propTypes = {
-    onClick: PropTypes.func,
-    link: PropTypes.bool,
-    icon: PropTypes.bool,
-    fullWidth: PropTypes.bool,
-    disabled: PropTypes.bool,
-    tone: TonePropType,
-    small: PropTypes.bool,
+  onClick: PropTypes.func,
+  link: PropTypes.bool,
+  icon: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  disabled: PropTypes.bool,
+  tone: TonePropType,
+  small: PropTypes.bool,
 };
 
 export const ExternalLink = Button.withComponent(props => {
-    if (props.disabled) {
-        return <button {...getProps(props)} />;
-    }
-    return <a {...getProps(props)} />;
+  if (props.disabled) {
+    return <button {...getProps(props)} />;
+  }
+  return <a {...getProps(props)} />;
 });
 ExternalLink.displayName = 'ExternalLink';
 
 export const Link = Button.withComponent(props => {
-    if (props.disabled) {
-        return <button {...getProps(props)} />;
-    }
-    return <RouterLink {...getProps(props)} />;
+  if (props.disabled) {
+    return <button {...getProps(props)} />;
+  }
+  return <RouterLink {...getProps(props)} />;
 });
 Link.displayName = 'Link';

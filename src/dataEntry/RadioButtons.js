@@ -6,17 +6,17 @@ import { readableColor } from '../config';
 import { uniqueId } from 'lodash';
 
 const StyledDiv = styled.div`
-    -webkit-touch-callout: none;
-    user-select: none;
-    display: flex;
-    align-items: stretch;
-    flex-direction: ${props => (props.vertical ? 'column' : 'row')};
-    flex-wrap: nowrap;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    ${props =>
-        props.focus &&
-        `
+  -webkit-touch-callout: none;
+  user-select: none;
+  display: flex;
+  align-items: stretch;
+  flex-direction: ${props => (props.vertical ? 'column' : 'row')};
+  flex-wrap: nowrap;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  ${props =>
+    props.focus &&
+    `
         label {
             border-color: ${props.theme.primaryColor};
         }
@@ -24,148 +24,148 @@ const StyledDiv = styled.div`
 `;
 
 const Option = styled.div`
-    flex: 1;
-    display: flex;
-    justify-content: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
 
-    &:first-child > label {
-        ${props =>
-            props.vertical
-                ? `
+  &:first-child > label {
+    ${props =>
+      props.vertical
+        ? `
                 border-top-left-radius: 4px;
                 border-top-right-radius: 4px;
                 border-top-width: 1px;
             `
-                : `
+        : `
             border-top-left-radius: 4px;
             border-bottom-left-radius: 4px;
             border-left-width: 1px;
         `};
-    }
+  }
 
-    &:last-child > label {
-        ${props =>
-            props.vertical
-                ? `
+  &:last-child > label {
+    ${props =>
+      props.vertical
+        ? `
                 border-bottom-left-radius: 4px;
                 border-bottom-right-radius: 4px;
             `
-                : `
+        : `
                 border-top-right-radius: 4px;
                 border-bottom-right-radius: 4px;
         `};
-    }
+  }
 `;
 
 const StyledLabel = styled.label`
-    flex: 1;
-    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-    padding: 5px;
-    text-align: center;
-    border: 1px solid ${props => props.theme.borderColor};
-    ${props =>
-        props.vertical
-            ? `
+  flex: 1;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  padding: 5px;
+  text-align: center;
+  border: 1px solid ${props => props.theme.borderColor};
+  ${props =>
+    props.vertical
+      ? `
             border-top-width: 0;
             `
-            : `
+      : `
         border-left-width: 0;
     `};
-    background: ${props =>
-        props.theme[props.disabled ? 'disabledColor' : 'componentBackground']};
-    font-size: 14px;
-    color: ${props => props.theme.textColor};
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  background: ${props =>
+    props.theme[props.disabled ? 'disabledColor' : 'componentBackground']};
+  font-size: 14px;
+  color: ${props => props.theme.textColor};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const StyledInput = styled.input`
-    position: fixed;
-    left: -999999px;
-    opacity: 0;
-    &:checked + label {
-        ${props => {
-            const background = props.disabled
-                ? props.theme.borderColor
-                : props.theme.primaryColor;
-            return `
+  position: fixed;
+  left: -999999px;
+  opacity: 0;
+  &:checked + label {
+    ${props => {
+      const background = props.disabled
+        ? props.theme.borderColor
+        : props.theme.primaryColor;
+      return `
                 background: ${background};
                 border-color: ${background};
                 box-shadow: ${`${
-                    props.vertical ? '0px -1px' : '-1px 0'
+                  props.vertical ? '0px -1px' : '-1px 0'
                 } ${background}`};
                 color: ${readableColor(background)};
             `;
-        }};
-    }
+    }};
+  }
 `;
 
 export default class RadioButtons extends PureComponent {
-    static propTypes = {
-        onChange: PropTypes.func,
-        name: PropTypes.string,
-        disabled: PropTypes.bool,
-        options: OptionsPropType,
-        value: ValuePropType,
-        vertical: PropTypes.bool,
-    };
+  static propTypes = {
+    onChange: PropTypes.func,
+    name: PropTypes.string,
+    disabled: PropTypes.bool,
+    options: OptionsPropType,
+    value: ValuePropType,
+    vertical: PropTypes.bool,
+  };
 
-    state = {
-        hasFocus: false,
-    };
+  state = {
+    hasFocus: false,
+  };
 
-    handleChange = value => {
-        if (!this.props.disabled) {
-            this.props.onChange(this.props.name, value);
-        }
-    };
-
-    renderItem = item => {
-        const handleChange = () => this.handleChange(item.value);
-        const id = `radiobuttons-${uniqueId()}`;
-
-        return (
-            <Option key={item.value} vertical={this.props.vertical}>
-                <StyledInput
-                    id={id}
-                    tabIndex="0"
-                    type="radio"
-                    name={this.props.name}
-                    checked={item.value === this.props.value}
-                    onChange={handleChange}
-                    disabled={this.props.disabled}
-                    vertical={this.props.vertical}
-                />
-                <StyledLabel
-                    htmlFor={id}
-                    disabled={this.props.disabled}
-                    vertical={this.props.vertical}
-                >
-                    {item.label}
-                </StyledLabel>
-            </Option>
-        );
-    };
-
-    handleFocus = () => {
-        this.setState({ hasFocus: true });
-    };
-
-    handleBlur = () => {
-        this.setState({ hasFocus: false });
-    };
-
-    render() {
-        return (
-            <StyledDiv
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
-                focus={this.state.hasFocus}
-                vertical={this.props.vertical}
-            >
-                {this.props.options.map(this.renderItem)}
-            </StyledDiv>
-        );
+  handleChange = value => {
+    if (!this.props.disabled) {
+      this.props.onChange(this.props.name, value);
     }
+  };
+
+  renderItem = item => {
+    const handleChange = () => this.handleChange(item.value);
+    const id = `radiobuttons-${uniqueId()}`;
+
+    return (
+      <Option key={item.value} vertical={this.props.vertical}>
+        <StyledInput
+          id={id}
+          tabIndex="0"
+          type="radio"
+          name={this.props.name}
+          checked={item.value === this.props.value}
+          onChange={handleChange}
+          disabled={this.props.disabled}
+          vertical={this.props.vertical}
+        />
+        <StyledLabel
+          htmlFor={id}
+          disabled={this.props.disabled}
+          vertical={this.props.vertical}
+        >
+          {item.label}
+        </StyledLabel>
+      </Option>
+    );
+  };
+
+  handleFocus = () => {
+    this.setState({ hasFocus: true });
+  };
+
+  handleBlur = () => {
+    this.setState({ hasFocus: false });
+  };
+
+  render() {
+    return (
+      <StyledDiv
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        focus={this.state.hasFocus}
+        vertical={this.props.vertical}
+      >
+        {this.props.options.map(this.renderItem)}
+      </StyledDiv>
+    );
+  }
 }

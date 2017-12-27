@@ -26,12 +26,12 @@ export { default as DateRangePicker } from './dataEntry/DateRangePicker';
 export { default as Tooltip } from './dataDisplay/Tooltip';
 export { default as Accordion } from './dataDisplay/Accordion';
 export {
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableHeader,
-    TableData,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableHeader,
+  TableData,
 } from './dataDisplay/Table';
 
 export { default as AppContainer } from './layout/layout/AppContainer';
@@ -52,12 +52,12 @@ export { default as Logo } from './navigation/topMenu/Logo';
 export { default as MenuRow } from './navigation/topMenu/MenuRow';
 export { default as NavItem } from './navigation/topMenu/NavItem';
 export {
-    default as NavItemExternal,
+  default as NavItemExternal,
 } from './navigation/topMenu/NavItemExternal';
 export { default as NavMenu } from './navigation/topMenu/NavMenu';
 export {
-    Dropdown,
-    DropdownOverlay,
-    DropdownMenu,
-    DropdownItem,
+  Dropdown,
+  DropdownOverlay,
+  DropdownMenu,
+  DropdownItem,
 } from './navigation/Dropdown';

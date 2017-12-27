@@ -6,16 +6,16 @@ import Delete from './icon/IconDelete';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('General / Icon', module)
-    .addDecorator(CenterDecorator)
-    .add(
-        'standard',
-        withInfo()(() => {
-            return <AccessAlarm />;
-        })
-    )
-    .add(
-        'with color',
-        withInfo()(() => {
-            return <Delete color="red" />;
-        })
-    );
+  .addDecorator(CenterDecorator)
+  .add(
+    'standard',
+    withInfo()(() => {
+      return <AccessAlarm />;
+    })
+  )
+  .add(
+    'with color',
+    withInfo()(() => {
+      return <Delete color="red" />;
+    })
+  );

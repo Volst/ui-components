@@ -66,33 +66,30 @@ const injectGlobalStyles = theme => injectGlobal`
 `;
 
 export default class VolstTheme extends Component {
-    static propTypes = {
-        theme: PropTypes.object,
-        children: PropTypes.node,
-    };
-    static defaultProps = {
-        theme: {},
-    };
-    getTheme = () => {
-        const theme = this.props.theme;
-        // Fallback to the value of the fallbackProp
-        const fallback = mapValues(
-            themeOverrides,
-            (fallbackProp, overrideProp) => {
-                return theme[fallbackProp] || defaultConfig[fallbackProp];
-            }
-        );
+  static propTypes = {
+    theme: PropTypes.object,
+    children: PropTypes.node,
+  };
+  static defaultProps = {
+    theme: {},
+  };
+  getTheme = () => {
+    const theme = this.props.theme;
+    // Fallback to the value of the fallbackProp
+    const fallback = mapValues(themeOverrides, (fallbackProp, overrideProp) => {
+      return theme[fallbackProp] || defaultConfig[fallbackProp];
+    });
 
-        return Object.assign({}, defaultConfig, fallback, theme);
-    };
-    componentDidMount() {
-        injectGlobalStyles(this.getTheme());
-    }
-    render() {
-        return (
-            <ThemeProvider theme={this.getTheme()}>
-                {this.props.children}
-            </ThemeProvider>
-        );
-    }
+    return Object.assign({}, defaultConfig, fallback, theme);
+  };
+  componentDidMount() {
+    injectGlobalStyles(this.getTheme());
+  }
+  render() {
+    return (
+      <ThemeProvider theme={this.getTheme()}>
+        {this.props.children}
+      </ThemeProvider>
+    );
+  }
 }

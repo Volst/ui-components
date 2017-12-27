@@ -49,16 +49,16 @@ const DatePickerWrapper = styled.div`
         top: -0.2rem;
         left: 1rem;
         background-image: url('data:image/svg+xml;utf8,<svg fill="${props =>
-            props.theme
-                .textColor}" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+          props.theme
+            .textColor}" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     }
 
     .DayPicker-NavButton--next {
         top: -0.2rem;
         right: 1rem;
         background-image: url('data:image/svg+xml;utf8,<svg fill="${props =>
-            props.theme
-                .textColor}" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+          props.theme
+            .textColor}" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     }
 
     .DayPicker-NavButton--interactionDisabled {
@@ -184,7 +184,7 @@ const DatePickerWrapper = styled.div`
     /* DateRange stuff */
     .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
         background-color: ${props =>
-            setLightness(0.93, props.theme.primaryColor)} !important;
+          setLightness(0.93, props.theme.primaryColor)} !important;
         color: ${props => props.theme.textColor};
     }
     .Selectable .DayPicker-Day {

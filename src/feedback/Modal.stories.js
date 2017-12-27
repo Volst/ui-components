@@ -6,14 +6,14 @@ import Modal from './Modal';
 import FullDecorator from '../../storybook/FullDecorator';
 
 storiesOf('Feedback / Modal', module)
-    .addDecorator(FullDecorator)
-    .add(
-        'standard',
-        withInfo()(() => {
-            return (
-                <Modal onClose={action('close')}>
-                    <p>This is some modal content.</p>
-                </Modal>
-            );
-        })
-    );
+  .addDecorator(FullDecorator)
+  .add(
+    'standard',
+    withInfo()(() => {
+      return (
+        <Modal onClose={action('close')}>
+          <p>This is some modal content.</p>
+        </Modal>
+      );
+    })
+  );

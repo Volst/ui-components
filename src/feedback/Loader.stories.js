@@ -5,10 +5,10 @@ import CenterDecorator from '../../storybook/CenterDecorator';
 import Loader from './Loader';
 
 storiesOf('Feedback / Loader', module)
-    .addDecorator(CenterDecorator)
-    .add(
-        'standard',
-        withInfo()(() => {
-            return <Loader show />;
-        })
-    );
+  .addDecorator(CenterDecorator)
+  .add(
+    'standard',
+    withInfo()(() => {
+      return <Loader show />;
+    })
+  );

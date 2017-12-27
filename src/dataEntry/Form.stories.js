@@ -7,14 +7,14 @@ import { Button } from '../general/Button';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('Data Entry / Form', module)
-    .addDecorator(CenterDecorator)
-    .add(
-        'standard',
-        withInfo()(() => {
-            return (
-                <Form onSubmit={action('submit')}>
-                    <Button type="submit">Submit</Button>
-                </Form>
-            );
-        })
-    );
+  .addDecorator(CenterDecorator)
+  .add(
+    'standard',
+    withInfo()(() => {
+      return (
+        <Form onSubmit={action('submit')}>
+          <Button type="submit">Submit</Button>
+        </Form>
+      );
+    })
+  );

@@ -1,28 +1,28 @@
 import styled from 'styled-components';
 
 export default styled.div`
-    height: 50px;
-    display: flex;
-    align-items: stretch;
+  height: 50px;
+  display: flex;
+  align-items: stretch;
 
-    transition: 175ms height ease;
+  transition: 175ms height ease;
 
-    &:empty {
-        height: 10px;
+  &:empty {
+    height: 10px;
+  }
+
+  &:nth-child(even) {
+    background: ${props => props.theme.primaryColor};
+    color: white;
+
+    .nav-item:before {
+      border-bottom-color: #fff;
     }
+  }
 
-    &:nth-child(even) {
-        background: ${props => props.theme.primaryColor};
-        color: white;
-
-        .nav-item:before {
-            border-bottom-color: #fff;
-        }
-    }
-
-    ${props =>
-        props.inContent &&
-        `
+  ${props =>
+    props.inContent &&
+    `
         margin: -20px -20px 0 -20px;
         border-bottom: 1px solid ${props.theme.primaryColor};
         .nav-item:after {

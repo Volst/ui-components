@@ -7,71 +7,71 @@ import CenterDecorator from '../../storybook/CenterDecorator';
 import moment from 'moment';
 
 storiesOf('Data Entry / SingleDatePicker', module)
-    .addDecorator(CenterDecorator)
-    .add(
-        'standard',
-        withInfo()(() => {
-            return (
-                <SingleDatePicker
-                    onChange={action('change')}
-                    name="myname"
-                    value={moment()}
-                />
-            );
-        })
-    )
-    .add('controlled', () => {
-        class MyComponent extends Component {
-            state = {
-                value: null,
-            };
-
-            componentDidMount() {
-                this.setState({ value: moment('1995-01-01') });
-            }
-
-            handleChange = (name, value) => {
-                this.setState({
-                    value: value,
-                });
-                action('change')(name, value);
-            };
-
-            render() {
-                return (
-                    <SingleDatePicker
-                        onChange={this.handleChange}
-                        name="myname"
-                        value={this.state.value}
-                    />
-                );
-            }
-        }
-        return <MyComponent />;
+  .addDecorator(CenterDecorator)
+  .add(
+    'standard',
+    withInfo()(() => {
+      return (
+        <SingleDatePicker
+          onChange={action('change')}
+          name="myname"
+          value={moment()}
+        />
+      );
     })
-    .add(
-        'with error',
-        withInfo()(() => {
-            return (
-                <SingleDatePicker
-                    hasError
-                    onChange={action('change')}
-                    name="myname"
-                    value={moment()}
-                />
-            );
-        })
-    )
-    .add(
-        'disabled',
-        withInfo()(() => {
-            return (
-                <SingleDatePicker
-                    disabled
-                    onChange={action('change')}
-                    name="myname"
-                    value={moment()}
-                />
-            );
-        })
-    );
+  )
+  .add('controlled', () => {
+    class MyComponent extends Component {
+      state = {
+        value: null,
+      };
+
+      componentDidMount() {
+        this.setState({ value: moment('1995-01-01') });
+      }
+
+      handleChange = (name, value) => {
+        this.setState({
+          value: value,
+        });
+        action('change')(name, value);
+      };
+
+      render() {
+        return (
+          <SingleDatePicker
+            onChange={this.handleChange}
+            name="myname"
+            value={this.state.value}
+          />
+        );
+      }
+    }
+    return <MyComponent />;
+  })
+  .add(
+    'with error',
+    withInfo()(() => {
+      return (
+        <SingleDatePicker
+          hasError
+          onChange={action('change')}
+          name="myname"
+          value={moment()}
+        />
+      );
+    })
+  )
+  .add(
+    'disabled',
+    withInfo()(() => {
+      return (
+        <SingleDatePicker
+          disabled
+          onChange={action('change')}
+          name="myname"
+          value={moment()}
+        />
+      );
+    })
+  );

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 const StyledAside = styled.aside`
-    ${props => {
-        const width = props.medium ? 450 : 350;
-        return `
+  ${props => {
+    const width = props.medium ? 450 : 350;
+    return `
             width: ${width}px;
             background: ${props.theme.lightColor};
 
@@ -31,24 +31,24 @@ const StyledAside = styled.aside`
                 transition: margin 300ms ease;
             }
         `;
-    }};
+  }};
 `;
 
 const Content = styled.div`
-    padding: 25px;
+  padding: 25px;
 `;
 
 const Sidebar = ({ children, medium }) => (
-    <StyledAside medium={medium}>
-        <Scrollbars>
-            <Content>{children}</Content>
-        </Scrollbars>
-    </StyledAside>
+  <StyledAside medium={medium}>
+    <Scrollbars>
+      <Content>{children}</Content>
+    </Scrollbars>
+  </StyledAside>
 );
 
 Sidebar.propTypes = {
-    children: PropTypes.node,
-    medium: PropTypes.bool,
+  children: PropTypes.node,
+  medium: PropTypes.bool,
 };
 
 export default Sidebar;

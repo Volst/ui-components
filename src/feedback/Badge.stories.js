@@ -7,52 +7,52 @@ import IconChat from '../general/icon/IconChat';
 import Badge from './Badge';
 
 storiesOf('Feedback / Badge', module)
-    .addDecorator(CenterDecorator)
-    .add(
-        'with one unread',
-        withInfo()(() => {
-            return (
-                <Button icon>
-                    <Badge count={1}>
-                        <IconChat width="30" height="30" color="#006b94" />
-                    </Badge>
-                </Button>
-            );
-        })
-    )
-    .add(
-        'with thousands unread',
-        withInfo()(() => {
-            return (
-                <Button icon>
-                    <Badge count={9999}>
-                        <IconChat width="30" height="30" color="#006b94" />
-                    </Badge>
-                </Button>
-            );
-        })
-    )
-    .add(
-        'hidden',
-        withInfo()(() => {
-            return (
-                <Button icon>
-                    <Badge count={0}>
-                        <IconChat width="30" height="30" color="#006b94" />
-                    </Badge>
-                </Button>
-            );
-        })
-    )
-    .add(
-        'without number',
-        withInfo()(() => {
-            return (
-                <Button icon>
-                    <Badge>
-                        <IconChat width="30" height="30" color="#006b94" />
-                    </Badge>
-                </Button>
-            );
-        })
-    );
+  .addDecorator(CenterDecorator)
+  .add(
+    'with one unread',
+    withInfo()(() => {
+      return (
+        <Button icon>
+          <Badge count={1}>
+            <IconChat width="30" height="30" color="#006b94" />
+          </Badge>
+        </Button>
+      );
+    })
+  )
+  .add(
+    'with thousands unread',
+    withInfo()(() => {
+      return (
+        <Button icon>
+          <Badge count={9999}>
+            <IconChat width="30" height="30" color="#006b94" />
+          </Badge>
+        </Button>
+      );
+    })
+  )
+  .add(
+    'hidden',
+    withInfo()(() => {
+      return (
+        <Button icon>
+          <Badge count={0}>
+            <IconChat width="30" height="30" color="#006b94" />
+          </Badge>
+        </Button>
+      );
+    })
+  )
+  .add(
+    'without number',
+    withInfo()(() => {
+      return (
+        <Button icon>
+          <Badge>
+            <IconChat width="30" height="30" color="#006b94" />
+          </Badge>
+        </Button>
+      );
+    })
+  );

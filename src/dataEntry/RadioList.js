@@ -6,44 +6,43 @@ import { ValuePropType, OptionsPropType } from '../PropTypes';
 const StyledDiv = styled.div``;
 
 const StyledLabel = styled.label`
-    width: 100%;
-    margin-bottom: 3px;
-    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-    display: flex;
-    word-break: break-word;
+  width: 100%;
+  margin-bottom: 3px;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  display: flex;
+  word-break: break-word;
 `;
 
 const StyledInput = styled.input`
-    margin-right: 5px;
-    position: relative;
+  margin-right: 5px;
+  position: relative;
 `;
 
 export default class RadioList extends PureComponent {
-    static propTypes = {
-        onChange: PropTypes.func,
-        name: PropTypes.string,
-        disabled: PropTypes.bool,
-        options: OptionsPropType,
-        value: ValuePropType,
-    };
+  static propTypes = {
+    onChange: PropTypes.func,
+    name: PropTypes.string,
+    disabled: PropTypes.bool,
+    options: OptionsPropType,
+    value: ValuePropType,
+  };
 
-    renderItem = item => {
-        const handleChange = () =>
-            this.props.onChange(this.props.name, item.value);
-        return (
-            <StyledLabel key={item.value} disabled={this.props.disabled}>
-                <StyledInput
-                    type="radio"
-                    onChange={handleChange}
-                    checked={item.value === this.props.value}
-                    disabled={this.props.disabled}
-                />
-                {item.label}
-            </StyledLabel>
-        );
-    };
+  renderItem = item => {
+    const handleChange = () => this.props.onChange(this.props.name, item.value);
+    return (
+      <StyledLabel key={item.value} disabled={this.props.disabled}>
+        <StyledInput
+          type="radio"
+          onChange={handleChange}
+          checked={item.value === this.props.value}
+          disabled={this.props.disabled}
+        />
+        {item.label}
+      </StyledLabel>
+    );
+  };
 
-    render() {
-        return <StyledDiv>{this.props.options.map(this.renderItem)}</StyledDiv>;
-    }
+  render() {
+    return <StyledDiv>{this.props.options.map(this.renderItem)}</StyledDiv>;
+  }
 }

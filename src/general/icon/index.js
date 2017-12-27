@@ -5,7 +5,7 @@ export { default as IconAccessible } from './IconAccessible';
 export { default as IconAccessTime } from './IconAccessTime';
 export { default as IconAccountBalance } from './IconAccountBalance';
 export {
-    default as IconAccountBalanceWallet,
+  default as IconAccountBalanceWallet,
 } from './IconAccountBalanceWallet';
 export { default as IconAccountBox } from './IconAccountBox';
 export { default as IconAccountCircle } from './IconAccountCircle';
@@ -25,29 +25,29 @@ export { default as IconAddToQueue } from './IconAddToQueue';
 export { default as IconAdjust } from './IconAdjust';
 export { default as IconAirlineSeatFlat } from './IconAirlineSeatFlat';
 export {
-    default as IconAirlineSeatFlatAngled,
+  default as IconAirlineSeatFlatAngled,
 } from './IconAirlineSeatFlatAngled';
 export {
-    default as IconAirlineSeatIndividualSuite,
+  default as IconAirlineSeatIndividualSuite,
 } from './IconAirlineSeatIndividualSuite';
 export {
-    default as IconAirlineSeatLegroomExtra,
+  default as IconAirlineSeatLegroomExtra,
 } from './IconAirlineSeatLegroomExtra';
 export {
-    default as IconAirlineSeatLegroomNormal,
+  default as IconAirlineSeatLegroomNormal,
 } from './IconAirlineSeatLegroomNormal';
 export {
-    default as IconAirlineSeatLegroomReduced,
+  default as IconAirlineSeatLegroomReduced,
 } from './IconAirlineSeatLegroomReduced';
 export {
-    default as IconAirlineSeatReclineExtra,
+  default as IconAirlineSeatReclineExtra,
 } from './IconAirlineSeatReclineExtra';
 export {
-    default as IconAirlineSeatReclineNormal,
+  default as IconAirlineSeatReclineNormal,
 } from './IconAirlineSeatReclineNormal';
 export { default as IconAirplanemodeActive } from './IconAirplanemodeActive';
 export {
-    default as IconAirplanemodeInactive,
+  default as IconAirplanemodeInactive,
 } from './IconAirplanemodeInactive';
 export { default as IconAirplay } from './IconAirplay';
 export { default as IconAirportShuttle } from './IconAirportShuttle';
@@ -185,7 +185,7 @@ export { default as IconChatBubbleOutline } from './IconChatBubbleOutline';
 export { default as IconCheck } from './IconCheck';
 export { default as IconCheckBox } from './IconCheckBox';
 export {
-    default as IconCheckBoxOutlineBlank,
+  default as IconCheckBoxOutlineBlank,
 } from './IconCheckBoxOutlineBlank';
 export { default as IconCheckCircle } from './IconCheckCircle';
 export { default as IconChevronLeft } from './IconChevronLeft';
@@ -223,7 +223,7 @@ export { default as IconContentCut } from './IconContentCut';
 export { default as IconContentPaste } from './IconContentPaste';
 export { default as IconControlPoint } from './IconControlPoint';
 export {
-    default as IconControlPointDuplicate,
+  default as IconControlPointDuplicate,
 } from './IconControlPointDuplicate';
 export { default as IconCopyright } from './IconCopyright';
 export { default as IconCreate } from './IconCreate';
@@ -378,10 +378,10 @@ export { default as IconFormatColorFill } from './IconFormatColorFill';
 export { default as IconFormatColorReset } from './IconFormatColorReset';
 export { default as IconFormatColorText } from './IconFormatColorText';
 export {
-    default as IconFormatIndentDecrease,
+  default as IconFormatIndentDecrease,
 } from './IconFormatIndentDecrease';
 export {
-    default as IconFormatIndentIncrease,
+  default as IconFormatIndentIncrease,
 } from './IconFormatIndentIncrease';
 export { default as IconFormatItalic } from './IconFormatItalic';
 export { default as IconFormatLineSpacing } from './IconFormatLineSpacing';
@@ -393,10 +393,10 @@ export { default as IconFormatShapes } from './IconFormatShapes';
 export { default as IconFormatSize } from './IconFormatSize';
 export { default as IconFormatStrikethrough } from './IconFormatStrikethrough';
 export {
-    default as IconFormatTextdirectionLToR,
+  default as IconFormatTextdirectionLToR,
 } from './IconFormatTextdirectionLToR';
 export {
-    default as IconFormatTextdirectionRToL,
+  default as IconFormatTextdirectionRToL,
 } from './IconFormatTextdirectionRToL';
 export { default as IconFormatUnderlined } from './IconFormatUnderlined';
 export { default as IconForum } from './IconForum';
@@ -457,7 +457,7 @@ export { default as IconImportContacts } from './IconImportContacts';
 export { default as IconImportExport } from './IconImportExport';
 export { default as IconInbox } from './IconInbox';
 export {
-    default as IconIndeterminateCheckBox,
+  default as IconIndeterminateCheckBox,
 } from './IconIndeterminateCheckBox';
 export { default as IconInfo } from './IconInfo';
 export { default as IconInfoOutline } from './IconInfoOutline';
@@ -518,7 +518,7 @@ export { default as IconLocalBar } from './IconLocalBar';
 export { default as IconLocalCafe } from './IconLocalCafe';
 export { default as IconLocalCarWash } from './IconLocalCarWash';
 export {
-    default as IconLocalConvenienceStore,
+  default as IconLocalConvenienceStore,
 } from './IconLocalConvenienceStore';
 export { default as IconLocalDining } from './IconLocalDining';
 export { default as IconLocalDrink } from './IconLocalDrink';
@@ -643,7 +643,7 @@ export { default as IconPermCameraMic } from './IconPermCameraMic';
 export { default as IconPermContactCalendar } from './IconPermContactCalendar';
 export { default as IconPermDataSetting } from './IconPermDataSetting';
 export {
-    default as IconPermDeviceInformation,
+  default as IconPermDeviceInformation,
 } from './IconPermDeviceInformation';
 export { default as IconPermIdentity } from './IconPermIdentity';
 export { default as IconPermMedia } from './IconPermMedia';
@@ -659,7 +659,7 @@ export { default as IconPets } from './IconPets';
 export { default as IconPhone } from './IconPhone';
 export { default as IconPhoneAndroid } from './IconPhoneAndroid';
 export {
-    default as IconPhoneBluetoothSpeaker,
+  default as IconPhoneBluetoothSpeaker,
 } from './IconPhoneBluetoothSpeaker';
 export { default as IconPhoneForwarded } from './IconPhoneForwarded';
 export { default as IconPhoneInTalk } from './IconPhoneInTalk';
@@ -679,13 +679,13 @@ export { default as IconPhotoCamera } from './IconPhotoCamera';
 export { default as IconPhotoFilter } from './IconPhotoFilter';
 export { default as IconPhotoLibrary } from './IconPhotoLibrary';
 export {
-    default as IconPhotoSizeSelectActual,
+  default as IconPhotoSizeSelectActual,
 } from './IconPhotoSizeSelectActual';
 export {
-    default as IconPhotoSizeSelectLarge,
+  default as IconPhotoSizeSelectLarge,
 } from './IconPhotoSizeSelectLarge';
 export {
-    default as IconPhotoSizeSelectSmall,
+  default as IconPhotoSizeSelectSmall,
 } from './IconPhotoSizeSelectSmall';
 export { default as IconPictureAsPdf } from './IconPictureAsPdf';
 export { default as IconPictureInPicture } from './IconPictureInPicture';
@@ -724,7 +724,7 @@ export { default as IconQueuePlayNext } from './IconQueuePlayNext';
 export { default as IconRadio } from './IconRadio';
 export { default as IconRadioButtonChecked } from './IconRadioButtonChecked';
 export {
-    default as IconRadioButtonUnchecked,
+  default as IconRadioButtonUnchecked,
 } from './IconRadioButtonUnchecked';
 export { default as IconRateReview } from './IconRateReview';
 export { default as IconReceipt } from './IconReceipt';
@@ -782,35 +782,35 @@ export { default as IconSecurity } from './IconSecurity';
 export { default as IconSelectAll } from './IconSelectAll';
 export { default as IconSend } from './IconSend';
 export {
-    default as IconSentimentDissatisfied,
+  default as IconSentimentDissatisfied,
 } from './IconSentimentDissatisfied';
 export { default as IconSentimentNeutral } from './IconSentimentNeutral';
 export { default as IconSentimentSatisfied } from './IconSentimentSatisfied';
 export {
-    default as IconSentimentVeryDissatisfied,
+  default as IconSentimentVeryDissatisfied,
 } from './IconSentimentVeryDissatisfied';
 export {
-    default as IconSentimentVerySatisfied,
+  default as IconSentimentVerySatisfied,
 } from './IconSentimentVerySatisfied';
 export { default as IconSettings } from './IconSettings';
 export {
-    default as IconSettingsApplications,
+  default as IconSettingsApplications,
 } from './IconSettingsApplications';
 export {
-    default as IconSettingsBackupRestore,
+  default as IconSettingsBackupRestore,
 } from './IconSettingsBackupRestore';
 export { default as IconSettingsBluetooth } from './IconSettingsBluetooth';
 export { default as IconSettingsBrightness } from './IconSettingsBrightness';
 export { default as IconSettingsCell } from './IconSettingsCell';
 export { default as IconSettingsEthernet } from './IconSettingsEthernet';
 export {
-    default as IconSettingsInputAntenna,
+  default as IconSettingsInputAntenna,
 } from './IconSettingsInputAntenna';
 export {
-    default as IconSettingsInputComponent,
+  default as IconSettingsInputComponent,
 } from './IconSettingsInputComponent';
 export {
-    default as IconSettingsInputComposite,
+  default as IconSettingsInputComposite,
 } from './IconSettingsInputComposite';
 export { default as IconSettingsInputHdmi } from './IconSettingsInputHdmi';
 export { default as IconSettingsInputSvideo } from './IconSettingsInputSvideo';
@@ -819,7 +819,7 @@ export { default as IconSettingsPhone } from './IconSettingsPhone';
 export { default as IconSettingsPower } from './IconSettingsPower';
 export { default as IconSettingsRemote } from './IconSettingsRemote';
 export {
-    default as IconSettingsSystemDaydream,
+  default as IconSettingsSystemDaydream,
 } from './IconSettingsSystemDaydream';
 export { default as IconSettingsVoice } from './IconSettingsVoice';
 export { default as IconShare } from './IconShare';
@@ -836,19 +836,19 @@ export { default as IconSignalCellular2Bar } from './IconSignalCellular2Bar';
 export { default as IconSignalCellular3Bar } from './IconSignalCellular3Bar';
 export { default as IconSignalCellular4Bar } from './IconSignalCellular4Bar';
 export {
-    default as IconSignalCellularConnectedNoInternet0Bar,
+  default as IconSignalCellularConnectedNoInternet0Bar,
 } from './IconSignalCellularConnectedNoInternet0Bar';
 export {
-    default as IconSignalCellularConnectedNoInternet1Bar,
+  default as IconSignalCellularConnectedNoInternet1Bar,
 } from './IconSignalCellularConnectedNoInternet1Bar';
 export {
-    default as IconSignalCellularConnectedNoInternet2Bar,
+  default as IconSignalCellularConnectedNoInternet2Bar,
 } from './IconSignalCellularConnectedNoInternet2Bar';
 export {
-    default as IconSignalCellularConnectedNoInternet3Bar,
+  default as IconSignalCellularConnectedNoInternet3Bar,
 } from './IconSignalCellularConnectedNoInternet3Bar';
 export {
-    default as IconSignalCellularConnectedNoInternet4Bar,
+  default as IconSignalCellularConnectedNoInternet4Bar,
 } from './IconSignalCellularConnectedNoInternet4Bar';
 export { default as IconSignalCellularNoSim } from './IconSignalCellularNoSim';
 export { default as IconSignalCellularNull } from './IconSignalCellularNull';
@@ -890,11 +890,11 @@ export { default as IconStarBorder } from './IconStarBorder';
 export { default as IconStarHalf } from './IconStarHalf';
 export { default as IconStars } from './IconStars';
 export {
-    default as IconStayCurrentLandscape,
+  default as IconStayCurrentLandscape,
 } from './IconStayCurrentLandscape';
 export { default as IconStayCurrentPortrait } from './IconStayCurrentPortrait';
 export {
-    default as IconStayPrimaryLandscape,
+  default as IconStayPrimaryLandscape,
 } from './IconStayPrimaryLandscape';
 export { default as IconStayPrimaryPortrait } from './IconStayPrimaryPortrait';
 export { default as IconStop } from './IconStop';
@@ -907,10 +907,10 @@ export { default as IconStreetview } from './IconStreetview';
 export { default as IconStrikethroughS } from './IconStrikethroughS';
 export { default as IconStyle } from './IconStyle';
 export {
-    default as IconSubdirectoryArrowLeft,
+  default as IconSubdirectoryArrowLeft,
 } from './IconSubdirectoryArrowLeft';
 export {
-    default as IconSubdirectoryArrowRight,
+  default as IconSubdirectoryArrowRight,
 } from './IconSubdirectoryArrowRight';
 export { default as IconSubject } from './IconSubject';
 export { default as IconSubscriptions } from './IconSubscriptions';
@@ -965,7 +965,7 @@ export { default as IconTraffic } from './IconTraffic';
 export { default as IconTrain } from './IconTrain';
 export { default as IconTram } from './IconTram';
 export {
-    default as IconTransferWithinAStation,
+  default as IconTransferWithinAStation,
 } from './IconTransferWithinAStation';
 export { default as IconTransform } from './IconTransform';
 export { default as IconTranslate } from './IconTranslate';

@@ -8,85 +8,81 @@ import IconDelete from '../general/icon/IconDelete';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
 storiesOf('Data Display / Accordion', module)
-    .addDecorator(CenterDecorator)
-    .add(
-        'standard',
-        withInfo()(() => {
-            return (
-                <div>
-                    <Accordion
-                        title="Closed one"
-                        opened={false}
-                        onChange={action('open')}
-                    >
-                        Some hidden content.
-                    </Accordion>
-                    <Accordion
-                        title="Opened one"
-                        opened
-                        onChange={action('open')}
-                    >
-                        Some visible content bla bla, just filling the line so
-                        we can see it wraps properly.
-                    </Accordion>
-                </div>
-            );
-        })
-    )
-    .add(
-        'with custom background',
-        withInfo()(() => {
-            return (
-                <div>
-                    <Accordion
-                        title="Closed one"
-                        opened={false}
-                        onChange={action('open')}
-                        contentBackground="#BADA55"
-                    >
-                        Some hidden content.
-                    </Accordion>
-                    <Accordion
-                        title="Opened one"
-                        opened
-                        onChange={action('open')}
-                        contentBackground="#BADA55"
-                    >
-                        Some visible content bla bla, just filling the line so
-                        we can see it wraps properly.
-                    </Accordion>
-                </div>
-            );
-        })
-    )
-    .add(
-        'with delete actions',
-        withInfo()(() => {
-            const actionComponent = (
-                <Button onClick={action('deleted')} icon>
-                    <IconDelete color="#DE0000" />
-                </Button>
-            );
-            return (
-                <div>
-                    <Accordion
-                        title="Closed one"
-                        opened={false}
-                        onChange={action('open')}
-                        action={actionComponent}
-                    >
-                        Some hidden content.
-                    </Accordion>
-                    <Accordion
-                        title="Opened one"
-                        opened
-                        onChange={action('open')}
-                        action={actionComponent}
-                    >
-                        Some visible content bla bla, just filling the line so
-                        we can see it wraps properly.
-                    </Accordion>
-                </div>
-            );
-        })
-    );
+  .addDecorator(CenterDecorator)
+  .add(
+    'standard',
+    withInfo()(() => {
+      return (
+        <div>
+          <Accordion
+            title="Closed one"
+            opened={false}
+            onChange={action('open')}
+          >
+            Some hidden content.
+          </Accordion>
+          <Accordion title="Opened one" opened onChange={action('open')}>
+            Some visible content bla bla, just filling the line so we can see it
+            wraps properly.
+          </Accordion>
+        </div>
+      );
+    })
+  )
+  .add(
+    'with custom background',
+    withInfo()(() => {
+      return (
+        <div>
+          <Accordion
+            title="Closed one"
+            opened={false}
+            onChange={action('open')}
+            contentBackground="#BADA55"
+          >
+            Some hidden content.
+          </Accordion>
+          <Accordion
+            title="Opened one"
+            opened
+            onChange={action('open')}
+            contentBackground="#BADA55"
+          >
+            Some visible content bla bla, just filling the line so we can see it
+            wraps properly.
+          </Accordion>
+        </div>
+      );
+    })
+  )
+  .add(
+    'with delete actions',
+    withInfo()(() => {
+      const actionComponent = (
+        <Button onClick={action('deleted')} icon>
+          <IconDelete color="#DE0000" />
+        </Button>
+      );
+      return (
+        <div>
+          <Accordion
+            title="Closed one"
+            opened={false}
+            onChange={action('open')}
+            action={actionComponent}
+          >
+            Some hidden content.
+          </Accordion>
+          <Accordion
+            title="Opened one"
+            opened
+            onChange={action('open')}
+            action={actionComponent}
+          >
+            Some visible content bla bla, just filling the line so we can see it
+            wraps properly.
+          </Accordion>
+        </div>
+      );
+    })
+  );
