@@ -40,7 +40,7 @@ rollup
             babel({
                 exclude: 'node_modules/**',
                 babelrc: false,
-                presets: ['react-cy-app'],
+                presets: ['@volst/babel-preset-react-app'],
                 plugins: ['external-helpers']
             }),
         ],

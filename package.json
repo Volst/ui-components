@@ -3,7 +3,7 @@
   "version": "0.7.12",
   "license": "ISC",
   "author": "Kees Kluskens <kees@volst.nl>",
-  "description": "React component library for Code Yellow",
+  "description": "React component library for Volst",
   "module": "dist/volst-ui-components.es.js",
   "main": "dist/volst-ui-components.cjs.js",
   "repository": {
@@ -13,11 +13,13 @@
   "scripts": {
     "start": "NODE_ENV=development start-storybook -p 9001 -c storybook",
     "lint": "eslint src",
-    "preversion": "npm run -s lint && npm test && NODE_ENV=production npm run -s build && npm run -s deploy-storybook",
+    "preversion":
+      "npm run -s lint && npm test && NODE_ENV=production npm run -s build && npm run -s deploy-storybook",
     "version": "git add -A dist",
     "build": "rm -f dist/** && node build.js",
     "precommit": "lint-staged",
-    "build-storybook": "NODE_ENV=production build-storybook -c storybook -o .out",
+    "build-storybook":
+      "NODE_ENV=production build-storybook -c storybook -o .out",
     "deploy-storybook": "storybook-to-ghpages -c storybook"
   },
   "lint-staged": {
@@ -43,10 +45,10 @@
   "engines": {
     "node": ">=4"
   },
-  "files": [
-    "dist/"
-  ],
+  "files": ["dist/"],
   "devDependencies": {
+    "@volst/babel-preset-react-app": "^3.2.0",
+    "@volst/eslint-config": "^2.1.0",
     "@storybook/addon-actions": "^3.2.0",
     "@storybook/addon-info": "^3.1.6",
     "@storybook/addon-storyshots": "^3.1.8",
@@ -54,9 +56,7 @@
     "@storybook/storybook-deployer": "^2.0.0",
     "babel-core": "^6.25.0",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-react-cy-app": "^2.2.2",
     "eslint": "^4.1.1",
-    "eslint-config-codeyellow": "^4.1.3",
     "husky": "^0.14.1",
     "i18next": "^10.0.7",
     "jest": "^21.1.0",

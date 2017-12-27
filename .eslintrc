@@ -1,4 +1,4 @@
 {
-    "extends": "codeyellow",
+    "extends": "@volst",
     "root": true
 }

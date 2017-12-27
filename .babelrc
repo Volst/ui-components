@@ -1,5 +1,5 @@
 {
-    "presets": ["react-cy-app"],
+    "presets": ["@volst/babel-preset-react-app"],
     "plugins": [
         [
             "babel-plugin-transform-runtime",
