@@ -47,7 +47,7 @@ export default class TimeInput extends PureComponent {
     } else {
       newValue = moment(value, 'HH:mm');
     }
-    this.props.onChange(newValue);
+    this.props.onChange(this.props.name, newValue);
   };
 
   render() {

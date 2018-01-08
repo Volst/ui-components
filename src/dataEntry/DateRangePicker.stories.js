@@ -28,9 +28,9 @@ storiesOf('Data Entry / DateRangePicker', module)
         endDate: null,
       };
 
-      handleChange = values => {
+      handleChange = (name, values) => {
         this.setState(values);
-        action('change')(values);
+        action('change')(name, values);
       };
 
       render() {

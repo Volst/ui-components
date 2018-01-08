@@ -70,14 +70,14 @@ export default class DateRangePicker extends Component {
       from: toDate(this.props.startDate),
       to: toDate(this.props.endDate),
     });
-    this.props.onChange({
+    this.props.onChange(this.props.name, {
       startDate: range.from ? moment(range.from) : null,
       endDate: range.to ? moment(range.to) : null,
     });
   };
 
   clear = () => {
-    this.props.onChange({
+    this.props.onChange(this.props.name, {
       startDate: null,
       endDate: null,
     });

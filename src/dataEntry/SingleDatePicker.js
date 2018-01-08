@@ -92,7 +92,7 @@ export default class SingleDatePicker extends PureComponent {
     if (!this.props.onChange) return;
 
     if (!disabled) {
-      this.props.onChange(selectedDay);
+      this.props.onChange(this.props.name, selectedDay);
     }
   };
 

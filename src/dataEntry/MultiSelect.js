@@ -111,7 +111,7 @@ export default class MultiSelect extends PureComponent {
   handleItemAdd = option => {
     this.setState({ inputValue: '' });
     if (this.props.value.indexOf(option.value) === -1) {
-      this.props.onChange([...this.props.value, option.value]);
+      this.props.onChange(this.props.name, [...this.props.value, option.value]);
     }
   };
 
@@ -120,7 +120,7 @@ export default class MultiSelect extends PureComponent {
     const index = newValue.indexOf(option.value);
     if (index >= 0) {
       newValue.splice(index, 1);
-      this.props.onChange(newValue);
+      this.props.onChange(this.props.name, newValue);
     }
   };
 
@@ -146,7 +146,7 @@ export default class MultiSelect extends PureComponent {
   popValue() {
     const newValue = this.props.value.slice();
     newValue.pop();
-    this.props.onChange(newValue);
+    this.props.onChange(this.props.name, newValue);
   }
 
   handleInputKeyDown = e => {

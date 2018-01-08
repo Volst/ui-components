@@ -26,7 +26,7 @@ export default class TypeAhead extends PureComponent {
 
   handleStateChange = changes => {
     if (changes.hasOwnProperty('inputValue')) {
-      this.props.onChange(changes.inputValue);
+      this.props.onChange(this.props.name, changes.inputValue);
     }
   };
 

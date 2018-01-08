@@ -56,7 +56,7 @@ export default class SelectInput extends PureComponent {
   onChange = e => {
     if (!this.props.onChange) return;
 
-    this.props.onChange(e.target.value);
+    this.props.onChange(this.props.name, e.target.value);
   };
 
   renderOption = option => {

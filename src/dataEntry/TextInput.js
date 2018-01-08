@@ -81,13 +81,13 @@ export default class TextInput extends PureComponent {
   onChange = e => {
     if (!this.props.onChange) return;
 
-    this.props.onChange(e.target.value);
+    this.props.onChange(this.props.name, e.target.value);
   };
 
   onBlur = e => {
     if (!this.props.onBlur) return;
 
-    this.props.onBlur(e.target.value);
+    this.props.onBlur(this.props.name, e.target.value);
   };
 
   setInputRef = c => {

@@ -43,7 +43,7 @@ export default class MultipickDropdown extends Component {
     this.props.onChange(newValue);
   };
 
-  handleSearchChange = value => {
+  handleSearchChange = (name, value) => {
     this.props.onSearchChange(value);
   };
 
