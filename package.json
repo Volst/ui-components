@@ -18,7 +18,8 @@
     "build": "rm -f dist/** && node build.js",
     "precommit": "lint-staged",
     "build-storybook": "NODE_ENV=production build-storybook -c storybook -o .out",
-    "deploy-storybook": "storybook-to-ghpages -c storybook"
+    "deploy-storybook": "storybook-to-ghpages -c storybook",
+    "build-sketch": "npm run build-storybook && html-sketchapp --config ./html-sketchapp.config.js"
   },
   "lint-staged": {
     "src/**/*.js": [
@@ -71,7 +72,8 @@
     "rollup": "^0.53.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-multi-entry": "^2.0.1",
-    "styled-components": "^2.1.0"
+    "styled-components": "^2.1.0",
+    "html-sketchapp-cli": "0.0.3"
   },
   "peerDependencies": {
     "i18next": ">=9.0.0",

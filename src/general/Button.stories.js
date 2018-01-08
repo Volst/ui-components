@@ -24,12 +24,20 @@ storiesOf('General / Button', module)
       return (
         <div>
           <div>
-            <Button>Primary</Button>
-            <Button disabled>Primary disabled</Button>
+            <Button data-sketch-symbol="Button/Primary/Normal">Primary</Button>
+            <Button data-sketch-symbol="Button/Primary/Disabled" disabled>
+              Primary disabled
+            </Button>
           </div>
           <div>
-            <Button tone="success">Success</Button>
-            <Button tone="success" disabled>
+            <Button data-sketch-symbol="Button/Success/Normal" tone="success">
+              Success
+            </Button>
+            <Button
+              data-sketch-symbol="Button/Success/Disabled"
+              tone="success"
+              disabled
+            >
               Success disabled
             </Button>
           </div>
