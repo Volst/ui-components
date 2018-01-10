@@ -5,9 +5,9 @@ import ActionBar from './ActionBar';
 import CenterDecorator from '../../storybook/CenterDecorator';
 import { Row, Col } from '../layout/Grid';
 import TextInput from '../dataEntry/TextInput';
-import { Button } from './Button';
+import { Button } from '../general/Button';
 
-storiesOf('General / ActionBar', module)
+storiesOf('Layout / ActionBar', module)
   .addDecorator(CenterDecorator)
   .add(
     'standard',

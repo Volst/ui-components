@@ -1,6 +1,5 @@
 export { default as VolstTheme } from './VolstTheme';
 export { Button, Link, ExternalLink } from './general/Button';
-export { default as ActionBar } from './general/ActionBar';
 export { default as Heading } from './general/typography/Heading';
 export { default as Subheading } from './general/typography/Subheading';
 export { default as SuperText } from './general/typography/SuperText';
@@ -42,6 +41,7 @@ export { default as ContentContainer } from './layout/layout/ContentContainer';
 export { default as Sidebar } from './layout/layout/Sidebar';
 export { default as Toolbar } from './layout/layout/Toolbar';
 export { Row, Col, Grid } from './layout/Grid';
+export { default as ActionBar } from './layout/ActionBar';
 
 export { default as Loader } from './feedback/Loader';
 export { default as NotificationStack } from './feedback/notification/Stack';
