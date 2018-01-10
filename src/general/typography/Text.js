@@ -6,7 +6,7 @@ export const Text = styled.p`
   font-weight: ${props => (props.bold ? 'bold' : 'normal')};
   font-style: ${props => (props.italic ? 'italic' : 'normal')};
   margin: 0 0 20px 0;
-  line-height: 1.45;
+  line-height: 1.5;
   color: ${props => props.theme[`${props.tone || 'text'}Color`]};
   font-size: ${props => (props.small ? '80%' : 'inherit')};
 `;

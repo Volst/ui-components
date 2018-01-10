@@ -47,8 +47,7 @@ export const Button = styled(props => (
   background: transparent;
   line-height: 1;
   user-select: none;
-  font-size: ${props =>
-    props.link ? 'inherit' : props.small ? '14px' : '16px'};
+  font-size: 14px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 
   > svg {

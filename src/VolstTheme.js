@@ -35,6 +35,7 @@ const injectGlobalStyles = theme => injectGlobal`
         background: ${theme.bodyBackground};
         font-family: ${theme.fontFamily};
         color: ${theme.textColor};
+        font-size: 14px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
