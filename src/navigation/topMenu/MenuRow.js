@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export default styled.div`
-  height: 50px;
+  height: 35px;
   display: flex;
   align-items: stretch;
 
@@ -12,7 +12,7 @@ export default styled.div`
   }
 
   &:nth-child(even) {
-    background: ${props => props.theme.primaryColor};
+    background: ${props => props.theme.darkColor};
     color: white;
 
     .nav-item:before {
@@ -24,12 +24,12 @@ export default styled.div`
     props.inContent &&
     `
         margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${props.theme.primaryColor};
+        border-bottom: 1px solid ${props.theme.darkColor};
         .nav-item:after {
             content: '';
         }
         .nav-item:before {
-            border-bottom-color: ${props.theme.primaryColor};
+            border-bottom-color: ${props.theme.darkColor};
         }
     `};
 `;

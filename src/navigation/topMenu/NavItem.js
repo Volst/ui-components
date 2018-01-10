@@ -16,7 +16,7 @@ export const StyledNavLink = styled(NavLink)`
   &.active {
     &:before,
     &:after {
-      border-width: 8px;
+      border-width: 5px;
     }
   }
 
@@ -42,7 +42,7 @@ export const StyledNavLink = styled(NavLink)`
     width: 0;
     height: 0;
     border: 0 solid transparent;
-    border-bottom-color: ${props => props.theme.primaryColor};
+    border-bottom-color: ${props => props.theme.darkColor};
     border-top: 0;
     transition: 175ms all ease;
   }
