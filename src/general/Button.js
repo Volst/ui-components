@@ -120,7 +120,7 @@ export const Button = styled(props => (
                 }
 
                 &:focus {
-                    box-shadow 0 0 0 3px ${rgba(background, 0.5)};
+                    box-shadow: 0 0 3px 3px ${rgba(background, 0.4)};
                 }
             `
             }
