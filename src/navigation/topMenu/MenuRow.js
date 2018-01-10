@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export default styled.div`
   height: 35px;
@@ -30,12 +31,12 @@ export default styled.div`
     props.inContent &&
     `
         margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${props.theme.darkColor};
+        border-bottom: 1px solid ${props.theme.borderColor};
         .nav-item:after {
             content: '';
         }
         .nav-item:before {
-            border-bottom-color: ${props.theme.darkColor};
+            border-bottom-color: ${darken(0.1, props.theme.borderColor)};
         }
     `};
 `;
