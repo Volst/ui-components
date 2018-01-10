@@ -14,7 +14,7 @@ storiesOf('Layout / ActionBar', module)
     withInfo()(() => {
       return (
         <ActionBar>
-          <Row>
+          <Row middle="xs">
             <Col xs={6}>
               <TextInput />
             </Col>
