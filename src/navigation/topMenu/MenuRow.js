@@ -15,8 +15,14 @@ export default styled.div`
     background: ${props => props.theme.darkColor};
     color: white;
 
-    .nav-item:before {
-      border-bottom-color: #fff;
+    .nav-item {
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      &:before {
+        border-bottom-color: #fff;
+      }
     }
   }
 

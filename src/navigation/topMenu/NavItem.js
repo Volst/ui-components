@@ -2,16 +2,24 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { transparentize } from 'polished';
 
 export const StyledNavLink = styled(NavLink)`
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  margin: 0 10px;
+  padding: 0 16px;
+  margin: 4px;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
   position: relative;
+  transition: 250ms background ease;
+  border-radius: 4px;
+
+  &:hover {
+    transition: 100ms background ease;
+    background: ${props => transparentize(0.9, props.theme.darkColor)};
+  }
 
   &.active {
     &:before,
@@ -23,7 +31,7 @@ export const StyledNavLink = styled(NavLink)`
   &:after {
     position: absolute;
     left: 50%;
-    bottom: -1px;
+    bottom: -5px;
     transform: translateX(-50%);
     width: 0;
     height: 0;
@@ -36,7 +44,7 @@ export const StyledNavLink = styled(NavLink)`
   &:before {
     position: absolute;
     left: 50%;
-    bottom: 0;
+    bottom: -4px;
     transform: translateX(-50%);
     content: '';
     width: 0;
