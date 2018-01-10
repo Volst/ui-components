@@ -1,5 +1,6 @@
 export { default as VolstTheme } from './VolstTheme';
 export { Button, Link, ExternalLink } from './general/Button';
+export { default as ActionBar } from './general/ActionBar';
 export { default as Heading } from './general/typography/Heading';
 export { default as Subheading } from './general/typography/Subheading';
 export { default as SuperText } from './general/typography/SuperText';
