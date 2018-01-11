@@ -6,6 +6,7 @@ import Heading from './Heading';
 import Subheading from './Subheading';
 import SuperText from './SuperText';
 import Center from './Center';
+import Code from './Code';
 import { Text, InlineText } from './Text';
 
 storiesOf('General / Typography', module)
@@ -90,6 +91,9 @@ storiesOf('General / Typography', module)
           <Text compact>A compact paragraph written in the normal size.</Text>
           <Text compact small>
             A compact paragraph written in smaller text than normal.
+          </Text>
+          <Text>
+            Inline text code block: <Code>An inline code block.</Code>
           </Text>
         </div>
       );
