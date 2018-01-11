@@ -295,7 +295,7 @@ Link$1.displayName = 'Link';
 
 const Heading = styled__default.h1.withConfig({
   displayName: 'Heading'
-})(['font-weight:bold;font-size:26px;margin:20px 0 7px 0;color:', ';'], props => props.color || props.theme.headingTextColor);
+})(['font-weight:bold;font-size:26px;margin:20px 0;color:', ';'], props => props.color || props.theme.headingTextColor);
 Heading.displayName = 'Heading';
 Heading.propTypes = {
   color: PropTypes.string
@@ -319,17 +319,24 @@ SuperText.propTypes = {
 
 const Text = styled__default.p.withConfig({
   displayName: 'Text'
-})(['font-weight:', ';font-style:', ';margin:0 0 20px 0;line-height:1.5;color:', ';font-size:', ';'], props => props.bold ? 'bold' : 'normal', props => props.italic ? 'italic' : 'normal', props => props.theme[`${props.tone || 'text'}Color`], props => props.small ? '80%' : 'inherit');
+})(['font-weight:', ';font-style:', ';margin:0 0 ', ' 0;line-height:', ';color:', ';font-size:', ';'], props => props.bold ? 'bold' : 'normal', props => props.italic ? 'italic' : 'normal', props => props.compact ? '0' : '20px', props => props.compact ? '1' : '1.5', props => props.theme[`${props.tone || 'text'}Color`], props => props.small ? '75%' : 'inherit');
 
 Text.displayName = 'Text';
 Text.propTypes = {
   tone: TonePropType,
   bold: PropTypes.bool,
-  italic: PropTypes.bool
+  italic: PropTypes.bool,
+  small: PropTypes.bool,
+  compact: PropTypes.bool
 };
 
 const InlineText = Text.withComponent('span');
 InlineText.displayName = 'InlineText';
+
+const Center = styled__default.div.withConfig({
+  displayName: 'Center'
+})(['text-align:center;']);
+Center.displayName = 'Center';
 
 var _class$1;
 var _temp2$1;
@@ -8651,6 +8658,7 @@ exports.Subheading = Subheading;
 exports.SuperText = SuperText;
 exports.Text = Text;
 exports.InlineText = InlineText;
+exports.Center = Center;
 exports.Form = Form;
 exports.FormField = FormField;
 exports.LabelText = LabelText;
