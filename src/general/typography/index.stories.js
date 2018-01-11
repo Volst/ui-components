@@ -5,6 +5,7 @@ import FullDecorator from '../../../storybook/FullDecorator';
 import Heading from './Heading';
 import Subheading from './Subheading';
 import SuperText from './SuperText';
+import Center from './Center';
 import { Text, InlineText } from './Text';
 
 storiesOf('General / Typography', module)
@@ -43,8 +44,11 @@ storiesOf('General / Typography', module)
           </Text>
           <SuperText>A smaller heading</SuperText>
           <Text>
-            Eu laoreet nibh lacinia himenaeos curae montes mollis primis sed
+            Eu laoreet nibh lacinia himenaeos curae montes mollis primis sed.
           </Text>
+          <Center>
+            <Text>A centered paragraph text.</Text>
+          </Center>
         </div>
       );
     })
@@ -83,6 +87,10 @@ storiesOf('General / Typography', module)
           <Text bold>A paragraph written in bold text.</Text>
           <Text italic>A paragraph written in italic text.</Text>
           <Text small>A paragraph written in smaller text than normal.</Text>
+          <Text compact>A compact paragraph written in the normal size.</Text>
+          <Text compact small>
+            A compact paragraph written in smaller text than normal.
+          </Text>
         </div>
       );
     })

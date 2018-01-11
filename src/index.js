@@ -4,6 +4,7 @@ export { default as Heading } from './general/typography/Heading';
 export { default as Subheading } from './general/typography/Subheading';
 export { default as SuperText } from './general/typography/SuperText';
 export { Text, InlineText } from './general/typography/Text';
+export { default as Center } from './general/typography/Center';
 
 export { default as Form } from './dataEntry/Form';
 export { default as FormField } from './dataEntry/FormField';

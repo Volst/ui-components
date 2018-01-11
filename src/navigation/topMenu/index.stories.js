@@ -13,6 +13,8 @@ import Body from '../../layout/layout/Body';
 import ContentContainer from '../../layout/layout/ContentContainer';
 import Content from '../../layout/layout/Content';
 import AppContainer from '../../layout/layout/AppContainer';
+import Center from '../../general/typography/Center';
+import { Text } from '../../general/typography/Text';
 
 storiesOf('Navigation / TopMenu', module)
   .addDecorator(FullDecorator)
@@ -31,7 +33,17 @@ storiesOf('Navigation / TopMenu', module)
               />
               <NavItem title="Settings" to="/settings" />
             </NavMenu>
-            <NavItem title="Account" to="/account" />
+            <NavItem
+              title={
+                <Center>
+                  <Text compact>Name</Text>
+                  <Text small compact>
+                    Company
+                  </Text>
+                </Center>
+              }
+              to="/account"
+            />
           </MenuRow>
           <MenuRow>
             <Route
