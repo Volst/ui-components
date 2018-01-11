@@ -100,6 +100,7 @@ const injectGlobalStyles = theme => styled.injectGlobal`
         background: ${theme.bodyBackground};
         font-family: ${theme.fontFamily};
         color: ${theme.textColor};
+        font-size: 14px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
@@ -206,7 +207,7 @@ function getTextColor(props, background) {
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
   displayName: 'Button'
-})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:', ';cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.link ? 'inherit' : props.small ? '14px' : '16px', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
+})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:14px;cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
         margin: 6px;
         ` : `
         &:first-child {
@@ -260,7 +261,7 @@ const Button = styled__default(props => React__default.createElement('button', O
                 }
 
                 &:focus {
-                    box-shadow 0 0 0 3px ${polished.rgba(background, 0.5)};
+                    box-shadow: 0 0 3px 3px ${polished.rgba(background, 0.4)};
                 }
             `}
     `;
@@ -318,7 +319,7 @@ SuperText.propTypes = {
 
 const Text = styled__default.p.withConfig({
   displayName: 'Text'
-})(['font-weight:', ';font-style:', ';margin:0 0 20px 0;line-height:1.45;color:', ';font-size:', ';'], props => props.bold ? 'bold' : 'normal', props => props.italic ? 'italic' : 'normal', props => props.theme[`${props.tone || 'text'}Color`], props => props.small ? '80%' : 'inherit');
+})(['font-weight:', ';font-style:', ';margin:0 0 20px 0;line-height:1.5;color:', ';font-size:', ';'], props => props.bold ? 'bold' : 'normal', props => props.italic ? 'italic' : 'normal', props => props.theme[`${props.tone || 'text'}Color`], props => props.small ? '80%' : 'inherit');
 
 Text.displayName = 'Text';
 Text.propTypes = {
@@ -549,7 +550,7 @@ let RadioButtons = (_temp2$2 = _class$4 = class RadioButtons extends React.PureC
       hasFocus: false
     }, this.handleChange = value => {
       if (!this.props.disabled) {
-        this.props.onChange(value);
+        this.props.onChange(this.props.name, value);
       }
     }, this.renderItem = item => {
       const handleChange = () => this.handleChange(item.value);
@@ -626,7 +627,7 @@ let RadioList = (_temp2$3 = _class$5 = class RadioList extends React.PureCompone
     var _temp;
 
     return _temp = super(...args), this.renderItem = item => {
-      const handleChange = () => this.props.onChange(item.value);
+      const handleChange = () => this.props.onChange(this.props.name, item.value);
       return React__default.createElement(
         StyledLabel$2,
         { key: item.value, disabled: this.props.disabled },
@@ -672,7 +673,7 @@ let Checkbox = (_temp2$4 = _class$6 = class Checkbox extends React.PureComponent
     var _temp;
 
     return _temp = super(...args), this.handleChange = e => {
-      this.props.onChange(e.target.checked);
+      this.props.onChange(this.props.name, e.target.checked);
     }, _temp;
   }
 
@@ -742,11 +743,11 @@ let TextInput = (_temp2$5 = _class$7 = class TextInput extends React.PureCompone
     return _temp = super(...args), this.onChange = e => {
       if (!this.props.onChange) return;
 
-      this.props.onChange(e.target.value);
+      this.props.onChange(this.props.name, e.target.value);
     }, this.onBlur = e => {
       if (!this.props.onBlur) return;
 
-      this.props.onBlur(e.target.value);
+      this.props.onBlur(this.props.name, e.target.value);
     }, this.setInputRef = c => {
       this.inputRef = c;
     }, _temp;
@@ -841,11 +842,11 @@ let NumberInput = (_temp2$6 = _class$8 = class NumberInput extends React.PureCom
     }, this.onChange = e => {
       if (!this.props.onChange) return;
 
-      this.props.onChange(this.parseValue(e));
+      this.props.onChange(this.props.name, this.parseValue(e));
     }, this.onBlur = e => {
       if (!this.props.onBlur) return;
 
-      this.props.onBlur(this.parseValue(e));
+      this.props.onBlur(this.props.name, this.parseValue(e));
     }, _temp;
   }
 
@@ -933,7 +934,7 @@ let TimeInput = (_temp2$7 = _class$9 = class TimeInput extends React.PureCompone
       } else {
         newValue = moment(value, 'HH:mm');
       }
-      this.props.onChange(newValue);
+      this.props.onChange(this.props.name, newValue);
     }, _temp;
   }
 
@@ -995,7 +996,7 @@ let TextArea = (_temp2$8 = _class$10 = class TextArea extends React.PureComponen
     return _temp = super(...args), this.onChange = e => {
       if (!this.props.onChange) return;
       let value = e.target.value;
-      this.props.onChange(value);
+      this.props.onChange(this.props.name, value);
     }, _temp;
   }
 
@@ -1133,9 +1134,9 @@ let FancySelect = (_temp2$10 = _class$12 = class FancySelect extends React.PureC
     var _temp;
 
     return _temp = super(...args), this.handleChange = option => {
-      this.props.onChange(option.value);
+      this.props.onChange(this.props.name, option.value);
     }, this.handleClear = () => {
-      this.props.onChange('');
+      this.props.onChange(this.props.name, '');
     }, this.renderDropdown = ({
       isOpen,
       getItemProps,
@@ -1272,7 +1273,7 @@ let TypeAhead = (_temp2$9 = _class$11 = class TypeAhead extends React.PureCompon
       this.props.onSelect(option.value);
     }, this.handleStateChange = changes => {
       if (changes.hasOwnProperty('inputValue')) {
-        this.props.onChange(changes.inputValue);
+        this.props.onChange(this.props.name, changes.inputValue);
       }
     }, this.renderDropdown = ({
       isOpen,
@@ -1381,7 +1382,7 @@ let SelectInput = (_temp2$11 = _class$13 = class SelectInput extends React.PureC
     return _temp = super(...args), this.onChange = e => {
       if (!this.props.onChange) return;
 
-      this.props.onChange(e.target.value);
+      this.props.onChange(this.props.name, e.target.value);
     }, this.renderOption = option => {
       return React__default.createElement(
         'option',
@@ -1469,14 +1470,14 @@ let MultiSelect = (_temp2$12 = _class$14 = class MultiSelect extends React.PureC
     return _temp = super(...args), this.state = { inputValue: '', focused: false }, this.handleItemAdd = option => {
       this.setState({ inputValue: '' });
       if (this.props.value.indexOf(option.value) === -1) {
-        this.props.onChange([...this.props.value, option.value]);
+        this.props.onChange(this.props.name, [...this.props.value, option.value]);
       }
     }, this.handleItemRemove = option => {
       const newValue = this.props.value.slice();
       const index = newValue.indexOf(option.value);
       if (index >= 0) {
         newValue.splice(index, 1);
-        this.props.onChange(newValue);
+        this.props.onChange(this.props.name, newValue);
       }
     }, this.handleInputChange = event => {
       this.setState({ inputValue: event.target.value });
@@ -1622,7 +1623,7 @@ let MultiSelect = (_temp2$12 = _class$14 = class MultiSelect extends React.PureC
   popValue() {
     const newValue = this.props.value.slice();
     newValue.pop();
-    this.props.onChange(newValue);
+    this.props.onChange(this.props.name, newValue);
   }
 
   itemToString(item) {
@@ -1703,7 +1704,7 @@ let MultipickDropdown = (_temp2$14 = _class$16 = class MultipickDropdown extends
         newValue.push(value);
       }
       this.props.onChange(newValue);
-    }, this.handleSearchChange = value => {
+    }, this.handleSearchChange = (name, value) => {
       this.props.onSearchChange(value);
     }, this.selectAll = () => {
       this.props.onChange(this.props.options.map(item => item.value));
@@ -1930,7 +1931,7 @@ let SingleDatePicker = styled.withTheme(_class2 = (_temp4 = _class3 = class Sing
       if (!this.props.onChange) return;
 
       if (!disabled) {
-        this.props.onChange(selectedDay);
+        this.props.onChange(this.props.name, selectedDay);
       }
     }, _temp3;
   }
@@ -2032,12 +2033,12 @@ let DateRangePicker = styled.withTheme(_class$18 = (_temp2$16 = _class2$1 = clas
         from: toDate(this.props.startDate),
         to: toDate(this.props.endDate)
       });
-      this.props.onChange({
+      this.props.onChange(this.props.name, {
         startDate: range.from ? moment(range.from) : null,
         endDate: range.to ? moment(range.to) : null
       });
     }, this.clear = () => {
-      this.props.onChange({
+      this.props.onChange(this.props.name, {
         startDate: null,
         endDate: null
       });
@@ -2388,6 +2389,18 @@ var Toolbar = styled__default.section.withConfig({
 // Jup, that's right. Nothing special going on here.
 // There will come a time where we want to change some behavior of this package, but not for now...
 
+const StyledDiv$2 = styled__default.div.withConfig({
+  displayName: 'ActionBar__StyledDiv'
+})(['margin:10px 0;width:100%;display:flex;flex-direction:column;background:', ';border:1px solid ', ';padding:5px;'], props => props.theme.lightColor, props => props.theme.borderColor);
+
+function ActionBar(props) {
+  return React__default.createElement(StyledDiv$2, props);
+}
+
+ActionBar.propTypes = {
+  children: PropTypes.node
+};
+
 const sweep = styled.keyframes(['to{transform:rotate(360deg);}']);
 
 const Loader = styled__default.div.withConfig({
@@ -2641,7 +2654,7 @@ let TopMenu = (_temp$4 = _class$25 = class TopMenu extends React.Component {
 
 const StyledNavLink = styled__default(reactRouterDom.NavLink).withConfig({
   displayName: 'Logo__StyledNavLink'
-})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;font-size:32px;font-weight:300;text-decoration:none;color:inherit;svg,img{max-width:100%;}']);
+})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;font-size:26px;font-weight:300;text-decoration:none;color:inherit;svg,img{max-width:100%;}']);
 
 const Logo = props => React__default.createElement(
   StyledNavLink,
@@ -2655,14 +2668,14 @@ Logo.propTypes = {
 
 var MenuRow = styled__default.div.withConfig({
   displayName: 'MenuRow'
-})(['height:50px;display:flex;align-items:stretch;transition:175ms height ease;&:empty{height:10px;}&:nth-child(even){background:', ';color:white;.nav-item:before{border-bottom-color:#fff;}}', ';'], props => props.theme.primaryColor, props => props.inContent && `
+})(['height:35px;display:flex;align-items:stretch;transition:175ms height ease;&:empty{height:10px;}&:nth-child(even){background:', ';color:white;.nav-item{&:hover{background:rgba(255,255,255,0.1);}&:before{border-bottom-color:#fff;}}}', ';'], props => props.theme.darkColor, props => props.inContent && `
         margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${props.theme.primaryColor};
+        border-bottom: 1px solid ${props.theme.borderColor};
         .nav-item:after {
             content: '';
         }
         .nav-item:before {
-            border-bottom-color: ${props.theme.primaryColor};
+            border-bottom-color: ${polished.darken(0.1, props.theme.borderColor)};
         }
     `);
 
@@ -2671,7 +2684,7 @@ var _temp2$21;
 
 const StyledNavLink$1 = styled__default(reactRouterDom.NavLink).withConfig({
   displayName: 'NavItem__StyledNavLink'
-})(['display:flex;align-items:center;padding:0 10px;margin:0 10px;text-decoration:none;color:inherit;cursor:pointer;position:relative;&.active{&:before,&:after{border-width:8px;}}&:after{position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:0;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => props.theme.primaryColor);
+})(['display:flex;align-items:center;padding:0 16px;margin:4px;text-decoration:none;color:inherit;cursor:pointer;position:relative;transition:250ms background ease;border-radius:4px;&:hover{transition:100ms background ease;background:', ';}&.active{&:before,&:after{border-width:5px;}}&:after{position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => polished.transparentize(0.9, props.theme.darkColor), props => props.theme.darkColor);
 
 let NavItem = (_temp2$21 = _class$26 = class NavItem extends React.Component {
   constructor(...args) {
@@ -2769,19 +2782,18 @@ Dropdown$2.displayName = 'Dropdown';
 
 const DropdownOverlay = styled__default.div.withConfig({
   displayName: 'Dropdown__DropdownOverlay'
-})(['position:absolute;z-index:', ';'], props => props.theme.zIndexDropdownMenu);
+})(['position:absolute;z-index:', ';margin-top:2px;'], props => props.theme.zIndexDropdownMenu);
 
 const DropdownMenu = styled__default.div.withConfig({
   displayName: 'Dropdown__DropdownMenu'
-})(['background:', ';border-radius:5px;display:flex;border:1px solid ', ';box-shadow:0 1px 5px rgba(0,0,0,0.15);flex-direction:column;overflow:hidden;'], props => props.theme.componentBackground, props => props.theme.primaryColor);
+})(['background:', ';border-radius:5px;display:flex;box-shadow:0 0 10px rgba(0,0,0,0.25);flex-direction:column;overflow:hidden;'], props => props.theme.componentBackground);
 
 const DropdownItem$2 = styled__default.div.withConfig({
   displayName: 'Dropdown__DropdownItem'
-})(['padding:10px 15px;border-bottom:1px solid ', ';color:', ';cursor:pointer;user-select:none;&:hover{', ';}&:last-child{border-bottom-width:0;}'], props => props.theme.primaryColor, props => props.theme.textColor, props => {
+})(['padding:10px 15px;color:', ';cursor:pointer;user-select:none;&:hover{', ';}'], props => props.theme.textColor, props => {
   const background = polished.setLightness(0.93, props.theme.primaryColor);
   return `
                 background: ${background};
-                color: ${readableColor(background)};
             `;
 });
 
@@ -8673,6 +8685,7 @@ exports.Toolbar = Toolbar;
 exports.Row = reactStyledFlexboxgrid.Row;
 exports.Col = reactStyledFlexboxgrid.Col;
 exports.Grid = reactStyledFlexboxgrid.Grid;
+exports.ActionBar = ActionBar;
 exports.Loader = Loader;
 exports.NotificationStack = NotificationStack;
 exports.Modal = Modal;
