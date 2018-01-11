@@ -93,7 +93,7 @@ storiesOf('General / Typography', module)
             A compact paragraph written in smaller text than normal.
           </Text>
           <Text>
-            Inline text code block: <Code>An inline code block.</Code>
+            An inline code block: <Code>An inline code block.</Code>
           </Text>
         </div>
       );
