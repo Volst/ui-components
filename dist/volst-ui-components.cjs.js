@@ -338,6 +338,11 @@ const Center = styled__default.div.withConfig({
 })(['text-align:center;']);
 Center.displayName = 'Center';
 
+const Code = styled__default.code.withConfig({
+  displayName: 'Code'
+})(['background:', ';border-radius:3px;padding:0 8px;'], props => props.theme.lightColor);
+Code.displayName = 'Code';
+
 var _class$1;
 var _temp2$1;
 
@@ -876,6 +881,7 @@ let NumberInput = (_temp2$6 = _class$8 = class NumberInput extends React.PureCom
       onFocus: this.props.onFocus,
       autoFocus: this.props.autoFocus,
       hasError: this.props.hasError || this.context.formFieldHasError,
+      className: this.props.className,
       guide: false,
       mask: this.getMask(this.props)
     });
@@ -892,6 +898,7 @@ let NumberInput = (_temp2$6 = _class$8 = class NumberInput extends React.PureCom
   id: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   autoFocus: PropTypes.bool,
+  className: PropTypes.string,
 
   prefix: PropTypes.string,
   suffix: PropTypes.string,
@@ -8659,6 +8666,7 @@ exports.SuperText = SuperText;
 exports.Text = Text;
 exports.InlineText = InlineText;
 exports.Center = Center;
+exports.Code = Code;
 exports.Form = Form;
 exports.FormField = FormField;
 exports.LabelText = LabelText;
