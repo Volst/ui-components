@@ -22,6 +22,7 @@ export default class NumberInput extends PureComponent {
     id: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoFocus: PropTypes.bool,
+    className: PropTypes.string,
 
     prefix: PropTypes.string,
     suffix: PropTypes.string,
@@ -108,6 +109,7 @@ export default class NumberInput extends PureComponent {
         onFocus={this.props.onFocus}
         autoFocus={this.props.autoFocus}
         hasError={this.props.hasError || this.context.formFieldHasError}
+        className={this.props.className}
         guide={false}
         mask={this.getMask(this.props)}
       />
