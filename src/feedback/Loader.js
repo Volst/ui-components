@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 
 const sweep = keyframes`
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 `;
 
 const Loader = styled.div`
