@@ -15,6 +15,7 @@ export default class Modal extends Component {
     children: PropTypes.node.isRequired,
     visible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    afterClose: PropTypes.func,
     width: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     footer: PropTypes.element,
@@ -48,13 +49,13 @@ export default class Modal extends Component {
   }
 
   render() {
-    // TODO: expose `title` and `footer` props?
     return (
       <Dialog
         visible={this.props.visible}
         animation="zoom"
         maskAnimation="fade"
         onClose={this.props.onClose}
+        afterClose={this.props.afterClose}
         destroyOnClose
         closable={false}
         mousePosition={mousePosition}

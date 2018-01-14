@@ -7,6 +7,7 @@ process.env.NODE_ENV = 'production';
 const external = [
   'styled-components',
   'react',
+  'react-dom',
   'prop-types',
   'polished',
   'moment',
@@ -21,6 +22,7 @@ const external = [
   'downshift',
   'i18next',
   'rc-dialog',
+  'rc-util/lib/Dom/addEventListener',
   'react-day-picker/DayPickerInput',
   'react-day-picker/moment',
   'react-onclickoutside',

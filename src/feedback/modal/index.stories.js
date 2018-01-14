@@ -3,11 +3,13 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import Modal from './Modal';
-import FullDecorator from '../../../storybook/FullDecorator';
+import confirm from './confirm';
+import CenterDecorator from '../../../storybook/CenterDecorator';
 import { Button } from '../../general/Button';
+import { withTheme } from 'styled-components';
 
 storiesOf('Feedback / Modal', module)
-  .addDecorator(FullDecorator)
+  .addDecorator(CenterDecorator)
   .add(
     'standard',
     withInfo()(() => {
@@ -50,4 +52,31 @@ storiesOf('Feedback / Modal', module)
       }
     }
     return <MyComponent />;
-  });
+  })
+  .add(
+    'confirm',
+    withInfo()(() => {
+      @withTheme
+      class MyComponent extends Component {
+        render() {
+          return (
+            <Button
+              onClick={() =>
+                confirm({
+                  title: 'Do you really want to delete this fine item?',
+                  onOk: action('ok'),
+                  onCancel: action('cancel'),
+                  okText: 'Delete me',
+                  okTone: 'danger',
+                  cancelText: 'Erhm no',
+                })
+              }
+            >
+              Show confirm dialog
+            </Button>
+          );
+        }
+      }
+      return <MyComponent />;
+    })
+  );

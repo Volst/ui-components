@@ -48,6 +48,7 @@ export { default as ActionBar } from './layout/ActionBar';
 export { default as Loader } from './feedback/Loader';
 export { default as NotificationStack } from './feedback/notification/Stack';
 export { default as Modal } from './feedback/modal/Modal';
+export { default as confirm } from './feedback/modal/confirm';
 export { default as Badge } from './feedback/Badge';
 
 export { default as TopMenu } from './navigation/topMenu/TopMenu';
