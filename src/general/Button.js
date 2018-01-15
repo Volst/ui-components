@@ -49,6 +49,7 @@ export const Button = styled(props => (
   user-select: none;
   font-size: 14px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  text-decoration: none;
 
   > svg {
     ${props =>
@@ -79,15 +80,8 @@ export const Button = styled(props => (
     const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
     const textColor = getTextColor(props, background);
 
-    if (props.icon) {
+    if (props.icon || props.link) {
       return `color: ${textColor};`;
-    }
-
-    if (props.link) {
-      return `
-                color: ${textColor};
-                text-decoration: underline;
-            `;
     }
 
     return `
@@ -95,7 +89,6 @@ export const Button = styled(props => (
             height: ${props.small ? '24px' : '30px'};
             padding: ${props.small ? '0 5px' : '0 10px'};
             margin: 5px 5px 5px 0;
-            text-decoration: none;
             border-radius: 4px;
             vertical-align: middle;
 
