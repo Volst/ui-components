@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
-import { darken, tint, rgba } from 'polished';
+import { darken, tint, rgba, transparentize } from 'polished';
 import { readableColor } from '../config';
 import { TonePropType } from '../PropTypes';
 
@@ -50,12 +50,18 @@ export const Button = styled(props => (
   font-size: 14px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   text-decoration: none;
+  border-radius: 4px;
+  transition: 250ms background ease;
+
+  &:hover {
+    transition: 100ms background ease;
+  }
 
   > svg {
     ${props =>
       props.icon
         ? `
-        margin: 6px;
+        margin: 5px;
         `
         : `
         &:first-child {
@@ -80,8 +86,23 @@ export const Button = styled(props => (
     const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
     const textColor = getTextColor(props, background);
 
-    if (props.icon || props.link) {
+    if (props.link) {
       return `color: ${textColor};`;
+    }
+
+    if (props.icon) {
+      return `
+        margin: 1px;
+        color: ${textColor};
+
+        ${props.disabled ||
+          `
+            &:hover, &:focus {
+              outline: 0;
+              background: ${transparentize(0.9, props.theme.darkColor)};
+            }
+          `}
+      `;
     }
 
     return `
@@ -89,7 +110,6 @@ export const Button = styled(props => (
             height: ${props.small ? '24px' : '30px'};
             padding: ${props.small ? '0 5px' : '0 10px'};
             margin: 5px 5px 5px 0;
-            border-radius: 4px;
             vertical-align: middle;
 
             ${
