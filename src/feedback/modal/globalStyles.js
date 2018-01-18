@@ -45,11 +45,12 @@ export default theme => injectGlobal`
     width: auto;
     max-width: 600px;
     margin: 0 auto;
-    height: 100%;
+    max-height: 100%;
+    height: auto;
+    display: flex;
   }
   .rc-dialog-wrap {
     position: fixed;
-    overflow: auto;
     top: 0;
     right: 0;
     bottom: 0;
@@ -77,7 +78,7 @@ export default theme => injectGlobal`
     border-radius: 6px;
     background-clip: padding-box;
     margin: 0;
-    max-height: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
   }
