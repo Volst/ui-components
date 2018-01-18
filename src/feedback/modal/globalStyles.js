@@ -124,15 +124,15 @@ export default theme => injectGlobal`
   .rc-dialog-zoom-enter,
   .rc-dialog-zoom-appear {
     opacity: 0;
-    animation-duration: 0.3s;
+    animation-duration: 0.25s;
     animation-fill-mode: both;
-    animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     animation-play-state: paused;
   }
   .rc-dialog-zoom-leave {
-    animation-duration: 0.3s;
+    animation-duration: 0.2s;
     animation-fill-mode: both;
-    animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.66, 0.84);
     animation-play-state: paused;
   }
   .rc-dialog-zoom-enter.rc-dialog-zoom-enter-active,
@@ -161,16 +161,17 @@ export default theme => injectGlobal`
   .rc-dialog-fade-enter,
   .rc-dialog-fade-appear {
     opacity: 0;
-    animation-duration: 0.3s;
+    animation-duration: 0.25s;
     animation-fill-mode: both;
-    animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     animation-play-state: paused;
   }
   .rc-dialog-fade-leave {
-    animation-duration: 0.3s;
+    animation-duration: 0.2s;
     animation-fill-mode: both;
-    animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
     animation-play-state: paused;
+    pointer-events: none;
   }
   .rc-dialog-fade-enter.rc-dialog-fade-enter-active,
   .rc-dialog-fade-appear.rc-dialog-fade-appear-active {
