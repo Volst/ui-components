@@ -43,7 +43,9 @@ export default theme => injectGlobal`
   .rc-dialog {
     position: relative;
     width: auto;
-    margin: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    height: 100%;
   }
   .rc-dialog-wrap {
     position: fixed;
@@ -55,6 +57,12 @@ export default theme => injectGlobal`
     z-index: 1050;
     -webkit-overflow-scrolling: touch;
     outline: 0;
+    padding: 10px;
+  }
+  @media (min-width: 768px) {
+    .rc-dialog-wrap {
+      padding: 30px;
+    }
   }
   .rc-dialog-title {
     margin: 0;
@@ -66,8 +74,12 @@ export default theme => injectGlobal`
     position: relative;
     background-color: #ffffff;
     border: none;
-    border-radius: 6px 6px;
+    border-radius: 6px;
     background-clip: padding-box;
+    margin: 0;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   .rc-dialog-close {
     cursor: pointer;
@@ -99,6 +111,7 @@ export default theme => injectGlobal`
     border-bottom: 1px solid #e9e9e9;
   }
   .rc-dialog-body {
+    overflow: auto;
     padding: 20px;
   }
   .rc-dialog-footer {
@@ -129,12 +142,6 @@ export default theme => injectGlobal`
   .rc-dialog-zoom-leave.rc-dialog-zoom-leave-active {
     animation-name: ${rcDialogZoomOut};
     animation-play-state: running;
-  }
-  @media (min-width: 768px) {
-    .rc-dialog {
-      width: 600px;
-      margin: 30px auto;
-    }
   }
   .rc-dialog-mask {
     position: fixed;

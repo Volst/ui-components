@@ -45,7 +45,21 @@ storiesOf('Feedback / Modal', module)
                 </Fragment>
               }
             >
-              <p>This is some modal content.</p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                finibus porta massa, vitae auctor quam. Donec faucibus orci at
+                quam euismod mollis. Maecenas eget blandit velit. Nam rutrum
+                magna nibh, et ornare felis congue ac. Integer ut elit lacus.
+                Etiam non metus ut risus sollicitudin consequat vel eget tellus.
+                Integer lacus leo, facilisis in hendrerit eget, venenatis sed
+                augue. Vestibulum pretium augue sed justo aliquet commodo. Nunc
+                tincidunt semper volutpat. Integer finibus, elit nec bibendum
+                aliquam, nulla tellus volutpat magna, quis elementum velit lorem
+                id risus. Phasellus ac ullamcorper odio. Ut et molestie mauris.
+                Aenean sollicitudin ultrices imperdiet. Aenean quis ex rutrum,
+                cursus lectus eget, rutrum arcu. Nam eget ex vel neque luctus
+                iaculis.
+              </p>
             </Modal>
           </div>
         );
