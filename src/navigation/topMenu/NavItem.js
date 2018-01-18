@@ -16,7 +16,9 @@ export const StyledNavLink = styled(NavLink)`
   transition: 250ms background ease;
   border-radius: 4px;
 
-  &:hover {
+  &:hover,
+  &:focus {
+    outline: 0;
     transition: 100ms background ease;
     background: ${props => transparentize(0.9, props.theme.darkColor)};
   }
