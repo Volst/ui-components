@@ -13,7 +13,7 @@ export const TableHead = styled.thead``;
 TableHead.displayName = 'TableHead';
 
 export const TableBody = styled.tbody`
-  tr:last-child {
+  &:last-child tr:last-child {
     border-bottom: 0;
   }
 `;
@@ -52,16 +52,16 @@ export const TableData = styled.td`
         width: 100%;
     `
       : null} ${props =>
-      props.alignRight
-        ? `
+  props.alignRight
+    ? `
         text-align: right;
     `
-        : null} ${props =>
-      props.noWrap
-        ? `
+    : null} ${props =>
+  props.noWrap
+    ? `
         white-space: nowrap;
     `
-        : null};
+    : null};
 `;
 TableData.displayName = 'TableData';
 TableData.propTypes = {
