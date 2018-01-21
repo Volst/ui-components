@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { Button, Link, ExternalLink } from './Button';
@@ -98,6 +98,34 @@ storiesOf('General / Button', module)
           </Link>
         </div>
       );
+    })
+  )
+  .add(
+    'loading',
+    withInfo()(() => {
+      class MyComponent extends Component {
+        state = { loading: false };
+        setLoading = () => {
+          this.setState({ loading: true });
+          this.timeout = setTimeout(() => {
+            this.setState({ loading: false });
+          }, 2000);
+        };
+        componentWillUnmount() {
+          clearTimeout(this.timeout);
+        }
+        render() {
+          return (
+            <div>
+              <Button loading={this.state.loading} onClick={this.setLoading}>
+                Save me
+              </Button>
+              <Button loading>Always loading</Button>
+            </div>
+          );
+        }
+      }
+      return <MyComponent />;
     })
   )
   .add(

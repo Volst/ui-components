@@ -6,10 +6,19 @@ import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint, rgba, transparentize } from 'polished';
 import { readableColor } from '../config';
 import { TonePropType } from '../PropTypes';
+import { showLoaderCss } from '../feedback/Loader';
 
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
-const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children', 'small'];
+const OMIT_PROPS = [
+  'icon',
+  'link',
+  'fullWidth',
+  'tone',
+  'children',
+  'small',
+  'loading',
+];
 
 function insertSpanForTextNodes(child) {
   if (typeof child === 'string') {
@@ -38,7 +47,9 @@ function getTextColor(props, background) {
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 export const Button = styled(props => (
   <button type="button" {...getProps(props)} />
-))`
+)).attrs({
+  disabled: props => props.disabled || props.loading,
+})`
   display: ${props => (props.link ? 'inline' : 'inline-flex')};
   align-items: center;
   justify-content: center;
@@ -50,6 +61,7 @@ export const Button = styled(props => (
   font-size: 14px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   text-decoration: none;
+  position: relative;
   border-radius: 4px;
   transition: 250ms background ease;
 
@@ -136,7 +148,18 @@ export const Button = styled(props => (
                     box-shadow: 0 0 3px 3px ${rgba(background, 0.4)};
                 }
             `
+            };
+            ${props.loading &&
+              `
+            &:after {
+              position: absolute;
+              content: '';
+              top: 50%;
+              left: 50%;
+              margin: -9px 0 0 -9px;
+              ${showLoaderCss};
             }
+            `};
     `;
   }};
 `;
