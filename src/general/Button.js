@@ -77,13 +77,13 @@ export const Button = styled(props => (
         `
         : `
         &:first-child {
-            margin-right: 6px;
+          margin-right: 6px;
         }
         &:last-child {
-            margin-left: 6px;
+          margin-left: 6px;
         }
         &:first-child:last-child {
-            margin: 0;
+          margin: 0;
         }
         `};
   }
@@ -91,8 +91,8 @@ export const Button = styled(props => (
   ${props =>
     props.fullWidth &&
     `
-        margin: 5px 0;
-        width: 100%;
+      margin: 5px 0;
+      width: 100%;
     `};
   ${props => {
     const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
@@ -118,48 +118,45 @@ export const Button = styled(props => (
     }
 
     return `
-            color: ${textColor};
-            height: ${props.small ? '24px' : '30px'};
-            padding: ${props.small ? '0 5px' : '0 10px'};
-            margin: 5px 5px 5px 0;
-            vertical-align: middle;
+      color: ${textColor};
+      height: ${props.small ? '24px' : '30px'};
+      padding: ${props.small ? '0 5px' : '0 10px'};
+      margin: 5px 5px 5px 0;
+      vertical-align: middle;
 
-            ${
-              props.disabled
-                ? `
-                background: ${tint(
-                  props.tone === 'light' ? 0.5 : 0.25,
-                  background
-                )};
-                color: ${tint(0.4, textColor)};
-            `
-                : `
-                background: ${background};
+      ${
+        props.disabled
+          ? `
+          background: ${tint(props.tone === 'light' ? 0.5 : 0.25, background)};
+          color: ${tint(0.4, textColor)};
+      `
+          : `
+          background: ${background};
 
-                &:hover {
-                    background: ${darken(0.03, background)};
-                }
+          &:hover {
+            background: ${darken(0.03, background)};
+          }
 
-                &:active {
-                    background: ${darken(0.07, background)};
-                }
+          &:active {
+            background: ${darken(0.07, background)};
+          }
 
-                &:focus {
-                    box-shadow: 0 0 3px 3px ${rgba(background, 0.4)};
-                }
-            `
-            };
-            ${props.loading &&
-              `
-            &:after {
-              position: absolute;
-              content: '';
-              top: 50%;
-              left: 50%;
-              margin: -9px 0 0 -9px;
-              ${showLoaderCss};
-            }
-            `};
+          &:focus {
+            box-shadow: 0 0 3px 3px ${rgba(background, 0.4)};
+          }
+      `
+      };
+      ${props.loading &&
+        `
+      &:after {
+        position: absolute;
+        content: '';
+        top: 50%;
+        left: 50%;
+        margin: -9px 0 0 -9px;
+        ${showLoaderCss};
+      }
+      `};
     `;
   }};
 `;
