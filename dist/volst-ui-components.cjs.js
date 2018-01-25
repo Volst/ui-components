@@ -30,6 +30,9 @@ var DayPicker = require('react-day-picker');
 var DayPicker__default = _interopDefault(DayPicker);
 var reactCustomScrollbars = require('react-custom-scrollbars');
 var reactStyledFlexboxgrid = require('react-styled-flexboxgrid');
+var Dialog = _interopDefault(require('rc-dialog'));
+var addEventListener = _interopDefault(require('rc-util/lib/Dom/addEventListener'));
+var ReactDOM = _interopDefault(require('react-dom'));
 
 const defaultConfig = {
   primaryColor: '#006b94',
@@ -71,97 +74,92 @@ function readableColor(color) {
 }
 
 var _class;
-var _temp2;
+var _temp;
 
 const injectGlobalStyles = theme => styled.injectGlobal`
-    @font-face {
-        font-family: 'Roboto';
-        src: url('${RobotoLight}');
-        font-weight: 300;
-    }
-    @font-face {
-        font-family: 'Roboto';
-        src: url('${RobotoRegular}');
-        font-weight: 400;
-    }
-    @font-face {
-        font-family: 'Roboto';
-        src: url('${RobotoMedium}');
-        font-weight: 500;
-    }
-    @font-face {
-        font-family: 'Roboto';
-        src: url('${RobotoBold}');
-        font-weight: 700;
-    }
+  @font-face {
+    font-family: 'Roboto';
+    src: url('${RobotoLight}');
+    font-weight: 300;
+  }
+  @font-face {
+    font-family: 'Roboto';
+    src: url('${RobotoRegular}');
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: 'Roboto';
+    src: url('${RobotoMedium}');
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: 'Roboto';
+    src: url('${RobotoBold}');
+    font-weight: 700;
+  }
 
-    html {
-        box-sizing: border-box;
-        background: ${theme.bodyBackground};
-        font-family: ${theme.fontFamily};
-        color: ${theme.textColor};
-        font-size: 14px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
+  html {
+    box-sizing: border-box;
+    background: ${theme.bodyBackground};
+    font-family: ${theme.fontFamily};
+    color: ${theme.textColor};
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-    *, *:before, *:after {
-        box-sizing: inherit;
-    }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
 
-    html, body, #root {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-    }
+  html, body, #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
 
-    input, textarea, button {
-        font-family: inherit;
-    }
+  input, textarea, button {
+    font-family: inherit;
+  }
 
-    input:focus,
-    textarea:focus,
-    button:focus {
-        outline: 0;
-    }
+  input:focus,
+  textarea:focus,
+  button:focus {
+    outline: 0;
+  }
 
-    select:-moz-focusring, select::-moz-focus-inner {
-       color: transparent;
-       text-shadow: 0 0 0 #000;
-    }
+  select:-moz-focusring, select::-moz-focus-inner {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+  }
 `;
 
-let VolstTheme = (_temp2 = _class = class VolstTheme extends React.Component {
-    constructor(...args) {
-        var _temp;
+function getTheme(theme) {
+  // Fallback to the value of the fallbackProp
+  const fallback = lodash.mapValues(themeOverrides, (fallbackProp, overrideProp) => {
+    return theme[fallbackProp] || defaultConfig[fallbackProp];
+  });
 
-        return _temp = super(...args), this.getTheme = () => {
-            const theme = this.props.theme;
-            // Fallback to the value of the fallbackProp
-            const fallback = lodash.mapValues(themeOverrides, (fallbackProp, overrideProp) => {
-                return theme[fallbackProp] || defaultConfig[fallbackProp];
-            });
+  return Object.assign({}, defaultConfig, fallback, theme);
+}
 
-            return Object.assign({}, defaultConfig, fallback, theme);
-        }, _temp;
-    }
-
-    componentDidMount() {
-        injectGlobalStyles(this.getTheme());
-    }
-    render() {
-        return React__default.createElement(
-            styled.ThemeProvider,
-            { theme: this.getTheme() },
-            this.props.children
-        );
-    }
+let VolstTheme = (_temp = _class = class VolstTheme extends React.Component {
+  componentDidMount() {
+    injectGlobalStyles(getTheme(this.props.theme));
+  }
+  render() {
+    return React__default.createElement(
+      styled.ThemeProvider,
+      { theme: getTheme(this.props.theme) },
+      this.props.children
+    );
+  }
 }, _class.propTypes = {
-    theme: PropTypes.object,
-    children: PropTypes.node
+  theme: PropTypes.object,
+  children: PropTypes.node
 }, _class.defaultProps = {
-    theme: {}
-}, _temp2);
+  theme: {}
+}, _temp);
 
 const ValuePropType = PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]);
 
@@ -172,9 +170,32 @@ const OptionsPropType = PropTypes.arrayOf(PropTypes.shape({
 
 const TonePropType = PropTypes.oneOf(['primary', 'success', 'warning', 'danger', 'light', 'dark']);
 
+const sweep = styled.keyframes(['to{transform:rotate(360deg);}']);
+
+// Also used by <Button loading />
+// TODO: I should use styled-components css`` method here, but for one weird reason
+// that causes the animation to break, only in the Button component.
+const showLoaderCss = `
+  width: 18px;
+  height: 18px;
+  animation: ${sweep} 0.7s infinite linear;
+  border-radius: 8px;
+  box-shadow: 4px 0 0 -3px black;
+`;
+
+// Duplicated width+height to prevent jumping when loader is not shown.
+const Loader = styled__default.div.withConfig({
+  displayName: 'Loader'
+})(['width:18px;height:18px;margin:5px;transition:200ms all linear;', ';'], props => props.show && showLoaderCss);
+
+Loader.displayName = 'Loader';
+Loader.propTypes = {
+  show: PropTypes.bool
+};
+
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
-const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children', 'small'];
+const OMIT_PROPS = ['icon', 'link', 'fullWidth', 'tone', 'children', 'small', 'loading'];
 
 function insertSpanForTextNodes(child) {
   if (typeof child === 'string') {
@@ -205,65 +226,82 @@ function getTextColor(props, background) {
 }
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
-const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).withConfig({
+const Button = styled__default(props => React__default.createElement('button', Object.assign({ type: 'button' }, getProps(props)))).attrs({
+  disabled: props => props.disabled || props.loading
+}).withConfig({
   displayName: 'Button'
-})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:14px;cursor:', ';> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
-        margin: 6px;
+})(['display:', ';align-items:center;justify-content:center;padding:0;border:0;background:transparent;line-height:1;user-select:none;font-size:14px;cursor:', ';text-decoration:none;position:relative;border-radius:4px;transition:250ms background ease;&:hover{transition:100ms background ease;}> svg{', ';}', ';', ';'], props => props.link ? 'inline' : 'inline-flex', props => props.disabled ? 'not-allowed' : 'pointer', props => props.icon ? `
+        margin: 5px;
         ` : `
         &:first-child {
-            margin-right: 6px;
+          margin-right: 6px;
         }
         &:last-child {
-            margin-left: 6px;
+          margin-left: 6px;
         }
         &:first-child:last-child {
-            margin: 0;
+          margin: 0;
         }
         `, props => props.fullWidth && `
-        margin: 5px 0;
-        width: 100%;
+      margin: 5px 0;
+      width: 100%;
     `, props => {
   const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
   const textColor = getTextColor(props, background);
 
-  if (props.icon) {
+  if (props.link) {
     return `color: ${textColor};`;
   }
 
-  if (props.link) {
+  if (props.icon) {
     return `
-                color: ${textColor};
-                text-decoration: underline;
-            `;
+        margin: 1px;
+        color: ${textColor};
+
+        ${props.disabled || `
+            &:hover, &:focus {
+              outline: 0;
+              background: ${polished.transparentize(0.9, props.theme.darkColor)};
+            }
+          `}
+      `;
   }
 
   return `
-            color: ${textColor};
-            height: ${props.small ? '24px' : '30px'};
-            padding: ${props.small ? '0 5px' : '0 10px'};
-            margin: 5px 5px 5px 0;
-            text-decoration: none;
-            border-radius: 4px;
-            vertical-align: middle;
+      color: ${textColor};
+      height: ${props.small ? '24px' : '30px'};
+      padding: ${props.small ? '0 5px' : '0 10px'};
+      margin: 5px 5px 5px 0;
+      vertical-align: middle;
 
-            ${props.disabled ? `
-                background: ${polished.tint(props.tone === 'light' ? 0.5 : 0.25, background)};
-                color: ${polished.tint(0.4, textColor)};
-            ` : `
-                background: ${background};
+      ${props.disabled ? `
+          background: ${polished.tint(props.tone === 'light' ? 0.5 : 0.25, background)};
+          color: ${polished.tint(0.4, textColor)};
+      ` : `
+          background: ${background};
 
-                &:hover {
-                    background: ${polished.darken(0.03, background)};
-                }
+          &:hover {
+            background: ${polished.darken(0.03, background)};
+          }
 
-                &:active {
-                    background: ${polished.darken(0.07, background)};
-                }
+          &:active {
+            background: ${polished.darken(0.07, background)};
+          }
 
-                &:focus {
-                    box-shadow: 0 0 3px 3px ${polished.rgba(background, 0.4)};
-                }
-            `}
+          &:focus {
+            box-shadow: 0 0 3px 3px ${polished.rgba(background, 0.4)};
+          }
+      `};
+      ${props.loading && `
+      &:after {
+        position: absolute;
+        content: '';
+        top: 50%;
+        left: 50%;
+        margin: -9px 0 0 -9px;
+        ${showLoaderCss};
+      }
+      `};
     `;
 });
 Button.displayName = 'Button';
@@ -344,13 +382,13 @@ const Code = styled__default.code.withConfig({
 Code.displayName = 'Code';
 
 var _class$1;
-var _temp2$1;
+var _temp2;
 
 const StyledForm = styled__default.form.withConfig({
   displayName: 'Form__StyledForm'
 })(['display:inherit;flex-grow:1;flex-direction:inherit;width:100%;height:100%;']);
 
-let Form = (_temp2$1 = _class$1 = class Form extends React.Component {
+let Form = (_temp2 = _class$1 = class Form extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -386,9 +424,9 @@ let Form = (_temp2$1 = _class$1 = class Form extends React.Component {
   }
 }, _class$1.propTypes = {
   onSubmit: PropTypes.func.isRequired
-}, _temp2$1);
+}, _temp2);
 
-var _class$3;
+var _class$2;
 var _temp$1;
 
 const Container = styled__default.div.withConfig({
@@ -399,7 +437,7 @@ const StyledLabel = styled__default.label.withConfig({
   displayName: 'LabelText__StyledLabel'
 })(['text-transform:uppercase;']);
 
-let LabelText = (_temp$1 = _class$3 = class LabelText extends React.PureComponent {
+let LabelText = (_temp$1 = _class$2 = class LabelText extends React.PureComponent {
 
   render() {
     return React__default.createElement(
@@ -417,14 +455,14 @@ let LabelText = (_temp$1 = _class$3 = class LabelText extends React.PureComponen
       )
     );
   }
-}, _class$3.propTypes = {
+}, _class$2.propTypes = {
   helpText: PropTypes.string,
   htmlFor: PropTypes.string,
   children: PropTypes.node.isRequired
 }, _temp$1);
 
-var _class$2;
-var _temp;
+var _class$3;
+var _temp$2;
 
 const Field = styled__default.div.withConfig({
   displayName: 'FormField__Field'
@@ -441,7 +479,7 @@ function validationErrorMapper(errorCode) {
   return i18next.t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-let FormField = (_temp = _class$2 = class FormField extends React.Component {
+let FormField = (_temp$2 = _class$3 = class FormField extends React.Component {
 
   getChildContext() {
     return {
@@ -492,7 +530,7 @@ let FormField = (_temp = _class$2 = class FormField extends React.Component {
       this.renderError()
     );
   }
-}, _class$2.propTypes = {
+}, _class$3.propTypes = {
   children: PropTypes.node.isRequired,
   label: PropTypes.string,
   helpText: PropTypes.string,
@@ -501,12 +539,12 @@ let FormField = (_temp = _class$2 = class FormField extends React.Component {
   // TODO: I don't like the name `noPadding`
   noPadding: PropTypes.bool,
   required: PropTypes.bool
-}, _class$2.childContextTypes = {
+}, _class$3.childContextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp);
+}, _temp$2);
 
 var _class$4;
-var _temp2$2;
+var _temp2$1;
 
 const StyledDiv = styled__default.div.withConfig({
   displayName: 'RadioButtons__StyledDiv'
@@ -554,7 +592,7 @@ const StyledInput = styled__default.input.withConfig({
             `;
 });
 
-let RadioButtons = (_temp2$2 = _class$4 = class RadioButtons extends React.PureComponent {
+let RadioButtons = (_temp2$1 = _class$4 = class RadioButtons extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -617,10 +655,10 @@ let RadioButtons = (_temp2$2 = _class$4 = class RadioButtons extends React.PureC
   options: OptionsPropType,
   value: ValuePropType,
   vertical: PropTypes.bool
-}, _temp2$2);
+}, _temp2$1);
 
 var _class$5;
-var _temp2$3;
+var _temp2$2;
 
 const StyledDiv$1 = styled__default.div.withConfig({
   displayName: 'RadioList__StyledDiv'
@@ -634,7 +672,7 @@ const StyledInput$1 = styled__default.input.withConfig({
   displayName: 'RadioList__StyledInput'
 })(['margin-right:5px;position:relative;']);
 
-let RadioList = (_temp2$3 = _class$5 = class RadioList extends React.PureComponent {
+let RadioList = (_temp2$2 = _class$5 = class RadioList extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -667,10 +705,10 @@ let RadioList = (_temp2$3 = _class$5 = class RadioList extends React.PureCompone
   disabled: PropTypes.bool,
   options: OptionsPropType,
   value: ValuePropType
-}, _temp2$3);
+}, _temp2$2);
 
 var _class$6;
-var _temp2$4;
+var _temp2$3;
 
 const StyledLabel$3 = styled__default.label.withConfig({
   displayName: 'Checkbox__StyledLabel'
@@ -680,7 +718,7 @@ const StyledInput$2 = styled__default.input.withConfig({
   displayName: 'Checkbox__StyledInput'
 })(['margin-right:5px;']);
 
-let Checkbox = (_temp2$4 = _class$6 = class Checkbox extends React.PureComponent {
+let Checkbox = (_temp2$3 = _class$6 = class Checkbox extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -708,7 +746,7 @@ let Checkbox = (_temp2$4 = _class$6 = class Checkbox extends React.PureComponent
   label: PropTypes.string,
   value: PropTypes.bool,
   disabled: PropTypes.bool
-}, _temp2$4);
+}, _temp2$3);
 
 var objectWithoutProperties = function (obj, keys) {
   var target = {};
@@ -723,7 +761,7 @@ var objectWithoutProperties = function (obj, keys) {
 };
 
 var _class$7;
-var _temp2$5;
+var _temp2$4;
 
 const StyledInput$3 = styled__default((_ref2) => {
   let { hasError, hasDropdown, _ref } = _ref2,
@@ -748,7 +786,7 @@ const StyledInput$3 = styled__default((_ref2) => {
         border-bottom-right-radius: 0;
     ` : '');
 
-let TextInput = (_temp2$5 = _class$7 = class TextInput extends React.PureComponent {
+let TextInput = (_temp2$4 = _class$7 = class TextInput extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -819,10 +857,10 @@ let TextInput = (_temp2$5 = _class$7 = class TextInput extends React.PureCompone
   value: ''
 }, _class$7.contextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp2$5);
+}, _temp2$4);
 
 var _class$8;
-var _temp2$6;
+var _temp2$5;
 
 const MyInput = StyledInput$3.withComponent((_ref) => {
   let { hasError } = _ref,
@@ -830,7 +868,7 @@ const MyInput = StyledInput$3.withComponent((_ref) => {
   return React__default.createElement(MaskedInput, props);
 });
 
-let NumberInput = (_temp2$6 = _class$8 = class NumberInput extends React.PureComponent {
+let NumberInput = (_temp2$5 = _class$8 = class NumberInput extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -916,10 +954,10 @@ let NumberInput = (_temp2$6 = _class$8 = class NumberInput extends React.PureCom
   includeThousandsSeparator: false
 }, _class$8.contextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp2$6);
+}, _temp2$5);
 
 var _class$9;
-var _temp2$7;
+var _temp2$6;
 
 const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
   let { hasError, _ref } = _ref2,
@@ -929,7 +967,7 @@ const StyledMaskedInput = StyledInput$3.withComponent((_ref2) => {
 
 const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 
-let TimeInput = (_temp2$7 = _class$9 = class TimeInput extends React.PureComponent {
+let TimeInput = (_temp2$6 = _class$9 = class TimeInput extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -984,10 +1022,10 @@ let TimeInput = (_temp2$7 = _class$9 = class TimeInput extends React.PureCompone
   value: ''
 }, _class$9.contextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp2$7);
+}, _temp2$6);
 
 var _class$10;
-var _temp2$8;
+var _temp2$7;
 
 const StyledTextarea = styled__default((_ref) => {
   let { hasError } = _ref,
@@ -1003,7 +1041,7 @@ const StyledAutoTextarea = StyledTextarea.withComponent((_ref2) => {
   return React__default.createElement(AutoTextarea, props);
 });
 
-let TextArea = (_temp2$8 = _class$10 = class TextArea extends React.PureComponent {
+let TextArea = (_temp2$7 = _class$10 = class TextArea extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -1065,7 +1103,7 @@ let TextArea = (_temp2$8 = _class$10 = class TextArea extends React.PureComponen
   rows: 4
 }, _class$10.contextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp2$8);
+}, _temp2$7);
 
 const StyledSvg = styled__default.svg.withConfig({
   displayName: 'Icon__StyledSvg'
@@ -1109,8 +1147,8 @@ let IconClose = props => React__default.createElement(
   React__default.createElement('path', { d: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' })
 );
 
-var _class$12;
-var _temp2$10;
+var _class$11;
+var _temp2$8;
 
 const DropdownContainer = styled__default.div.withConfig({
   displayName: 'FancySelect__DropdownContainer'
@@ -1143,7 +1181,7 @@ function fuzzySearch(options, inputValue) {
   return options.filter(o => o.label.toLowerCase().includes((inputValue || '').toLowerCase()));
 }
 
-let FancySelect = (_temp2$10 = _class$12 = class FancySelect extends React.PureComponent {
+let FancySelect = (_temp2$8 = _class$11 = class FancySelect extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -1265,21 +1303,21 @@ let FancySelect = (_temp2$10 = _class$12 = class FancySelect extends React.PureC
       this.renderDownshift
     );
   }
-}, _class$12.propTypes = {
+}, _class$11.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string,
   value: ValuePropType,
   options: OptionsPropType,
   disabled: PropTypes.bool,
   hasError: PropTypes.bool
-}, _class$12.contextTypes = {
+}, _class$11.contextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp2$10);
+}, _temp2$8);
 
-var _class$11;
+var _class$12;
 var _temp2$9;
 
-let TypeAhead = (_temp2$9 = _class$11 = class TypeAhead extends React.PureComponent {
+let TypeAhead = (_temp2$9 = _class$12 = class TypeAhead extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -1366,7 +1404,7 @@ let TypeAhead = (_temp2$9 = _class$11 = class TypeAhead extends React.PureCompon
       )
     );
   }
-}, _class$11.propTypes = {
+}, _class$12.propTypes = {
   onChange: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   name: PropTypes.string,
@@ -1374,12 +1412,12 @@ let TypeAhead = (_temp2$9 = _class$11 = class TypeAhead extends React.PureCompon
   options: OptionsPropType,
   hasError: PropTypes.bool,
   disabled: PropTypes.bool
-}, _class$11.contextTypes = {
+}, _class$12.contextTypes = {
   formFieldHasError: PropTypes.bool
 }, _temp2$9);
 
 var _class$13;
-var _temp2$11;
+var _temp2$10;
 
 const StyledSelect = styled__default((_ref) => {
   let { autoWidth, hasError } = _ref,
@@ -1389,7 +1427,7 @@ const StyledSelect = styled__default((_ref) => {
   displayName: 'SelectInput__StyledSelect'
 })(['width:', ';height:30px;font-size:14px;color:', ';padding:0 40px 0 7px;text-decoration:none;border-radius:4px;border:1px solid ', ';background-color:', ';background-image:url(\'data:image/svg+xml;utf8,<svg width="19" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z" fill="rgba(0,0,0,0.7)" /></svg>\');background-repeat:no-repeat;background-position:top 1px right 10px;-moz-appearance:none;-webkit-appearance:none;&:focus{border:1px solid ', ';}&:disabled{background-color:', ';cursor:not-allowed;}'], props => props.autoWidth ? 'auto' : '100%', props => props.theme.textColor, props => props.theme[props.hasError ? 'dangerColor' : 'borderColor'], props => props.hasError ? '#fef2f2' : props.theme.componentBackground, props => !props.hasError && props.theme.primaryColor, props => props.theme.disabledColor);
 
-let SelectInput = (_temp2$11 = _class$13 = class SelectInput extends React.PureComponent {
+let SelectInput = (_temp2$10 = _class$13 = class SelectInput extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -1440,10 +1478,10 @@ let SelectInput = (_temp2$11 = _class$13 = class SelectInput extends React.PureC
   autoWidth: PropTypes.bool
 }, _class$13.contextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp2$11);
+}, _temp2$10);
 
 var _class$14;
-var _temp2$12;
+var _temp2$11;
 
 // This should look like <TextInput /> as much as possible.
 const InputValueWrapper = styled__default.div.withConfig({
@@ -1477,7 +1515,7 @@ const CloseButton = styled__default.span.withConfig({
   displayName: 'MultiSelect__CloseButton'
 })(['cursor:pointer;margin-left:4px;']);
 
-let MultiSelect = (_temp2$12 = _class$14 = class MultiSelect extends React.PureComponent {
+let MultiSelect = (_temp2$11 = _class$14 = class MultiSelect extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -1670,7 +1708,7 @@ let MultiSelect = (_temp2$12 = _class$14 = class MultiSelect extends React.PureC
   hasError: PropTypes.bool
 }, _class$14.contextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp2$12);
+}, _temp2$11);
 
 const Container$1 = styled__default.div.withConfig({
   displayName: 'styles__Container'
@@ -1700,10 +1738,10 @@ const DropdownSearch = styled__default(TextInput).withConfig({
   displayName: 'styles__DropdownSearch'
 })(['margin-bottom:10px;']);
 
-var _class$16;
-var _temp2$14;
+var _class$15;
+var _temp2$12;
 
-let MultipickDropdown = (_temp2$14 = _class$16 = class MultipickDropdown extends React.Component {
+let MultipickDropdown = (_temp2$12 = _class$15 = class MultipickDropdown extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -1779,7 +1817,7 @@ let MultipickDropdown = (_temp2$14 = _class$16 = class MultipickDropdown extends
       )
     );
   }
-}, _class$16.propTypes = {
+}, _class$15.propTypes = {
   options: PropTypes.array.isRequired,
   value: PropTypes.array.isRequired,
   filteredOptions: PropTypes.array.isRequired,
@@ -1790,9 +1828,9 @@ let MultipickDropdown = (_temp2$14 = _class$16 = class MultipickDropdown extends
   searchPlaceholder: PropTypes.string,
   selectAllText: PropTypes.string,
   selectNoneText: PropTypes.string
-}, _class$16.defaultProps = {
+}, _class$15.defaultProps = {
   searchValue: ''
-}, _temp2$14);
+}, _temp2$12);
 
 let IconKeyboardArrowDown = props => React__default.createElement(
   Icon,
@@ -1800,10 +1838,10 @@ let IconKeyboardArrowDown = props => React__default.createElement(
   React__default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
 );
 
-var _class$15;
+var _class$16;
 var _temp2$13;
 
-let MultiPick = (_temp2$13 = _class$15 = class MultiPick extends React.Component {
+let MultiPick = (_temp2$13 = _class$16 = class MultiPick extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -1863,7 +1901,7 @@ let MultiPick = (_temp2$13 = _class$15 = class MultiPick extends React.Component
       this.renderDropdown()
     );
   }
-}, _class$15.propTypes = {
+}, _class$16.propTypes = {
   options: OptionsPropType,
   value: PropTypes.arrayOf(ValuePropType).isRequired,
   searchAppearsAfterCount: PropTypes.number,
@@ -1874,7 +1912,7 @@ let MultiPick = (_temp2$13 = _class$15 = class MultiPick extends React.Component
   noneSelectedText: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool
-}, _class$15.defaultProps = {
+}, _class$16.defaultProps = {
   searchAppearsAfterCount: 5
 }, _temp2$13);
 
@@ -1882,11 +1920,11 @@ let MultiPick = (_temp2$13 = _class$15 = class MultiPick extends React.Component
 var index = onClickOutside(MultiPick);
 
 const DatePickerWrapper = styled__default.div.withConfig({
-    displayName: 'DatePickerWrapper'
+  displayName: 'DatePickerWrapper'
 })(['text-align:center;.DayPicker{display:inline-block;}.DayPicker-wrapper{display:flex;flex-wrap:wrap;justify-content:center;position:relative;user-select:none;flex-direction:row;padding:1rem 0;}.DayPicker-Month{display:table;border-collapse:collapse;border-spacing:0;user-select:none;margin:0 1rem;}.DayPicker-NavBar{position:absolute;left:0;right:0;padding:0 0.5rem;top:1rem;}.DayPicker-NavButton{position:absolute;width:1.5rem;height:1.5rem;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer;}.DayPicker-NavButton--prev{top:-0.2rem;left:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--next{top:-0.2rem;right:1rem;background-image:url(\'data:image/svg+xml;utf8,<svg fill="', '" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>\');}.DayPicker-NavButton--interactionDisabled{display:none;}.DayPicker-Caption{display:table-caption;height:1.5rem;text-align:center;}.DayPicker-Weekdays{display:table-header-group;}.DayPicker-WeekdaysRow{display:table-row;}.DayPicker-Weekday{display:table-cell;padding:0.5rem;font-size:0.875em;text-align:center;color:#8b9898;abbr{text-decoration:none;}}.DayPicker-Body{display:table-row-group;}.DayPicker-Week{display:table-row;}.DayPicker-Day{display:table-cell;padding:0.5rem;text-align:center;cursor:pointer;vertical-align:middle;outline:none;}.DayPicker-WeekNumber{display:table-cell;padding:0.5rem;text-align:right;vertical-align:middle;min-width:1rem;font-size:0.75em;cursor:pointer;color:#8b9898;}.DayPicker--interactionDisabled .DayPicker-Day{cursor:default;}.DayPicker-Footer{display:table-caption;caption-side:bottom;padding-top:0.5rem;}.DayPicker-TodayButton{border:none;background-image:none;background-color:transparent;box-shadow:none;cursor:pointer;color:#4a90e2;font-size:0.875em;}.DayPicker-Day--today{color:', ';font-weight:500;}.DayPicker-Day--disabled{color:', ';cursor:default;background-color:', ';}.DayPicker-Day--outside{cursor:default;color:', ';}.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){color:', ';background-color:', ';}.DayPickerInput{display:inline-block;width:100%;}.DayPickerInput-OverlayWrapper{position:relative;}.DayPickerInput-Overlay{left:0;position:absolute;background:', ';box-shadow:0 2px 5px rgba(0,0,0,0.15);z-index:', ';}.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside){background-color:', ' !important;color:', ';}.Selectable .DayPicker-Day{border-radius:0 !important;}.Selectable .DayPicker-Day--start{border-top-left-radius:50% !important;border-bottom-left-radius:50% !important;}.Selectable .DayPicker-Day--end{border-top-right-radius:50% !important;border-bottom-right-radius:50% !important;}'], props => props.theme.textColor, props => props.theme.textColor, props => props.theme.dangerColor, props => props.theme.lightColor, props => props.theme.disabledColor, props => props.theme.lightColor, props => readableColor(props.theme.primaryColor), props => props.theme.primaryColor, props => props.theme.componentBackground, props => props.theme.zIndexSingleDatePickerOverlay, props => polished.setLightness(0.93, props.theme.primaryColor), props => props.theme.textColor);
 
 var _class$17;
-var _temp2$15;
+var _temp2$14;
 var _class2;
 var _class3;
 var _temp4;
@@ -1898,7 +1936,7 @@ const StyledMaskedInput$1 = StyledInput$3.withComponent((_ref2) => {
 });
 
 // This is not a hack, it is a documented workaround (in react-day-picker)!
-let MaskedDateInput = (_temp2$15 = _class$17 = class MaskedDateInput extends React.PureComponent {
+let MaskedDateInput = (_temp2$14 = _class$17 = class MaskedDateInput extends React.PureComponent {
   constructor(...args) {
     var _temp;
 
@@ -1935,7 +1973,7 @@ let MaskedDateInput = (_temp2$15 = _class$17 = class MaskedDateInput extends Rea
   }
 }, _class$17.contextTypes = {
   inputDateFormat: PropTypes.string
-}, _temp2$15);
+}, _temp2$14);
 
 let SingleDatePicker = styled.withTheme(_class2 = (_temp4 = _class3 = class SingleDatePicker extends React.PureComponent {
   constructor(...args) {
@@ -2019,7 +2057,7 @@ let IconNavigateNext = props => React__default.createElement(
 
 var _class$18;
 var _class2$1;
-var _temp2$16;
+var _temp2$15;
 
 function toDate(moment$$1) {
   return moment$$1 ? moment$$1.toDate() : undefined;
@@ -2036,7 +2074,7 @@ const CombinedInputItem = styled__default.div.withConfig({
   displayName: 'DateRangePicker__CombinedInputItem'
 })(['flex:1;display:flex;padding-left:10px;cursor:', ';user-select:none;'], props => props.onClick ? 'pointer' : 'not-allowed');
 
-let DateRangePicker = styled.withTheme(_class$18 = (_temp2$16 = _class2$1 = class DateRangePicker extends React.Component {
+let DateRangePicker = styled.withTheme(_class$18 = (_temp2$15 = _class2$1 = class DateRangePicker extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -2131,16 +2169,16 @@ let DateRangePicker = styled.withTheme(_class$18 = (_temp2$16 = _class2$1 = clas
   showWeekNumbers: true
 }, _class2$1.contextTypes = {
   formFieldHasError: PropTypes.bool
-}, _temp2$16)) || _class$18;
+}, _temp2$15)) || _class$18;
 
 var _class$19;
-var _temp$2;
+var _temp$3;
 
 const StyledTooltip = styled__default.span.withConfig({
   displayName: 'Tooltip__StyledTooltip'
 })(['position:relative;max-width:fit-content;&:before,&:after{position:absolute;top:122%;left:50%;transform:translateX(-50%);display:none;pointer-events:none;z-index:', ';}&:before{content:\'\';width:0;height:0;border-left:solid 5px transparent;border-right:solid 5px transparent;border-bottom:solid 5px ', ';margin-top:-5px;}&:after{content:attr(aria-label);padding:2px 10px;background:', ';color:', ';font-size:12px;line-height:1.7;white-space:nowrap;border-radius:2px;}&.tooltipped-n:before{top:auto;bottom:122%;margin:0 0 -5px;border-left:solid 5px transparent;border-right:solid 5px transparent;border-top:solid 5px ', ';border-bottom:0;}&.tooltipped-n:after{top:auto;bottom:122%;}&.tooltipped-sw:after{left:auto;transform:none;right:50%;margin-right:-12px;}&.tooltipped-se:after{transform:none;margin-left:-12px;}&:hover{&:before,&:after{display:block;}}'], props => props.theme.zIndexTooltip, props => props.theme.darkColor, props => props.theme.darkColor, props => readableColor(props.theme.darkColor), props => props.theme.darkColor);
 
-let Tooltip = (_temp$2 = _class$19 = class Tooltip extends React.Component {
+let Tooltip = (_temp$3 = _class$19 = class Tooltip extends React.Component {
 
   render() {
     const { direction, children } = this.props;
@@ -2159,7 +2197,7 @@ let Tooltip = (_temp$2 = _class$19 = class Tooltip extends React.Component {
   direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired
 }, _class$19.defaultProps = {
   direction: 's'
-}, _temp$2);
+}, _temp$3);
 
 let IconKeyboardArrowUp = props => React__default.createElement(
   Icon,
@@ -2169,7 +2207,7 @@ let IconKeyboardArrowUp = props => React__default.createElement(
 
 var _class$20;
 var _class2$2;
-var _temp2$17;
+var _temp2$16;
 
 const StyledContainer = styled__default.div.withConfig({
   displayName: 'Accordion__StyledContainer'
@@ -2190,7 +2228,7 @@ const StyledTitleContainer = styled__default.div.withConfig({
   displayName: 'Accordion__StyledTitleContainer'
 })(['position:relative;display:flex;align-items:center;']);
 
-let Accordion = styled.withTheme(_class$20 = (_temp2$17 = _class2$2 = class Accordion extends React.Component {
+let Accordion = styled.withTheme(_class$20 = (_temp2$16 = _class2$2 = class Accordion extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -2239,7 +2277,7 @@ let Accordion = styled.withTheme(_class$20 = (_temp2$17 = _class2$2 = class Acco
   action: PropTypes.node,
   theme: PropTypes.object.isRequired,
   contentBackground: PropTypes.string
-}, _temp2$17)) || _class$20;
+}, _temp2$16)) || _class$20;
 
 const Table = styled__default.table.withConfig({
   displayName: 'Table'
@@ -2254,7 +2292,7 @@ TableHead.displayName = 'TableHead';
 
 const TableBody = styled__default.tbody.withConfig({
   displayName: 'Table__TableBody'
-})(['tr:last-child{border-bottom:0;}']);
+})(['&:last-child tr:last-child{border-bottom:0;}']);
 TableBody.displayName = 'TableBody';
 TableBody.displayName = 'TableBody';
 
@@ -2415,31 +2453,12 @@ ActionBar.propTypes = {
   children: PropTypes.node
 };
 
-const sweep = styled.keyframes(['to{transform:rotate(360deg);}']);
-
-const Loader = styled__default.div.withConfig({
-  displayName: 'Loader'
-})(['width:18px;height:18px;animation:', ' 0.7s infinite linear;border-radius:8px;margin:5px;transition:200ms all linear;', ';'], sweep, props => {
-  if (props.show) {
-    return `
-                box-shadow: 4px 0 0px -3px black;
-                transition-duration: 1s;
-            `;
-  }
-  return 'box-shadow: 10px 0 0px -10px black;';
-});
-
-Loader.displayName = 'Loader';
-Loader.propTypes = {
-  show: PropTypes.bool
-};
-
-var _class$22;
-var _temp2$19;
+var _class$21;
+var _temp2$17;
 
 const TRANSITION_TIME = 500;
 
-let NotificationItem = (_temp2$19 = _class$22 = class NotificationItem extends React.Component {
+let NotificationItem = (_temp2$17 = _class$21 = class NotificationItem extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -2492,17 +2511,17 @@ let NotificationItem = (_temp2$19 = _class$22 = class NotificationItem extends R
       )
     );
   }
-}, _class$22.propTypes = {
+}, _class$21.propTypes = {
   message: PropTypes.string.isRequired,
   onDismiss: PropTypes.func.isRequired,
   onClick: PropTypes.func,
   dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
   dismissible: PropTypes.bool,
   type: PropTypes.oneOf(['info', 'error'])
-}, _class$22.defaultProps = {
+}, _class$21.defaultProps = {
   dismissAfter: 3100,
   type: 'info'
-}, _temp2$19);
+}, _temp2$17);
 const CloseButton$1 = styled__default(Button).withConfig({
   displayName: 'Item__CloseButton'
 })(['margin-left:11px;position:absolute;top:13px;right:13px;font-size:15px;']);
@@ -2525,10 +2544,10 @@ const StyledItem = styled__default.div.withConfig({
         opacity: 0;
     ` : '', getBackgroundColor, props => props.onClick ? 'pointer' : 'default');
 
-var _class$21;
+var _class$22;
 var _temp2$18;
 
-let NotificationStack = (_temp2$18 = _class$21 = class NotificationStack extends React.Component {
+let NotificationStack = (_temp2$18 = _class$22 = class NotificationStack extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -2553,7 +2572,7 @@ let NotificationStack = (_temp2$18 = _class$21 = class NotificationStack extends
       this.props.notifications.map(this.renderNotification)
     );
   }
-}, _class$21.propTypes = {
+}, _class$22.propTypes = {
   notifications: PropTypes.array.isRequired,
   onDismiss: PropTypes.func.isRequired
 }, _temp2$18);
@@ -2561,61 +2580,331 @@ const StackWrapper = styled__default.div.withConfig({
   displayName: 'Stack__StackWrapper'
 })(['position:fixed;top:20px;z-index:', ';width:100%;display:flex;flex-flow:column wrap;align-items:center;pointer-events:none;'], props => props.theme.zIndexNotificationStack);
 
-var _class$23;
-var _temp2$20;
+const rcDialogZoomIn = styled.keyframes(['0%{opacity:0;transform:scale(0,0);}100%{opacity:1;transform:scale(1,1);}']);
 
-const Container$2 = styled__default.div.withConfig({
-  displayName: 'Modal__Container'
-})(['position:fixed;top:0;bottom:0;left:0;right:0;z-index:', ';display:flex;align-items:center;justify-content:center;'], props => props.theme.zIndexModal);
+const rcDialogZoomOut = styled.keyframes(['0%{transform:scale(1,1);}100%{opacity:0;transform:scale(0,0);}']);
 
-const Background = styled__default.div.withConfig({
-  displayName: 'Modal__Background'
-})(['position:absolute;background:rgba(0,0,0,0.5);width:100%;height:100%;cursor:pointer;']);
+const rcDialogFadeIn = styled.keyframes(['0%{opacity:0;}100%{opacity:1;}']);
 
-const Content$3 = styled__default.div.withConfig({
-  displayName: 'Modal__Content'
-})(['position:relative;background:', ';border-radius:4px;display:flex;overflow:hidden;height:80vh;width:80vw;max-width:800px;max-height:800px;'], props => props.theme.componentBackground);
+const rcDialogFadeOut = styled.keyframes(['0%{opacity:1;}100%{opacity:0;}']);
 
-const ESCAPE_KEY = 27;
-
-let Modal = (_temp2$20 = _class$23 = class Modal extends React.Component {
-  constructor(...args) {
-    var _temp;
-
-    return _temp = super(...args), this.handleKeyDown = e => {
-      if (e.keyCode === ESCAPE_KEY) {
-        this.props.onClose();
-      }
-    }, _temp;
+var globalStyles = (theme => styled.injectGlobal`
+  .rc-dialog {
+    position: relative;
+    width: auto;
+    max-width: 600px;
+    margin: 0 auto;
+    max-height: 100%;
+    height: auto;
+    display: flex;
   }
+  .rc-dialog-wrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+    padding: 10px;
+  }
+  @media (min-width: 768px) {
+    .rc-dialog-wrap {
+      padding: 30px;
+    }
+  }
+  .rc-dialog-title {
+    margin: 0;
+    font-size: 20px;
+    line-height: 21px;
+    font-weight: bold;
+  }
+  .rc-dialog-content {
+    position: relative;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    background-clip: padding-box;
+    margin: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .rc-dialog-close {
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    font-size: 21px;
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.2;
+    text-decoration: none;
+  }
+  .rc-dialog-close-x:after {
+    content: '×';
+  }
+  .rc-dialog-close:hover {
+    opacity: 1;
+    text-decoration: none;
+  }
+  .rc-dialog-header {
+    padding: 13px 20px 14px 20px;
+    border-radius: 5px 5px 0 0;
+    background: #fff;
+    color: ${theme.textColor};
+    border-bottom: 1px solid #e9e9e9;
+  }
+  .rc-dialog-body {
+    overflow: auto;
+    padding: 20px;
+  }
+  .rc-dialog-footer {
+    border-top: 1px solid #e9e9e9;
+    padding: 10px 20px 10px 10px;
+    text-align: right;
+    border-radius: 0 0 5px 5px;
+  }
+  .rc-dialog-zoom-enter,
+  .rc-dialog-zoom-appear {
+    opacity: 0;
+    animation-duration: 0.25s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-play-state: paused;
+  }
+  .rc-dialog-zoom-leave {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.66, 0.84);
+    animation-play-state: paused;
+  }
+  .rc-dialog-zoom-enter.rc-dialog-zoom-enter-active,
+  .rc-dialog-zoom-appear.rc-dialog-zoom-appear-active {
+    animation-name: ${rcDialogZoomIn};
+    animation-play-state: running;
+  }
+  .rc-dialog-zoom-leave.rc-dialog-zoom-leave-active {
+    animation-name: ${rcDialogZoomOut};
+    animation-play-state: running;
+  }
+  .rc-dialog-mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #373737;
+    background-color: rgba(55, 55, 55, 0.6);
+    height: 100%;
+    z-index: 1050;
+  }
+  .rc-dialog-mask-hidden {
+    display: none;
+  }
+  .rc-dialog-fade-enter,
+  .rc-dialog-fade-appear {
+    opacity: 0;
+    animation-duration: 0.25s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-play-state: paused;
+  }
+  .rc-dialog-fade-leave {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    animation-play-state: paused;
+    pointer-events: none;
+  }
+  .rc-dialog-fade-enter.rc-dialog-fade-enter-active,
+  .rc-dialog-fade-appear.rc-dialog-fade-appear-active {
+    animation-name: ${rcDialogFadeIn};
+    animation-play-state: running;
+  }
+  .rc-dialog-fade-leave.rc-dialog-fade-leave-active {
+    animation-name: ${rcDialogFadeOut};
+    animation-play-state: running;
+  }
+`);
+
+var _class$23;
+var _class2$3;
+var _temp$4;
+
+let globalInserted = false;
+let mousePosition = null;
+let mousePositionEventBinded = false;
+
+let Modal = styled.withTheme(_class$23 = (_temp$4 = _class2$3 = class Modal extends React.Component {
 
   componentWillMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
+    // Terrible hack, but I did not yet find a prop way to defer loading
+    // the global styles for rc-dialog.
+    if (!globalInserted) {
+      globalStyles(this.props.theme);
+      globalInserted = true;
+    }
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
+  componentDidMount() {
+    if (mousePositionEventBinded) {
+      return;
+    }
+    // You might think: what the fuck is this code.
+    // This is necessary to animate the modal starting from the current mouse position.
+    // Respectfully copied from https://github.com/ant-design/ant-design/
+    addEventListener(document.documentElement, 'click', e => {
+      mousePosition = {
+        x: e.pageX,
+        y: e.pageY
+      };
+      setTimeout(() => mousePosition = null, 100);
+    });
+    mousePositionEventBinded = true;
   }
 
   render() {
     return React__default.createElement(
-      Container$2,
-      null,
-      React__default.createElement(Background, { onClick: this.props.onClose }),
-      React__default.createElement(
-        Content$3,
-        null,
-        this.props.children
-      )
+      Dialog,
+      {
+        visible: this.props.visible,
+        animation: 'zoom',
+        maskAnimation: 'fade',
+        onClose: this.props.onClose,
+        afterClose: this.props.afterClose,
+        destroyOnClose: true,
+        closable: false,
+        mousePosition: mousePosition,
+        style: { width: this.props.width },
+        title: this.props.title,
+        footer: this.props.footer
+      },
+      this.props.children
     );
   }
-}, _class$23.propTypes = {
+}, _class2$3.propTypes = {
   children: PropTypes.node.isRequired,
-  onClose: PropTypes.func.isRequired
-}, _temp2$20);
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  afterClose: PropTypes.func,
+  width: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  footer: PropTypes.element,
+  theme: PropTypes.object.isRequired
+}, _temp$4)) || _class$23;
+
+// TODO: perhaps add a fancy "question" icon like ant.design does
+const ConfirmModal = ({
+  visible,
+  afterClose,
+  onOk,
+  close,
+  title,
+  content,
+  cancelText,
+  okText,
+  okTone
+}) => {
+  const handleCancel = () => close({ triggerCancel: true });
+  const handleOk = () => {
+    onOk();
+    close();
+  };
+  return React__default.createElement(
+    Modal,
+    {
+      visible: visible,
+      afterClose: afterClose,
+      onClose: handleCancel,
+      width: '416px',
+      theme: defaultConfig,
+      footer: React__default.createElement(
+        React.Fragment,
+        null,
+        React__default.createElement(
+          Button,
+          { tone: 'light', onClick: handleCancel },
+          cancelText || i18next.t('form.cancelButton')
+        ),
+        React__default.createElement(
+          Button,
+          { tone: okTone, onClick: handleOk },
+          okText || i18next.t('form.okButton')
+        )
+      )
+    },
+    React__default.createElement(
+      Subheading,
+      null,
+      title
+    ),
+    content && React__default.createElement(
+      Text,
+      null,
+      content
+    )
+  );
+};
+
+ConfirmModal.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  onOk: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
+  afterClose: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string,
+  okText: PropTypes.string,
+  okTone: TonePropType,
+  cancelText: PropTypes.string
+};
+
+function confirm(_ref) {
+  let { theme = {} } = _ref,
+      config = objectWithoutProperties(_ref, ['theme']);
+
+  let div = document.createElement('div');
+  document.body.appendChild(div);
+
+  function close(...args) {
+    render(Object.assign({}, config, {
+      close,
+      visible: false,
+      afterClose: destroy.bind(this, ...args)
+    }));
+  }
+  function destroy(...args) {
+    const unmountResult = ReactDOM.unmountComponentAtNode(div);
+    if (unmountResult && div.parentNode) {
+      div.parentNode.removeChild(div);
+    }
+    const triggerCancel = args && args.length && args.some(param => param && param.triggerCancel);
+    if (config.onCancel && triggerCancel) {
+      config.onCancel();
+    }
+  }
+  function render(props) {
+    // Since we are rendering a separate DOM we also need to initialize the ThemeProvider again.
+    // Unfortunately there is no way to get the `theme` object, so the user needs to manually pass it.
+    ReactDOM.render(React__default.createElement(
+      styled.ThemeProvider,
+      { theme: getTheme(theme) },
+      React__default.createElement(ConfirmModal, props)
+    ), div);
+  }
+  render(Object.assign({}, config, { visible: true, close }));
+  return {
+    destroy: close
+  };
+}
 
 var _class$24;
-var _temp$3;
+var _temp$5;
 
 const Bubble = styled__default.sup.withConfig({
   displayName: 'Badge__Bubble'
@@ -2625,7 +2914,7 @@ const Wrapper = styled__default.div.withConfig({
   displayName: 'Badge__Wrapper'
 })(['position:relative;display:inline-block;']);
 
-let Badge = (_temp$3 = _class$24 = class Badge extends React.Component {
+let Badge = (_temp$5 = _class$24 = class Badge extends React.Component {
 
   render() {
     const { count, children, className } = this.props;
@@ -2644,16 +2933,16 @@ let Badge = (_temp$3 = _class$24 = class Badge extends React.Component {
   count: PropTypes.number,
   children: PropTypes.node,
   className: PropTypes.string
-}, _temp$3);
+}, _temp$5);
 
 var _class$25;
-var _temp$4;
+var _temp$6;
 
 const Menu = styled__default.header.withConfig({
   displayName: 'TopMenu__Menu'
 })(['display:flex;align-items:stretch;flex-direction:column;']);
 
-let TopMenu = (_temp$4 = _class$25 = class TopMenu extends React.Component {
+let TopMenu = (_temp$6 = _class$25 = class TopMenu extends React.Component {
 
   render() {
     return React__default.createElement(
@@ -2664,7 +2953,7 @@ let TopMenu = (_temp$4 = _class$25 = class TopMenu extends React.Component {
   }
 }, _class$25.propTypes = {
   children: PropTypes.node.isRequired
-}, _temp$4);
+}, _temp$6);
 
 const StyledNavLink = styled__default(reactRouterDom.NavLink).withConfig({
   displayName: 'Logo__StyledNavLink'
@@ -2694,13 +2983,13 @@ var MenuRow = styled__default.div.withConfig({
     `);
 
 var _class$26;
-var _temp2$21;
+var _temp2$19;
 
 const StyledNavLink$1 = styled__default(reactRouterDom.NavLink).withConfig({
   displayName: 'NavItem__StyledNavLink'
-})(['display:flex;align-items:center;padding:0 16px;margin:4px;text-decoration:none;color:inherit;cursor:pointer;position:relative;transition:250ms background ease;border-radius:4px;&:hover{transition:100ms background ease;background:', ';}&.active{&:before,&:after{border-width:5px;}}&:after{position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => polished.transparentize(0.9, props.theme.darkColor), props => props.theme.darkColor);
+})(['display:flex;align-items:center;padding:0 16px;margin:4px;text-decoration:none;color:inherit;cursor:pointer;position:relative;transition:250ms background ease;border-radius:4px;&:hover,&:focus{outline:0;transition:100ms background ease;background:', ';}&.active{&:before,&:after{border-width:5px;}}&:after{position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);width:0;height:0;border:0 solid transparent;border-bottom-color:#fff;border-top:0;transition:175ms all ease;}&:before{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);content:\'\';width:0;height:0;border:0 solid transparent;border-bottom-color:', ';border-top:0;transition:175ms all ease;}'], props => polished.transparentize(0.9, props.theme.darkColor), props => props.theme.darkColor);
 
-let NavItem = (_temp2$21 = _class$26 = class NavItem extends React.Component {
+let NavItem = (_temp2$19 = _class$26 = class NavItem extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -2728,7 +3017,7 @@ let NavItem = (_temp2$21 = _class$26 = class NavItem extends React.Component {
   to: PropTypes.string,
   onClick: PropTypes.func,
   activePath: PropTypes.string
-}, _temp2$21);
+}, _temp2$19);
 
 var NavItemExternal = StyledNavLink$1.withComponent((_ref) => {
   let { title } = _ref,
@@ -2745,13 +3034,13 @@ var NavMenu = styled__default.nav.withConfig({
 })(['flex:1;display:flex;align-items:stretch;']);
 
 var _class$27;
-var _temp2$22;
+var _temp2$20;
 
 const RelativeWrapper = styled__default.div.withConfig({
   displayName: 'Dropdown__RelativeWrapper'
 })(['position:relative;']);
 
-let MyDropdown = (_temp2$22 = _class$27 = class MyDropdown extends React.Component {
+let MyDropdown = (_temp2$20 = _class$27 = class MyDropdown extends React.Component {
   constructor(...args) {
     var _temp;
 
@@ -2788,7 +3077,7 @@ let MyDropdown = (_temp2$22 = _class$27 = class MyDropdown extends React.Compone
   children: PropTypes.node.isRequired,
   opened: PropTypes.bool,
   onChange: PropTypes.func
-}, _temp2$22);
+}, _temp2$20);
 
 
 const Dropdown$2 = onClickOutside(MyDropdown);
@@ -8705,6 +8994,7 @@ exports.ActionBar = ActionBar;
 exports.Loader = Loader;
 exports.NotificationStack = NotificationStack;
 exports.Modal = Modal;
+exports.confirm = confirm;
 exports.Badge = Badge;
 exports.TopMenu = TopMenu;
 exports.Logo = Logo;
