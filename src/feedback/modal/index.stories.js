@@ -7,6 +7,7 @@ import confirm from './confirm';
 import CenterDecorator from '../../../storybook/CenterDecorator';
 import { Button } from '../../general/Button';
 import { withTheme } from 'styled-components';
+import { State } from 'react-powerplug';
 
 storiesOf('Feedback / Modal', module)
   .addDecorator(CenterDecorator)
@@ -21,22 +22,23 @@ storiesOf('Feedback / Modal', module)
     })
   )
   .add('controlled', () => {
-    class MyComponent extends Component {
-      state = { visible: false };
-      handleOpen = () => {
-        this.setState({ visible: true });
-      };
-      handleClose = () => {
-        this.setState({ visible: false });
-        action('close')();
-      };
-      render() {
-        return (
+    return (
+      <State initial={{ visible: false }}>
+        {({ state, setState }) => (
           <div>
-            <Button onClick={this.handleOpen}>Show modal</Button>
+            <Button
+              onClick={() => {
+                this.setState({ visible: true });
+              }}
+            >
+              Show modal
+            </Button>
             <Modal
               visible={this.state.visible}
-              onClose={this.handleClose}
+              onClose={() => {
+                this.setState({ visible: false });
+                action('close')();
+              }}
               title="Nice Modal Title"
               footer={
                 <Fragment>
@@ -62,10 +64,9 @@ storiesOf('Feedback / Modal', module)
               </p>
             </Modal>
           </div>
-        );
-      }
-    }
-    return <MyComponent />;
+        )}
+      </State>
+    );
   })
   .add(
     'confirm',

@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import TypeAhead from './TypeAhead';
 import { Button } from '../general/Button';
 import CenterDecorator from '../../storybook/CenterDecorator';
+import { State } from 'react-powerplug';
 
 const SOME_OPTIONS = [
   {
@@ -58,34 +59,27 @@ storiesOf('Data Entry / TypeAhead', module)
     })
   )
   .add('controlled', () => {
-    class MyComponent extends Component {
-      state = {
-        value: '',
-      };
-
-      handleChange = (name, value) => {
-        this.setState({
-          value: value,
-        });
-        action('change')(name, value);
-      };
-
-      render() {
-        return (
+    return (
+      <State initial={{ value: '' }}>
+        {({ state, setState }) => (
           <div>
             <TypeAhead
-              onChange={this.handleChange}
+              onChange={(name, value) => {
+                setState({
+                  value: value,
+                });
+                action('change')(name, value);
+              }}
               onSelect={action('select')}
               name="myname"
               options={SOME_OPTIONS}
-              value={this.state.value}
+              value={state.value}
             />
-            <Button onClick={() => this.setState({ value: '' })}>Reset</Button>
+            <Button onClick={() => setState({ value: '' })}>Reset</Button>
           </div>
-        );
-      }
-    }
-    return <MyComponent />;
+        )}
+      </State>
+    );
   })
   .add(
     'disabled',

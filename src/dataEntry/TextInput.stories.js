@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
+import { State } from 'react-powerplug';
 import TextInput from './TextInput';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
@@ -46,22 +47,18 @@ storiesOf('Data Entry / TextInput', module)
   .add(
     'without browser spellCheck',
     withInfo()(() => {
-      class MyComponent extends Component {
-        state = { value: '' };
-        render() {
-          return (
-            <TextInput
-              onChange={(name, value) => this.setState({ value })}
-              name="myname"
-              value={this.state.value}
-              spellCheck={false}
-            />
-          );
-        }
-      }
       return (
         <div>
-          <MyComponent />
+          <State initial={{ value: '' }}>
+            {({ state, setState }) => (
+              <TextInput
+                onChange={(name, value) => setState({ value })}
+                name="myname"
+                value={state.value}
+                spellCheck={false}
+              />
+            )}
+          </State>
           <p>
             Make sure you have your operating system's auto-correct enabled. It
             should be disabled for this field.

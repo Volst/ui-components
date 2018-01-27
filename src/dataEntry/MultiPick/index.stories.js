@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { action } from '@storybook/addon-actions';
 import CenterDecorator from '../../../storybook/CenterDecorator';
 import MultiPick from './index';
+import { State } from 'react-powerplug';
 
 const SOME_DATA = [
   {
@@ -35,27 +36,24 @@ const MORE_DATA = [
 storiesOf('Data Entry / MultiPick', module)
   .addDecorator(CenterDecorator)
   .add('controlled', () => {
-    class MyComponent extends Component {
-      state = {
-        value: [1, 3],
-      };
-
-      handleChange = value => {
-        this.setState({ value });
-        action('change');
-      };
-
-      render() {
-        return (
+    return (
+      <State
+        initial={{
+          value: [1, 3],
+        }}
+      >
+        {({ state, setState }) => (
           <MultiPick
             options={SOME_DATA}
-            value={this.state.value}
-            onChange={this.handleChange}
+            value={state.value}
+            onChange={value => {
+              setState({ value });
+              action('change');
+            }}
           />
-        );
-      }
-    }
-    return <MyComponent />;
+        )}
+      </State>
+    );
   })
   .add(
     'without any selections',
@@ -66,28 +64,21 @@ storiesOf('Data Entry / MultiPick', module)
     })
   )
   .add('with searchbar', () => {
-    class MyComponent extends Component {
-      state = {
-        value: [],
-      };
-
-      handleChange = value => {
-        this.setState({ value });
-        action('change');
-      };
-
-      render() {
-        return (
+    return (
+      <State initial={{ value: [] }}>
+        {({ state, setState }) => (
           <MultiPick
             options={MORE_DATA}
-            value={this.state.value}
+            value={state.value}
             searchAppearsAfterCount={5}
-            onChange={this.handleChange}
+            onChange={value => {
+              this.setState({ value });
+              action('change');
+            }}
           />
-        );
-      }
-    }
-    return <MyComponent />;
+        )}
+      </State>
+    );
   })
   .add('disabled', () => {
     return (

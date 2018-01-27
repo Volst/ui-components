@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import DateRangePicker from './DateRangePicker';
 import CenterDecorator from '../../storybook/CenterDecorator';
 import moment from 'moment';
+import { State } from 'react-powerplug';
 
 storiesOf('Data Entry / DateRangePicker', module)
   .addDecorator(CenterDecorator)
@@ -22,30 +23,27 @@ storiesOf('Data Entry / DateRangePicker', module)
     })
   )
   .add('controlled', () => {
-    class MyComponent extends Component {
-      state = {
-        startDate: null,
-        endDate: null,
-      };
-
-      handleChange = (name, values) => {
-        this.setState(values);
-        action('change')(name, values);
-      };
-
-      render() {
-        return (
+    return (
+      <State
+        initial={{
+          startDate: null,
+          endDate: null,
+        }}
+      >
+        {({ state, setState }) => (
           <DateRangePicker
-            onChange={this.handleChange}
+            onChange={(name, values) => {
+              setState(values);
+              action('change')(name, values);
+            }}
             name="myname"
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
+            startDate={state.startDate}
+            endDate={state.endDate}
             placeholder="Select date..."
           />
-        );
-      }
-    }
-    return <MyComponent />;
+        )}
+      </State>
+    );
   })
   .add(
     'with error',

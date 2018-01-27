@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import SingleDatePicker from './SingleDatePicker';
 import CenterDecorator from '../../storybook/CenterDecorator';
 import moment from 'moment';
+import { State } from 'react-powerplug';
 
 storiesOf('Data Entry / SingleDatePicker', module)
   .addDecorator(CenterDecorator)
@@ -21,33 +22,22 @@ storiesOf('Data Entry / SingleDatePicker', module)
     })
   )
   .add('controlled', () => {
-    class MyComponent extends Component {
-      state = {
-        value: null,
-      };
-
-      componentDidMount() {
-        this.setState({ value: moment('1995-01-01') });
-      }
-
-      handleChange = (name, value) => {
-        this.setState({
-          value: value,
-        });
-        action('change')(name, value);
-      };
-
-      render() {
-        return (
+    return (
+      <State initial={{ value: moment('1995-01-01') }}>
+        {({ state, setState }) => (
           <SingleDatePicker
-            onChange={this.handleChange}
+            onChange={(name, value) => {
+              setState({
+                value: value,
+              });
+              action('change')(name, value);
+            }}
             name="myname"
-            value={this.state.value}
+            value={state.value}
           />
-        );
-      }
-    }
-    return <MyComponent />;
+        )}
+      </State>
+    );
   })
   .add(
     'with error',

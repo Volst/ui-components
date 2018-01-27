@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import MultiSelect from './MultiSelect';
 import CenterDecorator from '../../storybook/CenterDecorator';
+import { State } from 'react-powerplug';
 
 const SOME_OPTIONS = [
   {
@@ -44,30 +45,23 @@ storiesOf('Data Entry / MultiSelect', module)
     })
   )
   .add('controlled', () => {
-    class MyComponent extends Component {
-      state = {
-        value: [2],
-      };
-
-      handleChange = (name, value) => {
-        this.setState({
-          value: value,
-        });
-        action('change')(name, value);
-      };
-
-      render() {
-        return (
+    return (
+      <State initial={{ value: [2] }}>
+        {({ state, setState }) => (
           <MultiSelect
-            onChange={this.handleChange}
+            onChange={(name, value) => {
+              setState({
+                value: value,
+              });
+              action('change')(name, value);
+            }}
             name="myname"
             options={SOME_OPTIONS}
-            value={this.state.value}
+            value={state.value}
           />
-        );
-      }
-    }
-    return <MyComponent />;
+        )}
+      </State>
+    );
   })
   .add(
     'with error',
