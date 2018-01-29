@@ -72,10 +72,10 @@ export const Button = styled(props => (
 
   > svg {
     &:first-child {
-      margin-right: 6px;
+      margin-right: 4px;
     }
     &:last-child {
-      margin-left: 6px;
+      margin-left: 4px;
     }
     &:first-child:last-child {
       margin: 0;
@@ -98,9 +98,9 @@ export const Button = styled(props => (
 
     return `
       color: ${textColor};
-      height: ${props.small ? '24px' : '30px'};
-      padding: ${props.small ? '0 5px' : '0 10px'};
-      margin: 5px 5px 5px 0;
+      height: ${props.small ? '22px' : '28px'};
+      padding: ${props.small ? '0 3px' : '0 7px'};
+      margin: 4px 4px 4px 0;
       vertical-align: middle;
 
       ${
