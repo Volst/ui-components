@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
-import { darken, tint, rgba, transparentize } from 'polished';
+import { darken, tint, rgba } from 'polished';
 import { readableColor } from '../config';
 import { TonePropType } from '../PropTypes';
 import { showLoaderCss } from '../feedback/Loader';
@@ -33,15 +33,15 @@ function getProps(props) {
   return newProps;
 }
 
-function getTextColor(props, background) {
+function getTextColor(props, backgroundColor) {
   if (props.link) {
-    return background;
+    return backgroundColor;
   }
   if (props.icon) {
-    const color = props.tone ? background : props.theme.textColor;
-    return props.disabled ? tint(0.25, color) : color;
+    const color = props.tone ? backgroundColor : props.theme.textColor;
+    return props.disabled ? tint(0.3, color) : color;
   }
-  return readableColor(background);
+  return readableColor(backgroundColor);
 }
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
@@ -65,27 +65,21 @@ export const Button = styled(props => (
   border-radius: 4px;
   transition: 250ms background ease;
 
-  &:hover {
-    transition: 100ms background ease;
+  &:hover,
+  &:active {
+    transition: 0ms background ease;
   }
 
   > svg {
-    ${props =>
-      props.icon
-        ? `
-        margin: 5px;
-        `
-        : `
-        &:first-child {
-          margin-right: 6px;
-        }
-        &:last-child {
-          margin-left: 6px;
-        }
-        &:first-child:last-child {
-          margin: 0;
-        }
-        `};
+    &:first-child {
+      margin-right: 6px;
+    }
+    &:last-child {
+      margin-left: 6px;
+    }
+    &:first-child:last-child {
+      margin: 0;
+    }
   }
 
   ${props =>
@@ -94,28 +88,13 @@ export const Button = styled(props => (
       margin: 5px 0;
       width: 100%;
     `};
+
   ${props => {
-    const background = props.theme[`${props.tone || 'buttonPrimary'}Color`];
-    const textColor = getTextColor(props, background);
+    const backgroundColor =
+      props.theme[`${props.tone || 'buttonPrimary'}Color`];
+    const textColor = getTextColor(props, backgroundColor);
 
-    if (props.link) {
-      return `color: ${textColor};`;
-    }
-
-    if (props.icon) {
-      return `
-        margin: 1px;
-        color: ${textColor};
-
-        ${props.disabled ||
-          `
-            &:hover, &:focus {
-              outline: 0;
-              background: ${transparentize(0.9, props.theme.darkColor)};
-            }
-          `}
-      `;
-    }
+    if (props.link) return `color: ${textColor};`;
 
     return `
       color: ${textColor};
@@ -125,41 +104,60 @@ export const Button = styled(props => (
       vertical-align: middle;
 
       ${
-        props.disabled
+        props.loading
           ? `
-          background: ${tint(props.tone === 'light' ? 0.5 : 0.25, background)};
-          color: ${tint(0.4, textColor)};
+        &:after {
+          position: absolute;
+          content: '';
+          top: 50%;
+          left: 50%;
+          margin: -9px 0 0 -9px;
+          ${showLoaderCss};
+        }
       `
-          : `
-          background: ${background};
-
-          &:hover {
-            background: ${darken(0.03, background)};
-          }
-
-          &:active {
-            background: ${darken(0.07, background)};
-          }
-
-          &:focus {
-            box-shadow: 0 0 3px 3px ${rgba(background, 0.4)};
-          }
-      `
-      };
-      ${props.loading &&
-        `
-      &:after {
-        position: absolute;
-        content: '';
-        top: 50%;
-        left: 50%;
-        margin: -9px 0 0 -9px;
-        ${showLoaderCss};
+          : ''
       }
-      `};
+
+      ${
+        props.icon
+          ? `
+         ${!props.disabled &&
+           `
+           &:hover {
+             background: ${rgba(textColor, 0.09)};
+           }
+           &:active {
+             background: ${rgba(textColor, 0.17)};
+           }
+           &:focus {
+             box-shadow: 0 0 3px 3px ${rgba(textColor, 0.25)};
+           }
+       `}`
+          : props.disabled
+            ? `
+          background: ${tint(
+            props.tone === 'light' ? 0.5 : 0.25,
+            backgroundColor
+          )};
+          color: ${tint(0.4, textColor)};
+        `
+            : `
+          background: ${backgroundColor};
+          &:hover {
+            background: ${darken(0.03, backgroundColor)};
+          }
+          &:active {
+            background: ${darken(0.07, backgroundColor)};
+          }
+          &:focus {
+            box-shadow: 0 0 3px 3px ${rgba(backgroundColor, 0.4)};
+          }
+        `
+      }
     `;
   }};
 `;
+
 Button.displayName = 'Button';
 Button.propTypes = {
   onClick: PropTypes.func,
