@@ -56,6 +56,7 @@ const injectGlobalStyles = theme => injectGlobal`
 
   input:focus,
   textarea:focus,
+  a:focus,
   button:focus {
     outline: 0;
   }
