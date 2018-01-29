@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import Downshift from 'downshift';
 import styled from 'styled-components';
 import { setLightness } from 'polished';
@@ -63,7 +63,7 @@ export function fuzzySearch(options, inputValue) {
   );
 }
 
-export default class FancySelect extends PureComponent {
+export default class FancySelect extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,

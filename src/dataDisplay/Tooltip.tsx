@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { readableColor } from '../config';
@@ -74,7 +74,7 @@ const StyledTooltip = styled.span`
   }
 `;
 
-export default class Tooltip extends Component {
+export default class Tooltip extends React.Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,

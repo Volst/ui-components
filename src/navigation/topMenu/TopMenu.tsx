@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 const Menu = styled.header`
@@ -8,7 +8,7 @@ const Menu = styled.header`
   flex-direction: column;
 `;
 
-export default class TopMenu extends Component {
+export default class TopMenu extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
   };

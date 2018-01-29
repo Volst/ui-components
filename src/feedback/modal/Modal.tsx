@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import Dialog from 'rc-dialog';
 import globalStyles from './globalStyles';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
@@ -10,7 +10,7 @@ let mousePosition = null;
 let mousePositionEventBinded = false;
 
 @withTheme
-export default class Modal extends Component {
+export default class Modal extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     visible: PropTypes.bool.isRequired,

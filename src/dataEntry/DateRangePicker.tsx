@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import * as moment from 'moment';
 import { t } from 'i18next';
 import { Button } from '../general/Button';
 import IconClear from '../general/icon/IconClear';
@@ -39,7 +39,7 @@ const CombinedInputItem = styled.div`
 `;
 
 @withTheme
-export default class DateRangePicker extends Component {
+export default class DateRangePicker extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,

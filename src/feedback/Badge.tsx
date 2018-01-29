@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 const Bubble = styled.sup`
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   display: inline-block;
 `;
 
-export default class Badge extends Component {
+export default class Badge extends React.Component {
   static propTypes = {
     count: PropTypes.number,
     children: PropTypes.node,

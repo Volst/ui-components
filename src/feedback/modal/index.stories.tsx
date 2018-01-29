@@ -72,7 +72,7 @@ storiesOf('Feedback / Modal', module)
     'confirm',
     withInfo()(() => {
       @withTheme
-      class MyComponent extends Component {
+      class MyComponent extends React.Component {
         render() {
           return (
             <Button

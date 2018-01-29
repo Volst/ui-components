@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { t } from 'i18next';
 
@@ -12,7 +12,7 @@ import {
 import Checkbox from '../Checkbox';
 import { Button } from '../../general/Button';
 
-export default class MultipickDropdown extends Component {
+export default class MultipickDropdown extends React.Component {
   static propTypes = {
     options: PropTypes.array.isRequired,
     value: PropTypes.array.isRequired,

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { Button } from '../general/Button';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
@@ -36,7 +36,7 @@ const StyledTitleContainer = styled.div`
 `;
 
 @withTheme
-export default class Accordion extends Component {
+export default class Accordion extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,

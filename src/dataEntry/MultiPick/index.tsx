@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { t } from 'i18next';
 import Dropdown from './Dropdown';
@@ -7,7 +7,7 @@ import KeyboardArrowDown from '../../general/icon/IconKeyboardArrowDown';
 import { ValuePropType, OptionsPropType } from '../../PropTypes';
 import onClickOutside from 'react-onclickoutside';
 
-class MultiPick extends Component {
+class MultiPick extends React.Component {
   static propTypes = {
     options: OptionsPropType,
     value: PropTypes.arrayOf(ValuePropType).isRequired,

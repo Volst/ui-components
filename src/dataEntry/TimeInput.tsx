@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { StyledInput } from './TextInput';
-import moment from 'moment';
+import * as moment from 'moment';
 import MaskedInput from 'react-text-mask';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 
@@ -11,7 +11,7 @@ const StyledMaskedInput = StyledInput.withComponent(
 
 const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 
-export default class TimeInput extends PureComponent {
+export default class TimeInput extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,

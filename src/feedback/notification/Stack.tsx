@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import Item from './Item';
 
-export default class NotificationStack extends Component {
+export default class NotificationStack extends React.Component {
   static propTypes = {
     notifications: PropTypes.array.isRequired,
     onDismiss: PropTypes.func.isRequired,

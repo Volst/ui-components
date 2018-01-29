@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import AutoTextarea from 'react-textarea-autosize';
 
@@ -36,7 +36,7 @@ const StyledAutoTextarea = StyledTextarea.withComponent(
   ({ hasError, ...props }) => <AutoTextarea {...props} />
 );
 
-export default class TextArea extends PureComponent {
+export default class TextArea extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,

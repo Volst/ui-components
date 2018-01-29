@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Button } from '../../general/Button';
 import { readableColor } from '../../config';
 
 const TRANSITION_TIME = 500;
 
-export default class NotificationItem extends Component {
+export default class NotificationItem extends React.Component {
   static propTypes = {
     message: PropTypes.string.isRequired,
     onDismiss: PropTypes.func.isRequired,

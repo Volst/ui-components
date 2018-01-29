@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import { Button, Link, ExternalLink } from './Button';
@@ -103,7 +103,7 @@ storiesOf('General / Button', module)
   .add(
     'loading',
     withInfo()(() => {
-      class MyComponent extends Component {
+      class MyComponent extends React.Component {
         state = { loading: false };
         setLoading = () => {
           this.setState({ loading: true });

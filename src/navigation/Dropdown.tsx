@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { setLightness } from 'polished';
@@ -8,7 +8,7 @@ const RelativeWrapper = styled.div`
   position: relative;
 `;
 
-class MyDropdown extends Component {
+class MyDropdown extends React.Component {
   static propTypes = {
     overlay: PropTypes.element.isRequired,
     children: PropTypes.node.isRequired,

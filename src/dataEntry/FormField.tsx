@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import LabelText from './LabelText';
 import { InlineText } from '../general/typography/Text';
@@ -52,7 +52,7 @@ function validationErrorMapper(errorCode) {
   return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-export default class FormField extends Component {
+export default class FormField extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     label: PropTypes.string,

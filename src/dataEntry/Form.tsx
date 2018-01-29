@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 const StyledForm = styled.form`
@@ -10,7 +10,7 @@ const StyledForm = styled.form`
   height: 100%;
 `;
 
-export default class Form extends Component {
+export default class Form extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
   };

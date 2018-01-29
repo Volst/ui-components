@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import './types';
 import { ThemeProvider, injectGlobal } from 'styled-components';
-import RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
-import RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
-import RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
-import RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
+import * as RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
+import * as RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
+import * as RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
+import * as RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
 import { defaultConfig, themeOverrides } from './config';
 import { mapValues } from 'lodash';
 
@@ -76,11 +76,11 @@ export function getTheme(theme) {
   return Object.assign({}, defaultConfig, fallback, theme);
 }
 
-export default class VolstTheme extends Component {
-  static propTypes = {
-    theme: PropTypes.object,
-    children: PropTypes.node,
-  };
+interface Props {
+  theme: any; // TODO: should have strict type checking
+}
+
+export default class VolstTheme extends React.Component<Props, {}> {
   static defaultProps = {
     theme: {},
   };

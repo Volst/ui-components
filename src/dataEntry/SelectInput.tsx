@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'i18next';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
@@ -34,7 +34,7 @@ const StyledSelect = styled(({ autoWidth, hasError, ...props }) => (
   }
 `;
 
-export default class SelectInput extends PureComponent {
+export default class SelectInput extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
     onChange: PropTypes.func,

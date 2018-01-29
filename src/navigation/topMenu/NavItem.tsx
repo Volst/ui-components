@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { transparentize } from 'polished';
@@ -58,7 +58,7 @@ export const StyledNavLink = styled(NavLink)`
   }
 `;
 
-export default class NavItem extends Component {
+export default class NavItem extends React.Component {
   static propTypes = {
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     to: PropTypes.string,

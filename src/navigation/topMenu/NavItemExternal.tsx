@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { StyledNavLink } from './NavItem';
 
 export default StyledNavLink.withComponent(({ title, ...props }) => (

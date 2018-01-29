@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { StyledInput } from './TextInput';
 import MaskedInput from 'react-text-mask';
 import { pick } from 'lodash';
@@ -9,7 +9,7 @@ const MyInput = StyledInput.withComponent(({ hasError, ...props }) => (
   <MaskedInput {...props} />
 ));
 
-export default class NumberInput extends PureComponent {
+export default class NumberInput extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,

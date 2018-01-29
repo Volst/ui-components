@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import SvgIcon from '../Icon';
 
 let IconExposureNeg2 = props => (

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import Downshift from 'downshift';
 import styled from 'styled-components';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
@@ -92,7 +92,7 @@ const CloseButton = styled.span`
   margin-left: 4px;
 `;
 
-export default class MultiSelect extends PureComponent {
+export default class MultiSelect extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
