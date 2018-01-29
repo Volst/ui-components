@@ -11,7 +11,7 @@ import { showLoaderCss } from '../feedback/Loader';
 // I really really do not like this hack, but we can't pass made-up properties
 // to DOM elements without React giving a warning.
 const OMIT_PROPS = [
-  'icon',
+  'ghost',
   'link',
   'fullWidth',
   'tone',
@@ -37,7 +37,7 @@ function getTextColor(props, backgroundColor) {
   if (props.link) {
     return backgroundColor;
   }
-  if (props.icon) {
+  if (props.ghost) {
     const color = props.tone ? backgroundColor : props.theme.textColor;
     return props.disabled ? tint(0.3, color) : color;
   }
@@ -119,7 +119,7 @@ export const Button = styled(props => (
       }
 
       ${
-        props.icon
+        props.ghost
           ? `
          ${!props.disabled &&
            `
@@ -162,7 +162,7 @@ Button.displayName = 'Button';
 Button.propTypes = {
   onClick: PropTypes.func,
   link: PropTypes.bool,
-  icon: PropTypes.bool,
+  ghost: PropTypes.bool,
   fullWidth: PropTypes.bool,
   disabled: PropTypes.bool,
   tone: TonePropType,

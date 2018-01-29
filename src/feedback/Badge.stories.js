@@ -12,7 +12,7 @@ storiesOf('Feedback / Badge', module)
     'with one unread',
     withInfo()(() => {
       return (
-        <Button icon>
+        <Button ghost>
           <Badge count={1}>
             <IconChat width="30" height="30" color="#006b94" />
           </Badge>
@@ -24,7 +24,7 @@ storiesOf('Feedback / Badge', module)
     'with thousands unread',
     withInfo()(() => {
       return (
-        <Button icon>
+        <Button ghost>
           <Badge count={9999}>
             <IconChat width="30" height="30" color="#006b94" />
           </Badge>
@@ -36,7 +36,7 @@ storiesOf('Feedback / Badge', module)
     'hidden',
     withInfo()(() => {
       return (
-        <Button icon>
+        <Button ghost>
           <Badge count={0}>
             <IconChat width="30" height="30" color="#006b94" />
           </Badge>
@@ -48,7 +48,7 @@ storiesOf('Feedback / Badge', module)
     'without number',
     withInfo()(() => {
       return (
-        <Button icon>
+        <Button ghost>
           <Badge>
             <IconChat width="30" height="30" color="#006b94" />
           </Badge>

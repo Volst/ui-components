@@ -108,7 +108,7 @@ export default class DateRangePicker extends Component {
             {endDate && endDate.format(theme.dateFormat)}
           </CombinedInputItem>
           <Button
-            icon
+            ghost
             onClick={this.clear}
             disabled={disabled || !startDate || !endDate}
           >

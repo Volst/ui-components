@@ -258,7 +258,7 @@ export default class MultiSelect extends PureComponent {
           <Input {...inputProps} />
           <DropdownToggle>
             <Button
-              icon
+              ghost
               disabled={this.props.disabled}
               onClick={toggleMenu}
               tabIndex={-1}

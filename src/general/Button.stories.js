@@ -149,16 +149,16 @@ storiesOf('General / Button', module)
       return (
         <div>
           <p>without button styles</p>
-          <Button icon tone="success">
+          <Button ghost tone="success">
             <IconAdd />
           </Button>
-          <Link icon to="/" tone="danger">
+          <Link ghost to="/" tone="danger">
             <IconDelete />
           </Link>
-          <Link icon to="/" tone="primary">
+          <Link ghost to="/" tone="primary">
             <IconBuild />
           </Link>
-          <Link icon to="/" tone="primary" disabled>
+          <Link ghost to="/" tone="primary" disabled>
             <IconBuild />
           </Link>
           <p>with button styles</p>
