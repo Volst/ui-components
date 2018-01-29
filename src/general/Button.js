@@ -94,7 +94,14 @@ export const Button = styled(props => (
       props.theme[`${props.tone || 'buttonPrimary'}Color`];
     const textColor = getTextColor(props, backgroundColor);
 
-    if (props.link) return `color: ${textColor};`;
+    if (props.link)
+      return `
+      color: ${textColor};
+
+      &:hover {
+        text-decoration: underline;
+      }
+    `;
 
     return `
       color: ${textColor};
