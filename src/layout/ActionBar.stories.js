@@ -14,16 +14,23 @@ storiesOf('Layout / ActionBar', module)
     withInfo()(() => {
       return (
         <ActionBar>
-          <Row middle="xs">
+          <Button tone="light">Cancel</Button>
+          <Button>Save</Button>
+        </ActionBar>
+      );
+    })
+  )
+  .add(
+    'with columns',
+    withInfo()(() => {
+      return (
+        <ActionBar>
+          <Row between="xs" middle="xs">
             <Col xs={6}>
               <TextInput />
             </Col>
             <Col xs={6}>
-              <Row end="xs">
-                <Col xs={12}>
-                  <Button>Button</Button>
-                </Col>
-              </Row>
+              <Button>Button</Button>
             </Col>
           </Row>
         </ActionBar>
