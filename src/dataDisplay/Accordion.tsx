@@ -1,10 +1,8 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled, withTheme } from '../styled-components';
 import { Button } from '../general/Button';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
-import { withTheme } from 'styled-components';
 
 const StyledContainer = styled.div`
   background-color: ${props => props.theme.lightColor};
@@ -12,7 +10,10 @@ const StyledContainer = styled.div`
   margin-bottom: 10px;
 `;
 
-const StyledContent = styled.div`
+interface StyledContentProps {
+  background?: string;
+}
+const StyledContent = styledTs<StyledContentProps>(styled.div)`
   padding: 10px;
 
   ${props =>
@@ -35,18 +36,16 @@ const StyledTitleContainer = styled.div`
   align-items: center;
 `;
 
-@withTheme
-export default class Accordion extends React.Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-    opened: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-    action: PropTypes.node,
-    theme: PropTypes.object.isRequired,
-    contentBackground: PropTypes.string,
-  };
+interface AccordionProps {
+  title: string | React.ReactNode;
+  opened: boolean;
+  onChange: () => void;
+  action?: React.ReactNode;
+  contentBackground?: string;
+}
 
+@withTheme
+export default class Accordion extends React.Component<AccordionProps, {}> {
   handleClick = () => {
     this.props.onChange();
   };

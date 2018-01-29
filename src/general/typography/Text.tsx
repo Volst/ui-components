@@ -1,8 +1,15 @@
-import styled from 'styled-components';
+import { styledTs, styled } from '../../styled-components';
 import { TonePropType } from '../../PropTypes';
-import PropTypes from 'prop-types';
 
-export const Text = styled.p`
+interface TextProps {
+  tone?: TonePropType;
+  bold?: boolean;
+  italic?: boolean;
+  small?: boolean;
+  compact?: boolean;
+}
+
+export const Text = styledTs<TextProps>(styled.p)`
   font-weight: ${props => (props.bold ? 'bold' : 'normal')};
   font-style: ${props => (props.italic ? 'italic' : 'normal')};
   margin: 0 0 ${props => (props.compact ? '0' : '20px')} 0;
@@ -12,13 +19,6 @@ export const Text = styled.p`
 `;
 
 Text.displayName = 'Text';
-Text.propTypes = {
-  tone: TonePropType,
-  bold: PropTypes.bool,
-  italic: PropTypes.bool,
-  small: PropTypes.bool,
-  compact: PropTypes.bool,
-};
 
 export const InlineText = Text.withComponent('span');
 InlineText.displayName = 'InlineText';

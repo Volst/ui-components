@@ -1,6 +1,5 @@
-import React, { Children } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import * as React from 'react';
+import { styledTs, styled } from '../styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint, rgba } from 'polished';
@@ -29,7 +28,10 @@ function insertSpanForTextNodes(child) {
 
 function getProps(props) {
   const newProps = omit(props, OMIT_PROPS);
-  newProps.children = Children.map(props.children, insertSpanForTextNodes);
+  newProps.children = React.Children.map(
+    props.children,
+    insertSpanForTextNodes
+  );
   return newProps;
 }
 
@@ -44,10 +46,21 @@ function getTextColor(props, backgroundColor) {
   return readableColor(backgroundColor);
 }
 
+interface ButtonProps {
+  onClick?: (e) => void;
+  link?: boolean;
+  ghost?: boolean;
+  fullWidth?: boolean;
+  disabled?: boolean;
+  tone?: TonePropType;
+  small?: boolean;
+  loading?: boolean;
+}
+
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
-export const Button = styled(props => (
-  <button type="button" {...getProps(props)} />
-)).attrs({
+export const Button = styledTs<ButtonProps>(
+  styled(props => <button type="button" {...getProps(props)} />)
+).attrs({
   disabled: props => props.disabled || props.loading,
 })`
   display: ${props => (props.link ? 'inline' : 'inline-flex')};
@@ -166,15 +179,6 @@ export const Button = styled(props => (
 `;
 
 Button.displayName = 'Button';
-Button.propTypes = {
-  onClick: PropTypes.func,
-  link: PropTypes.bool,
-  ghost: PropTypes.bool,
-  fullWidth: PropTypes.bool,
-  disabled: PropTypes.bool,
-  tone: TonePropType,
-  small: PropTypes.bool,
-};
 
 export const ExternalLink = Button.withComponent(props => {
   if (props.disabled) {

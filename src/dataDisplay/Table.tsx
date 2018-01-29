@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { styled, styledTs } from '../styled-components';
 
 export const Table = styled.table`
   width: 100%;
@@ -20,7 +19,10 @@ export const TableBody = styled.tbody`
 TableBody.displayName = 'TableBody';
 TableBody.displayName = 'TableBody';
 
-export const TableRow = styled.tr`
+interface TableRowProps {
+  highlight?: boolean;
+}
+export const TableRow = styledTs<TableRowProps>(styled.tr)`
   border-bottom: 1px solid ${props => props.theme.borderColor};
   ${props =>
     props.highlight &&
@@ -29,20 +31,22 @@ export const TableRow = styled.tr`
     `};
 `;
 TableRow.displayName = 'TableRow';
-TableRow.propTypes = {
-  highlight: PropTypes.bool,
-};
 
-export const TableHeader = styled.th`
+interface TableHeaderProps {
+  alignRight?: boolean;
+}
+export const TableHeader = styledTs<TableHeaderProps>(styled.th)`
   padding: 8px 4px;
   text-align: ${props => (props.alignRight ? 'right' : 'left')};
 `;
 TableHeader.displayName = 'TableHeader';
-TableHeader.propTypes = {
-  alignRight: PropTypes.bool,
-};
 
-export const TableData = styled.td`
+interface TableDataProps {
+  alignRight?: boolean;
+  stretch?: boolean;
+  noWrap?: boolean;
+}
+export const TableData = styledTs<TableDataProps>(styled.td)`
   padding: 8px 4px;
   font-size: 14px;
 
@@ -64,8 +68,3 @@ export const TableData = styled.td`
     : null};
 `;
 TableData.displayName = 'TableData';
-TableData.propTypes = {
-  alignRight: PropTypes.bool,
-  stretch: PropTypes.bool,
-  noWrap: PropTypes.bool,
-};

@@ -78,8 +78,8 @@ export const DropdownItem = styled.div`
     ${props => {
       const background = setLightness(0.93, props.theme.primaryColor);
       return `
-                background: ${background};
-            `;
+        background: ${background};
+      `;
     }};
   }
 `;

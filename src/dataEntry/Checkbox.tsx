@@ -1,8 +1,11 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styled, styledTs } from '../styled-components';
 
-const StyledLabel = styled.label`
+interface StyledLabelProps {
+  disabled: boolean;
+}
+
+const StyledLabel = styledTs<StyledLabelProps>(styled.label)`
   width: 100%;
   display: block;
   margin-bottom: 3px;
@@ -15,15 +18,15 @@ const StyledInput = styled.input`
   margin-right: 5px;
 `;
 
-export default class Checkbox extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    name: PropTypes.string,
-    label: PropTypes.string,
-    value: PropTypes.bool,
-    disabled: PropTypes.bool,
-  };
+interface Props {
+  onChange: (name: string, value: boolean) => void;
+  name?: string;
+  label?: string;
+  value?: boolean;
+  disabled?: boolean;
+}
 
+export default class Checkbox extends React.PureComponent<Props, {}> {
   handleChange = e => {
     this.props.onChange(this.props.name, e.target.checked);
   };

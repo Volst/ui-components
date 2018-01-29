@@ -1,6 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from '../styled-components';
 
 const StyledDiv = styled.div`
   margin: 10px 0;
@@ -12,12 +11,8 @@ const StyledDiv = styled.div`
   padding: 5px;
 `;
 
-function ActionBar(props) {
+const ActionBar: React.SFC = props => {
   return <StyledDiv {...props} />;
-}
-
-ActionBar.propTypes = {
-  children: PropTypes.node,
 };
 
 export default ActionBar;

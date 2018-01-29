@@ -1,7 +1,10 @@
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { styledTs, styled } from '../../styled-components';
 
-const SuperText = styled.h3`
+interface SuperTextProps {
+  color?: string;
+}
+
+const SuperText = styledTs<SuperTextProps>(styled.h3)`
   font-weight: bold;
   text-transform: uppercase;
   font-size: 16px;
@@ -9,8 +12,5 @@ const SuperText = styled.h3`
   color: ${props => props.color};
 `;
 SuperText.displayName = 'SuperText';
-SuperText.propTypes = {
-  color: PropTypes.string,
-};
 
 export default SuperText;

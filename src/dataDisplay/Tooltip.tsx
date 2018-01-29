@@ -1,6 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from '../styled-components';
 import { readableColor } from '../config';
 
 const StyledTooltip = styled.span`
@@ -74,13 +73,12 @@ const StyledTooltip = styled.span`
   }
 `;
 
-export default class Tooltip extends React.Component {
-  static propTypes = {
-    message: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    direction: PropTypes.oneOf(['s', 'n', 'se', 'sw']).isRequired,
-  };
+interface Props {
+  message: string;
+  direction: 's' | 'n' | 'se' | 'sw';
+}
 
+export default class Tooltip extends React.Component<Props, {}> {
   static defaultProps = {
     direction: 's',
   };

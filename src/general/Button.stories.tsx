@@ -105,6 +105,7 @@ storiesOf('General / Button', module)
     withInfo()(() => {
       class MyComponent extends React.Component {
         state = { loading: false };
+        timeout = null;
         setLoading = () => {
           this.setState({ loading: true });
           this.timeout = setTimeout(() => {

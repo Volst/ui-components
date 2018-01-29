@@ -1,6 +1,30 @@
 import { parseToRgb } from 'polished';
 
-export const defaultConfig = {
+// TODO: perhaps it is possible for color variables to enforce that it is a valid color?
+export interface ThemeInterface {
+  primaryColor: string;
+  successColor: string;
+  dangerColor: string;
+  warningColor: string;
+  darkColor: string;
+  lightColor: string;
+  textColor: string;
+  borderColor: string;
+  highlightColor: string;
+  disabledColor: string;
+  componentBackground: string;
+  bodyBackground: string;
+  fontFamily: string;
+  dateFormat: string;
+  zIndexNotificationStack: number;
+  zIndexModal: number;
+  zIndexDropdownMenu: number;
+  zIndexFancySelectDropdown: number;
+  zIndexTooltip: number;
+  zIndexSingleDatePickerOverlay: number;
+}
+
+export const defaultConfig: ThemeInterface = {
   primaryColor: '#006b94',
   successColor: '#58b96b',
   dangerColor: '#dc0818',

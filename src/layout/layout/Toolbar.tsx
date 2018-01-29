@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '../../styled-components';
 import { tint } from 'polished';
 
 export default styled.section`

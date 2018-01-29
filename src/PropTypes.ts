@@ -13,11 +13,10 @@ export const OptionsPropType = PropTypes.arrayOf(
   })
 ).isRequired;
 
-export const TonePropType = PropTypes.oneOf([
-  'primary',
-  'success',
-  'warning',
-  'danger',
-  'light',
-  'dark',
-]);
+export type TonePropType =
+  | 'primary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'light'
+  | 'dark';
