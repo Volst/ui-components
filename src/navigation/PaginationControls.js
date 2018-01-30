@@ -35,12 +35,14 @@ export default class PaginationControls extends Component {
           tone="primary"
         >
           <IconNavigateBefore />
-          {this.props.previousText || t('pagination.previousText')}
+          {this.props.previousText === undefined
+            ? t('pagination.previousText')
+            : this.props.previousText}
         </Button>
         <PageCount>
           {this.props.currentPage}
           {this.props.totalPages &&
-            ` ${this.props.ofText || t('pagination.ofText') || '/'} ${
+            ` ${this.props.ofText || t('pagination.ofText')} ${
               this.props.totalPages
             }`}
         </PageCount>
@@ -49,7 +51,9 @@ export default class PaginationControls extends Component {
           disabled={!this.props.hasNextPage}
           tone="primary"
         >
-          {this.props.nextText || t('pagination.nextText')}
+          {this.props.nextText === undefined
+            ? t('pagination.nextText')
+            : this.props.nextText}
           <IconNavigateNext />
         </Button>
       </div>

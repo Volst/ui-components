@@ -14,6 +14,21 @@ storiesOf('Navigation / PaginationControls', module)
     })
   )
   .add(
+    'minimal',
+    withInfo()(() => {
+      return (
+        <PaginationControls
+          previousText={null}
+          nextText={null}
+          ofText={'/'}
+          currentPage={1}
+          totalPages={42}
+          hasNextPage
+        />
+      );
+    })
+  )
+  .add(
     'in toolbar',
     withInfo()(() => {
       return (
