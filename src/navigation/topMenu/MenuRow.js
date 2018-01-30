@@ -17,7 +17,8 @@ export default styled.div`
     color: white;
 
     .nav-item {
-      &:hover {
+      &:hover,
+      &:focus {
         background: rgba(255, 255, 255, 0.1);
       }
 
