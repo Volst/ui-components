@@ -6,7 +6,7 @@ const StyledDiv = styled.div`
   margin: 10px 0;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   background: ${props => props.theme.lightColor};
   border: 1px solid ${props => props.theme.borderColor};
   padding: 5px;
