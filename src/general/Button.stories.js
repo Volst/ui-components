@@ -101,6 +101,36 @@ storiesOf('General / Button', module)
     })
   )
   .add(
+    'ghost',
+    withInfo()(() => {
+      return (
+        <div>
+          <Button ghost>Scare kids</Button>
+          <br />
+          <Button ghost tone="success">
+            <IconAdd />
+          </Button>
+          <Link ghost to="/" tone="danger">
+            <IconDelete />
+          </Link>
+          <Link ghost to="/" tone="primary">
+            <IconBuild />
+          </Link>
+          <Link ghost to="/" tone="primary" disabled>
+            <IconBuild />
+          </Link>
+          <br />
+          <Link ghost to="/" tone="danger">
+            Delete <IconDelete />
+          </Link>
+          <Link ghost to="/" disabled>
+            Restore <IconDelete />
+          </Link>
+        </div>
+      );
+    })
+  )
+  .add(
     'loading',
     withInfo()(() => {
       class MyComponent extends Component {
@@ -129,26 +159,24 @@ storiesOf('General / Button', module)
     })
   )
   .add(
-    'with icon and text',
-    withInfo()(() => {
-      return (
-        <div>
-          <Button>
-            <IconAdd /> Create user
-          </Button>
-          <Button>
-            Search user <IconSearch />
-          </Button>
-        </div>
-      );
-    })
-  )
-  .add(
     'with icons',
     withInfo()(() => {
       return (
         <div>
-          <p>without button styles</p>
+          <p>with standard styling</p>
+          <Button tone="success">
+            <IconAdd />
+          </Button>
+          <Link to="/" tone="danger">
+            <IconDelete />
+          </Link>
+          <Link to="/" tone="primary">
+            <IconBuild />
+          </Link>
+          <Link to="/" tone="primary" disabled>
+            <IconBuild />
+          </Link>
+          <p>with ghost styling</p>
           <Button ghost tone="success">
             <IconAdd />
           </Button>
@@ -161,16 +189,6 @@ storiesOf('General / Button', module)
           <Link ghost to="/" tone="primary" disabled>
             <IconBuild />
           </Link>
-          <p>with button styles</p>
-          <Button>
-            <IconMic />
-          </Button>
-          <Button>
-            <IconAdd />
-          </Button>
-          <Button disabled>
-            <IconAdd />
-          </Button>
         </div>
       );
     })
