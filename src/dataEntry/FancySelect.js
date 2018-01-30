@@ -154,6 +154,7 @@ export default class FancySelect extends PureComponent {
           {!!this.props.value && (
             <Button
               ghost
+              small
               onClick={() => {
                 clearItems();
                 this.handleClear();
@@ -165,6 +166,7 @@ export default class FancySelect extends PureComponent {
           )}
           <Button
             ghost
+            small
             disabled={this.props.disabled}
             onClick={toggleMenu}
             tabIndex={-1}

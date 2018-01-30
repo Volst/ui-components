@@ -109,6 +109,7 @@ export default class DateRangePicker extends Component {
           </CombinedInputItem>
           <Button
             ghost
+            small
             onClick={this.clear}
             disabled={disabled || !startDate || !endDate}
           >
