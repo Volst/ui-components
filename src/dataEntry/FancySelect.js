@@ -10,6 +10,7 @@ import IconClose from '../general/icon/IconClose';
 import { StyledInput as TextInput } from './TextInput';
 import { Button } from '../general/Button';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
+import { rgba } from 'polished';
 
 export const DropdownContainer = styled.div`
   position: relative;
@@ -18,8 +19,9 @@ export const DropdownContainer = styled.div`
 
 export const Dropdown = styled.div`
   width: 100%;
-  border: 1px solid ${props => props.theme.primaryColor};
-  border-top: none;
+  border: 1px solid ${props => rgba(props.theme.primaryColor, 0.75)};
+  border-top-color: ${props => props.theme.borderColor};
+  margin-top: -1px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   overflow: hidden;
@@ -45,7 +47,7 @@ export const DropdownItem = styled.div`
         `;
   }};
   font-weight: ${props => (props.selected ? 'bold' : 'normal')};
-  padding: 4px;
+  padding: 6px;
   cursor: default;
   white-space: nowrap;
   overflow: hidden;

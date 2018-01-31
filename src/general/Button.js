@@ -63,11 +63,11 @@ export const Button = styled(props => (
   text-decoration: none;
   position: relative;
   border-radius: 4px;
-  transition: 250ms background ease;
+  transition: 150ms background ease, 150ms box-shadow ease;
 
   &:hover,
   &:active {
-    transition: 0ms background ease;
+    transition: 0ms background ease, 150ms box-shadow ease;
   }
 
   > svg {
