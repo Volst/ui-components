@@ -5,35 +5,38 @@ import MaskedInput from 'react-text-mask';
 import { pick } from 'lodash';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
-const MyInput = StyledInput.withComponent(({ hasError, ...props }) => (
+const MyInput = (StyledInput as any).withComponent(({ hasError, ...props }) => (
   <MaskedInput {...props} />
 ));
 
-export default class NumberInput extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    onFocus: PropTypes.func,
-    placeholder: PropTypes.string,
-    disabled: PropTypes.bool,
-    hasError: PropTypes.bool,
-    maxLength: PropTypes.string,
-    name: PropTypes.string,
-    id: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    autoFocus: PropTypes.bool,
-    className: PropTypes.string,
+interface NumberInputProps {
+  onChange?: (name: string, value: string) => void;
+  onBlur?: (name: string, value: string) => void;
+  onFocus?: (e: any) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+  maxLength?: string;
+  name?: string;
+  id?: string;
+  value?: string | number;
+  autoFocus?: boolean;
+  className?: string;
 
-    prefix: PropTypes.string,
-    suffix: PropTypes.string,
-    includeThousandsSeparator: PropTypes.bool,
-    thousandsSeparatorSymbol: PropTypes.string,
-    allowDecimal: PropTypes.bool,
-    allowNegative: PropTypes.bool,
-    decimalSymbol: PropTypes.string,
-    decimalLimit: PropTypes.number,
-  };
+  prefix?: string;
+  suffix?: string;
+  includeThousandsSeparator?: boolean;
+  thousandsSeparatorSymbol?: string;
+  allowDecimal?: boolean;
+  allowNegative?: boolean;
+  decimalSymbol?: string;
+  decimalLimit?: number;
+}
 
+export default class NumberInput extends React.PureComponent<
+  NumberInputProps,
+  {}
+> {
   static defaultProps = {
     placeholder: '',
     value: '',

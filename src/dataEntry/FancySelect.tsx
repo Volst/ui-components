@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import Downshift from 'downshift';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 import { setLightness } from 'polished';
 import { readableColor } from '../config';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
@@ -12,12 +12,12 @@ import { Button } from '../general/Button';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import { rgba } from 'polished';
 
-export const DropdownContainer = styled.div`
+export const DropdownContainer = styledTs(styled.div)`
   position: relative;
   width: 100%;
 `;
 
-export const Dropdown = styled.div`
+export const Dropdown = styledTs(styled.div)`
   width: 100%;
   border: 1px solid ${props => rgba(props.theme.primaryColor, 0.75)};
   border-top-color: ${props => props.theme.borderColor};
@@ -29,14 +29,18 @@ export const Dropdown = styled.div`
   z-index: ${props => props.theme.zIndexFancySelectDropdown};
 `;
 
-export const DropdownToggle = styled.div`
+export const DropdownToggle = styledTs(styled.div)`
   position: absolute;
   top: 50%;
   right: 0;
   transform: translateY(-50%);
 `;
 
-export const DropdownItem = styled.div`
+interface DropdownItemProps {
+  highlighted: boolean;
+}
+
+export const DropdownItem = styledTs<DropdownItemProps>(styled.div)`
   ${props => {
     const background = props.highlighted
       ? setLightness(0.93, props.theme.primaryColor)
@@ -65,16 +69,19 @@ export function fuzzySearch(options, inputValue) {
   );
 }
 
-export default class FancySelect extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    name: PropTypes.string,
-    value: ValuePropType,
-    options: OptionsPropType,
-    disabled: PropTypes.bool,
-    hasError: PropTypes.bool,
-  };
+interface FancySelectProps {
+  onChange?: (name: string, value: ValuePropType) => void;
+  name?: string;
+  value?: ValuePropType;
+  options: OptionsPropType;
+  disabled?: PropTypes.bool;
+  hasError?: PropTypes.bool;
+}
 
+export default class FancySelect extends React.PureComponent<
+  FancySelectProps,
+  {}
+> {
   static contextTypes = {
     formFieldHasError: PropTypes.bool,
   };
@@ -181,6 +188,7 @@ export default class FancySelect extends React.PureComponent {
           this.renderDropdown({
             getItemProps,
             inputValue,
+            isOpen,
             highlightedIndex,
             selectedItem,
             options,

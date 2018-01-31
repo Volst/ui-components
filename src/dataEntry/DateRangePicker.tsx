@@ -5,7 +5,7 @@ import { t } from 'i18next';
 import { Button } from '../general/Button';
 import IconClear from '../general/icon/IconClear';
 import IconNavigateNext from '../general/icon/IconNavigateNext';
-import styled, { withTheme } from 'styled-components';
+import { styledTs, styled, withTheme } from '../styled-components';
 import DatePickerWrapper from './DatePickerWrapper';
 import DayPicker, { DateUtils } from 'react-day-picker';
 
@@ -13,7 +13,11 @@ function toDate(moment) {
   return moment ? moment.toDate() : undefined;
 }
 
-const CombinedInput = styled.div`
+interface CombinedInputProps {
+  hasError?: boolean;
+}
+
+const CombinedInput = styledTs<CombinedInputProps>(styled.div)`
   height: 30px;
   display: flex;
   background: ${props => props.theme.componentBackground};
@@ -38,21 +42,26 @@ const CombinedInputItem = styled.div`
   user-select: none;
 `;
 
-@withTheme
-export default class DateRangePicker extends React.Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    startDate: PropTypes.instanceOf(moment),
-    endDate: PropTypes.instanceOf(moment),
-    theme: PropTypes.object.isRequired,
-    disabled: PropTypes.bool,
-    showWeekNumbers: PropTypes.bool,
-    disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    hasError: PropTypes.bool,
-    placeholder: PropTypes.string,
-  };
+interface DateRangePickerProps {
+  name: string;
+  onChange: (
+    name: string,
+    value: { startDate?: moment.Moment; endDate?: moment.Moment }
+  ) => void;
+  startDate?: moment.Moment;
+  endDate?: moment.Moment;
+  disabled?: boolean;
+  showWeekNumbers?: boolean;
+  disabledDays?: any; // TODO add proper validation; it can be either an object or a function.
+  hasError?: boolean;
+  placeholder?: string;
+}
 
+@withTheme
+export default class DateRangePicker extends React.Component<
+  DateRangePickerProps,
+  { opened: boolean }
+> {
   state = {
     opened: false,
   };

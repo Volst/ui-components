@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import Downshift from 'downshift';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
 import IconArrowDropUp from '../general/icon/IconArrowDropUp';
 import { Button } from '../general/Button';
@@ -16,8 +16,13 @@ import {
 import { readableColor } from '../config';
 import AutosizeInput from 'react-input-autosize';
 
+interface InputValueWrapperProps {
+  hasError?: boolean;
+  focused?: boolean;
+  hasDropdown?: boolean;
+}
 // This should look like <TextInput /> as much as possible.
-const InputValueWrapper = styled.div`
+const InputValueWrapper = styledTs<InputValueWrapperProps>(styled.div)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -54,7 +59,7 @@ const InputValueWrapper = styled.div`
     `};
 `;
 
-const TagValue = styled.div`
+const TagValue = styledTs(styled.div)`
   background: ${props => (props.disabled ? '#aaa' : props.theme.primaryColor)};
   color: ${props => readableColor(props.theme.primaryColor)};
   padding: 3px 5px;
@@ -65,7 +70,7 @@ const TagValue = styled.div`
   max-width: 100%;
 `;
 
-const TagText = styled.div`
+const TagText = styledTs(styled.div)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -92,21 +97,32 @@ const CloseButton = styled.span`
   margin-left: 4px;
 `;
 
-export default class MultiSelect extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    name: PropTypes.string,
-    value: PropTypes.arrayOf(ValuePropType).isRequired,
-    options: OptionsPropType,
-    disabled: PropTypes.bool,
-    hasError: PropTypes.bool,
-  };
+interface MultiSelectProps {
+  onChange: (name: string, value: ValuePropType[]) => void;
+  name?: string;
+  value: ValuePropType[];
+  options: OptionsPropType;
+  disabled?: boolean;
+  hasError?: boolean;
+}
 
+interface MultiSelectState {
+  inputValue: string;
+  focused: boolean;
+}
+
+export default class MultiSelect extends React.PureComponent<
+  MultiSelectProps,
+  MultiSelectState
+> {
   static contextTypes = {
     formFieldHasError: PropTypes.bool,
   };
 
   state = { inputValue: '', focused: false };
+
+  private _input: any; // TODO fix type
+  private _inputWrapper: any;
 
   handleItemAdd = option => {
     this.setState({ inputValue: '' });
@@ -170,7 +186,6 @@ export default class MultiSelect extends React.PureComponent {
   };
 
   renderDropdown = ({
-    isOpen,
     getItemProps,
     inputValue,
     highlightedIndex,
@@ -235,7 +250,7 @@ export default class MultiSelect extends React.PureComponent {
             !this.props.disabled && (openMenu() || this.handleWrapperClick(e))
           }
           innerRef={c => (this._inputWrapper = c)}
-          tabIndex="-1"
+          tabIndex={-1}
           hasDropdown={actuallyOpen}
           focused={this.state.focused}
           onFocus={() =>

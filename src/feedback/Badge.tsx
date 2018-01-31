@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 
-const Bubble = styled.sup`
+const Bubble = styledTs(styled.sup)`
   background: ${props => props.theme.dangerColor};
   position: absolute;
   min-width: 16px;
@@ -24,13 +23,12 @@ const Wrapper = styled.div`
   display: inline-block;
 `;
 
-export default class Badge extends React.Component {
-  static propTypes = {
-    count: PropTypes.number,
-    children: PropTypes.node,
-    className: PropTypes.string,
-  };
+interface BadgeProps {
+  count?: number;
+  className?: string;
+}
 
+export default class Badge extends React.Component<BadgeProps, {}> {
   render() {
     const { count, children, className } = this.props;
     return (

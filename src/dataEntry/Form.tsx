@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 
-const StyledForm = styled.form`
+const StyledForm = styledTs(styled.form)`
   display: inherit;
   flex-grow: 1;
   flex-direction: inherit;
@@ -10,7 +10,11 @@ const StyledForm = styled.form`
   height: 100%;
 `;
 
-export default class Form extends React.Component {
+interface FormProps {
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export default class Form extends React.Component<FormProps, {}> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
   };

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import { styledTs, styled } from '../styled-components';
@@ -93,7 +92,11 @@ const StyledLabel = styledTs<StyledLabelProps>(styled.label)`
   text-overflow: ellipsis;
 `;
 
-const StyledInput = styledTs(styled.input)`
+interface StyledInputProps {
+  vertical?: boolean;
+}
+
+const StyledInput = styledTs<StyledInputProps>(styled.input)`
   position: fixed;
   left: -999999px;
   opacity: 0;
@@ -103,27 +106,30 @@ const StyledInput = styledTs(styled.input)`
         ? props.theme.borderColor
         : props.theme.primaryColor;
       return `
-                background: ${background};
-                border-color: ${background};
-                box-shadow: ${`${
-                  props.vertical ? '0px -1px' : '-1px 0'
-                } ${background}`};
-                color: ${readableColor(background)};
-            `;
+        background: ${background};
+        border-color: ${background};
+        box-shadow: ${`${
+          props.vertical ? '0px -1px' : '-1px 0'
+        } ${background}`};
+        color: ${readableColor(background)};
+      `;
     }};
   }
 `;
 
-export default class RadioButtons extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    name: PropTypes.string,
-    disabled: PropTypes.bool,
-    options: OptionsPropType,
-    value: ValuePropType,
-    vertical: PropTypes.bool,
-  };
+interface RadioButtonsProps {
+  onChange?: (name: string, value: ValuePropType) => void;
+  name?: string;
+  disabled?: boolean;
+  options: OptionsPropType;
+  value?: ValuePropType;
+  vertical?: boolean;
+}
 
+export default class RadioButtons extends React.PureComponent<
+  RadioButtonsProps,
+  { hasFocus: boolean }
+> {
   state = {
     hasFocus: false,
   };
@@ -142,7 +148,7 @@ export default class RadioButtons extends React.PureComponent {
       <Option key={item.value} vertical={this.props.vertical}>
         <StyledInput
           id={id}
-          tabIndex="0"
+          tabIndex={0}
           type="radio"
           name={this.props.name}
           checked={item.value === this.props.value}

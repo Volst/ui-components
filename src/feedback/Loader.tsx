@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import { styledTs, styled, keyframes } from '../styled-components';
 
 const sweep = keyframes`
   to {
@@ -18,8 +17,12 @@ export const showLoaderCss = `
   box-shadow: 4px 0 0 -3px black;
 `;
 
+interface LoaderProps {
+  show?: boolean;
+}
+
 // Duplicated width+height to prevent jumping when loader is not shown.
-const Loader = styled.div`
+const Loader = styledTs<LoaderProps>(styled.div)`
   width: 18px;
   height: 18px;
   margin: 5px;
@@ -28,8 +31,5 @@ const Loader = styled.div`
 `;
 
 Loader.displayName = 'Loader';
-Loader.propTypes = {
-  show: PropTypes.bool,
-};
 
 export default Loader;
