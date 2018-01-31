@@ -34,6 +34,7 @@ const StyledTitleContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  padding-left: 4px;
 `;
 
 interface AccordionProps {

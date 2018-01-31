@@ -13,13 +13,13 @@ export const StyledNavLink = styled(NavLink)`
   color: inherit;
   cursor: pointer;
   position: relative;
-  transition: 250ms background ease;
+  transition: 150ms background ease;
   border-radius: 4px;
 
   &:hover,
   &:focus {
     outline: 0;
-    transition: 100ms background ease;
+    transition-duration: 0;
     background: ${props => transparentize(0.9, props.theme.darkColor)};
   }
 

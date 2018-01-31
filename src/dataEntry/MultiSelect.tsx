@@ -259,6 +259,7 @@ export default class MultiSelect extends React.PureComponent {
           <DropdownToggle>
             <Button
               ghost
+              small
               disabled={this.props.disabled}
               onClick={toggleMenu}
               tabIndex={-1}

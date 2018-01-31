@@ -14,7 +14,7 @@ storiesOf('Feedback / Badge', module)
       return (
         <Button ghost>
           <Badge count={1}>
-            <IconChat width="30" height="30" color="#006b94" />
+            <IconChat width="24" height="24" color="#006b94" />
           </Badge>
         </Button>
       );
@@ -26,7 +26,7 @@ storiesOf('Feedback / Badge', module)
       return (
         <Button ghost>
           <Badge count={9999}>
-            <IconChat width="30" height="30" color="#006b94" />
+            <IconChat width="24" height="24" color="#006b94" />
           </Badge>
         </Button>
       );
@@ -38,7 +38,7 @@ storiesOf('Feedback / Badge', module)
       return (
         <Button ghost>
           <Badge count={0}>
-            <IconChat width="30" height="30" color="#006b94" />
+            <IconChat width="24" height="24" color="#006b94" />
           </Badge>
         </Button>
       );
@@ -50,7 +50,7 @@ storiesOf('Feedback / Badge', module)
       return (
         <Button ghost>
           <Badge>
-            <IconChat width="30" height="30" color="#006b94" />
+            <IconChat width="24" height="24" color="#006b94" />
           </Badge>
         </Button>
       );

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { Button } from '../../general/Button';
+import IconClose from '../../general/icon/IconClose';
 import { readableColor } from '../../config';
 
 const TRANSITION_TIME = 500;
@@ -69,8 +70,8 @@ export default class NotificationItem extends React.Component {
       >
         {this.props.message}
         {this.props.dismissible !== false && (
-          <CloseButton icon onClick={this.onDismiss}>
-            ✕
+          <CloseButton ghost small onClick={this.onDismiss}>
+            <IconClose />
           </CloseButton>
         )}
       </StyledItem>
@@ -81,8 +82,8 @@ export default class NotificationItem extends React.Component {
 const CloseButton = styled(Button)`
   margin-left: 11px;
   position: absolute;
-  top: 13px;
-  right: 13px;
+  top: 3px;
+  right: 2px;
   font-size: 15px;
 `;
 
