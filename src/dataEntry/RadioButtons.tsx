@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 import { readableColor } from '../config';
 import { uniqueId } from 'lodash';
 
-const StyledDiv = styled.div`
+interface StyledDivProps {
+  vertical?: boolean;
+  focus?: boolean;
+}
+
+const StyledDiv = styledTs<StyledDivProps>(styled.div)`
   -webkit-touch-callout: none;
   user-select: none;
   display: flex;
@@ -23,7 +28,11 @@ const StyledDiv = styled.div`
     `};
 `;
 
-const Option = styled.div`
+interface OptionProps {
+  vertical?: boolean;
+}
+
+const Option = styledTs<OptionProps>(styled.div)`
   flex: 1;
   display: flex;
   justify-content: center;
@@ -32,14 +41,14 @@ const Option = styled.div`
     ${props =>
       props.vertical
         ? `
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
-                border-top-width: 1px;
-            `
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+          border-top-width: 1px;
+          `
         : `
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-            border-left-width: 1px;
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+          border-left-width: 1px;
         `};
   }
 
@@ -47,17 +56,21 @@ const Option = styled.div`
     ${props =>
       props.vertical
         ? `
-                border-bottom-left-radius: 4px;
-                border-bottom-right-radius: 4px;
-            `
+          border-bottom-left-radius: 4px;
+          border-bottom-right-radius: 4px;
+          `
         : `
-                border-top-right-radius: 4px;
-                border-bottom-right-radius: 4px;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
         `};
   }
 `;
 
-const StyledLabel = styled.label`
+interface StyledLabelProps {
+  vertical?: boolean;
+}
+
+const StyledLabel = styledTs<StyledLabelProps>(styled.label)`
   flex: 1;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   padding: 5px;
@@ -66,8 +79,8 @@ const StyledLabel = styled.label`
   ${props =>
     props.vertical
       ? `
-            border-top-width: 0;
-            `
+        border-top-width: 0;
+        `
       : `
         border-left-width: 0;
     `};
@@ -80,7 +93,7 @@ const StyledLabel = styled.label`
   text-overflow: ellipsis;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styledTs(styled.input)`
   position: fixed;
   left: -999999px;
   opacity: 0;

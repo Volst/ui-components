@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 
-const Container = styled.div`
+const Container = styledTs(styled.div)`
   font-size: 12px;
   padding: 0 0 2px;
   opacity: 0.75;
@@ -13,17 +12,16 @@ const Container = styled.div`
   line-height: 1.45;
 `;
 
-const StyledLabel = styled.label`
+const StyledLabel = styledTs(styled.label)`
   text-transform: uppercase;
 `;
 
-export default class LabelText extends React.PureComponent {
-  static propTypes = {
-    helpText: PropTypes.string,
-    htmlFor: PropTypes.string,
-    children: PropTypes.node.isRequired,
-  };
+interface LabelTextProps {
+  helpText?: string;
+  htmlFor?: string;
+}
 
+export default class LabelText extends React.PureComponent<LabelTextProps, {}> {
   render() {
     return (
       <Container>

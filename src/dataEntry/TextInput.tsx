@@ -1,9 +1,17 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 
-export const StyledInput = styled(
-  ({ hasError, hasDropdown, _ref, ...props }) => <input {...props} ref={_ref} />
+interface StyledInputProps {
+  hasError?: boolean;
+  hasDropdown?: boolean;
+  _ref?: (c: any) => void;
+}
+
+export const StyledInput = styledTs<StyledInputProps>(
+  styled(({ hasError, hasDropdown, _ref, ...props }) => (
+    <input {...props} ref={_ref} />
+  ))
 )`
   font-size: 14px;
   color: ${props => props.theme.textColor};
@@ -49,30 +57,32 @@ export const StyledInput = styled(
       : ''};
 `;
 
-export default class TextInput extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    onFocus: PropTypes.func,
-    placeholder: PropTypes.string,
-    disabled: PropTypes.bool,
-    hasError: PropTypes.bool,
-    maxLength: PropTypes.string,
-    type: PropTypes.oneOf(['text', 'search', 'password', 'email', 'tel']),
-    name: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    autoFocus: PropTypes.bool,
-    className: PropTypes.string,
-    id: PropTypes.string,
-    autoComplete: PropTypes.bool,
-    spellCheck: PropTypes.bool,
-  };
+interface TextInputProps {
+  type?: 'text' | 'search' | 'password' | 'email' | 'tel';
+  onChange?: (name: string, value: string) => void;
+  onBlur?: (name: string, value: string) => void;
+  onFocus?: () => void;
+  placeholder?: string;
+  name?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+  id?: string;
+  autoFocus?: boolean;
+  value?: string | number;
+  className?: string;
+  autoComplete?: boolean;
+  spellCheck?: boolean;
+  maxLength?: number;
+}
 
+export default class TextInput extends React.PureComponent<TextInputProps, {}> {
   static defaultProps = {
     type: 'text',
     placeholder: '',
     value: '',
   };
+
+  private inputRef: HTMLInputElement;
 
   static contextTypes = {
     formFieldHasError: PropTypes.bool,
@@ -117,7 +127,7 @@ export default class TextInput extends React.PureComponent {
       className: this.props.className,
       id: this.props.id,
       autoComplete: this.props.autoComplete === false ? 'off' : undefined,
-      spellCheck: this.props.spellCheck === false ? 'false' : undefined,
+      spellCheck: this.props.spellCheck === false ? false : undefined,
     };
 
     return (

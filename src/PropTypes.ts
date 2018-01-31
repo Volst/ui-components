@@ -1,17 +1,6 @@
-import PropTypes from 'prop-types';
+export type ValuePropType = string | number | boolean;
 
-export const ValuePropType = PropTypes.oneOfType([
-  PropTypes.string,
-  PropTypes.number,
-  PropTypes.bool,
-]);
-
-export const OptionsPropType = PropTypes.arrayOf(
-  PropTypes.shape({
-    value: ValuePropType.isRequired,
-    label: PropTypes.string.isRequired,
-  })
-).isRequired;
+export type OptionsPropType = { value: ValuePropType; label: string }[];
 
 export type TonePropType =
   | 'primary'

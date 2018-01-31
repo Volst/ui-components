@@ -5,24 +5,25 @@ import * as moment from 'moment';
 import MaskedInput from 'react-text-mask';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 
-const StyledMaskedInput = StyledInput.withComponent(
+// TODO: properly fix types
+const StyledMaskedInput = (StyledInput as any).withComponent(
   ({ hasError, _ref, ...props }) => <MaskedInput {...props} ref={_ref} />
 );
 
 const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 
-export default class TimeInput extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    placeholder: PropTypes.string,
-    name: PropTypes.string,
-    disabled: PropTypes.bool,
-    hasError: PropTypes.bool,
-    id: PropTypes.string,
-    autoFocus: PropTypes.bool,
-    value: PropTypes.instanceOf(moment),
-  };
+interface TimeInputProps {
+  onChange: (name: string, value: moment.Moment) => void;
+  placeholder?: string;
+  name?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+  id?: string;
+  autoFocus?: boolean;
+  value?: moment.Moment;
+}
 
+export default class TimeInput extends React.PureComponent<TimeInputProps, {}> {
   static defaultProps = {
     placeholder: ' ',
     value: '',

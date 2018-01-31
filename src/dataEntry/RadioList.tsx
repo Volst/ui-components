@@ -1,11 +1,10 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 const StyledDiv = styled.div``;
 
-const StyledLabel = styled.label`
+const StyledLabel = styledTs(styled.label)`
   width: 100%;
   margin-bottom: 3px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
@@ -18,15 +17,15 @@ const StyledInput = styled.input`
   position: relative;
 `;
 
-export default class RadioList extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    name: PropTypes.string,
-    disabled: PropTypes.bool,
-    options: OptionsPropType,
-    value: ValuePropType,
-  };
+interface RadioListProps {
+  onChange?: (name: string, value: string) => void;
+  name?: string;
+  disabled?: boolean;
+  options: OptionsPropType;
+  value: ValuePropType;
+}
 
+export default class RadioList extends React.PureComponent<RadioListProps, {}> {
   renderItem = item => {
     const handleChange = () => this.props.onChange(this.props.name, item.value);
     return (

@@ -8,7 +8,7 @@ import MaskedInput from 'react-text-mask';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { withTheme } from 'styled-components';
 
-const StyledMaskedInput = StyledInput.withComponent(
+const StyledMaskedInput = (StyledInput as any).withComponent(
   ({ hasError, _ref, ...props }) => <MaskedInput {...props} ref={_ref} />
 );
 
@@ -18,6 +18,8 @@ class MaskedDateInput extends React.PureComponent {
   static contextTypes = {
     inputDateFormat: PropTypes.string,
   };
+
+  private input: MaskedInput;
 
   focus = () => {
     this.input.inputElement.focus();
@@ -52,20 +54,22 @@ class MaskedDateInput extends React.PureComponent {
   }
 }
 
-@withTheme
-export default class SingleDatePicker extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    name: PropTypes.string,
-    placeholder: PropTypes.string,
-    value: PropTypes.instanceOf(moment),
-    disabled: PropTypes.bool,
-    hasError: PropTypes.bool,
-    disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    showWeekNumbers: PropTypes.bool,
-    theme: PropTypes.object.isRequired,
-  };
+interface SingleDatePickerProps {
+  onChange?: (name: string, value: moment.Moment) => void;
+  value?: moment.Moment;
+  name?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+  showWeekNumbers?: boolean;
+  disabledDays?: any; // TODO add proper validation; it can be either an object or a function.
+}
 
+@withTheme
+export default class SingleDatePicker extends React.PureComponent<
+  SingleDatePickerProps,
+  {}
+> {
   static defaultProps = {
     placeholder: '',
     value: null,

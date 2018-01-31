@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 import LabelText from './LabelText';
 import { InlineText } from '../general/typography/Text';
 import { readableColor } from '../config';
 import { t } from 'i18next';
 import { uniqueId } from 'lodash';
 
-const Field = styled.div`
+interface FieldProps {
+  noPadding?: boolean;
+}
+
+const Field = styledTs<FieldProps>(styled.div)`
   width: 100%;
   position: relative;
   display: flex;
@@ -17,7 +21,7 @@ const Field = styled.div`
 `;
 
 // TODO: This tooltip should definitely be its own component
-const ErrorTooltip = styled.div`
+const ErrorTooltip = styledTs(styled.div)`
   position: absolute;
   top: 100%;
   font-size: 14px;
@@ -52,21 +56,22 @@ function validationErrorMapper(errorCode) {
   return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-export default class FormField extends React.Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    label: PropTypes.string,
-    helpText: PropTypes.string,
-    // Also accepts an object because MobX arrays are objects.
-    error: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    // TODO: I don't like the name `noPadding`
-    noPadding: PropTypes.bool,
-    required: PropTypes.bool,
-  };
+interface FormFieldProps {
+  label?: string;
+  helpText?: string;
+  // Also accepts an object because MobX arrays are objects. TODO: don't use any here
+  error?: any | string[];
+  // TODO: I don't like the name `noPadding`
+  noPadding?: boolean;
+  required?: boolean;
+}
 
+export default class FormField extends React.Component<FormFieldProps, {}> {
   static childContextTypes = {
     formFieldHasError: PropTypes.bool,
   };
+
+  private uniqueId = '';
 
   getChildContext() {
     return {

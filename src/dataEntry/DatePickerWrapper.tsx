@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 import { readableColor } from '../config';
 import { setLightness } from 'polished';
 
-const DatePickerWrapper = styled.div`
+const DatePickerWrapper = styledTs(styled.div)`
 text-align: center;
 
   .DayPicker {

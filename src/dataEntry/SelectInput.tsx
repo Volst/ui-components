@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 import { t } from 'i18next';
-import { ValuePropType, OptionsPropType } from '../PropTypes';
+import { OptionsPropType } from '../PropTypes';
 
-const StyledSelect = styled(({ autoWidth, hasError, ...props }) => (
-  <select {...props} />
-))`
+interface StyledSelectProps {
+  autoWidth?: boolean;
+  hasError?: boolean;
+}
+
+const StyledSelect = styledTs<StyledSelectProps>(
+  styled(({ autoWidth, hasError, ...props }) => <select {...props} />)
+)`
   width: ${props => (props.autoWidth ? 'auto' : '100%')};
   height: 30px;
   font-size: 14px;
@@ -34,21 +39,23 @@ const StyledSelect = styled(({ autoWidth, hasError, ...props }) => (
   }
 `;
 
-export default class SelectInput extends React.PureComponent {
-  static propTypes = {
-    children: PropTypes.node,
-    onChange: PropTypes.func,
-    name: PropTypes.string,
-    id: PropTypes.string,
-    disabled: PropTypes.bool,
-    hasError: PropTypes.bool,
-    placeholder: PropTypes.string,
-    skipPlaceholder: PropTypes.bool,
-    value: ValuePropType,
-    options: OptionsPropType,
-    autoWidth: PropTypes.bool,
-  };
+interface SelectInputProps {
+  onChange: (name: string, value: string) => void;
+  name?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+  id?: string;
+  placeholder?: string;
+  skipPlaceholder?: boolean;
+  value?: string | number;
+  options: OptionsPropType;
+  autoWidth?: boolean;
+}
 
+export default class SelectInput extends React.PureComponent<
+  SelectInputProps,
+  {}
+> {
   static contextTypes = {
     formFieldHasError: PropTypes.bool,
   };

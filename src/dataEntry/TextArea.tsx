@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import { styledTs, styled } from '../styled-components';
 import AutoTextarea from 'react-textarea-autosize';
 
-export const StyledTextarea = styled(({ hasError, ...props }) => (
-  <textarea {...props} />
-))`
+interface StyledTextareaProps {
+  hasError?: boolean;
+}
+
+export const StyledTextarea = styledTs<StyledTextareaProps>(
+  styled(({ hasError, ...props }) => <textarea {...props} />)
+)`
   font-size: 14px;
   color: ${props => props.theme.textColor};
   background: ${props =>
@@ -32,30 +36,30 @@ export const StyledTextarea = styled(({ hasError, ...props }) => (
   }
 `;
 
-const StyledAutoTextarea = StyledTextarea.withComponent(
+const StyledAutoTextarea = (StyledTextarea as any).withComponent(
   ({ hasError, ...props }) => <AutoTextarea {...props} />
 );
 
-export default class TextArea extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    placeholder: PropTypes.string,
-    disabled: PropTypes.bool,
-    maxLength: PropTypes.string,
-    name: PropTypes.string,
-    id: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    autoFocus: PropTypes.bool,
-    autoSize: PropTypes.bool,
-    onBlur: PropTypes.func,
-    onFocus: PropTypes.func,
-    hasError: PropTypes.bool,
-    rows: PropTypes.number,
-    maxRows: PropTypes.number,
-    className: PropTypes.string,
-    spellCheck: PropTypes.bool,
-  };
+interface TextAreaProps {
+  onChange?: (name: string, value: string) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  placeholder?: string;
+  name?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+  id?: string;
+  autoFocus?: boolean;
+  value?: string | number;
+  className?: string;
+  spellCheck?: boolean;
+  maxLength?: number;
+  autoSize?: boolean;
+  rows?: number;
+  maxRows?: number;
+}
 
+export default class TextArea extends React.PureComponent<TextAreaProps, {}> {
   static defaultProps = {
     placeholder: '',
     value: '',
@@ -88,7 +92,7 @@ export default class TextArea extends React.PureComponent {
       onBlur: this.props.onBlur,
       onFocus: this.props.onFocus,
       className: this.props.className,
-      spellCheck: this.props.spellCheck === false ? 'false' : undefined,
+      spellCheck: this.props.spellCheck === false ? false : undefined,
     };
 
     if (this.props.autoSize) {

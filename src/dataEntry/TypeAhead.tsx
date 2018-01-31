@@ -5,17 +5,17 @@ import { StyledInput } from './TextInput';
 import { DropdownContainer, Dropdown, DropdownItem } from './FancySelect';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
-export default class TypeAhead extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    name: PropTypes.string,
-    value: ValuePropType,
-    options: OptionsPropType,
-    hasError: PropTypes.bool,
-    disabled: PropTypes.bool,
-  };
+interface TypeAheadProps {
+  onChange?: (name: string, value: string) => void;
+  onSelect: (value: ValuePropType) => void;
+  name?: string;
+  disabled?: boolean;
+  hasError?: boolean;
+  value?: ValuePropType;
+  options: OptionsPropType;
+}
 
+export default class TypeAhead extends React.PureComponent<TypeAheadProps> {
   static contextTypes = {
     formFieldHasError: PropTypes.bool,
   };
@@ -31,7 +31,6 @@ export default class TypeAhead extends React.PureComponent {
   };
 
   renderDropdown = ({
-    isOpen,
     getItemProps,
     inputValue,
     highlightedIndex,
