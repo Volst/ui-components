@@ -1,4 +1,4 @@
-import { injectGlobal, keyframes } from 'styled-components';
+import { injectGlobal, keyframes } from '../../styled-components';
 
 const rcDialogZoomIn = keyframes`
   0% {

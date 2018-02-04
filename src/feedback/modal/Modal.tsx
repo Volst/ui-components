@@ -1,26 +1,26 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
 import Dialog from 'rc-dialog';
 import globalStyles from './globalStyles';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { withTheme } from 'styled-components';
+import { ThemeInterface } from 'src/config';
 
 let globalInserted = false;
 let mousePosition = null;
 let mousePositionEventBinded = false;
 
-@withTheme
-export default class Modal extends React.Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    visible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    afterClose: PropTypes.func,
-    width: PropTypes.string,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    footer: PropTypes.element,
-    theme: PropTypes.object.isRequired,
-  };
+interface ModalProps {
+  visible: boolean;
+  onClose: () => void;
+  afterClose?: () => void;
+  width?: string;
+  title?: string | React.ReactNode;
+  footer?: React.ReactNode;
+  theme: ThemeInterface;
+}
+
+class Modal extends React.Component<ModalProps, {}> {
+  static propTypes = {};
 
   componentWillMount() {
     // Terrible hack, but I did not yet find a prop way to defer loading
@@ -68,3 +68,5 @@ export default class Modal extends React.Component {
     );
   }
 }
+
+export default withTheme(Modal);

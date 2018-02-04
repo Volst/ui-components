@@ -62,7 +62,7 @@ export const StyledInput = styledTs<StyledInputProps>(
       : ''};
 `;
 
-interface TextInputProps {
+export interface TextInputProps {
   type?: 'text' | 'search' | 'password' | 'email' | 'tel';
   onChange?: (name: string, value: string) => void;
   onBlur?: (name: string, value: string) => void;

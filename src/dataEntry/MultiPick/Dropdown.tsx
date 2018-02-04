@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { t } from 'i18next';
 
 import {
@@ -11,21 +10,25 @@ import {
 } from './styles';
 import Checkbox from '../Checkbox';
 import { Button } from '../../general/Button';
+import { OptionsPropType, ValuePropType } from 'src/PropTypes';
 
-export default class MultipickDropdown extends React.Component {
-  static propTypes = {
-    options: PropTypes.array.isRequired,
-    value: PropTypes.array.isRequired,
-    filteredOptions: PropTypes.array.isRequired,
-    onChange: PropTypes.func.isRequired,
-    searchAppearsAfterCount: PropTypes.number.isRequired,
-    searchValue: PropTypes.string.isRequired,
-    onSearchChange: PropTypes.func.isRequired,
-    searchPlaceholder: PropTypes.string,
-    selectAllText: PropTypes.string,
-    selectNoneText: PropTypes.string,
-  };
+interface MultipickDropdownProps {
+  options: OptionsPropType;
+  value: ValuePropType[];
+  filteredOptions: OptionsPropType;
+  onChange: (value: ValuePropType[]) => void;
+  searchAppearsAfterCount?: number;
+  searchValue: string;
+  onSearchChange: (value: string) => void;
+  searchPlaceholder?: string;
+  selectAllText?: string;
+  selectNoneText?: string;
+}
 
+export default class MultipickDropdown extends React.Component<
+  MultipickDropdownProps,
+  {}
+> {
   static defaultProps = {
     searchValue: '',
   };

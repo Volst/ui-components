@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
@@ -58,14 +57,14 @@ export const StyledNavLink = styled(NavLink)`
   }
 `;
 
-export default class NavItem extends React.Component {
-  static propTypes = {
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-    to: PropTypes.string,
-    onClick: PropTypes.func,
-    activePath: PropTypes.string,
-  };
+interface NavItemProps {
+  title: string | React.ReactNode;
+  to?: string;
+  onClick?: () => void;
+  activePath?: string;
+}
 
+export default class NavItem extends React.Component<NavItemProps, {}> {
   checkActive = (match, location) => {
     return location.pathname.startsWith(this.props.activePath);
   };

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { t } from 'i18next';
 import Dropdown from './Dropdown';
 import { Container, MultiPickButton } from './styles';
@@ -7,20 +6,25 @@ import KeyboardArrowDown from '../../general/icon/IconKeyboardArrowDown';
 import { ValuePropType, OptionsPropType } from '../../PropTypes';
 import onClickOutside from 'react-onclickoutside';
 
-class MultiPick extends React.Component {
-  static propTypes = {
-    options: OptionsPropType,
-    value: PropTypes.arrayOf(ValuePropType).isRequired,
-    searchAppearsAfterCount: PropTypes.number,
-    searchPlaceholder: PropTypes.string,
-    selectedText: PropTypes.string,
-    selectAllText: PropTypes.string,
-    selectNoneText: PropTypes.string,
-    noneSelectedText: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-  };
+interface MultiPickProps {
+  options: OptionsPropType;
+  value: ValuePropType[];
+  searchAppearsAfterCount?: number;
+  searchPlaceholder?: string;
+  selectedText?: string;
+  selectAllText?: string;
+  selectNoneText?: string;
+  noneSelectedText?: string;
+  onChange: (value: ValuePropType[]) => void;
+  disabled?: boolean;
+}
 
+interface MultiPickState {
+  opened: boolean;
+  searchValue: string;
+}
+
+class MultiPick extends React.Component<MultiPickProps, MultiPickState> {
   static defaultProps = {
     searchAppearsAfterCount: 5,
   };

@@ -7,7 +7,9 @@ import IconClear from '../general/icon/IconClear';
 import IconNavigateNext from '../general/icon/IconNavigateNext';
 import { styledTs, styled, withTheme } from '../styled-components';
 import DatePickerWrapper from './DatePickerWrapper';
-import DayPicker, { DateUtils } from 'react-day-picker';
+import { DateUtils } from 'react-day-picker/utils';
+import DayPicker from 'react-day-picker/DayPicker';
+import { ThemeInterface } from '../config';
 
 function toDate(moment) {
   return moment ? moment.toDate() : undefined;
@@ -55,10 +57,10 @@ interface DateRangePickerProps {
   disabledDays?: any; // TODO add proper validation; it can be either an object or a function.
   hasError?: boolean;
   placeholder?: string;
+  theme: ThemeInterface;
 }
 
-@withTheme
-export default class DateRangePicker extends React.Component<
+class DateRangePicker extends React.Component<
   DateRangePickerProps,
   { opened: boolean }
 > {
@@ -150,3 +152,5 @@ export default class DateRangePicker extends React.Component<
     );
   }
 }
+
+export default withTheme(DateRangePicker);

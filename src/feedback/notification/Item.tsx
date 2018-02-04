@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import { styledTs, styled } from '../../styled-components';
 import * as React from 'react';
 import { Button } from '../../general/Button';
 import IconClose from '../../general/icon/IconClose';
@@ -7,16 +6,22 @@ import { readableColor } from '../../config';
 
 const TRANSITION_TIME = 500;
 
-export default class NotificationItem extends React.Component {
-  static propTypes = {
-    message: PropTypes.string.isRequired,
-    onDismiss: PropTypes.func.isRequired,
-    onClick: PropTypes.func,
-    dismissAfter: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-    dismissible: PropTypes.bool,
-    type: PropTypes.oneOf(['info', 'error']),
-  };
+export type TYPE = 'info' | 'error';
 
+export interface NotificationItemProps {
+  key: string;
+  message: string;
+  onDismiss: () => void;
+  onClick?: () => void;
+  dismissAfter?: boolean | number;
+  dismissible?: boolean;
+  type?: TYPE;
+}
+
+export default class NotificationItem extends React.Component<
+  NotificationItemProps,
+  { active: boolean }
+> {
   static defaultProps = {
     dismissAfter: 3100,
     type: 'info',
@@ -25,6 +30,10 @@ export default class NotificationItem extends React.Component {
   state = {
     active: false,
   };
+
+  private animateInTimeout;
+  private expireTimeout;
+  private transitionTimeout;
 
   componentDidMount() {
     this.animateInTimeout = setTimeout(this.animateIn.bind(this));
@@ -87,7 +96,12 @@ const CloseButton = styled(Button)`
   font-size: 15px;
 `;
 
-function getBackgroundColor(props) {
+interface StyledItemProps {
+  active: boolean;
+  type: TYPE;
+}
+
+function getBackgroundColor(props: StyledItemProps) {
   switch (props.type) {
     case 'info':
       return '#fbf2c4';
@@ -98,7 +112,7 @@ function getBackgroundColor(props) {
   }
 }
 
-const StyledItem = styled.div`
+const StyledItem = styledTs<StyledItemProps>(styled.div)`
   width: 250px;
   padding: 10px 40px 10px 14px;
   color: ${props => readableColor(getBackgroundColor(props))};
@@ -112,12 +126,11 @@ const StyledItem = styled.div`
   transition: ${TRANSITION_TIME}ms cubic-bezier(0.89, 0.01, 0.5, 1.1);
   word-wrap: break-word;
   ${props =>
-    !props.active
-      ? `
-        visibility: hidden;
-        opacity: 0;
+    !props.active &&
     `
-      : ''};
+      visibility: hidden;
+      opacity: 0;
+    `};
   background: ${getBackgroundColor};
   cursor: ${props => (props.onClick ? 'pointer' : 'default')};
 `;

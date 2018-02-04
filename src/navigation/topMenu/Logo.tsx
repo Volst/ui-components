@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
-import styled from 'styled-components';
+import styled from '../../styled-components';
 import { NavLink } from 'react-router-dom';
 
 const StyledNavLink = styled(NavLink)`
@@ -19,10 +18,8 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-const Logo = props => <StyledNavLink to="/">{props.children}</StyledNavLink>;
-
-Logo.propTypes = {
-  children: PropTypes.node,
-};
+const Logo: React.SFC = props => (
+  <StyledNavLink to="/">{props.children}</StyledNavLink>
+);
 
 export default Logo;

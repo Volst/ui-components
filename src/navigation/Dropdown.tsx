@@ -1,6 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from '../styled-components';
 import { setLightness } from 'polished';
 import onClickOutside from 'react-onclickoutside';
 
@@ -8,14 +7,13 @@ const RelativeWrapper = styled.div`
   position: relative;
 `;
 
-class MyDropdown extends React.Component {
-  static propTypes = {
-    overlay: PropTypes.element.isRequired,
-    children: PropTypes.node.isRequired,
-    opened: PropTypes.bool,
-    onChange: PropTypes.func,
-  };
+interface MyDropdownProps {
+  overlay: React.ReactElement<any>;
+  opened?: boolean;
+  onChange?: (value: boolean) => void;
+}
 
+class MyDropdown extends React.Component<MyDropdownProps, { opened: boolean }> {
   state = {
     opened: false,
   };
@@ -51,7 +49,7 @@ class MyDropdown extends React.Component {
   }
 }
 
-export const Dropdown = onClickOutside(MyDropdown);
+export const Dropdown: React.SFC<MyDropdownProps> = onClickOutside(MyDropdown);
 Dropdown.displayName = 'Dropdown';
 
 export const DropdownOverlay = styled.div`

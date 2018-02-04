@@ -1,14 +1,25 @@
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import styled from '../../styled-components';
 import * as React from 'react';
 import Item from './Item';
 
-export default class NotificationStack extends React.Component {
-  static propTypes = {
-    notifications: PropTypes.array.isRequired,
-    onDismiss: PropTypes.func.isRequired,
-  };
+interface Notification {
+  key: string;
+  message: string;
+  onClick?: (notification: Notification, dismiss: () => void) => void;
+  dismissAfter?: boolean | number;
+  dismissible?: boolean;
+  type?: string;
+}
 
+interface NotificationStackProps {
+  notifications: Notification[];
+  onDismiss: (notification: Notification) => void;
+}
+
+export default class NotificationStack extends React.Component<
+  NotificationStackProps,
+  {}
+> {
   renderNotification = notification => {
     const onDismiss = () => this.props.onDismiss(notification);
     return (

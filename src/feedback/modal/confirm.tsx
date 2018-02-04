@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import Modal from './Modal';
 import { t } from 'i18next';
 import { Button } from '../../general/Button';
@@ -12,7 +11,7 @@ import { getTheme } from '../../VolstTheme';
 import { TonePropType } from '../../PropTypes';
 
 // TODO: perhaps add a fancy "question" icon like ant.design does
-const ConfirmModal = ({
+const ConfirmModal: React.SFC<ConfirmModalProps> = ({
   visible,
   afterClose,
   onOk,
@@ -26,7 +25,7 @@ const ConfirmModal = ({
   const handleCancel = () => close({ triggerCancel: true });
   const handleOk = () => {
     onOk();
-    close();
+    close({ triggerCancel: false });
   };
   return (
     <Modal
@@ -36,14 +35,14 @@ const ConfirmModal = ({
       width="416px"
       theme={defaultConfig}
       footer={
-        <Fragment>
+        <React.Fragment>
           <Button tone="light" onClick={handleCancel}>
             {cancelText || t('form.cancelButton')}
           </Button>
           <Button tone={okTone} onClick={handleOk}>
             {okText || t('form.okButton')}
           </Button>
-        </Fragment>
+        </React.Fragment>
       }
     >
       <Subheading>{title}</Subheading>
@@ -52,17 +51,17 @@ const ConfirmModal = ({
   );
 };
 
-ConfirmModal.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  onOk: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired,
-  afterClose: PropTypes.func,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string,
-  okText: PropTypes.string,
-  okTone: TonePropType,
-  cancelText: PropTypes.string,
-};
+interface ConfirmModalProps {
+  visible: boolean;
+  onOk: () => void;
+  close: ({ triggerCancel: boolean }) => void;
+  afterClose?: () => void;
+  title: string;
+  content?: string;
+  okText?: string;
+  okTone?: TonePropType;
+  cancelText?: string;
+}
 
 export default function confirm({ theme = {}, ...config }) {
   let div = document.createElement('div');

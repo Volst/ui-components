@@ -4,9 +4,7 @@ import { withInfo } from '@storybook/addon-info';
 import { Button, Link, ExternalLink } from './Button';
 import IconAdd from './icon/IconAddCircle';
 import IconDelete from './icon/IconDelete';
-import IconSearch from './icon/IconSearch';
 import IconBuild from './icon/IconBuild';
-import IconMic from './icon/IconMic';
 import VolstTheme from '../VolstTheme';
 import CenterDecorator from '../../storybook/CenterDecorator';
 
@@ -214,7 +212,7 @@ storiesOf('General / Button', module)
     withInfo()(() => {
       return (
         <div>
-          <ExternalLink href="https://google.com">
+          <ExternalLink href="https://google.com" ghost>
             <IconAdd /> Go to Google
           </ExternalLink>
           <ExternalLink href="https://google.com" disabled>

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
@@ -6,7 +6,6 @@ import Modal from './Modal';
 import confirm from './confirm';
 import CenterDecorator from '../../../storybook/CenterDecorator';
 import { Button } from '../../general/Button';
-import { withTheme } from 'styled-components';
 import { State } from 'react-powerplug';
 
 storiesOf('Feedback / Modal', module)
@@ -41,10 +40,10 @@ storiesOf('Feedback / Modal', module)
               }}
               title="Nice Modal Title"
               footer={
-                <Fragment>
+                <React.Fragment>
                   <Button tone="light">Cancel</Button>
                   <Button>Save</Button>
-                </Fragment>
+                </React.Fragment>
               }
             >
               <p>
@@ -71,7 +70,6 @@ storiesOf('Feedback / Modal', module)
   .add(
     'confirm',
     withInfo()(() => {
-      @withTheme
       class MyComponent extends React.Component {
         render() {
           return (

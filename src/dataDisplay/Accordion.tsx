@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styledTs, styled, withTheme } from '../styled-components';
+import { styledTs, styled } from '../styled-components';
 import { Button } from '../general/Button';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
@@ -45,7 +45,6 @@ interface AccordionProps {
   contentBackground?: string;
 }
 
-@withTheme
 export default class Accordion extends React.Component<AccordionProps, {}> {
   handleClick = () => {
     this.props.onChange();
@@ -57,12 +56,8 @@ export default class Accordion extends React.Component<AccordionProps, {}> {
     return (
       <StyledContainer>
         <StyledTitleContainer>
-          <Button ghost onClick={this.handleClick}>
-            <IconToggle
-              color={this.props.theme.primaryColor}
-              width="24"
-              height="24"
-            />
+          <Button ghost tone="primary" onClick={this.handleClick}>
+            <IconToggle width="24" height="24" />
           </Button>
           <StyledTitle>{title}</StyledTitle>
           {action}

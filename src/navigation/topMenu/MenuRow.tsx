@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+import { styledTs, styled } from '../../styled-components';
 import { darken } from 'polished';
 
-export default styled.div`
+interface MenuRowProps {
+  inContent?: boolean;
+}
+
+export default styledTs<MenuRowProps>(styled.div)`
   height: 35px;
   display: flex;
   align-items: stretch;

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
 import { Button } from '../general/Button';
 import IconNavigateBefore from '../general/icon/IconNavigateBefore';
@@ -13,19 +12,23 @@ const PageCount = styled.div`
   vertical-align: middle;
 `;
 
-export default class PaginationControls extends React.Component {
-  static propTypes = {
-    handlePrevious: PropTypes.func,
-    handleNext: PropTypes.func,
-    hasPreviousPage: PropTypes.bool,
-    hasNextPage: PropTypes.bool,
-    currentPage: PropTypes.number.isRequired,
-    totalPages: PropTypes.number,
-    previousText: PropTypes.string,
-    ofText: PropTypes.string,
-    nextText: PropTypes.string,
-  };
+// TODO: I don't know why so many things are optional here.
+interface PaginationControlsProps {
+  handlePrevious?: () => void;
+  handleNext?: () => void;
+  hasPreviousPage?: boolean;
+  hasNextPage?: boolean;
+  currentPage: number;
+  totalPages: number;
+  previousText?: string;
+  ofText?: string;
+  nextText?: string;
+}
 
+export default class PaginationControls extends React.Component<
+  PaginationControlsProps,
+  {}
+> {
   render() {
     return (
       <div>

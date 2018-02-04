@@ -6,7 +6,8 @@ import * as moment from 'moment';
 import { StyledInput } from './TextInput';
 import MaskedInput from 'react-text-mask';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
-import { withTheme } from 'styled-components';
+import { withTheme } from '../styled-components';
+import { ThemeInterface } from 'src/config';
 
 const StyledMaskedInput = (StyledInput as any).withComponent(
   ({ hasError, _ref, ...props }) => <MaskedInput {...props} ref={_ref} />
@@ -63,13 +64,10 @@ interface SingleDatePickerProps {
   hasError?: boolean;
   showWeekNumbers?: boolean;
   disabledDays?: any; // TODO add proper validation; it can be either an object or a function.
+  theme: ThemeInterface;
 }
 
-@withTheme
-export default class SingleDatePicker extends React.PureComponent<
-  SingleDatePickerProps,
-  {}
-> {
+class SingleDatePicker extends React.PureComponent<SingleDatePickerProps, {}> {
   static defaultProps = {
     placeholder: '',
     value: null,
@@ -126,3 +124,5 @@ export default class SingleDatePicker extends React.PureComponent<
     );
   }
 }
+
+export default withTheme(SingleDatePicker);
