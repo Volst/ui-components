@@ -13,7 +13,7 @@ const PageCount = styled.div`
 `;
 
 // TODO: I don't know why so many things are optional here.
-interface PaginationControlsProps {
+export interface PaginationControlsProps {
   handlePrevious?: () => void;
   handleNext?: () => void;
   hasPreviousPage?: boolean;

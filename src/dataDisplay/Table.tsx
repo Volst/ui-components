@@ -17,7 +17,6 @@ export const TableBody = styled.tbody`
   }
 `;
 TableBody.displayName = 'TableBody';
-TableBody.displayName = 'TableBody';
 
 interface TableRowProps extends ThemeProps {
   highlight?: boolean;

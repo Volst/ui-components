@@ -19,7 +19,7 @@ const StyledInput = styled.input`
   margin-right: 5px;
 `;
 
-interface Props {
+export interface CheckboxProps {
   onChange: (name: string, value: boolean) => void;
   name?: string;
   label?: string;
@@ -27,7 +27,7 @@ interface Props {
   disabled?: boolean;
 }
 
-export default class Checkbox extends React.PureComponent<Props, {}> {
+export default class Checkbox extends React.PureComponent<CheckboxProps, {}> {
   handleChange = e => {
     this.props.onChange(this.props.name, e.target.checked);
   };

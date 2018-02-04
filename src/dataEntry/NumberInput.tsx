@@ -9,7 +9,7 @@ const MyInput = (StyledInput as any).withComponent(({ hasError, ...props }) => (
   <MaskedInput {...props} />
 ));
 
-interface NumberInputProps {
+export interface NumberInputProps {
   onChange?: (name: string, value: string) => void;
   onBlur?: (name: string, value: string) => void;
   onFocus?: (e: any) => void;

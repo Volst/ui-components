@@ -57,7 +57,7 @@ export const StyledNavLink = styled(NavLink)`
   }
 `;
 
-interface NavItemProps {
+export interface NavItemProps {
   title: string | React.ReactNode;
   to?: string;
   onClick?: () => void;

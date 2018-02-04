@@ -37,7 +37,7 @@ const StyledTitleContainer = styled.div`
   padding-left: 4px;
 `;
 
-interface AccordionProps {
+export interface AccordionProps {
   title: string | React.ReactNode;
   opened: boolean;
   onChange: () => void;

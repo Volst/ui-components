@@ -56,6 +56,8 @@
     "@storybook/storybook-deployer": "^2.0.0",
     "@types/react": "^16.0.35",
     "@types/react-dom": "^16.0.3",
+    "@types/lodash": "^4.14.100",
+    "@types/react-router-dom": "^4.2.3",
     "@types/webpack-env": "^1.13.5",
     "husky": "^0.14.1",
     "i18next": "^10.0.7",

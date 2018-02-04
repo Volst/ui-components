@@ -121,7 +121,7 @@ const StyledInput = styled.input`
   }
 `;
 
-interface RadioButtonsProps {
+export interface RadioButtonsProps {
   onChange?: (name: string, value: ValuePropType) => void;
   name?: string;
   disabled?: boolean;

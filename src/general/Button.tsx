@@ -1,23 +1,10 @@
 import * as React from 'react';
 import { styled, css } from '../styled-components';
-import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint, rgba } from 'polished';
 import { readableColor } from '../config';
 import { TonePropType } from '../PropTypes';
 import { showLoaderCss } from '../feedback/Loader';
-
-// I really really do not like this hack, but we can't pass made-up properties
-// to DOM elements without React giving a warning.
-const OMIT_PROPS = [
-  'ghost',
-  'link',
-  'fullWidth',
-  'tone',
-  'children',
-  'small',
-  'loading',
-];
 
 function insertSpanForTextNodes(child) {
   if (typeof child === 'string') {
@@ -27,7 +14,18 @@ function insertSpanForTextNodes(child) {
 }
 
 function getProps(props) {
-  const newProps = omit(props, OMIT_PROPS);
+  // I really really do not like this hack, but we can't pass made-up properties
+  // to DOM elements without React giving a warning.
+  const {
+    ghost,
+    link,
+    fullWidth,
+    tone,
+    children,
+    small,
+    loading,
+    ...newProps
+  } = props;
   newProps.children = React.Children.map(
     props.children,
     insertSpanForTextNodes

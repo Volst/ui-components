@@ -6,7 +6,6 @@
     "target": "es2015",
     "lib": ["esnext", "dom"],
     "sourceMap": true,
-    "allowJs": true,
     "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "",
@@ -14,6 +13,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
+    "strictFunctionTypes": true,
     "plugins": [
       {
         "name": "typescript-styled-plugin"

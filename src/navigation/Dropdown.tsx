@@ -7,13 +7,13 @@ const RelativeWrapper = styled.div`
   position: relative;
 `;
 
-interface MyDropdownProps {
+export interface DropdownProps {
   overlay: React.ReactElement<any>;
   opened?: boolean;
   onChange?: (value: boolean) => void;
 }
 
-class MyDropdown extends React.Component<MyDropdownProps, { opened: boolean }> {
+class MyDropdown extends React.Component<DropdownProps, { opened: boolean }> {
   state = {
     opened: false,
   };
@@ -49,7 +49,7 @@ class MyDropdown extends React.Component<MyDropdownProps, { opened: boolean }> {
   }
 }
 
-export const Dropdown: React.SFC<MyDropdownProps> = onClickOutside(MyDropdown);
+export const Dropdown: React.SFC<DropdownProps> = onClickOutside(MyDropdown);
 Dropdown.displayName = 'Dropdown';
 
 export const DropdownOverlay = styled.div`

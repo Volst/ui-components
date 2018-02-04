@@ -70,7 +70,7 @@ export function fuzzySearch(options, inputValue) {
   );
 }
 
-interface FancySelectProps {
+export interface FancySelectProps {
   onChange?: (name: string, value: ValuePropType) => void;
   name?: string;
   value?: ValuePropType;

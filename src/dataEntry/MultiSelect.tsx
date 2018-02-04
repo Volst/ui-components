@@ -104,7 +104,7 @@ const CloseButton = styled.span`
   margin-left: 4px;
 `;
 
-interface MultiSelectProps {
+export interface MultiSelectProps {
   onChange: (name: string, value: ValuePropType[]) => void;
   name?: string;
   value: ValuePropType[];
@@ -113,7 +113,7 @@ interface MultiSelectProps {
   hasError?: boolean;
 }
 
-interface MultiSelectState {
+export interface MultiSelectState {
   inputValue: string;
   focused: boolean;
 }

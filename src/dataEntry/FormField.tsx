@@ -56,7 +56,7 @@ function validationErrorMapper(errorCode) {
   return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);
 }
 
-interface FormFieldProps {
+export interface FormFieldProps {
   label?: string;
   helpText?: string;
   // Also accepts an object because MobX arrays are objects. TODO: don't use any here

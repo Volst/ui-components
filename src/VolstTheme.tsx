@@ -75,11 +75,11 @@ export function getTheme(theme) {
   return Object.assign({}, defaultConfig, fallback, theme);
 }
 
-interface Props {
+export interface VolstThemeProps {
   theme: any; // TODO: should have strict type checking
 }
 
-export default class VolstTheme extends React.Component<Props, {}> {
+export default class VolstTheme extends React.Component<VolstThemeProps, {}> {
   static defaultProps = {
     theme: {},
   };
