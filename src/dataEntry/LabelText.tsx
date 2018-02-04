@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled } from '../styled-components';
 
-const Container = styledTs(styled.div)`
+const Container = styled.div`
   font-size: 12px;
   padding: 0 0 2px;
   opacity: 0.75;
@@ -12,7 +12,7 @@ const Container = styledTs(styled.div)`
   line-height: 1.45;
 `;
 
-const StyledLabel = styledTs(styled.label)`
+const StyledLabel = styled.label`
   text-transform: uppercase;
 `;
 

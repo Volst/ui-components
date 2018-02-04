@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { styled, styledTs } from '../styled-components';
+import { styled } from '../styled-components';
 
 interface StyledLabelProps {
   disabled: boolean;
 }
 
-const StyledLabel = styledTs<StyledLabelProps>(styled.label)`
+const StyledLabel = styled.label`
   width: 100%;
   display: block;
   margin-bottom: 3px;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${(props: StyledLabelProps) =>
+    props.disabled ? 'not-allowed' : 'pointer'};
   display: flex;
   word-break: break-word;
 `;

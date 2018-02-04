@@ -1,18 +1,28 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled, ThemeProps } from '../styled-components';
 import { t } from 'i18next';
 import { OptionsPropType } from '../PropTypes';
 
-interface StyledSelectProps {
+// TODO: yes, these typings suck.
+interface StyledSelectProps
+  extends ThemeProps,
+    React.DetailedHTMLProps<
+      React.SelectHTMLAttributes<HTMLSelectElement>,
+      HTMLSelectElement
+    > {
   autoWidth?: boolean;
   hasError?: boolean;
 }
 
-const StyledSelect = styledTs<StyledSelectProps>(
-  styled(({ autoWidth, hasError, ...props }) => <select {...props} />)
-)`
-  width: ${props => (props.autoWidth ? 'auto' : '100%')};
+const InnerSelect: React.SFC<StyledSelectProps> = ({
+  autoWidth,
+  hasError,
+  ...props
+}) => <select {...props} />;
+
+const StyledSelect = styled(InnerSelect)`
+  width: ${(props: StyledSelectProps) => (props.autoWidth ? 'auto' : '100%')};
   height: 30px;
   font-size: 14px;
   color: ${props => props.theme.textColor};
@@ -30,7 +40,9 @@ const StyledSelect = styledTs<StyledSelectProps>(
   -webkit-appearance: none;
 
   &:focus {
-    border: 1px solid ${props => !props.hasError && props.theme.primaryColor};
+    border: 1px solid
+      ${(props: StyledSelectProps) =>
+        !props.hasError && props.theme.primaryColor};
   }
 
   &:disabled {

@@ -22,6 +22,8 @@ export interface ThemeInterface {
   zIndexFancySelectDropdown: number;
   zIndexTooltip: number;
   zIndexSingleDatePickerOverlay: number;
+  headingTextColor?: string;
+  buttonPrimaryColor?: string;
 }
 
 export const defaultConfig: ThemeInterface = {

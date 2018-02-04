@@ -1,4 +1,4 @@
-import { styledTs, styled } from '../../styled-components';
+import { styled } from '../../styled-components';
 import * as React from 'react';
 import { Button } from '../../general/Button';
 import IconClose from '../../general/icon/IconClose';
@@ -112,7 +112,7 @@ function getBackgroundColor(props: StyledItemProps) {
   }
 }
 
-const StyledItem = styledTs<StyledItemProps>(styled.div)`
+const StyledItem = styled.div`
   width: 250px;
   padding: 10px 40px 10px 14px;
   color: ${props => readableColor(getBackgroundColor(props))};

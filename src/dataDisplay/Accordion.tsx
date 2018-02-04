@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled } from '../styled-components';
 import { Button } from '../general/Button';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
@@ -13,10 +13,10 @@ const StyledContainer = styled.div`
 interface StyledContentProps {
   background?: string;
 }
-const StyledContent = styledTs<StyledContentProps>(styled.div)`
+const StyledContent = styled.div`
   padding: 10px;
 
-  ${props =>
+  ${(props: StyledContentProps) =>
     props.background
       ? `
         background: ${props.background};

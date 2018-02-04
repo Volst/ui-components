@@ -1,4 +1,4 @@
-import { styled, styledTs } from '../styled-components';
+import { styled, ThemeProps } from '../styled-components';
 
 export const Table = styled.table`
   width: 100%;
@@ -19,12 +19,12 @@ export const TableBody = styled.tbody`
 TableBody.displayName = 'TableBody';
 TableBody.displayName = 'TableBody';
 
-interface TableRowProps {
+interface TableRowProps extends ThemeProps {
   highlight?: boolean;
 }
-export const TableRow = styledTs<TableRowProps>(styled.tr)`
+export const TableRow = styled.tr`
   border-bottom: 1px solid ${props => props.theme.borderColor};
-  ${props =>
+  ${(props: TableRowProps) =>
     props.highlight &&
     `
         background: ${props.theme.highlightColor};
@@ -35,36 +35,36 @@ TableRow.displayName = 'TableRow';
 interface TableHeaderProps {
   alignRight?: boolean;
 }
-export const TableHeader = styledTs<TableHeaderProps>(styled.th)`
+export const TableHeader = styled.th`
   padding: 8px 4px;
-  text-align: ${props => (props.alignRight ? 'right' : 'left')};
+  text-align: ${(props: TableHeaderProps) =>
+    props.alignRight ? 'right' : 'left'};
 `;
 TableHeader.displayName = 'TableHeader';
 
-interface TableDataProps {
+interface TableDataProps extends ThemeProps {
   alignRight?: boolean;
   stretch?: boolean;
   noWrap?: boolean;
 }
-export const TableData = styledTs<TableDataProps>(styled.td)`
+export const TableData = styled.td`
   padding: 8px 4px;
   font-size: 14px;
 
+  ${(props: TableDataProps) =>
+    props.stretch &&
+    `
+      width: 100%;
+    `};
   ${props =>
-    props.stretch
-      ? `
-        width: 100%;
+    props.alignRight &&
     `
-      : null} ${props =>
-  props.alignRight
-    ? `
-        text-align: right;
+      text-align: right;
+    `};
+  ${props =>
+    props.noWrap &&
     `
-    : null} ${props =>
-  props.noWrap
-    ? `
-        white-space: nowrap;
-    `
-    : null};
+      white-space: nowrap;
+    `};
 `;
 TableData.displayName = 'TableData';

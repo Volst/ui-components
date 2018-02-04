@@ -1,4 +1,4 @@
-import { styledTs, styled, keyframes } from '../styled-components';
+import { styled, keyframes } from '../styled-components';
 
 const sweep = keyframes`
   to {
@@ -22,12 +22,12 @@ interface LoaderProps {
 }
 
 // Duplicated width+height to prevent jumping when loader is not shown.
-const Loader = styledTs<LoaderProps>(styled.div)`
+const Loader = styled.div`
   width: 18px;
   height: 18px;
   margin: 5px;
   transition: 200ms all linear;
-  ${props => props.show && showLoaderCss};
+  ${(props: LoaderProps) => props.show && showLoaderCss};
 `;
 
 Loader.displayName = 'Loader';

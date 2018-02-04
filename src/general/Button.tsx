@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styledTs, styled, css } from '../styled-components';
+import { styled, css } from '../styled-components';
 import { omit } from 'lodash';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint, rgba } from 'polished';
@@ -55,6 +55,7 @@ interface ButtonProps {
   tone?: TonePropType;
   small?: boolean;
   loading?: boolean;
+  tabIndex?: number;
 }
 
 const styles = css`
@@ -173,27 +174,36 @@ const styles = css`
   }};
 `;
 
+interface FullButtonProps extends ButtonProps {
+  type?: 'submit';
+}
+
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
-export const Button = styledTs<ButtonProps>(
-  styled(props => <button type="button" {...getProps(props)} />)
-).attrs({
+const InnerButton: React.SFC<FullButtonProps> = props => (
+  <button type="button" {...getProps(props)} />
+);
+export const Button = styled(InnerButton).attrs({
   disabled: props => props.disabled || props.loading,
 })`
-  ${styles}
+  ${styles};
 `;
 Button.displayName = 'Button';
 
-export const ExternalLink = styledTs<ButtonProps>(
-  styled(props => {
-    if (props.disabled) {
-      return <button {...getProps(props)} />;
-    }
-    return <a {...getProps(props)} />;
-  })
-).attrs({
+interface ExternalLinkProps extends ButtonProps {
+  href?: string;
+}
+
+const InnerExternalLink: React.SFC<ExternalLinkProps> = props => {
+  if (props.disabled) {
+    return <button {...getProps(props)} />;
+  }
+  return <a {...getProps(props)} />;
+};
+
+export const ExternalLink = styled(InnerExternalLink).attrs({
   disabled: props => props.disabled || props.loading,
 })`
-  ${styles}
+  ${styles};
 `;
 ExternalLink.displayName = 'ExternalLink';
 
@@ -201,16 +211,16 @@ interface LinkProps extends ButtonProps {
   to?: string;
 }
 
-export const Link = styledTs<LinkProps>(
-  styled(props => {
-    if (props.disabled) {
-      return <button {...getProps(props)} />;
-    }
-    return <RouterLink {...getProps(props)} />;
-  })
-).attrs({
+const InnerLink: React.SFC<LinkProps> = props => {
+  if (props.disabled) {
+    return <button {...getProps(props)} />;
+  }
+  return <RouterLink {...getProps(props)} />;
+};
+
+export const Link = styled(InnerLink).attrs({
   disabled: props => props.disabled || props.loading,
 })`
-  ${styles}
+  ${styles};
 `;
 Link.displayName = 'Link';

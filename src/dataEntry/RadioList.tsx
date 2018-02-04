@@ -1,13 +1,18 @@
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled } from '../styled-components';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 const StyledDiv = styled.div``;
 
-const StyledLabel = styledTs(styled.label)`
+interface StyledLabelProps {
+  disabled?: boolean;
+}
+
+const StyledLabel = styled.label`
   width: 100%;
   margin-bottom: 3px;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${(props: StyledLabelProps) =>
+    props.disabled ? 'not-allowed' : 'pointer'};
   display: flex;
   word-break: break-word;
 `;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styledTs, styled } from '../../styled-components';
+import { styled } from '../../styled-components';
 import { tint } from 'polished';
 import { Scrollbars } from 'react-custom-scrollbars';
 
@@ -9,9 +9,12 @@ interface StyledScrollbarsProps {
   tone?: AvailableTones;
 }
 
-const StyledScrollbars = styledTs<StyledScrollbarsProps>(
-  styled(({ tone, ...props }) => <Scrollbars {...props} />)
-)`
+const InnerScrollbars: React.SFC<StyledScrollbarsProps> = ({
+  tone,
+  ...props
+}) => <Scrollbars {...props} />;
+
+const StyledScrollbars = styled(InnerScrollbars)`
   flex: 1;
   background: ${props =>
     props.tone === 'primary'
@@ -24,18 +27,17 @@ interface MainProps {
   center?: boolean;
 }
 
-const Main = styledTs<MainProps>(styled.main)`
+const Main = styled.main`
   margin: 0 auto;
   max-width: 1500px;
   padding: 25px;
-  ${props =>
-    props.blur
-      ? `
-        filter: blur(2px) grayscale(40%);
-        pointer-events: none;
-        opacity: 0.6;
+  ${(props: MainProps) =>
+    props.blur &&
     `
-      : null};
+      filter: blur(2px) grayscale(40%);
+      pointer-events: none;
+      opacity: 0.6;
+    `};
   transition: 200ms filter ease;
 
   ${props =>

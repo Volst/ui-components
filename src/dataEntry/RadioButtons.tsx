@@ -1,29 +1,30 @@
 import * as React from 'react';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
-import { styledTs, styled } from '../styled-components';
+import { styled, ThemeProps } from '../styled-components';
 import { readableColor } from '../config';
 import { uniqueId } from 'lodash';
 
-interface StyledDivProps {
+interface StyledDivProps extends ThemeProps {
   vertical?: boolean;
   focus?: boolean;
 }
 
-const StyledDiv = styledTs<StyledDivProps>(styled.div)`
+const StyledDiv = styled.div`
   -webkit-touch-callout: none;
   user-select: none;
   display: flex;
   align-items: stretch;
-  flex-direction: ${props => (props.vertical ? 'column' : 'row')};
+  flex-direction: ${(props: StyledDivProps) =>
+    props.vertical ? 'column' : 'row'};
   flex-wrap: nowrap;
   border: 1px solid transparent;
   border-radius: 4px;
   ${props =>
     props.focus &&
     `
-        label {
-            border-color: ${props.theme.primaryColor};
-        }
+      label {
+          border-color: ${props.theme.primaryColor};
+      }
     `};
 `;
 
@@ -31,13 +32,13 @@ interface OptionProps {
   vertical?: boolean;
 }
 
-const Option = styledTs<OptionProps>(styled.div)`
+const Option = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
 
   &:first-child > label {
-    ${props =>
+    ${(props: OptionProps) =>
       props.vertical
         ? `
           border-top-left-radius: 4px;
@@ -65,13 +66,15 @@ const Option = styledTs<OptionProps>(styled.div)`
   }
 `;
 
-interface StyledLabelProps {
+interface StyledLabelProps extends ThemeProps {
   vertical?: boolean;
+  disabled?: boolean;
 }
 
-const StyledLabel = styledTs<StyledLabelProps>(styled.label)`
+const StyledLabel = styled.label`
   flex: 1;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${(props: StyledLabelProps) =>
+    props.disabled ? 'not-allowed' : 'pointer'};
   padding: 5px;
   text-align: center;
   border: 1px solid ${props => props.theme.borderColor};
@@ -92,16 +95,17 @@ const StyledLabel = styledTs<StyledLabelProps>(styled.label)`
   text-overflow: ellipsis;
 `;
 
-interface StyledInputProps {
+interface StyledInputProps extends ThemeProps {
   vertical?: boolean;
+  disabled?: boolean;
 }
 
-const StyledInput = styledTs<StyledInputProps>(styled.input)`
+const StyledInput = styled.input`
   position: fixed;
   left: -999999px;
   opacity: 0;
   &:checked + label {
-    ${props => {
+    ${(props: StyledInputProps) => {
       const background = props.disabled
         ? props.theme.borderColor
         : props.theme.primaryColor;

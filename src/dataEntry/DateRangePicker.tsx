@@ -5,7 +5,7 @@ import { t } from 'i18next';
 import { Button } from '../general/Button';
 import IconClear from '../general/icon/IconClear';
 import IconNavigateNext from '../general/icon/IconNavigateNext';
-import { styledTs, styled, withTheme } from '../styled-components';
+import { styled, withTheme, ThemeProps } from '../styled-components';
 import DatePickerWrapper from './DatePickerWrapper';
 import { DateUtils } from 'react-day-picker/utils';
 import DayPicker from 'react-day-picker/DayPicker';
@@ -15,11 +15,11 @@ function toDate(moment) {
   return moment ? moment.toDate() : undefined;
 }
 
-interface CombinedInputProps {
+interface CombinedInputProps extends ThemeProps {
   hasError?: boolean;
 }
 
-const CombinedInput = styledTs<CombinedInputProps>(styled.div)`
+const CombinedInput = styled.div`
   height: 30px;
   display: flex;
   background: ${props => props.theme.componentBackground};
@@ -28,12 +28,12 @@ const CombinedInput = styledTs<CombinedInputProps>(styled.div)`
   font-size: 14px;
   align-items: center;
 
-  ${props =>
+  ${(props: CombinedInputProps) =>
     props.hasError &&
     `
-        border-color: ${props.theme.dangerColor};
-        background: #fef2f2;
-        `};
+      border-color: ${props.theme.dangerColor};
+      background: #fef2f2;
+    `};
 `;
 
 const CombinedInputItem = styled.div`

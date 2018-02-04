@@ -1,11 +1,11 @@
-import { styledTs, styled } from '../../styled-components';
+import { styled, ThemeProps } from '../../styled-components';
 import { darken } from 'polished';
 
-interface MenuRowProps {
+interface MenuRowProps extends ThemeProps {
   inContent?: boolean;
 }
 
-export default styledTs<MenuRowProps>(styled.div)`
+export default styled.div`
   height: 35px;
   display: flex;
   align-items: stretch;
@@ -32,7 +32,7 @@ export default styledTs<MenuRowProps>(styled.div)`
     }
   }
 
-  ${props =>
+  ${(props: MenuRowProps) =>
     props.inContent &&
     `
         margin: -20px -20px 0 -20px;

@@ -1,4 +1,4 @@
-import { styledTs, styled } from '../../styled-components';
+import { styled, ThemeProps } from '../../styled-components';
 import TextInput from '../TextInput';
 import { setLightness } from 'polished';
 import { Button } from '../../general/Button';
@@ -24,11 +24,11 @@ export const MultiPickButton = styled(Button)`
   margin: 0;
 `;
 
-interface DropdownItemProps {
+interface DropdownItemProps extends ThemeProps {
   checked: boolean;
 }
 
-export const DropdownItem = styledTs<DropdownItemProps>(styled.label)`
+export const DropdownItem = styled.label`
   box-sizing: inherit;
   width: 100%;
   display: block;
@@ -39,17 +39,17 @@ export const DropdownItem = styledTs<DropdownItemProps>(styled.label)`
     background: #ddd;
   }
 
-  background: ${props =>
+  background: ${(props: DropdownItemProps) =>
     props.checked ? setLightness(0.93, props.theme.primaryColor) : ''};
 `;
 
-export const DropdownActionBar = styledTs(styled.div)`
+export const DropdownActionBar = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 `;
 
-export const DropdownList = styledTs(styled.div)`
+export const DropdownList = styled.div`
   height: 180px;
   overflow-y: scroll;
   margin: 0 -10px;

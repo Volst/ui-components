@@ -1,14 +1,14 @@
-import { styledTs, styled } from '../../styled-components';
+import { styled, ThemeProps } from '../../styled-components';
 
-interface SubheadingProps {
+interface SubheadingProps extends ThemeProps {
   color?: string;
 }
 
-const Subheading = styledTs<SubheadingProps>(styled.h2)`
+const Subheading = styled.h2`
   font-weight: normal;
   font-size: 20px;
   margin: 20px 0 7px 0;
-  color: ${props => props.color || props.theme.primaryColor};
+  color: ${(props: SubheadingProps) => props.color || props.theme.primaryColor};
 `;
 Subheading.displayName = 'Subheading';
 

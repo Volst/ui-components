@@ -1,16 +1,23 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled, ThemeProps } from '../styled-components';
 import AutoTextarea from 'react-textarea-autosize';
 import { rgba } from 'polished';
 
-interface StyledTextareaProps {
+// TODO: yes, these typings suck.
+interface StyledTextareaProps
+  extends ThemeProps,
+    React.DetailedHTMLProps<
+      React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+      HTMLTextAreaElement
+    > {
   hasError?: boolean;
 }
-
-export const StyledTextarea = styledTs<StyledTextareaProps>(
-  styled(({ hasError, ...props }) => <textarea {...props} />)
-)`
+const InnerTextarea: React.SFC<StyledTextareaProps> = ({
+  hasError,
+  ...props
+}) => <textarea {...props} />;
+export const StyledTextarea = styled(InnerTextarea)`
   font-size: 14px;
   color: ${props => props.theme.textColor};
   background: ${props =>

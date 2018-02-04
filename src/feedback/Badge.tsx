@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled } from '../styled-components';
 
-const Bubble = styledTs(styled.sup)`
+const Bubble = styled.sup`
   background: ${props => props.theme.dangerColor};
   position: absolute;
   min-width: 16px;

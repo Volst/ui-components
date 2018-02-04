@@ -1,19 +1,28 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled, ThemeProps } from '../styled-components';
 import { rgba } from 'polished';
 
-interface StyledInputProps {
+// TODO: yes, these typings suck.
+interface StyledInputProps
+  extends ThemeProps,
+    React.DetailedHTMLProps<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      HTMLInputElement
+    > {
   hasError?: boolean;
   hasDropdown?: boolean;
   _ref?: (c: any) => void;
 }
 
-export const StyledInput = styledTs<StyledInputProps>(
-  styled(({ hasError, hasDropdown, _ref, ...props }) => (
-    <input {...props} ref={_ref} />
-  ))
-)`
+const InnerInput: React.SFC<StyledInputProps> = ({
+  hasError,
+  hasDropdown,
+  _ref,
+  ...props
+}) => <input {...props} ref={_ref} />;
+
+export const StyledInput = styled(InnerInput)`
   font-size: 14px;
   color: ${props => props.theme.textColor};
   background: ${props => props.theme.componentBackground};

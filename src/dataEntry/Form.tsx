@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled } from '../styled-components';
 
-const StyledForm = styledTs(styled.form)`
+const StyledForm = styled.form`
   display: inherit;
   flex-grow: 1;
   flex-direction: inherit;

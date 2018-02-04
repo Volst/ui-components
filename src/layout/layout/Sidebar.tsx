@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { styledTs, styled } from '../../styled-components';
+import { styled, ThemeProps } from '../../styled-components';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-interface StyledAsideProps {
+interface StyledAsideProps extends ThemeProps {
   medium?: boolean;
 }
 
-const StyledAside = styledTs<StyledAsideProps>(styled.aside)`
-  ${props => {
+const StyledAside = styled.aside`
+  ${(props: StyledAsideProps) => {
     const width = props.medium ? 450 : 350;
     return `
       width: ${width}px;

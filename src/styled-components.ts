@@ -1,8 +1,14 @@
 import * as styledComponents from 'styled-components';
-import { ThemedStyledComponentsModule } from 'styled-components';
-import styledTs from 'styled-components-ts';
+import {
+  ThemedStyledComponentsModule,
+  StyledFunction,
+} from 'styled-components';
 
 import { ThemeInterface } from './config';
+
+interface ThemeProps {
+  theme?: ThemeInterface;
+}
 
 const {
   default: styled,
@@ -22,6 +28,7 @@ export {
   ThemeProvider,
   withTheme,
   styled,
-  styledTs,
+  ThemeProps,
+  StyledFunction,
 };
 export default styled;

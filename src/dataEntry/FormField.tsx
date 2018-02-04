@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { styledTs, styled } from '../styled-components';
+import { styled } from '../styled-components';
 import LabelText from './LabelText';
 import { InlineText } from '../general/typography/Text';
 import { readableColor } from '../config';
@@ -11,17 +11,17 @@ interface FieldProps {
   noPadding?: boolean;
 }
 
-const Field = styledTs<FieldProps>(styled.div)`
+const Field = styled.div`
   width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
-  padding: ${props => (props.noPadding ? `0` : '0 0 15px')};
+  padding: ${(props: FieldProps) => (props.noPadding ? `0` : '0 0 15px')};
 `;
 
 // TODO: This tooltip should definitely be its own component
-const ErrorTooltip = styledTs(styled.div)`
+const ErrorTooltip = styled.div`
   position: absolute;
   top: 100%;
   font-size: 14px;
