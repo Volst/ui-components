@@ -90,4 +90,18 @@ storiesOf('Data Entry / MultiSelect', module)
         />
       );
     })
+  )
+  .add(
+    'placeholder',
+    withInfo()(() => {
+      return (
+        <MultiSelect
+          onChange={action('change')}
+          placeholder="Which animal?"
+          name="myname"
+          options={SOME_OPTIONS}
+          value={[]}
+        />
+      );
+    })
   );

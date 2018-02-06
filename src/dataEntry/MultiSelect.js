@@ -96,6 +96,7 @@ export default class MultiSelect extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
+    placeholder: PropTypes.string,
     value: PropTypes.arrayOf(ValuePropType).isRequired,
     options: OptionsPropType,
     disabled: PropTypes.bool,
@@ -227,6 +228,7 @@ export default class MultiSelect extends PureComponent {
       innerRef: c => (this._input = c),
       onKeyDown: this.handleInputKeyDown,
       disabled: this.props.disabled,
+      placeholder: selectedItem.length === 0 ? this.props.placeholder : '',
     });
     return (
       <DropdownContainer {...getRootProps({ refKey: 'innerRef' })}>
