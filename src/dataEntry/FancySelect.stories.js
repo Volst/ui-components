@@ -91,6 +91,7 @@ storiesOf('Data Entry / FancySelect', module)
           onChange={action('change')}
           name="myname"
           options={SOME_OPTIONS}
+          value={1}
           disabled
         />
       );

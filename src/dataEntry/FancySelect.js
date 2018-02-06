@@ -164,6 +164,7 @@ export default class FancySelect extends PureComponent {
                 this.handleClear();
               }}
               tabIndex={-1}
+              disabled={this.props.disabled}
             >
               <IconClose width="16" height="16" />
             </Button>
