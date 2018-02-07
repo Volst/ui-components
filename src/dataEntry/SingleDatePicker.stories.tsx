@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import SingleDatePicker from './SingleDatePicker';
 import CenterDecorator from '../../storybook/CenterDecorator';
-import * as moment from 'moment';
+import moment from 'moment';
 import { State } from 'react-powerplug';
 
 storiesOf('Data Entry / SingleDatePicker', module)

@@ -1,6 +1,6 @@
 const rollup = require('rollup');
-const babel = require('rollup-plugin-babel');
 const multiEntry = require('rollup-plugin-multi-entry');
+const typescript = require('rollup-plugin-typescript2');
 
 process.env.NODE_ENV = 'production';
 
@@ -25,6 +25,7 @@ const external = [
   'rc-util/lib/Dom/addEventListener',
   'react-day-picker/DayPickerInput',
   'react-day-picker/moment',
+  'react-day-picker',
   'react-onclickoutside',
   'react-textarea-autosize',
   // TODO: use `external` as function and Regex this shit
@@ -36,17 +37,9 @@ const external = [
 
 rollup
   .rollup({
-    input: ['./src/index.js', './src/general/icon/index.js'],
+    input: ['./src/index.ts', './src/general/icon/index.ts'],
     external,
-    plugins: [
-      multiEntry(),
-      babel({
-        exclude: 'node_modules/**',
-        babelrc: false,
-        presets: ['@volst/babel-preset-react-app'],
-        plugins: ['external-helpers'],
-      }),
-    ],
+    plugins: [multiEntry(), typescript()],
   })
   .then(bundle => {
     bundle.write({

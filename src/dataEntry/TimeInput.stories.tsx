@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { withInfo } from '@storybook/addon-info';
 import TimeInput from './TimeInput';
 import CenterDecorator from '../../storybook/CenterDecorator';
-import * as moment from 'moment';
+import moment from 'moment';
 
 storiesOf('Data Entry / TimeInput', module)
   .addDecorator(CenterDecorator)

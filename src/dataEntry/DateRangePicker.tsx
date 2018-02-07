@@ -1,14 +1,13 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import * as moment from 'moment';
+import moment from 'moment';
 import { t } from 'i18next';
 import { Button } from '../general/Button';
 import IconClear from '../general/icon/IconClear';
 import IconNavigateNext from '../general/icon/IconNavigateNext';
 import { styled, withTheme, ThemeProps } from '../styled-components';
 import DatePickerWrapper from './DatePickerWrapper';
-import { DateUtils } from 'react-day-picker/utils';
-import DayPicker from 'react-day-picker/DayPicker';
+import DayPicker from 'react-day-picker';
 import { ThemeInterface } from '../config';
 
 function toDate(moment) {
@@ -77,7 +76,7 @@ class DateRangePicker extends React.Component<
   };
 
   handleChange = day => {
-    const range = DateUtils.addDayToRange(day, {
+    const range = DayPicker.DateUtils.addDayToRange(day, {
       from: toDate(this.props.startDate),
       to: toDate(this.props.endDate),
     });

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "build/dist",
+    "outDir": "dist",
     "module": "esnext",
     "baseUrl": "",
     "target": "es2015",
@@ -12,6 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "strictFunctionTypes": true,
     "plugins": [
@@ -20,6 +21,11 @@
       }
     ]
   },
+  "include": [
+    "src/index.ts",
+    "src/general/icon/index.ts",
+    "types.d.ts"
+  ],
   "exclude": [
     "node_modules",
     "build",

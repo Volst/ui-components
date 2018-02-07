@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DatePickerWrapper from './DatePickerWrapper';
-import * as moment from 'moment';
+import moment from 'moment';
 import { StyledInput } from './TextInput';
 import MaskedInput from 'react-text-mask';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
