@@ -17,7 +17,7 @@ export const Dropdown = styled.div`
   border: 1px solid #ccc;
   padding: 10px;
   margin-top: 10px;
-  z-index: 1;
+  z-index: ${props => props.theme.zIndexDropdownMenu};
 `;
 
 export const MultiPickButton = styled(Button)`

@@ -75,8 +75,9 @@ export interface FancySelectProps {
   name?: string;
   value?: ValuePropType;
   options: OptionsPropType;
-  disabled?: PropTypes.bool;
-  hasError?: PropTypes.bool;
+  disabled?: boolean;
+  hasError?: boolean;
+  placeholder?: string;
 }
 
 export default class FancySelect extends React.PureComponent<
@@ -159,6 +160,7 @@ export default class FancySelect extends React.PureComponent<
           disabled={this.props.disabled}
           hasError={this.props.hasError || this.context.formFieldHasError}
           onClick={openMenu}
+          placeholder={this.props.placeholder}
         />
         <DropdownToggle>
           {!!this.props.value && (
@@ -170,6 +172,7 @@ export default class FancySelect extends React.PureComponent<
                 this.handleClear();
               }}
               tabIndex={-1}
+              disabled={this.props.disabled}
             >
               <IconClose width="16" height="16" />
             </Button>

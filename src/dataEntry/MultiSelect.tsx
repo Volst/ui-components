@@ -110,6 +110,7 @@ export interface MultiSelectProps {
   value: ValuePropType[];
   options: OptionsPropType;
   disabled?: boolean;
+  placeholder?: string;
   hasError?: boolean;
 }
 
@@ -249,6 +250,7 @@ export default class MultiSelect extends React.PureComponent<
       innerRef: c => (this._input = c),
       onKeyDown: this.handleInputKeyDown,
       disabled: this.props.disabled,
+      placeholder: selectedItem.length === 0 ? this.props.placeholder : '',
     });
     return (
       <DropdownContainer {...getRootProps({ refKey: 'innerRef' })}>

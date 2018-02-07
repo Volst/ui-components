@@ -322,26 +322,29 @@ Link$1.displayName = 'Link';
 
 const Heading = /*#__PURE__*/styled__default.h1.withConfig({
   displayName: 'Heading'
-})(['font-weight:bold;font-size:26px;margin:20px 0;color:', ';'], props => props.color || props.theme.headingTextColor);
+})(['font-weight:bold;font-size:26px;margin:', ';color:', ';'], props => props.compact ? '0' : '20px 0', props => props.color || props.theme.headingTextColor);
 Heading.displayName = 'Heading';
 Heading.propTypes = {
-  color: PropTypes.string
+  color: PropTypes.string,
+  compact: PropTypes.bool
 };
 
 const Subheading = /*#__PURE__*/styled__default.h2.withConfig({
   displayName: 'Subheading'
-})(['font-weight:normal;font-size:20px;margin:20px 0 7px 0;color:', ';'], props => props.color || props.theme.primaryColor);
+})(['font-weight:normal;font-size:20px;margin:', ';color:', ';'], props => props.compact ? '0' : '20px 0 7px 0', props => props.color || props.theme.primaryColor);
 Subheading.displayName = 'Subheading';
 Subheading.propTypes = {
-  color: PropTypes.string
+  color: PropTypes.string,
+  compact: PropTypes.bool
 };
 
 const SuperText = /*#__PURE__*/styled__default.h3.withConfig({
   displayName: 'SuperText'
-})(['font-weight:bold;text-transform:uppercase;font-size:16px;margin:20px 0 7px 0;color:', ';'], props => props.color);
+})(['font-weight:bold;text-transform:uppercase;font-size:16px;margin:', ';color:', ';'], props => props.compact ? '0' : '20px 0 7px 0', props => props.color);
 SuperText.displayName = 'SuperText';
 SuperText.propTypes = {
-  color: PropTypes.string
+  color: PropTypes.string,
+  compact: PropTypes.bool
 };
 
 const Text = /*#__PURE__*/styled__default.p.withConfig({
@@ -1248,7 +1251,8 @@ let FancySelect = (_temp2$8 = _class$11 = class FancySelect extends React.PureCo
           hasDropdown: actuallyOpen,
           disabled: this.props.disabled,
           hasError: this.props.hasError || this.context.formFieldHasError,
-          onClick: openMenu
+          onClick: openMenu,
+          placeholder: this.props.placeholder
         })),
         React__default.createElement(
           DropdownToggle,
@@ -1262,7 +1266,8 @@ let FancySelect = (_temp2$8 = _class$11 = class FancySelect extends React.PureCo
                 clearItems();
                 this.handleClear();
               },
-              tabIndex: -1
+              tabIndex: -1,
+              disabled: this.props.disabled
             },
             React__default.createElement(IconClose, { width: '16', height: '16' })
           ),
@@ -1316,7 +1321,8 @@ let FancySelect = (_temp2$8 = _class$11 = class FancySelect extends React.PureCo
   value: ValuePropType,
   options: OptionsPropType,
   disabled: PropTypes.bool,
-  hasError: PropTypes.bool
+  hasError: PropTypes.bool,
+  placeholder: PropTypes.string
 }, _class$11.contextTypes = {
   formFieldHasError: PropTypes.bool
 }, _temp2$8);
@@ -1612,7 +1618,8 @@ let MultiSelect = (_temp2$11 = _class$14 = class MultiSelect extends React.PureC
         onChange: this.handleInputChange,
         innerRef: c => this._input = c,
         onKeyDown: this.handleInputKeyDown,
-        disabled: this.props.disabled
+        disabled: this.props.disabled,
+        placeholder: selectedItem.length === 0 ? this.props.placeholder : ''
       });
       return React__default.createElement(
         DropdownContainer,
@@ -1710,6 +1717,7 @@ let MultiSelect = (_temp2$11 = _class$14 = class MultiSelect extends React.PureC
 }, _class$14.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string,
+  placeholder: PropTypes.string,
   value: PropTypes.arrayOf(ValuePropType).isRequired,
   options: OptionsPropType,
   disabled: PropTypes.bool,
@@ -1724,7 +1732,7 @@ const Container$1 = /*#__PURE__*/styled__default.div.withConfig({
 
 const Dropdown$1 = /*#__PURE__*/styled__default.div.withConfig({
   displayName: 'styles__Dropdown'
-})(['box-sizing:inherit;position:absolute;width:100%;background:#fff;border:1px solid #ccc;padding:10px;margin-top:10px;z-index:1;']);
+})(['box-sizing:inherit;position:absolute;width:100%;background:#fff;border:1px solid #ccc;padding:10px;margin-top:10px;z-index:', ';'], props => props.theme.zIndexDropdownMenu);
 
 const MultiPickButton = /*#__PURE__*/styled__default(Button).withConfig({
   displayName: 'styles__MultiPickButton'
