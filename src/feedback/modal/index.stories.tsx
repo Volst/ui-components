@@ -27,15 +27,15 @@ storiesOf('Feedback / Modal', module)
           <div>
             <Button
               onClick={() => {
-                this.setState({ visible: true });
+                setState({ visible: true });
               }}
             >
               Show modal
             </Button>
             <Modal
-              visible={this.state.visible}
+              visible={state.visible}
               onClose={() => {
-                this.setState({ visible: false });
+                setState({ visible: false });
                 action('close')();
               }}
               title="Nice Modal Title"
