@@ -2,7 +2,7 @@ import * as React from 'react';
 import Dialog from 'rc-dialog';
 import globalStyles from './globalStyles';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
-import { withTheme } from 'styled-components';
+import { withTheme } from '../../styled-components';
 import { ThemeInterface } from 'src/config';
 
 let globalInserted = false;
@@ -20,8 +20,6 @@ interface ModalProps {
 }
 
 class Modal extends React.Component<ModalProps, {}> {
-  static propTypes = {};
-
   componentWillMount() {
     // Terrible hack, but I did not yet find a prop way to defer loading
     // the global styles for rc-dialog.
