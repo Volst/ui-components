@@ -1,6 +1,6 @@
+import * as styledComponents from 'styled-components';
 import { parseToRgb, darken, tint, rgba, setLightness, transparentize } from 'polished';
 import { Component, createElement, Children, PureComponent, Fragment } from 'react';
-import * as styled from 'styled-components';
 import * as RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import * as RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import * as RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
@@ -24,6 +24,8 @@ import { Grid, Col, Row } from 'react-styled-flexboxgrid';
 import Dialog from 'rc-dialog';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { unmountComponentAtNode, render } from 'react-dom';
+
+const { default: styled, css, injectGlobal, keyframes, ThemeProvider, withTheme, } = styledComponents;
 
 const defaultConfig = {
     primaryColor: '#006b94',
@@ -169,8 +171,6 @@ function __rest(s, e) {
     return t$$1;
 }
 
-const { default: styled$1, css, injectGlobal: injectGlobal$1, keyframes, ThemeProvider: ThemeProvider$1, withTheme, } = styled;
-
 const sweep = keyframes `
   to {
     transform: rotate(360deg);
@@ -187,7 +187,7 @@ const showLoaderCss = `
   box-shadow: 4px 0 0 -3px black;
 `;
 // Duplicated width+height to prevent jumping when loader is not shown.
-const Loader = styled$1.div `
+const Loader = styled.div `
   width: 18px;
   height: 18px;
   margin: 5px;
@@ -325,7 +325,7 @@ const styles = css `
 `;
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 const InnerButton = props => (createElement("button", Object.assign({ type: "button" }, getProps(props))));
-const Button = styled$1(InnerButton).attrs({
+const Button = styled(InnerButton).attrs({
     disabled: props => props.disabled || props.loading,
 }) `
   ${styles};
@@ -337,7 +337,7 @@ const InnerExternalLink = props => {
     }
     return createElement("a", Object.assign({}, getProps(props)));
 };
-const ExternalLink = styled$1(InnerExternalLink).attrs({
+const ExternalLink = styled(InnerExternalLink).attrs({
     disabled: props => props.disabled || props.loading,
 }) `
   ${styles};
@@ -349,14 +349,14 @@ const InnerLink = props => {
     }
     return createElement(Link, Object.assign({}, getProps(props)));
 };
-const Link$1 = styled$1(InnerLink).attrs({
+const Link$1 = styled(InnerLink).attrs({
     disabled: props => props.disabled || props.loading,
 }) `
   ${styles};
 `;
 Link$1.displayName = 'Link';
 
-const Heading = styled$1.h1 `
+const Heading = styled.h1 `
   font-weight: bold;
   font-size: 26px;
   margin: ${(props) => (props.compact ? '0' : '20px 0')};
@@ -364,7 +364,7 @@ const Heading = styled$1.h1 `
 `;
 Heading.displayName = 'Heading';
 
-const Subheading = styled$1.h2 `
+const Subheading = styled.h2 `
   font-weight: normal;
   font-size: 20px;
   margin: ${props => (props.compact ? '0' : '20px 0 7px 0')};
@@ -372,7 +372,7 @@ const Subheading = styled$1.h2 `
 `;
 Subheading.displayName = 'Subheading';
 
-const SuperText = styled$1.h3 `
+const SuperText = styled.h3 `
   font-weight: bold;
   text-transform: uppercase;
   font-size: 16px;
@@ -384,7 +384,7 @@ SuperText.displayName = 'SuperText';
 function getTextColor$1(props) {
     return props.theme[`${props.tone || 'text'}Color`];
 }
-const Text = styled$1.p `
+const Text = styled.p `
   font-weight: ${(props) => (props.bold ? 'bold' : 'normal')};
   font-style: ${props => (props.italic ? 'italic' : 'normal')};
   margin: 0 0 ${props => (props.compact ? '0' : '20px')} 0;
@@ -396,19 +396,19 @@ Text.displayName = 'Text';
 const InlineText = Text.withComponent('span');
 InlineText.displayName = 'InlineText';
 
-const Center = styled$1.div `
+const Center = styled.div `
   text-align: center;
 `;
 Center.displayName = 'Center';
 
-const Code = styled$1.code `
+const Code = styled.code `
   background: ${props => props.theme.lightColor};
   border-radius: 3px;
   padding: 0 8px;
 `;
 Code.displayName = 'Code';
 
-const StyledForm = styled$1.form `
+const StyledForm = styled.form `
   display: inherit;
   flex-grow: 1;
   flex-direction: inherit;
@@ -449,7 +449,7 @@ Form.propTypes = {
     onSubmit: PropTypes.func.isRequired,
 };
 
-const Container = styled$1.div `
+const Container = styled.div `
   font-size: 12px;
   padding: 0 0 2px;
   opacity: 0.75;
@@ -459,7 +459,7 @@ const Container = styled$1.div `
   overflow: hidden;
   line-height: 1.45;
 `;
-const StyledLabel = styled$1.label `
+const StyledLabel = styled.label `
   text-transform: uppercase;
 `;
 class LabelText extends PureComponent {
@@ -470,7 +470,7 @@ class LabelText extends PureComponent {
     }
 }
 
-const Field = styled$1.div `
+const Field = styled.div `
   width: 100%;
   position: relative;
   display: flex;
@@ -479,7 +479,7 @@ const Field = styled$1.div `
   padding: ${(props) => (props.noPadding ? `0` : '0 0 15px')};
 `;
 // TODO: This tooltip should definitely be its own component
-const ErrorTooltip = styled$1.div `
+const ErrorTooltip = styled.div `
   position: absolute;
   top: 100%;
   font-size: 14px;
@@ -550,7 +550,7 @@ FormField.childContextTypes = {
     formFieldHasError: PropTypes.bool,
 };
 
-const StyledDiv = styled$1.div `
+const StyledDiv = styled.div `
   -webkit-touch-callout: none;
   user-select: none;
   display: flex;
@@ -566,7 +566,7 @@ const StyledDiv = styled$1.div `
       }
     `};
 `;
-const Option = styled$1.div `
+const Option = styled.div `
   flex: 1;
   display: flex;
   justify-content: center;
@@ -597,7 +597,7 @@ const Option = styled$1.div `
         `};
   }
 `;
-const StyledLabel$1 = styled$1.label `
+const StyledLabel$1 = styled.label `
   flex: 1;
   cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
   padding: 5px;
@@ -617,7 +617,7 @@ const StyledLabel$1 = styled$1.label `
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const StyledInput = styled$1.input `
+const StyledInput = styled.input `
   position: fixed;
   left: -999999px;
   opacity: 0;
@@ -665,15 +665,15 @@ class RadioButtons extends PureComponent {
     }
 }
 
-const StyledDiv$1 = styled$1.div ``;
-const StyledLabel$2 = styled$1.label `
+const StyledDiv$1 = styled.div ``;
+const StyledLabel$2 = styled.label `
   width: 100%;
   margin-bottom: 3px;
   cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
   display: flex;
   word-break: break-word;
 `;
-const StyledInput$1 = styled$1.input `
+const StyledInput$1 = styled.input `
   margin-right: 5px;
   position: relative;
 `;
@@ -692,7 +692,7 @@ class RadioList extends PureComponent {
     }
 }
 
-const StyledLabel$3 = styled$1.label `
+const StyledLabel$3 = styled.label `
   width: 100%;
   display: block;
   margin-bottom: 3px;
@@ -700,7 +700,7 @@ const StyledLabel$3 = styled$1.label `
   display: flex;
   word-break: break-word;
 `;
-const StyledInput$2 = styled$1.input `
+const StyledInput$2 = styled.input `
   margin-right: 5px;
 `;
 class Checkbox extends PureComponent {
@@ -721,7 +721,7 @@ const InnerInput = (_a) => {
     var { hasError, hasDropdown, _ref } = _a, props = __rest(_a, ["hasError", "hasDropdown", "_ref"]);
     return createElement("input", Object.assign({}, props, { ref: _ref }));
 };
-const StyledInput$3 = styled$1(InnerInput) `
+const StyledInput$3 = styled(InnerInput) `
   font-size: 14px;
   color: ${props => props.theme.textColor};
   background: ${props => props.theme.componentBackground};
@@ -919,7 +919,7 @@ const InnerTextarea = (_a) => {
     var { hasError } = _a, props = __rest(_a, ["hasError"]);
     return createElement("textarea", Object.assign({}, props));
 };
-const StyledTextarea = styled$1(InnerTextarea) `
+const StyledTextarea = styled(InnerTextarea) `
   font-size: 14px;
   color: ${props => props.theme.textColor};
   background: ${props => props.hasError ? '#fef2f2' : props.theme.componentBackground};
@@ -1005,7 +1005,7 @@ TextArea.contextTypes = {
     formFieldHasError: PropTypes.bool,
 };
 
-const StyledSvg = styled$1.svg `
+const StyledSvg = styled.svg `
   display: inline-block;
   fill: currentColor;
   height: ${props => props.height || 18}px;
@@ -1028,11 +1028,11 @@ let IconArrowDropUp = props => (createElement(Icon, Object.assign({}, props),
 let IconClose = props => (createElement(Icon, Object.assign({}, props),
     createElement("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" })));
 
-const DropdownContainer = styled$1.div `
+const DropdownContainer = styled.div `
   position: relative;
   width: 100%;
 `;
-const Dropdown = styled$1.div `
+const Dropdown = styled.div `
   width: 100%;
   border: 1px solid ${props => rgba(props.theme.primaryColor, 0.75)};
   border-top-color: ${props => props.theme.borderColor};
@@ -1043,13 +1043,13 @@ const Dropdown = styled$1.div `
   position: absolute;
   z-index: ${props => props.theme.zIndexFancySelectDropdown};
 `;
-const DropdownToggle = styled$1.div `
+const DropdownToggle = styled.div `
   position: absolute;
   top: 50%;
   right: 0;
   transform: translateY(-50%);
 `;
-const DropdownItem = styled$1.div `
+const DropdownItem = styled.div `
   ${(props) => {
     const background = props.highlighted
         ? setLightness(0.93, props.theme.primaryColor)
@@ -1066,7 +1066,7 @@ const DropdownItem = styled$1.div `
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const StyledInput$4 = styled$1(StyledInput$3) `
+const StyledInput$4 = styled(StyledInput$3) `
   padding-right: 60px;
 `;
 // Poor man's filtering.
@@ -1191,7 +1191,7 @@ const InnerSelect = (_a) => {
     var { autoWidth, hasError } = _a, props = __rest(_a, ["autoWidth", "hasError"]);
     return createElement("select", Object.assign({}, props));
 };
-const StyledSelect = styled$1(InnerSelect) `
+const StyledSelect = styled(InnerSelect) `
   width: ${(props) => (props.autoWidth ? 'auto' : '100%')};
   height: 30px;
   font-size: 14px;
@@ -1241,7 +1241,7 @@ SelectInput.contextTypes = {
 };
 
 // This should look like <TextInput /> as much as possible.
-const InputValueWrapper = styled$1.div `
+const InputValueWrapper = styled.div `
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -1271,7 +1271,7 @@ const InputValueWrapper = styled$1.div `
         border-bottom-right-radius: 0;
     `};
 `;
-const TagValue = styled$1.div `
+const TagValue = styled.div `
   background: ${(props) => props.disabled ? '#aaa' : props.theme.primaryColor};
   color: ${props => readableColor(props.theme.primaryColor)};
   padding: 3px 5px;
@@ -1281,12 +1281,12 @@ const TagValue = styled$1.div `
   display: flex;
   max-width: 100%;
 `;
-const TagText = styled$1.div `
+const TagText = styled.div `
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
-const Input = styled$1(AutosizeInput) `
+const Input = styled(AutosizeInput) `
   max-width: 100%;
 
   input {
@@ -1301,7 +1301,7 @@ const Input = styled$1(AutosizeInput) `
   }
 `;
 // TODO: I got lazy
-const CloseButton = styled$1.span `
+const CloseButton = styled.span `
   cursor: pointer;
   margin-left: 4px;
 `;
@@ -1419,12 +1419,12 @@ MultiSelect.contextTypes = {
     formFieldHasError: PropTypes.bool,
 };
 
-const Container$1 = styled$1.div `
+const Container$1 = styled.div `
   width: 100%;
   position: relative;
   box-sizing: border-box;
 `;
-const Dropdown$1 = styled$1.div `
+const Dropdown$1 = styled.div `
   box-sizing: inherit;
   position: absolute;
   width: 100%;
@@ -1434,10 +1434,10 @@ const Dropdown$1 = styled$1.div `
   margin-top: 10px;
   z-index: ${props => props.theme.zIndexDropdownMenu};
 `;
-const MultiPickButton = styled$1(Button) `
+const MultiPickButton = styled(Button) `
   margin: 0;
 `;
-const DropdownItem$1 = styled$1.label `
+const DropdownItem$1 = styled.label `
   box-sizing: inherit;
   width: 100%;
   display: block;
@@ -1450,17 +1450,17 @@ const DropdownItem$1 = styled$1.label `
 
   background: ${(props) => props.checked ? setLightness(0.93, props.theme.primaryColor) : ''};
 `;
-const DropdownActionBar = styled$1.div `
+const DropdownActionBar = styled.div `
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 `;
-const DropdownList = styled$1.div `
+const DropdownList = styled.div `
   height: 180px;
   overflow-y: scroll;
   margin: 0 -10px;
 `;
-const DropdownSearch = styled$1(TextInput) `
+const DropdownSearch = styled(TextInput) `
   margin-bottom: 10px;
 `;
 
@@ -1574,7 +1574,7 @@ MultiPick.defaultProps = {
 };
 var index = onClickOutside(MultiPick);
 
-const DatePickerWrapper = styled$1.div `
+const DatePickerWrapper = styled.div `
 text-align: center;
 
   .DayPicker {
@@ -1857,7 +1857,7 @@ let IconNavigateNext = props => (createElement(Icon, Object.assign({}, props),
 function toDate(moment$$1) {
     return moment$$1 ? moment$$1.toDate() : undefined;
 }
-const CombinedInput = styled$1.div `
+const CombinedInput = styled.div `
   height: 30px;
   display: flex;
   background: ${props => props.theme.componentBackground};
@@ -1872,7 +1872,7 @@ const CombinedInput = styled$1.div `
       background: #fef2f2;
     `};
 `;
-const CombinedInputItem = styled$1.div `
+const CombinedInputItem = styled.div `
   flex: 1;
   display: flex;
   padding-left: 10px;
@@ -1944,7 +1944,7 @@ DateRangePicker.contextTypes = {
 };
 var DateRangePicker$1 = withTheme(DateRangePicker);
 
-const StyledTooltip = styled$1.span `
+const StyledTooltip = styled.span `
   position: relative;
   max-width: fit-content;
 
@@ -2027,12 +2027,12 @@ Tooltip.defaultProps = {
 let IconKeyboardArrowUp = props => (createElement(Icon, Object.assign({}, props),
     createElement("path", { d: "M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" })));
 
-const StyledContainer = styled$1.div `
+const StyledContainer = styled.div `
   background-color: ${props => props.theme.lightColor};
   border-radius: 4px;
   margin-bottom: 10px;
 `;
-const StyledContent = styled$1.div `
+const StyledContent = styled.div `
   padding: 10px;
 
   ${(props) => props.background
@@ -2042,11 +2042,11 @@ const StyledContent = styled$1.div `
     `
     : ''};
 `;
-const StyledTitle = styled$1.div `
+const StyledTitle = styled.div `
   flex: 1;
   padding: 10px;
 `;
-const StyledTitleContainer = styled$1.div `
+const StyledTitleContainer = styled.div `
   position: relative;
   display: flex;
   align-items: center;
@@ -2072,21 +2072,21 @@ class Accordion extends Component {
     }
 }
 
-const Table = styled$1.table `
+const Table = styled.table `
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
 `;
 Table.displayName = 'Table';
-const TableHead = styled$1.thead ``;
+const TableHead = styled.thead ``;
 TableHead.displayName = 'TableHead';
-const TableBody = styled$1.tbody `
+const TableBody = styled.tbody `
   &:last-child tr:last-child {
     border-bottom: 0;
   }
 `;
 TableBody.displayName = 'TableBody';
-const TableRow = styled$1.tr `
+const TableRow = styled.tr `
   border-bottom: 1px solid ${props => props.theme.borderColor};
   ${(props) => props.highlight &&
     `
@@ -2094,12 +2094,12 @@ const TableRow = styled$1.tr `
     `};
 `;
 TableRow.displayName = 'TableRow';
-const TableHeader = styled$1.th `
+const TableHeader = styled.th `
   padding: 8px 4px;
   text-align: ${(props) => props.alignRight ? 'right' : 'left'};
 `;
 TableHeader.displayName = 'TableHeader';
-const TableData = styled$1.td `
+const TableData = styled.td `
   padding: 8px 4px;
   font-size: 14px;
 
@@ -2118,7 +2118,7 @@ const TableData = styled$1.td `
 `;
 TableData.displayName = 'TableData';
 
-var AppContainer = styled$1.div `
+var AppContainer = styled.div `
   width: 100%;
   height: 100%;
   position: relative;
@@ -2126,7 +2126,7 @@ var AppContainer = styled$1.div `
   flex-direction: column;
 `;
 
-var Body = styled$1.div `
+var Body = styled.div `
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -2136,13 +2136,13 @@ const InnerScrollbars = (_a) => {
     var { tone } = _a, props = __rest(_a, ["tone"]);
     return createElement(Scrollbars, Object.assign({}, props));
 };
-const StyledScrollbars = styled$1(InnerScrollbars) `
+const StyledScrollbars = styled(InnerScrollbars) `
   flex: 1;
   background: ${props => props.tone === 'primary'
     ? tint(0.07, props.theme.primaryColor)
     : props.theme.componentBackground};
 `;
-const Main = styled$1.main `
+const Main = styled.main `
   margin: 0 auto;
   max-width: 1500px;
   padding: 25px;
@@ -2166,12 +2166,12 @@ const Main = styled$1.main `
 const Content = props => (createElement(StyledScrollbars, { tone: props.tone },
     createElement(Main, { center: props.center, blur: props.blur }, props.children)));
 
-var ContentContainer = styled$1.div `
+var ContentContainer = styled.div `
   flex: 1;
   display: flex;
 `;
 
-const StyledAside = styled$1.aside `
+const StyledAside = styled.aside `
   ${(props) => {
     const width = props.medium ? 450 : 350;
     return `
@@ -2201,14 +2201,14 @@ const StyledAside = styled$1.aside `
     `;
 }};
 `;
-const Content$2 = styled$1.div `
+const Content$2 = styled.div `
   padding: 25px;
 `;
 const Sidebar = ({ children, medium }) => (createElement(StyledAside, { medium: medium },
     createElement(Scrollbars, null,
         createElement(Content$2, null, children))));
 
-var Toolbar = styled$1.section `
+var Toolbar = styled.section `
   height: 40px;
   background-color: ${props => tint(0.15, props.theme.primaryColor)};
   display: flex;
@@ -2222,7 +2222,7 @@ const Grid$1 = Grid;
 const Col$1 = Col;
 const Row$1 = Row;
 
-const StyledDiv$2 = styled$1.div `
+const StyledDiv$2 = styled.div `
   margin: 10px 0;
   width: 100%;
   display: flex;
@@ -2283,7 +2283,7 @@ NotificationItem.defaultProps = {
     dismissAfter: 3100,
     type: 'info',
 };
-const CloseButton$1 = styled$1(Button) `
+const CloseButton$1 = styled(Button) `
   margin-left: 11px;
   position: absolute;
   top: 3px;
@@ -2300,7 +2300,7 @@ function getBackgroundColor(props) {
             break;
     }
 }
-const StyledItem = styled$1.div `
+const StyledItem = styled.div `
   width: 250px;
   padding: 10px 40px 10px 14px;
   color: ${props => readableColor(getBackgroundColor(props))};
@@ -2336,7 +2336,7 @@ class NotificationStack extends Component {
         return (createElement(StackWrapper, null, this.props.notifications.map(this.renderNotification)));
     }
 }
-const StackWrapper = styled$1.div `
+const StackWrapper = styled.div `
   position: fixed;
   top: 20px;
   z-index: ${props => props.theme.zIndexNotificationStack};
@@ -2382,7 +2382,7 @@ const rcDialogFadeOut = keyframes `
     opacity: 0;
   }
 `;
-var globalStyles = theme => injectGlobal$1 `
+var globalStyles = theme => injectGlobal `
   .rc-dialog {
     position: relative;
     width: auto;
@@ -2603,7 +2603,7 @@ function confirm(_a) {
     };
 }
 
-const Bubble = styled$1.sup `
+const Bubble = styled.sup `
   background: ${props => props.theme.dangerColor};
   position: absolute;
   min-width: 16px;
@@ -2619,7 +2619,7 @@ const Bubble = styled$1.sup `
   font-size: 11px;
   font-weight: bold;
 `;
-const Wrapper = styled$1.div `
+const Wrapper = styled.div `
   position: relative;
   display: inline-block;
 `;
@@ -2635,7 +2635,7 @@ class Badge extends Component {
 let IconNavigateBefore = props => (createElement(Icon, Object.assign({}, props),
     createElement("path", { d: "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" })));
 
-const PageCount = styled$1.div `
+const PageCount = styled.div `
   margin-right: 4px;
   padding: 0 8px;
   display: inline-block;
@@ -2661,7 +2661,7 @@ class PaginationControls extends Component {
     }
 }
 
-const Menu = styled__default.header `
+const Menu = styled.header `
   display: flex;
   align-items: stretch;
   flex-direction: column;
@@ -2672,7 +2672,7 @@ class TopMenu extends Component {
     }
 }
 
-const StyledNavLink = styled$1(NavLink) `
+const StyledNavLink = styled(NavLink) `
   display: flex;
   align-items: center;
   padding: 0 10px;
@@ -2689,7 +2689,7 @@ const StyledNavLink = styled$1(NavLink) `
 `;
 const Logo = props => (createElement(StyledNavLink, { to: "/" }, props.children));
 
-var MenuRow = styled$1.div `
+var MenuRow = styled.div `
   height: 35px;
   display: flex;
   align-items: stretch;
@@ -2729,7 +2729,7 @@ var MenuRow = styled$1.div `
     `};
 `;
 
-const StyledNavLink$1 = styled__default(NavLink) `
+const StyledNavLink$1 = styled(NavLink) `
   display: flex;
   align-items: center;
   padding: 0 16px;
@@ -2800,13 +2800,13 @@ var NavItemExternal = StyledNavLink$1.withComponent((_a) => {
     return (createElement("a", Object.assign({}, props), title));
 });
 
-var NavMenu = styled$1.nav `
+var NavMenu = styled.nav `
   flex: 1;
   display: flex;
   align-items: stretch;
 `;
 
-const RelativeWrapper = styled$1.div `
+const RelativeWrapper = styled.div `
   position: relative;
 `;
 class MyDropdown extends Component {
@@ -2844,12 +2844,12 @@ class MyDropdown extends Component {
 }
 const Dropdown$2 = onClickOutside(MyDropdown);
 Dropdown$2.displayName = 'Dropdown';
-const DropdownOverlay = styled$1.div `
+const DropdownOverlay = styled.div `
   position: absolute;
   z-index: ${props => props.theme.zIndexDropdownMenu};
   margin-top: 2px;
 `;
-const DropdownMenu = styled$1.div `
+const DropdownMenu = styled.div `
   background: ${props => props.theme.componentBackground};
   border-radius: 5px;
   display: flex;
@@ -2857,7 +2857,7 @@ const DropdownMenu = styled$1.div `
   flex-direction: column;
   overflow: hidden;
 `;
-const DropdownItem$2 = styled$1.div `
+const DropdownItem$2 = styled.div `
   padding: 10px 15px;
   color: ${props => props.theme.textColor};
   cursor: pointer;
