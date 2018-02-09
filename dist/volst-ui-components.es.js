@@ -169,7 +169,7 @@ function __rest(s, e) {
     return t$$1;
 }
 
-const { default: styled$1, css, injectGlobal: injectGlobal$1, keyframes, ThemeProvider: ThemeProvider$1, withTheme: withTheme$1, } = styled;
+const { default: styled$1, css, injectGlobal: injectGlobal$1, keyframes, ThemeProvider: ThemeProvider$1, withTheme, } = styled;
 
 const sweep = keyframes `
   to {
@@ -1846,7 +1846,7 @@ SingleDatePicker.childContextTypes = {
 SingleDatePicker.contextTypes = {
     formFieldHasError: PropTypes.bool,
 };
-var SingleDatePicker$1 = withTheme$1(SingleDatePicker);
+var SingleDatePicker$1 = withTheme(SingleDatePicker);
 
 let IconClear = props => (createElement(Icon, Object.assign({}, props),
     createElement("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" })));
@@ -1942,7 +1942,7 @@ DateRangePicker.defaultProps = {
 DateRangePicker.contextTypes = {
     formFieldHasError: PropTypes.bool,
 };
-var DateRangePicker$1 = withTheme$1(DateRangePicker);
+var DateRangePicker$1 = withTheme(DateRangePicker);
 
 const StyledTooltip = styled$1.span `
   position: relative;
@@ -2559,7 +2559,6 @@ class Modal extends Component {
         return (createElement(Dialog, { visible: this.props.visible, animation: "zoom", maskAnimation: "fade", onClose: this.props.onClose, afterClose: this.props.afterClose, destroyOnClose: true, closable: false, mousePosition: mousePosition, style: { width: this.props.width }, title: this.props.title, footer: this.props.footer }, this.props.children));
     }
 }
-Modal.propTypes = {};
 var Modal$1 = withTheme(Modal);
 
 // TODO: perhaps add a fancy "question" icon like ant.design does

@@ -2566,8 +2566,7 @@ class Modal extends React.Component {
         return (React.createElement(Dialog, { visible: this.props.visible, animation: "zoom", maskAnimation: "fade", onClose: this.props.onClose, afterClose: this.props.afterClose, destroyOnClose: true, closable: false, mousePosition: mousePosition, style: { width: this.props.width }, title: this.props.title, footer: this.props.footer }, this.props.children));
     }
 }
-Modal.propTypes = {};
-var Modal$1 = styled.withTheme(Modal);
+var Modal$1 = withTheme(Modal);
 
 // TODO: perhaps add a fancy "question" icon like ant.design does
 const ConfirmModal = ({ visible, afterClose, onOk, close, title, content, cancelText, okText, okTone, }) => {
