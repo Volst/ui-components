@@ -6,7 +6,7 @@ import { Button } from '../../general/Button';
 import Subheading from '../../general/typography/Subheading';
 import { Text } from '../../general/typography/Text';
 import { defaultConfig } from '../../config';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from '../../styled-components';
 import { getTheme } from '../../VolstTheme';
 import { TonePropType } from '../../PropTypes';
 

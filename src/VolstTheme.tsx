@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ThemeProvider, injectGlobal } from 'styled-components';
+import { ThemeProvider, injectGlobal } from './styled-components';
 import * as RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import * as RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import * as RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
