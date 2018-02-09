@@ -86,6 +86,13 @@ class DateRangePicker extends React.Component<
     });
   };
 
+  handleWeekClick = (weekNumber, days) => {
+    this.props.onChange(this.props.name, {
+      startDate: moment(days[0]),
+      endDate: moment(days[days.length - 1]),
+    });
+  };
+
   clear = () => {
     this.props.onChange(this.props.name, {
       startDate: null,
@@ -137,6 +144,7 @@ class DateRangePicker extends React.Component<
               month={_endDate}
               showWeekNumbers={this.props.showWeekNumbers}
               disabledDays={this.props.disabledDays}
+              onWeekClick={this.handleWeekClick}
               selectedDays={[
                 _startDate,
                 {
