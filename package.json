@@ -6,6 +6,7 @@
   "description": "React component library for Volst",
   "module": "dist/volst-ui-components.es.js",
   "main": "dist/volst-ui-components.cjs.js",
+  "typings": "dist/volst-ui-components.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/Volst/ui-components.git"
@@ -58,6 +59,7 @@
     "@types/react-dom": "^16.0.3",
     "@types/react-router-dom": "^4.2.3",
     "@types/webpack-env": "^1.13.5",
+    "dts-generator": "^2.1.0",
     "fork-ts-checker-webpack-plugin": "^0.3.0",
     "husky": "^0.14.1",
     "i18next": "^10.0.7",
