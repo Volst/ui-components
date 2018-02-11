@@ -5,7 +5,7 @@ import { StyledInput } from './TextInput';
 import { DropdownContainer, Dropdown, DropdownItem } from './FancySelect';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
-interface TypeAheadProps {
+export interface TypeAheadProps {
   onChange?: (name: string, value: string) => void;
   onSelect: (value: ValuePropType) => void;
   name?: string;

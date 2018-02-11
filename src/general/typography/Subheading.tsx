@@ -1,6 +1,12 @@
-import { styled, ThemeProps } from '../../styled-components';
+import * as React from 'react';
+import {
+  styled,
+  ThemeProps,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../../styled-components';
 
-interface SubheadingProps extends ThemeProps {
+export interface SubheadingProps extends ThemeProps {
   color?: string;
   compact?: boolean;
 }

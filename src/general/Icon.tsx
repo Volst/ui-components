@@ -9,7 +9,7 @@ const StyledSvg = styled.svg`
   user-select: none;
 `;
 
-interface IconProps {
+export interface IconProps {
   /**
    * Allows you to redefine what the coordinates without units mean inside an svg element.
    * For example, if the SVG element is 500 (width) by 200 (height),

@@ -1,7 +1,13 @@
-import { styled, ThemeProps } from '../../styled-components';
+import * as React from 'react';
+import {
+  styled,
+  ThemeProps,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../../styled-components';
 import TextInput from '../TextInput';
 import { setLightness } from 'polished';
-import { Button } from '../../general/Button';
+import { Button, FullButtonProps } from '../../general/Button';
 
 export const Container = styled.div`
   width: 100%;
@@ -24,7 +30,7 @@ export const MultiPickButton = styled(Button)`
   margin: 0;
 `;
 
-interface DropdownItemProps extends ThemeProps {
+export interface DropdownItemProps extends ThemeProps {
   checked: boolean;
 }
 

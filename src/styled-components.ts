@@ -1,7 +1,9 @@
+import * as React from 'react';
 import * as styledComponents from 'styled-components';
 import {
   ThemedStyledComponentsModule,
   StyledFunction,
+  StyledComponentClass,
 } from 'styled-components';
 
 import { ThemeInterface } from './config';
@@ -30,5 +32,7 @@ export {
   styled,
   ThemeProps,
   StyledFunction,
+  StyledComponentClass,
+  ThemeInterface,
 };
 export default styled;

@@ -2,7 +2,7 @@ import styled from '../../styled-components';
 import * as React from 'react';
 import Item from './Item';
 
-interface Notification {
+export interface Notification {
   key: string;
   message: string;
   onClick?: (notification: Notification, dismiss: () => void) => void;
@@ -11,7 +11,7 @@ interface Notification {
   type?: string;
 }
 
-interface NotificationStackProps {
+export interface NotificationStackProps {
   notifications: Notification[];
   onDismiss: (notification: Notification) => void;
 }

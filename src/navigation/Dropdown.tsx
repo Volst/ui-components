@@ -1,5 +1,9 @@
 import * as React from 'react';
-import styled from '../styled-components';
+import {
+  styled,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../styled-components';
 import { setLightness } from 'polished';
 import onClickOutside from 'react-onclickoutside';
 

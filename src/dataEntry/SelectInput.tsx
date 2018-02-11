@@ -51,7 +51,7 @@ const StyledSelect = styled(InnerSelect)`
   }
 `;
 
-interface SelectInputProps {
+export interface SelectInputProps {
   onChange: (name: string, value: string) => void;
   name?: string;
   disabled?: boolean;

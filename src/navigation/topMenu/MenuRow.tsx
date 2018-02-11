@@ -1,7 +1,13 @@
-import { styled, ThemeProps } from '../../styled-components';
+import * as React from 'react';
+import {
+  styled,
+  ThemeProps,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../../styled-components';
 import { darken } from 'polished';
 
-interface MenuRowProps extends ThemeProps {
+export interface MenuRowProps extends ThemeProps {
   inContent?: boolean;
 }
 

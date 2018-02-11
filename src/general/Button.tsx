@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { styled, css } from '../styled-components';
+import {
+  styled,
+  css,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../styled-components';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint, rgba } from 'polished';
 import { readableColor } from '../config';
@@ -44,7 +49,7 @@ function getTextColor(props, backgroundColor) {
   return readableColor(backgroundColor);
 }
 
-interface ButtonProps {
+export interface ButtonProps {
   onClick?: (e) => void;
   link?: boolean;
   ghost?: boolean;
@@ -172,7 +177,7 @@ const styles = css`
   }};
 `;
 
-interface FullButtonProps extends ButtonProps {
+export interface FullButtonProps extends ButtonProps {
   type?: 'submit';
 }
 
@@ -187,7 +192,7 @@ export const Button = styled(InnerButton).attrs({
 `;
 Button.displayName = 'Button';
 
-interface ExternalLinkProps extends ButtonProps {
+export interface ExternalLinkProps extends ButtonProps {
   href?: string;
 }
 
@@ -205,7 +210,7 @@ export const ExternalLink = styled(InnerExternalLink).attrs({
 `;
 ExternalLink.displayName = 'ExternalLink';
 
-interface LinkProps extends ButtonProps {
+export interface LinkProps extends ButtonProps {
   to?: string;
 }
 

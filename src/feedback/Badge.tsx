@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   display: inline-block;
 `;
 
-interface BadgeProps {
+export interface BadgeProps {
   count?: number;
   className?: string;
 }

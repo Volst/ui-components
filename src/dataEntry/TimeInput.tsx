@@ -12,7 +12,7 @@ const StyledMaskedInput = (StyledInput as any).withComponent(
 
 const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 
-interface TimeInputProps {
+export interface TimeInputProps {
   onChange: (name: string, value: moment.Moment) => void;
   placeholder?: string;
   name?: string;

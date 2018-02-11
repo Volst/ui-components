@@ -43,7 +43,7 @@ const CombinedInputItem = styled.div`
   user-select: none;
 `;
 
-interface DateRangePickerProps {
+export interface DateRangePickerProps {
   name: string;
   onChange: (
     name: string,

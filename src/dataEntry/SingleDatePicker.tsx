@@ -55,7 +55,7 @@ class MaskedDateInput extends React.PureComponent {
   }
 }
 
-interface SingleDatePickerProps {
+export interface SingleDatePickerProps {
   onChange?: (name: string, value: moment.Moment) => void;
   value?: moment.Moment;
   name?: string;

@@ -16,7 +16,7 @@ const StyledLabel = styled.label`
   text-transform: uppercase;
 `;
 
-interface LabelTextProps {
+export interface LabelTextProps {
   helpText?: string;
   htmlFor?: string;
 }

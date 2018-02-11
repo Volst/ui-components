@@ -73,12 +73,12 @@ const StyledTooltip = styled.span`
   }
 `;
 
-interface Props {
+export interface TooltipProps {
   message: string;
   direction: 's' | 'n' | 'se' | 'sw';
 }
 
-export default class Tooltip extends React.Component<Props, {}> {
+export default class Tooltip extends React.Component<TooltipProps, {}> {
   static defaultProps = {
     direction: 's',
   };

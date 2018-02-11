@@ -1,4 +1,10 @@
-import { styled, ThemeProps } from '../styled-components';
+import * as React from 'react';
+import {
+  styled,
+  ThemeProps,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../styled-components';
 
 export const Table = styled.table`
   width: 100%;
@@ -18,7 +24,7 @@ export const TableBody = styled.tbody`
 `;
 TableBody.displayName = 'TableBody';
 
-interface TableRowProps extends ThemeProps {
+export interface TableRowProps extends ThemeProps {
   highlight?: boolean;
 }
 export const TableRow = styled.tr`
@@ -31,7 +37,7 @@ export const TableRow = styled.tr`
 `;
 TableRow.displayName = 'TableRow';
 
-interface TableHeaderProps {
+export interface TableHeaderProps {
   alignRight?: boolean;
 }
 export const TableHeader = styled.th`
@@ -41,7 +47,7 @@ export const TableHeader = styled.th`
 `;
 TableHeader.displayName = 'TableHeader';
 
-interface TableDataProps extends ThemeProps {
+export interface TableDataProps extends ThemeProps {
   alignRight?: boolean;
   stretch?: boolean;
   noWrap?: boolean;

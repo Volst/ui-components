@@ -1,4 +1,10 @@
-import { styled, keyframes } from '../styled-components';
+import * as React from 'react';
+import {
+  styled,
+  keyframes,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../styled-components';
 
 const sweep = keyframes`
   to {
@@ -17,7 +23,7 @@ export const showLoaderCss = `
   box-shadow: 4px 0 0 -3px black;
 `;
 
-interface LoaderProps {
+export interface LoaderProps {
   show?: boolean;
 }
 

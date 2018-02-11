@@ -22,7 +22,7 @@ const StyledInput = styled.input`
   position: relative;
 `;
 
-interface RadioListProps {
+export interface RadioListProps {
   onChange?: (name: string, value: string) => void;
   name?: string;
   disabled?: boolean;

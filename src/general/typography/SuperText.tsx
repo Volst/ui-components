@@ -1,6 +1,11 @@
-import { styled } from '../../styled-components';
+import * as React from 'react';
+import {
+  styled,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../../styled-components';
 
-interface SuperTextProps {
+export interface SuperTextProps {
   color?: string;
   compact?: boolean;
 }

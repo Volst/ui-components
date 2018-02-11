@@ -1,4 +1,10 @@
-import { styled } from '../styled-components';
+import * as React from 'react';
+
+import {
+  styled,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../styled-components';
 import { readableColor } from '../config';
 import { setLightness } from 'polished';
 

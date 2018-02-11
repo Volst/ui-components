@@ -1,6 +1,10 @@
 import * as React from 'react';
-import styled from '../../styled-components';
-import { NavLink } from 'react-router-dom';
+import {
+  styled,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../../styled-components';
+import { NavLink, NavLinkProps } from 'react-router-dom';
 import { transparentize } from 'polished';
 
 export const StyledNavLink = styled(NavLink)`

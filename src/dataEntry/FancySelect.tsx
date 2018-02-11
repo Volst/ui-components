@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import Downshift from 'downshift';
-import { styled, ThemeProps } from '../styled-components';
+import {
+  styled,
+  ThemeProps,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../styled-components';
 import { setLightness } from 'polished';
 import { readableColor } from '../config';
 import IconArrowDropDown from '../general/icon/IconArrowDropDown';
@@ -36,7 +41,7 @@ export const DropdownToggle = styled.div`
   transform: translateY(-50%);
 `;
 
-interface DropdownItemProps extends ThemeProps {
+export interface DropdownItemProps extends ThemeProps {
   highlighted: boolean;
   selected: boolean;
 }

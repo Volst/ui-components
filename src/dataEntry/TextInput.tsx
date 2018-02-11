@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { styled, ThemeProps } from '../styled-components';
+import {
+  styled,
+  ThemeProps,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../styled-components';
 import { rgba } from 'polished';
 
 // TODO: yes, these typings suck.
-interface StyledInputProps
+export interface StyledInputProps
   extends ThemeProps,
     React.DetailedHTMLProps<
       React.InputHTMLAttributes<HTMLInputElement>,

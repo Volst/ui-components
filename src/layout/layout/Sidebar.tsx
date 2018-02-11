@@ -41,7 +41,7 @@ const Content = styled.div`
   padding: 25px;
 `;
 
-interface SidebarProps {
+export interface SidebarProps {
   medium?: boolean;
 }
 

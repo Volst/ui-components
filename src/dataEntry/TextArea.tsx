@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { styled, ThemeProps } from '../styled-components';
+import {
+  styled,
+  ThemeProps,
+  StyledComponentClass,
+  ThemeInterface,
+} from '../styled-components';
 import AutoTextarea from 'react-textarea-autosize';
 import { rgba } from 'polished';
 
 // TODO: yes, these typings suck.
-interface StyledTextareaProps
+export interface StyledTextareaProps
   extends ThemeProps,
     React.DetailedHTMLProps<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -64,7 +69,7 @@ const StyledAutoTextarea = (StyledTextarea as any).withComponent(
   ({ hasError, ...props }) => <AutoTextarea {...props} />
 );
 
-interface TextAreaProps {
+export interface TextAreaProps {
   onChange?: (name: string, value: string) => void;
   onBlur?: () => void;
   onFocus?: () => void;

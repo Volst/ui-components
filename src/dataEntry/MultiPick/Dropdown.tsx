@@ -12,7 +12,7 @@ import Checkbox from '../Checkbox';
 import { Button } from '../../general/Button';
 import { OptionsPropType, ValuePropType } from 'src/PropTypes';
 
-interface MultipickDropdownProps {
+export interface MultipickDropdownProps {
   options: OptionsPropType;
   value: ValuePropType[];
   filteredOptions: OptionsPropType;

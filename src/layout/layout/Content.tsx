@@ -3,7 +3,7 @@ import { styled } from '../../styled-components';
 import { tint } from 'polished';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-type AvailableTones = 'primary';
+export type AvailableTones = 'primary';
 
 interface StyledScrollbarsProps {
   tone?: AvailableTones;
@@ -51,7 +51,7 @@ const Main = styled.main`
       : null};
 `;
 
-interface ContentProps {
+export interface ContentProps {
   center?: boolean;
   blur?: boolean;
   tone?: AvailableTones;

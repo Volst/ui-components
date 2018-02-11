@@ -9,7 +9,7 @@ let globalInserted = false;
 let mousePosition = null;
 let mousePositionEventBinded = false;
 
-interface ModalProps {
+export interface ModalProps {
   visible: boolean;
   onClose: () => void;
   afterClose?: () => void;
