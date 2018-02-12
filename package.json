@@ -19,7 +19,8 @@
     "build": "rm -f dist/** && node build.js",
     "precommit": "lint-staged",
     "build-storybook": "NODE_ENV=production build-storybook -c storybook -o .out",
-    "deploy-storybook": "storybook-to-ghpages -c storybook"
+    "deploy-storybook": "storybook-to-ghpages -c storybook",
+    "ci": "npm run -s build"
   },
   "lint-staged": {
     "src/**/*.{js,ts,tsx}": [
