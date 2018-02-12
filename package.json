@@ -16,7 +16,7 @@
     "lint": "echo TODO",
     "preversion": "npm run -s lint && npm test && NODE_ENV=production npm run -s build && npm run -s deploy-storybook",
     "version": "git add -A dist",
-    "build": "rm -f dist/** && node build.js",
+    "build": "rm -rf dist/** && node build.js",
     "precommit": "lint-staged",
     "build-storybook": "NODE_ENV=production build-storybook -c storybook -o .out",
     "deploy-storybook": "storybook-to-ghpages -c storybook",
