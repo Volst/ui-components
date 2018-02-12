@@ -8,13 +8,9 @@ import {
 } from '../styled-components';
 import { rgba } from 'polished';
 
-// TODO: yes, these typings suck.
 export interface StyledInputProps
   extends ThemeProps,
-    React.DetailedHTMLProps<
-      React.InputHTMLAttributes<HTMLInputElement>,
-      HTMLInputElement
-    > {
+    React.InputHTMLAttributes<HTMLInputElement> {
   hasError?: boolean;
   hasDropdown?: boolean;
   _ref?: (c: any) => void;

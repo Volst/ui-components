@@ -9,13 +9,9 @@ import {
 import AutoTextarea from 'react-textarea-autosize';
 import { rgba } from 'polished';
 
-// TODO: yes, these typings suck.
 export interface StyledTextareaProps
   extends ThemeProps,
-    React.DetailedHTMLProps<
-      React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-      HTMLTextAreaElement
-    > {
+    React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   hasError?: boolean;
 }
 const InnerTextarea: React.SFC<StyledTextareaProps> = ({

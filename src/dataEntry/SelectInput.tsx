@@ -4,13 +4,9 @@ import { styled, ThemeProps } from '../styled-components';
 import { t } from 'i18next';
 import { OptionsPropType } from '../PropTypes';
 
-// TODO: yes, these typings suck.
 interface StyledSelectProps
   extends ThemeProps,
-    React.DetailedHTMLProps<
-      React.SelectHTMLAttributes<HTMLSelectElement>,
-      HTMLSelectElement
-    > {
+    React.SelectHTMLAttributes<HTMLSelectElement> {
   autoWidth?: boolean;
   hasError?: boolean;
 }

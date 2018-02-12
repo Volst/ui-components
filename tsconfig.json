@@ -14,6 +14,7 @@
     "declaration": true,
     "experimentalDecorators": true,
     "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
     "plugins": [
       {
         "name": "typescript-styled-plugin"
