@@ -1,7 +1,10 @@
 import * as React from 'react';
 import SvgIcon from '../Icon';
 
-let IconSignalWifi0Bar = props => (
+const IconSignalWifi0Bar: React.SFC<React.SVGProps<SVGSVGElement>> = ({
+  ref,
+  ...props
+}) => (
   <SvgIcon {...props}>
     <path
       fillOpacity=".3"

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import SvgIcon from '../Icon';
 
-let IconBubbleChart = props => (
+const IconBubbleChart: React.SFC<React.SVGProps<SVGSVGElement>> = ({
+  ref,
+  ...props
+}) => (
   <SvgIcon {...props}>
     <circle cx="7.2" cy="14.4" r="3.2" />
     <circle cx="14.8" cy="18" r="2" />

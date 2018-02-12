@@ -1,7 +1,10 @@
 import * as React from 'react';
 import SvgIcon from '../Icon';
 
-let IconFiberSmartRecord = props => (
+const IconFiberSmartRecord: React.SFC<React.SVGProps<SVGSVGElement>> = ({
+  ref,
+  ...props
+}) => (
   <SvgIcon {...props}>
     <g>
       <circle cx="9" cy="12" r="8" />

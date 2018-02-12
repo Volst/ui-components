@@ -1,7 +1,10 @@
 import * as React from 'react';
 import SvgIcon from '../Icon';
 
-let IconBatteryCharging20 = props => (
+const IconBatteryCharging20: React.SFC<React.SVGProps<SVGSVGElement>> = ({
+  ref,
+  ...props
+}) => (
   <SvgIcon {...props}>
     <path d="M11 20v-3H7v3.67C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V17h-4.4L11 20z" />
     <path

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import SvgIcon from '../Icon';
 
-let IconSentimentNeutral = props => (
+const IconSentimentNeutral: React.SFC<React.SVGProps<SVGSVGElement>> = ({
+  ref,
+  ...props
+}) => (
   <SvgIcon {...props}>
     <path d="M9 14h6v1.5H9z" />
     <circle cx="15.5" cy="9.5" r="1.5" />

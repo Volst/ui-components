@@ -1,7 +1,10 @@
 import * as React from 'react';
 import SvgIcon from '../Icon';
 
-let IconSentimentDissatisfied = props => (
+const IconSentimentDissatisfied: React.SFC<React.SVGProps<SVGSVGElement>> = ({
+  ref,
+  ...props
+}) => (
   <SvgIcon {...props}>
     <circle cx="15.5" cy="9.5" r="1.5" />
     <circle cx="8.5" cy="9.5" r="1.5" />
