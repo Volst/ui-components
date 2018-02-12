@@ -1,7 +1,6 @@
 const rollup = require('rollup');
 const multiEntry = require('rollup-plugin-multi-entry');
 const typescript = require('rollup-plugin-typescript2');
-const dtsGenerator = require('dts-generator').default;
 
 process.env.NODE_ENV = 'production';
 
@@ -36,23 +35,11 @@ const external = [
   'typeface-roboto/files/roboto-latin-700.woff2',
 ];
 
-dtsGenerator({
-  name: '@volst/ui-components',
-  project: '.',
-  out: 'dist/volst-ui-components.d.ts',
-});
-
 rollup
   .rollup({
     input: ['./src/index.ts', './src/general/icon/index.ts'],
     external,
-    plugins: [
-      multiEntry(),
-      typescript({
-        // dts-generator will generate the declaration file, so we can turn it off here.
-        tsconfigOverride: { compilerOptions: { declaration: false } },
-      }),
-    ],
+    plugins: [multiEntry(), typescript()],
   })
   .then(bundle => {
     bundle.write({
