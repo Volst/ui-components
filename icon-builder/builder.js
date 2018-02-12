@@ -30,7 +30,7 @@ const DEFAULT_OPTIONS = {
 function pascalCase(destPath) {
   const splitregex = new RegExp(`[${path.sep}-]+`);
 
-  let parts = destPath.replace('.js', '').split(splitregex);
+  let parts = destPath.replace('.tsx', '').split(splitregex);
   parts = _.map(parts, part => {
     return part.charAt(0).toUpperCase() + part.substring(1);
   });
@@ -48,7 +48,7 @@ function getJsxString(svgPath, destPath, options) {
   const data = fs.readFileSync(svgPath, {
     encoding: 'utf8',
   });
-  const template = fs.readFileSync(path.join(__dirname, 'tpl/SvgIcon.js'), {
+  const template = fs.readFileSync(path.join(__dirname, 'tpl/SvgIcon.tsx'), {
     encoding: 'utf8',
   });
 
@@ -64,7 +64,9 @@ function getJsxString(svgPath, destPath, options) {
 
   // Node acts weird if we put this directly into string concatenation
   const muiRequireStmt =
-    options.muiRequire === 'relative' ? SVG_ICON_RELATIVE_REQUIRE : SVG_ICON_ABSOLUTE_REQUIRE;
+    options.muiRequire === 'relative'
+      ? SVG_ICON_RELATIVE_REQUIRE
+      : SVG_ICON_ABSOLUTE_REQUIRE;
 
   return Mustache.render(template, {
     muiRequireStmt,
@@ -99,14 +101,14 @@ function processFile(svgPath, destPath, options) {
  * @param {object} options
  */
 function processIndex(options) {
-  const files = glob.sync(path.join(options.outputDir, '*.js'));
+  const files = glob.sync(path.join(options.outputDir, '*.tsx'));
   const results = [];
   files.forEach(jsPath => {
-    const typename = path.basename(jsPath).replace('.js', '');
+    const typename = path.basename(jsPath).replace('.tsx', '');
     results.push(`export { default as ${typename} } from './${typename}';\n`);
   });
   const index = results.join('');
-  const absDestPath = path.join(options.outputDir, 'index.js');
+  const absDestPath = path.join(options.outputDir, 'index.ts');
   fs.writeFileSync(absDestPath, index);
 }
 
@@ -122,16 +124,16 @@ function parseArgs() {
       'inner-path',
       '"Reach into" subdirs, since libraries like material-design-icons' +
         ' use arbitrary build directories to organize icons' +
-        ' e.g. "action/svg/production/icon_3d_rotation_24px.svg"',
+        ' e.g. "action/svg/production/icon_3d_rotation_24px.svg"'
     )
     .describe(
       'file-suffix',
-      'Filter only files ending with a suffix (pretty much only for material-ui-icons)',
+      'Filter only files ending with a suffix (pretty much only for material-ui-icons)'
     )
     .describe(
       'rename-filter',
       `Path to JS module used to rename destination filename and path.
-        Default: ${RENAME_FILTER_DEFAULT}`,
+        Default: ${RENAME_FILTER_DEFAULT}`
     )
     .options('mui-require', {
       demand: false,
@@ -152,7 +154,7 @@ function main(options, callback) {
     process.stdout.write = () => {};
   }
 
-  rimraf.sync(`${options.outputDir}/*.js`); // Clean old files
+  rimraf.sync(`${options.outputDir}/*.{tsx,ts}`); // Clean old files
   console.log('** Starting Build');
 
   let renameFilter = options.renameFilter;

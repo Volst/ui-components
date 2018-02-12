@@ -4,7 +4,7 @@ function myDestRewriter(pathObj) {
   let fileName = pathObj.base;
 
   fileName = fileName
-    .replace('_24px.svg', '.js')
+    .replace('_24px.svg', '.tsx')
     .slice(3)
     .replace(/(^.)|(_)(.)/g, (match, p1, p2, p3) => (p1 || p3).toUpperCase());
 

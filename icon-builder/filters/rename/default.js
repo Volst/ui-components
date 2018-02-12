@@ -22,9 +22,11 @@ function defaultDestRewriter(pathObj, innerPath, options) {
   if (options.fileSuffix) {
     fileName.replace(options.fileSuffix, '.svg');
   } else {
-    fileName = fileName.replace('.svg', '.js');
+    fileName = fileName.replace('.svg', '.tsx');
   }
-  fileName = fileName.replace(/(^.)|(_)(.)/g, (match, p1, p2, p3) => (p1 || p3).toUpperCase());
+  fileName = fileName.replace(/(^.)|(_)(.)/g, (match, p1, p2, p3) =>
+    (p1 || p3).toUpperCase()
+  );
   return path.join(innerPath, fileName);
 }
 
