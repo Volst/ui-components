@@ -10,6 +10,7 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  table-layout: fixed;
 `;
 
 Table.displayName = 'Table';
@@ -29,6 +30,7 @@ export interface TableRowProps extends ThemeProps {
 }
 export const TableRow = styled.tr`
   border-bottom: 1px solid ${props => props.theme.borderColor};
+  word-wrap: break-word;
   ${(props: TableRowProps) =>
     props.highlight &&
     `
