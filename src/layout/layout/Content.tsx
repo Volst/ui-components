@@ -61,7 +61,7 @@ export interface ContentProps {
 
 const Content: React.SFC<ContentProps> = props => (
   <StyledScrollbars tone={props.tone}>
-    <Main center={props.center} blur={props.blur} small>
+    <Main center={props.center} blur={props.blur} small={props.small}>
       {props.children}
     </Main>
   </StyledScrollbars>
