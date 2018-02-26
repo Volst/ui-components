@@ -92,4 +92,19 @@ storiesOf('Feedback / Modal', module)
       }
       return <MyComponent />;
     })
+  )
+  .add(
+    'custom width',
+    withInfo()(() => {
+      return (
+        <Modal
+          visible
+          width="900px"
+          onClose={action('close')}
+          title="This is a heading"
+        >
+          <p>And some modal content</p>
+        </Modal>
+      );
+    })
   );

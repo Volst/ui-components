@@ -57,7 +57,7 @@ class Modal extends React.Component<ModalProps, {}> {
         destroyOnClose
         closable={false}
         mousePosition={mousePosition}
-        style={{ width: this.props.width }}
+        style={{ maxWidth: this.props.width }}
         title={this.props.title}
         footer={this.props.footer}
       >
