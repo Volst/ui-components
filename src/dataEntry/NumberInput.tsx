@@ -3,7 +3,7 @@ import * as React from 'react';
 import { StyledInput } from './TextInput';
 import MaskedInput from 'react-text-mask';
 import { pick } from 'lodash';
-import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import createNumberMask from './NumberInput/createNumberMask';
 
 const MyInput = (StyledInput as any).withComponent(({ hasError, ...props }) => (
   <MaskedInput {...props} />
