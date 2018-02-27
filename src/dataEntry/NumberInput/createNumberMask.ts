@@ -52,6 +52,13 @@ export default function createNumberMask({
       rawValue = rawValue.toString().substr(1);
     }
 
+    const hasPeriod = rawValue.includes(period);
+    const shouldReplacePeriod =
+      allowDecimal && decimalSymbol === comma && !includeThousandsSeparator;
+    if (hasPeriod && shouldReplacePeriod) {
+      rawValue = rawValue.toString().replace(period, decimalSymbol);
+    }
+
     const indexOfLastDecimal = rawValue.lastIndexOf(decimalSymbol);
     const hasDecimal = indexOfLastDecimal !== -1;
 
@@ -109,11 +116,18 @@ export default function createNumberMask({
     mask = convertToMask(integer);
 
     if ((hasDecimal && allowDecimal) || requireDecimal === true) {
-      if (rawValue[indexOfLastDecimal - 1] !== decimalSymbol) {
+      if (
+        !(hasPeriod && shouldReplacePeriod) &&
+        rawValue[indexOfLastDecimal - 1] !== decimalSymbol
+      ) {
         mask.push(caretTrap);
       }
 
       mask.push(decimalSymbol, caretTrap);
+
+      if (hasPeriod && shouldReplacePeriod) {
+        mask.push(digitRegExp);
+      }
 
       if (fraction) {
         if (typeof decimalLimit === number) {

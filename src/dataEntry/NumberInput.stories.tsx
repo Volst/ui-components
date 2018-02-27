@@ -30,6 +30,21 @@ storiesOf('Data Entry / NumberInput', module)
     })
   )
   .add(
+    'euros - auto-replacing dots',
+    withInfo()(() => {
+      return (
+        <NumberInput
+          onChange={action('change')}
+          name="euros"
+          prefix="€"
+          includeThousandsSeparator={false}
+          decimalSymbol=","
+          allowDecimal
+        />
+      );
+    })
+  )
+  .add(
     'percentage',
     withInfo()(() => {
       return (
