@@ -1,5 +1,4 @@
 const rollup = require('rollup');
-const multiEntry = require('rollup-plugin-multi-entry');
 const typescript = require('rollup-plugin-typescript2');
 
 process.env.NODE_ENV = 'production';
@@ -37,9 +36,9 @@ const external = [
 
 rollup
   .rollup({
-    input: ['./src/index.ts', './src/general/icon/index.ts'],
+    input: './src/index.ts',
     external,
-    plugins: [multiEntry(), typescript()],
+    plugins: [typescript()],
   })
   .then(bundle => {
     bundle.write({
