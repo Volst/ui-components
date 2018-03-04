@@ -23,6 +23,7 @@
   },
   "include": [
     "src/index.ts",
+    "src/PropTypes.ts",
     "src/general/icon/index.ts",
     "types.d.ts"
   ],
