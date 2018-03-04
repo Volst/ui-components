@@ -10,7 +10,7 @@ import {
 } from './styles';
 import Checkbox from '../Checkbox';
 import { Button } from '../../general/Button';
-import { OptionsPropType, ValuePropType } from 'src/PropTypes';
+import { OptionsPropType, ValuePropType } from '../../PropTypes';
 
 export interface MultipickDropdownProps {
   options: OptionsPropType;

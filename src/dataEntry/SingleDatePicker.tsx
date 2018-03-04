@@ -7,7 +7,7 @@ import { StyledInput } from './TextInput';
 import MaskedInput from 'react-text-mask';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 import { withTheme } from '../styled-components';
-import { ThemeInterface } from 'src/config';
+import { ThemeInterface } from '../config';
 
 const StyledMaskedInput = (StyledInput as any).withComponent(
   ({ hasError, _ref, ...props }) => <MaskedInput {...props} ref={_ref} />

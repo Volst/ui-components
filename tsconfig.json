@@ -2,7 +2,6 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "esnext",
-    "baseUrl": "",
     "target": "es2015",
     "lib": ["esnext", "dom"],
     "jsx": "react",

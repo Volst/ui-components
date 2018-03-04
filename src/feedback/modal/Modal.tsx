@@ -3,7 +3,7 @@ import Dialog from 'rc-dialog';
 import globalStyles from './globalStyles';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { withTheme } from '../../styled-components';
-import { ThemeInterface } from 'src/config';
+import { ThemeInterface } from '../../config';
 
 let globalInserted = false;
 let mousePosition = null;
