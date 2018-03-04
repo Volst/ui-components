@@ -18,10 +18,10 @@ const {
   injectGlobal,
   keyframes,
   ThemeProvider,
-  withTheme,
-} = (styledComponents as ThemedStyledComponentsModule<
-  any
->) as ThemedStyledComponentsModule<ThemeInterface>;
+} = styledComponents as ThemedStyledComponentsModule<ThemeInterface>;
+
+// Just re-exporting withTheme like the other variables above doesn't work, so we ignore this one.
+const withTheme = styledComponents.withTheme;
 
 export {
   css,
