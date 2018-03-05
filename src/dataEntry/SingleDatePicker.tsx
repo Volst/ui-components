@@ -107,6 +107,7 @@ class SingleDatePicker extends React.PureComponent<SingleDatePickerProps, {}> {
       disabledDays: this.props.disabledDays,
       firstDayOfWeek: 1,
       showWeekNumbers: this.props.showWeekNumbers,
+      onWeekClick: () => null,
     };
     return (
       <DatePickerWrapper>
