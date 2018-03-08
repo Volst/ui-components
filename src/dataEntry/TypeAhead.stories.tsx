@@ -15,6 +15,16 @@ const SOME_OPTIONS = [
   {
     value: 'lion',
     label: 'Lion',
+    options: [
+      {
+        value: 'lion-tiger',
+        label: 'Lion Tiger',
+      },
+      {
+        value: 'lion-roots',
+        label: 'Lion Roots',
+      },
+    ],
   },
   {
     value: 'lioness',

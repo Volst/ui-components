@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import Downshift from 'downshift';
 import { StyledInput } from './TextInput';
-import { DropdownContainer, Dropdown, DropdownItem } from './FancySelect';
+import {
+  DropdownContainer,
+  Dropdown,
+  DropdownItem,
+  DropdownGroupLabel,
+} from './FancySelect';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 export interface TypeAheadProps {
@@ -13,6 +18,24 @@ export interface TypeAheadProps {
   hasError?: boolean;
   value?: ValuePropType;
   options: OptionsPropType;
+}
+
+// Options can be nested, but nested options should still have a unique index.
+// I'm sure there is a beter way, but I don't see it for now.
+export function addFlatIndexToOptions(options) {
+  let myIndex = -1;
+  function maybeAddIndex(option, index) {
+    return option.options
+      ? {
+          ...option,
+          options: option.options.map(maybeAddIndex),
+        }
+      : {
+          ...option,
+          index: (myIndex += 1),
+        };
+  }
+  return options.map(maybeAddIndex);
 }
 
 export default class TypeAhead extends React.PureComponent<TypeAheadProps> {
@@ -30,28 +53,51 @@ export default class TypeAhead extends React.PureComponent<TypeAheadProps> {
     }
   };
 
-  renderDropdown = ({
+  renderItem({ item, getItemProps, selectedItem, highlightedIndex, nested }) {
+    if (item.options) {
+      return (
+        <React.Fragment key={item.value}>
+          <DropdownGroupLabel>{item.label}</DropdownGroupLabel>
+          {this.renderItems({
+            nested: true,
+            getItemProps,
+            highlightedIndex,
+            selectedItem,
+            options: item.options,
+          })}
+        </React.Fragment>
+      );
+    }
+    return (
+      <DropdownItem
+        {...getItemProps({
+          key: item.value,
+          index: item.index,
+          item,
+          highlighted: highlightedIndex === item.index,
+          selected: selectedItem === item,
+          nested,
+        })}
+      >
+        {item.label}
+      </DropdownItem>
+    );
+  }
+  renderItems = ({
+    options,
     getItemProps,
-    inputValue,
     highlightedIndex,
     selectedItem,
+    nested,
   }) => {
-    return (
-      <Dropdown>
-        {this.props.options.map((item, index) => (
-          <DropdownItem
-            {...getItemProps({
-              key: item.value,
-              index,
-              item,
-              highlighted: highlightedIndex === index,
-              selected: selectedItem === item,
-            })}
-          >
-            {item.label}
-          </DropdownItem>
-        ))}
-      </Dropdown>
+    return options.map(item =>
+      this.renderItem({
+        item,
+        getItemProps,
+        selectedItem,
+        highlightedIndex,
+        nested,
+      })
     );
   };
 
@@ -70,7 +116,9 @@ export default class TypeAhead extends React.PureComponent<TypeAheadProps> {
 
   render() {
     const value = this.props.value !== null ? this.props.value : '';
-    const hasOptions = this.props.options.length > 0;
+    const options = addFlatIndexToOptions(this.props.options);
+
+    const hasOptions = options.length > 0;
 
     return (
       <div>
@@ -97,13 +145,17 @@ export default class TypeAhead extends React.PureComponent<TypeAheadProps> {
                 disabled={this.props.disabled}
               />
               {isOpen &&
-                hasOptions &&
-                this.renderDropdown({
-                  getItemProps,
-                  inputValue,
-                  highlightedIndex,
-                  selectedItem,
-                })}
+                hasOptions && (
+                  <Dropdown>
+                    {this.renderItems({
+                      options,
+                      getItemProps,
+                      highlightedIndex,
+                      selectedItem,
+                      nested: false,
+                    })}
+                  </Dropdown>
+                )}
             </DropdownContainer>
           )}
         </Downshift>

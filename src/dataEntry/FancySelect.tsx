@@ -44,6 +44,7 @@ export const DropdownToggle = styled.div`
 export interface DropdownItemProps extends ThemeProps {
   highlighted: boolean;
   selected: boolean;
+  nested?: boolean;
 }
 
 export const DropdownItem = styled.div`
@@ -57,11 +58,19 @@ export const DropdownItem = styled.div`
     `;
   }};
   font-weight: ${props => (props.selected ? 'bold' : 'normal')};
-  padding: 6px;
+  padding: ${props => (props.nested ? '6px 6px 6px 16px' : '6px')};
   cursor: default;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+export const DropdownGroupLabel = styled.div`
+  background: ${props => props.theme.componentBackground};
+  font-weight: bold;
+  color: ${props => readableColor(props.theme.componentBackground)};
+  padding: 4px 6px;
+  font-size: 90%;
 `;
 
 const StyledInput = styled(TextInput)`
