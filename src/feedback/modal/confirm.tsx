@@ -5,10 +5,30 @@ import { t } from 'i18next';
 import { Button } from '../../general/Button';
 import Subheading from '../../general/typography/Subheading';
 import { Text } from '../../general/typography/Text';
-import { defaultConfig } from '../../config';
+import { defaultConfig, ThemeInterface } from '../../config';
 import { ThemeProvider } from '../../styled-components';
 import { getTheme } from '../../VolstTheme';
 import { TonePropType } from '../../PropTypes';
+
+export interface ConfirmSharedProps {
+  onOk: () => void;
+  afterClose?: () => void;
+  title: string;
+  content?: string;
+  okText?: string;
+  okTone?: TonePropType;
+  cancelText?: string;
+}
+
+export interface ConfirmModalProps extends ConfirmSharedProps {
+  visible: boolean;
+  close: ({ triggerCancel: boolean }) => void;
+}
+
+export interface ConfirmFunctionProps extends ConfirmSharedProps {
+  theme?: ThemeInterface;
+  onCancel?: () => void;
+}
 
 // TODO: perhaps add a fancy "question" icon like ant.design does
 const ConfirmModal: React.SFC<ConfirmModalProps> = ({
@@ -51,19 +71,10 @@ const ConfirmModal: React.SFC<ConfirmModalProps> = ({
   );
 };
 
-interface ConfirmModalProps {
-  visible: boolean;
-  onOk: () => void;
-  close: ({ triggerCancel: boolean }) => void;
-  afterClose?: () => void;
-  title: string;
-  content?: string;
-  okText?: string;
-  okTone?: TonePropType;
-  cancelText?: string;
-}
-
-export default function confirm({ theme = {}, ...config }) {
+export default function confirm({
+  theme = {},
+  ...config
+}: ConfirmFunctionProps) {
   let div = document.createElement('div');
   document.body.appendChild(div);
 
@@ -90,7 +101,7 @@ export default function confirm({ theme = {}, ...config }) {
     // Since we are rendering a separate DOM we also need to initialize the ThemeProvider again.
     // Unfortunately there is no way to get the `theme` object, so the user needs to manually pass it.
     ReactDOM.render(
-      <ThemeProvider theme={getTheme(theme)}>
+      <ThemeProvider theme={getTheme(theme as any)}>
         <ConfirmModal {...props} />
       </ThemeProvider>,
       div
