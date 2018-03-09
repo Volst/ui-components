@@ -44,7 +44,7 @@ export default class PaginationControls extends React.Component<
         </Button>
         <PageCount>
           {this.props.currentPage}
-          {this.props.totalPages &&
+          {this.props.totalPages > 0 &&
             ` ${this.props.ofText || t('pagination.ofText')} ${
               this.props.totalPages
             }`}
