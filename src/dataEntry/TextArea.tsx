@@ -70,7 +70,7 @@ export interface TextAreaProps {
   onBlur?: () => void;
   onFocus?: () => void;
   placeholder?: string;
-  name?: string;
+  name: string;
   disabled?: boolean;
   hasError?: boolean;
   id?: string;

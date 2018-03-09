@@ -4,10 +4,10 @@ import * as RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
 import * as RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import * as RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import * as RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
-import { defaultConfig, themeOverrides } from './config';
+import { defaultConfig, themeOverrides, ThemeInterface } from './config';
 import { mapValues } from 'lodash';
 
-const injectGlobalStyles = theme => injectGlobal`
+const injectGlobalStyles = (theme: ThemeInterface) => injectGlobal`
   @font-face {
     font-family: 'Roboto';
     src: url('${RobotoLight}');
@@ -66,7 +66,7 @@ const injectGlobalStyles = theme => injectGlobal`
   }
 `;
 
-export function getTheme(theme) {
+export function getTheme(theme: ThemeInterface) {
   // Fallback to the value of the fallbackProp
   const fallback = mapValues(themeOverrides, (fallbackProp, overrideProp) => {
     return theme[fallbackProp] || defaultConfig[fallbackProp];

@@ -21,7 +21,7 @@ const StyledInput = styled.input`
 
 export interface CheckboxProps {
   onChange: (name: string, value: boolean) => void;
-  name?: string;
+  name: string;
   label?: string;
   value?: boolean;
   disabled?: boolean;
@@ -34,7 +34,7 @@ export default class Checkbox extends React.PureComponent<CheckboxProps, {}> {
 
   render() {
     return (
-      <StyledLabel disabled={this.props.disabled}>
+      <StyledLabel disabled={this.props.disabled || false}>
         <StyledInput
           type="checkbox"
           onChange={this.handleChange}

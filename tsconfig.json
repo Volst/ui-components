@@ -13,6 +13,9 @@
     "declaration": true,
     "experimentalDecorators": true,
     "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noImplicitThis": true,
     "strictPropertyInitialization": true,
     "plugins": [
       {

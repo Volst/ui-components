@@ -36,29 +36,29 @@ const InputValueWrapper = styled.div`
   outline: 0;
 
   ${(props: InputValueWrapperProps) =>
-    props.disabled &&
+    (props.disabled || '') &&
     `
-        background: ${props.theme.disabledColor};
+      background: ${props.theme!.disabledColor};
     `};
   ${props =>
-    props.hasError &&
+    (props.hasError || '') &&
     `
-        border-color: ${props.theme.dangerColor};
-        background: ${
-          props.focused ? props.theme.componentBackground : '#fef2f2'
-        };
-        `};
+      border-color: ${props.theme.dangerColor};
+      background: ${
+        props.focused ? props.theme.componentBackground : '#fef2f2'
+      };
+  `};
   ${props =>
-    props.focused &&
+    (props.focused || '') &&
     `
-        border-color: ${props.theme.primaryColor};
-    `};
+    border-color: ${props.theme.primaryColor};
+  `};
   ${props =>
-    props.hasDropdown &&
+    (props.hasDropdown || '') &&
     `
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-    `};
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+  `};
 `;
 
 interface TagValueProps extends ThemeProps {
@@ -67,8 +67,8 @@ interface TagValueProps extends ThemeProps {
 
 const TagValue = styled.div`
   background: ${(props: TagValueProps) =>
-    props.disabled ? '#aaa' : props.theme.primaryColor};
-  color: ${props => readableColor(props.theme.primaryColor)};
+    props.disabled ? '#aaa' : props.theme!.primaryColor};
+  color: ${props => readableColor(props.theme!.primaryColor)};
   padding: 3px 5px;
   border-radius: 2px;
   margin: 2px;
@@ -106,7 +106,7 @@ const CloseButton = styled.span`
 
 export interface MultiSelectProps {
   onChange: (name: string, value: ValuePropType[]) => void;
-  name?: string;
+  name: string;
   value: ValuePropType[];
   options: OptionsPropType;
   disabled?: boolean;

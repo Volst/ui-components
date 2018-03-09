@@ -24,7 +24,6 @@ export default class NotificationItem extends React.Component<
 > {
   static defaultProps = {
     dismissAfter: 3100,
-    type: 'info',
   };
 
   state = {
@@ -74,7 +73,7 @@ export default class NotificationItem extends React.Component<
     return (
       <StyledItem
         active={this.state.active}
-        type={this.props.type}
+        type={this.props.type || 'info'}
         onClick={this.props.onClick}
       >
         {this.props.message}
@@ -108,7 +107,7 @@ function getBackgroundColor(props: StyledItemProps) {
     case 'error':
       return '#f1a1a8';
     default:
-      break;
+      return '';
   }
 }
 
@@ -126,7 +125,7 @@ const StyledItem = styled.div`
   transition: ${TRANSITION_TIME}ms cubic-bezier(0.89, 0.01, 0.5, 1.1);
   word-wrap: break-word;
   ${props =>
-    !props.active &&
+    (!props.active || '') &&
     `
       visibility: hidden;
       opacity: 0;

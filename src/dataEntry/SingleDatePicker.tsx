@@ -58,7 +58,7 @@ class MaskedDateInput extends React.PureComponent {
 export interface SingleDatePickerProps {
   onChange?: (name: string, value: moment.Moment) => void;
   value?: moment.Moment;
-  name?: string;
+  name: string;
   placeholder?: string;
   disabled?: boolean;
   hasError?: boolean;
@@ -70,7 +70,6 @@ export interface SingleDatePickerProps {
 class SingleDatePicker extends React.PureComponent<SingleDatePickerProps, {}> {
   static defaultProps = {
     placeholder: '',
-    value: null,
     showWeekNumbers: true,
   };
 

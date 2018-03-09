@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { StyledNavLink } from './NavItem';
 
-export default (StyledNavLink as any).withComponent(({ title, ...props }) => (
-  <a {...props}>{title}</a>
-));
+export interface NavItemExternalProps {
+  title: string;
+}
+
+export default (StyledNavLink as any).withComponent(
+  ({ title, ...props }: NavItemExternalProps) => <a {...props}>{title}</a>
+);

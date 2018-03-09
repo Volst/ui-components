@@ -16,7 +16,7 @@ export interface TextProps extends ThemeProps {
 }
 
 function getTextColor(props: TextProps): string {
-  return props.theme[`${props.tone || 'text'}Color`];
+  return props.theme![`${props.tone || 'text'}Color`];
 }
 
 export const Text = styled.p`

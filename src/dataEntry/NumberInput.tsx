@@ -17,7 +17,7 @@ export interface NumberInputProps {
   disabled?: boolean;
   hasError?: boolean;
   maxLength?: string;
-  name?: string;
+  name: string;
   id?: string;
   value?: string | number;
   autoFocus?: boolean;

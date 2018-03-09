@@ -28,11 +28,12 @@ const CombinedInput = styled.div`
   align-items: center;
 
   ${(props: CombinedInputProps) =>
-    props.hasError &&
-    `
-      border-color: ${props.theme.dangerColor};
+    props.hasError
+      ? `
+      border-color: ${props.theme!.dangerColor};
       background: #fef2f2;
-    `};
+    `
+      : ''};
 `;
 
 const CombinedInputItem = styled.div`
@@ -43,11 +44,13 @@ const CombinedInputItem = styled.div`
   user-select: none;
 `;
 
+export type OptionalMoment = moment.Moment | null;
+
 export interface DateRangePickerProps {
   name: string;
   onChange: (
     name: string,
-    value: { startDate?: moment.Moment; endDate?: moment.Moment }
+    value: { startDate?: OptionalMoment; endDate?: OptionalMoment }
   ) => void;
   startDate?: moment.Moment;
   endDate?: moment.Moment;
@@ -106,7 +109,7 @@ class DateRangePicker extends React.Component<
 
   render() {
     const { startDate, endDate, disabled, theme } = this.props;
-    const onClick = disabled ? null : this.toggleOpened;
+    const onClick = disabled ? undefined : this.toggleOpened;
     const _startDate = toDate(startDate);
     const _endDate = toDate(endDate);
     const modifiers = { start: _startDate, end: _endDate };

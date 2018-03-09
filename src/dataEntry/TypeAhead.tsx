@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import Downshift from 'downshift';
+import Downshift, { DownshiftState } from 'downshift';
 import { StyledInput } from './TextInput';
 import {
   DropdownContainer,
@@ -11,9 +11,9 @@ import {
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 
 export interface TypeAheadProps {
-  onChange?: (name: string, value: string) => void;
+  onChange: (name: string, value: string) => void;
   onSelect: (value: ValuePropType) => void;
-  name?: string;
+  name: string;
   disabled?: boolean;
   hasError?: boolean;
   value?: ValuePropType;
@@ -47,9 +47,9 @@ export default class TypeAhead extends React.PureComponent<TypeAheadProps> {
     this.props.onSelect(option.value);
   };
 
-  handleStateChange = changes => {
+  handleStateChange = (changes: DownshiftState) => {
     if (changes.hasOwnProperty('inputValue')) {
-      this.props.onChange(this.props.name, changes.inputValue);
+      this.props.onChange(this.props.name, changes.inputValue || '');
     }
   };
 

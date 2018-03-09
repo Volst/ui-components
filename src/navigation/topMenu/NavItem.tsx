@@ -6,6 +6,7 @@ import {
 } from '../../styled-components';
 import { NavLink, NavLinkProps } from 'react-router-dom';
 import { transparentize } from 'polished';
+import History from 'history';
 
 export const StyledNavLink = styled(NavLink)`
   display: flex;
@@ -63,14 +64,14 @@ export const StyledNavLink = styled(NavLink)`
 
 export interface NavItemProps {
   title: string | React.ReactNode;
-  to?: string;
+  to: string;
   onClick?: () => void;
   activePath?: string;
 }
 
 export default class NavItem extends React.Component<NavItemProps, {}> {
-  checkActive = (match, location) => {
-    return location.pathname.startsWith(this.props.activePath);
+  checkActive = (match: any, location: History.Location) => {
+    return location.pathname.startsWith(this.props.activePath as string);
   };
 
   render() {
@@ -81,7 +82,7 @@ export default class NavItem extends React.Component<NavItemProps, {}> {
         onClick={this.props.onClick}
         className="nav-item"
         activeClassName="active"
-        isActive={activePath ? this.checkActive : null}
+        isActive={activePath ? this.checkActive : undefined}
       >
         {this.props.title}
       </StyledNavLink>

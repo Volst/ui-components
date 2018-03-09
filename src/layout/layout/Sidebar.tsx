@@ -11,7 +11,7 @@ const StyledAside = styled.aside`
     const width = props.medium ? 450 : 350;
     return `
       width: ${width}px;
-      background: ${props.theme.lightColor};
+      background: ${props.theme!.lightColor};
 
       &.slide-right-enter,
       &.slide-right-leave.slide-right-leave-active {

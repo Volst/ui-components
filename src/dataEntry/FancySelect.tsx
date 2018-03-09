@@ -50,8 +50,8 @@ export interface DropdownItemProps extends ThemeProps {
 export const DropdownItem = styled.div`
   ${(props: DropdownItemProps) => {
     const background = props.highlighted
-      ? setLightness(0.93, props.theme.primaryColor)
-      : props.theme.componentBackground;
+      ? setLightness(0.93, props.theme!.primaryColor)
+      : props.theme!.componentBackground;
     return `
       background: ${background};
       color: ${readableColor(background)};
@@ -85,8 +85,8 @@ export function fuzzySearch(options, inputValue) {
 }
 
 export interface FancySelectProps {
-  onChange?: (name: string, value: ValuePropType) => void;
-  name?: string;
+  onChange: (name: string, value: ValuePropType) => void;
+  name: string;
   value?: ValuePropType;
   options: OptionsPropType;
   disabled?: boolean;

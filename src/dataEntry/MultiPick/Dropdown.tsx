@@ -17,7 +17,7 @@ export interface MultipickDropdownProps {
   value: ValuePropType[];
   filteredOptions: OptionsPropType;
   onChange: (value: ValuePropType[]) => void;
-  searchAppearsAfterCount?: number;
+  searchAppearsAfterCount: number;
   searchValue: string;
   onSearchChange: (value: string) => void;
   searchPlaceholder?: string;
@@ -63,6 +63,7 @@ export default class MultipickDropdown extends React.Component<
     return (
       <DropdownItem key={item.value} checked={checked}>
         <Checkbox
+          name="dropdown-item"
           onChange={() => this.handleItemChange(item.value, checked)}
           value={checked}
           label={item.label}

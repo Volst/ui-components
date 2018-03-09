@@ -98,7 +98,7 @@ export default function createNumberMask({
 
       integer = integer.slice(
         0,
-        integerLimit +
+        (integerLimit as any) +
           numberOfThousandSeparators * thousandsSeparatorSymbolLength
       );
     }

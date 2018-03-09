@@ -46,7 +46,7 @@ export const DropdownItem = styled.label`
   }
 
   background: ${(props: DropdownItemProps) =>
-    props.checked ? setLightness(0.93, props.theme.primaryColor) : ''};
+    props.checked ? setLightness(0.93, props.theme!.primaryColor) : ''};
 `;
 
 export const DropdownActionBar = styled.div`

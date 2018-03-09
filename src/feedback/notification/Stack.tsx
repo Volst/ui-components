@@ -32,7 +32,7 @@ export default class NotificationStack extends React.Component<
         onClick={
           notification.onClick
             ? () => notification.onClick(notification, onDismiss)
-            : null
+            : undefined
         }
         dismissible={notification.dismissible}
       />

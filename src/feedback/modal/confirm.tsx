@@ -72,7 +72,7 @@ export default function confirm({ theme = {}, ...config }) {
       ...config,
       close,
       visible: false,
-      afterClose: destroy.bind(this, ...args),
+      afterClose: () => destroy(...args),
     });
   }
   function destroy(...args) {

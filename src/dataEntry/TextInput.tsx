@@ -78,7 +78,7 @@ export interface TextInputProps {
   onBlur?: (name: string, value: string) => void;
   onFocus?: () => void;
   placeholder?: string;
-  name?: string;
+  name: string;
   disabled?: boolean;
   hasError?: boolean;
   id?: string;
@@ -97,7 +97,7 @@ export default class TextInput extends React.PureComponent<TextInputProps, {}> {
     value: '',
   };
 
-  private inputRef: HTMLInputElement;
+  private inputRef?: HTMLInputElement = undefined;
 
   static contextTypes = {
     formFieldHasError: PropTypes.bool,
@@ -122,7 +122,9 @@ export default class TextInput extends React.PureComponent<TextInputProps, {}> {
   // This method can be used externally; it's just a convenience method
   // since a "normal" <input> element also has a `.focus()` method
   focus() {
-    this.inputRef.focus();
+    if (this.inputRef) {
+      this.inputRef.focus();
+    }
   }
 
   render() {

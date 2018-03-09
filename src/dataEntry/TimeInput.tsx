@@ -15,7 +15,7 @@ const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
 export interface TimeInputProps {
   onChange: (name: string, value: moment.Moment) => void;
   placeholder?: string;
-  name?: string;
+  name: string;
   disabled?: boolean;
   hasError?: boolean;
   id?: string;
@@ -26,7 +26,6 @@ export interface TimeInputProps {
 export default class TimeInput extends React.PureComponent<TimeInputProps, {}> {
   static defaultProps = {
     placeholder: ' ',
-    value: '',
   };
 
   static contextTypes = {
@@ -39,7 +38,7 @@ export default class TimeInput extends React.PureComponent<TimeInputProps, {}> {
     const value = e.target.value.replace(/_/g, '');
     if (!this.props.onChange || value.length < 5) return;
 
-    let newValue = null;
+    let newValue: moment.Moment | null = null;
     if (this.props.value) {
       const split = value.split(':');
       newValue = this.props.value ? this.props.value.clone() : moment();

@@ -32,9 +32,9 @@ export const TableRow = styled.tr`
   border-bottom: 1px solid ${props => props.theme.borderColor};
   word-wrap: break-word;
   ${(props: TableRowProps) =>
-    props.highlight &&
+    (props.highlight || '') &&
     `
-        background: ${props.theme.highlightColor};
+        background: ${props.theme!.highlightColor};
     `};
 `;
 TableRow.displayName = 'TableRow';
@@ -59,17 +59,17 @@ export const TableData = styled.td`
   font-size: 14px;
 
   ${(props: TableDataProps) =>
-    props.stretch &&
+    (props.stretch || '') &&
     `
       width: 100%;
     `};
   ${props =>
-    props.alignRight &&
+    (props.alignRight || '') &&
     `
       text-align: right;
     `};
   ${props =>
-    props.noWrap &&
+    (props.noWrap || '') &&
     `
       white-space: nowrap;
     `};

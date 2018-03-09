@@ -95,7 +95,7 @@ const styles = css`
   }
 
   ${props =>
-    props.fullWidth &&
+    (props.fullWidth || '') &&
     `
     margin: 5px 0;
     width: 100%;

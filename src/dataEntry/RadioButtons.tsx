@@ -20,7 +20,7 @@ const StyledDiv = styled.div`
   border: 1px solid transparent;
   border-radius: 4px;
   ${props =>
-    props.focus &&
+    (props.focus || '') &&
     `
       label {
           border-color: ${props.theme.primaryColor};
@@ -107,8 +107,8 @@ const StyledInput = styled.input`
   &:checked + label {
     ${(props: StyledInputProps) => {
       const background = props.disabled
-        ? props.theme.borderColor
-        : props.theme.primaryColor;
+        ? props.theme!.borderColor
+        : props.theme!.primaryColor;
       return `
         background: ${background};
         border-color: ${background};
@@ -122,8 +122,8 @@ const StyledInput = styled.input`
 `;
 
 export interface RadioButtonsProps {
-  onChange?: (name: string, value: ValuePropType) => void;
-  name?: string;
+  onChange: (name: string, value: ValuePropType) => void;
+  name: string;
   disabled?: boolean;
   options: OptionsPropType;
   value?: ValuePropType;

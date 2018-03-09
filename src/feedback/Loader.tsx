@@ -33,7 +33,7 @@ const Loader = styled.div`
   height: 18px;
   margin: 5px;
   transition: 200ms all linear;
-  ${(props: LoaderProps) => props.show && showLoaderCss};
+  ${(props: LoaderProps) => (props.show || '') && showLoaderCss};
 `;
 
 Loader.displayName = 'Loader';

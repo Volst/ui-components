@@ -9,7 +9,7 @@ import onClickOutside from 'react-onclickoutside';
 interface MultiPickProps {
   options: OptionsPropType;
   value: ValuePropType[];
-  searchAppearsAfterCount?: number;
+  searchAppearsAfterCount: number;
   searchPlaceholder?: string;
   selectedText?: string;
   selectAllText?: string;
@@ -25,7 +25,7 @@ interface MultiPickState {
 }
 
 class MultiPick extends React.Component<MultiPickProps, MultiPickState> {
-  static defaultProps = {
+  static defaultProps: Partial<MultiPickProps> = {
     searchAppearsAfterCount: 5,
   };
 

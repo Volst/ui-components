@@ -38,7 +38,7 @@ const StyledSelect = styled(InnerSelect)`
   &:focus {
     border: 1px solid
       ${(props: StyledSelectProps) =>
-        !props.hasError && props.theme.primaryColor};
+        (!props.hasError || '') && props.theme!.primaryColor};
   }
 
   &:disabled {
@@ -49,7 +49,7 @@ const StyledSelect = styled(InnerSelect)`
 
 export interface SelectInputProps {
   onChange: (name: string, value: string) => void;
-  name?: string;
+  name: string;
   disabled?: boolean;
   hasError?: boolean;
   id?: string;

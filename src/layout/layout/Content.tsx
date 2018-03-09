@@ -33,7 +33,7 @@ const Main = styled.main`
   max-width: ${props => (props.small ? '400px' : '1500px')};
   padding: 25px;
   ${(props: MainProps) =>
-    props.blur &&
+    (props.blur || '') &&
     `
       filter: blur(2px) grayscale(40%);
       pointer-events: none;
@@ -42,14 +42,13 @@ const Main = styled.main`
   transition: 200ms filter ease;
 
   ${props =>
-    props.center
-      ? `
+    (props.center || '') &&
+    `
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-    `
-      : null};
+    `};
 `;
 
 export interface ContentProps {

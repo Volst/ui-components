@@ -5,8 +5,10 @@ import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import { withTheme } from '../../styled-components';
 import { ThemeInterface } from '../../config';
 
+export type MousePosition = { x: number; y: number };
+
 let globalInserted = false;
-let mousePosition = null;
+let mousePosition: MousePosition | undefined = undefined;
 let mousePositionEventBinded = false;
 
 export interface ModalProps {
@@ -36,12 +38,12 @@ class Modal extends React.Component<ModalProps, {}> {
     // You might think: what the fuck is this code.
     // This is necessary to animate the modal starting from the current mouse position.
     // Respectfully copied from https://github.com/ant-design/ant-design/
-    addEventListener(document.documentElement, 'click', e => {
+    addEventListener(document.documentElement, 'click', (e: MouseEvent) => {
       mousePosition = {
         x: e.pageX,
         y: e.pageY,
       };
-      setTimeout(() => (mousePosition = null), 100);
+      setTimeout(() => (mousePosition = undefined), 100);
     });
     mousePositionEventBinded = true;
   }
