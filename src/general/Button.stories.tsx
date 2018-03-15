@@ -7,6 +7,7 @@ import IconDelete from './icon/IconDelete';
 import IconBuild from './icon/IconBuild';
 import VolstTheme from '../VolstTheme';
 import CenterDecorator from '../../storybook/CenterDecorator';
+import { Tone } from '../PropTypes';
 
 storiesOf('General / Button', module)
   .addDecorator(CenterDecorator)
@@ -26,32 +27,32 @@ storiesOf('General / Button', module)
             <Button disabled>Primary disabled</Button>
           </div>
           <div>
-            <Button tone="success">Success</Button>
-            <Button tone="success" disabled>
+            <Button tone={Tone.Success}>Success</Button>
+            <Button tone={Tone.Success} disabled>
               Success disabled
             </Button>
           </div>
           <div>
-            <Button tone="danger">Danger</Button>
-            <Button tone="danger" disabled>
+            <Button tone={Tone.Danger}>Danger</Button>
+            <Button tone={Tone.Danger} disabled>
               Danger disabled
             </Button>
           </div>
           <div>
-            <Button tone="warning">Warning</Button>
-            <Button tone="warning" disabled>
+            <Button tone={Tone.Warning}>Warning</Button>
+            <Button tone={Tone.Warning} disabled>
               Warning disabled
             </Button>
           </div>
           <div>
-            <Button tone="dark">Dark</Button>
-            <Button tone="dark" disabled>
+            <Button tone={Tone.Dark}>Dark</Button>
+            <Button tone={Tone.Dark} disabled>
               Dark disabled
             </Button>
           </div>
           <div>
-            <Button tone="light">Light</Button>
-            <Button tone="light" disabled>
+            <Button tone={Tone.Light}>Light</Button>
+            <Button tone={Tone.Light} disabled>
               Light disabled
             </Button>
           </div>
@@ -66,8 +67,8 @@ storiesOf('General / Button', module)
         <VolstTheme theme={{ buttonPrimaryColor: '#DE0000' }}>
           <div>
             <Button>Primary</Button>
-            <Button tone="success">Success</Button>
-            <Button tone="warning">Warning</Button>
+            <Button tone={Tone.Success}>Success</Button>
+            <Button tone={Tone.Warning}>Warning</Button>
           </div>
         </VolstTheme>
       );
@@ -105,20 +106,20 @@ storiesOf('General / Button', module)
         <div>
           <Button ghost>Scare kids</Button>
           <br />
-          <Button ghost tone="success">
+          <Button ghost tone={Tone.Success}>
             <IconAdd />
           </Button>
-          <Link ghost to="/" tone="danger">
+          <Link ghost to="/" tone={Tone.Danger}>
             <IconDelete />
           </Link>
-          <Link ghost to="/" tone="primary">
+          <Link ghost to="/" tone={Tone.Primary}>
             <IconBuild />
           </Link>
-          <Link ghost to="/" tone="primary" disabled>
+          <Link ghost to="/" tone={Tone.Primary} disabled>
             <IconBuild />
           </Link>
           <br />
-          <Link ghost to="/" tone="danger">
+          <Link ghost to="/" tone={Tone.Danger}>
             Delete <IconDelete />
           </Link>
           <Link ghost to="/" disabled>
@@ -163,29 +164,29 @@ storiesOf('General / Button', module)
       return (
         <div>
           <p>with standard styling</p>
-          <Button tone="success">
+          <Button tone={Tone.Success}>
             <IconAdd />
           </Button>
-          <Link to="/" tone="danger">
+          <Link to="/" tone={Tone.Danger}>
             <IconDelete />
           </Link>
-          <Link to="/" tone="primary">
+          <Link to="/" tone={Tone.Primary}>
             <IconBuild />
           </Link>
-          <Link to="/" tone="primary" disabled>
+          <Link to="/" tone={Tone.Primary} disabled>
             <IconBuild />
           </Link>
           <p>with ghost styling</p>
-          <Button ghost tone="success">
+          <Button ghost tone={Tone.Success}>
             <IconAdd />
           </Button>
-          <Link ghost to="/" tone="danger">
+          <Link ghost to="/" tone={Tone.Danger}>
             <IconDelete />
           </Link>
-          <Link ghost to="/" tone="primary">
+          <Link ghost to="/" tone={Tone.Primary}>
             <IconBuild />
           </Link>
-          <Link ghost to="/" tone="primary" disabled>
+          <Link ghost to="/" tone={Tone.Primary} disabled>
             <IconBuild />
           </Link>
         </div>

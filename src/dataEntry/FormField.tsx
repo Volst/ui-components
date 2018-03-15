@@ -4,6 +4,7 @@ import { styled } from '../styled-components';
 import LabelText from './LabelText';
 import { InlineText } from '../general/typography/Text';
 import { readableColor } from '../config';
+import { Tone } from '../PropTypes';
 import { t } from 'i18next';
 import { uniqueId } from 'lodash';
 
@@ -91,7 +92,7 @@ export default class FormField extends React.Component<FormFieldProps, {}> {
         <div>
           {this.props.label}
           {this.props.required && (
-            <InlineText tone="danger">&nbsp;*</InlineText>
+            <InlineText tone={Tone.Danger}>&nbsp;*</InlineText>
           )}
         </div>
       </LabelText>

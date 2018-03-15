@@ -7,6 +7,7 @@ import Subheading from './Subheading';
 import SuperText from './SuperText';
 import Center from './Center';
 import Code from './Code';
+import { Tone } from '../../PropTypes';
 import { Text, InlineText } from './Text';
 
 storiesOf('General / Typography', module)
@@ -60,21 +61,21 @@ storiesOf('General / Typography', module)
       return (
         <div>
           <Heading>Paragraphs with tones</Heading>
-          <Text tone="primary">Primary text</Text>
-          <Text tone="success">Success text</Text>
-          <Text tone="danger">Danger text</Text>
-          <Text tone="warning">Warning text</Text>
-          <Text tone="dark">Dark text</Text>
-          <Text tone="light">Light text</Text>
+          <Text tone={Tone.Primary}>Primary text</Text>
+          <Text tone={Tone.Success}>Success text</Text>
+          <Text tone={Tone.Danger}>Danger text</Text>
+          <Text tone={Tone.Warning}>Warning text</Text>
+          <Text tone={Tone.Dark}>Dark text</Text>
+          <Text tone={Tone.Light}>Light text</Text>
           <Heading>Inline text with tones</Heading>
           <Text>
             This time we show the inline variant with its
-            <InlineText tone="primary"> primary</InlineText>,
-            <InlineText tone="success"> success</InlineText>,
-            <InlineText tone="danger"> danger</InlineText>,
-            <InlineText tone="warning"> warning</InlineText>,
-            <InlineText tone="dark"> dark</InlineText>,
-            <InlineText tone="light"> light</InlineText> tones.
+            <InlineText tone={Tone.Primary}> primary</InlineText>,
+            <InlineText tone={Tone.Success}> success</InlineText>,
+            <InlineText tone={Tone.Danger}> danger</InlineText>,
+            <InlineText tone={Tone.Warning}> warning</InlineText>,
+            <InlineText tone={Tone.Dark}> dark</InlineText>,
+            <InlineText tone={Tone.Light}> light</InlineText> tones.
           </Text>
         </div>
       );

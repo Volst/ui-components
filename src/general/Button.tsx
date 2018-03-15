@@ -8,7 +8,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint, rgba } from 'polished';
 import { readableColor } from '../config';
-import { TonePropType } from '../PropTypes';
+import { Tone } from '../PropTypes';
 import { showLoaderCss } from '../feedback/Loader';
 
 function insertSpanForTextNodes(child) {
@@ -55,7 +55,7 @@ export interface ButtonProps {
   ghost?: boolean;
   fullWidth?: boolean;
   disabled?: boolean;
-  tone?: TonePropType;
+  tone?: Tone;
   small?: boolean;
   loading?: boolean;
   tabIndex?: number;

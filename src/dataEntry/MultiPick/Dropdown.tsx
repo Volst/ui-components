@@ -10,7 +10,7 @@ import {
 } from './styles';
 import Checkbox from '../Checkbox';
 import { Button } from '../../general/Button';
-import { OptionsPropType, ValuePropType } from '../../PropTypes';
+import { OptionsPropType, ValuePropType, Tone } from '../../PropTypes';
 
 export interface MultipickDropdownProps {
   options: OptionsPropType;
@@ -96,10 +96,10 @@ export default class MultipickDropdown extends React.Component<
       <Dropdown>
         {options.length >= searchAppearsAfterCount ? this.renderSearch() : null}
         <DropdownActionBar>
-          <Button onClick={this.selectAll} tone="light">
+          <Button onClick={this.selectAll} tone={Tone.Light}>
             {selectAllText || t('form.multiPick.selectAllButton')}
           </Button>
-          <Button onClick={this.selectNone} tone="light">
+          <Button onClick={this.selectNone} tone={Tone.Light}>
             {selectNoneText || t('form.multiPick.selectNoneButton')}
           </Button>
         </DropdownActionBar>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled } from '../styled-components';
 import { Button } from '../general/Button';
+import { Tone } from '../PropTypes';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
 
@@ -56,7 +57,7 @@ export default class Accordion extends React.Component<AccordionProps, {}> {
     return (
       <StyledContainer>
         <StyledTitleContainer>
-          <Button ghost tone="primary" onClick={this.handleClick}>
+          <Button ghost tone={Tone.Primary} onClick={this.handleClick}>
             <IconToggle width="24" height="24" />
           </Button>
           <StyledTitle>{title}</StyledTitle>

@@ -7,6 +7,7 @@ import confirm from './confirm';
 import CenterDecorator from '../../../storybook/CenterDecorator';
 import { Button } from '../../general/Button';
 import { State } from 'react-powerplug';
+import { Tone } from '../../PropTypes';
 
 storiesOf('Feedback / Modal', module)
   .addDecorator(CenterDecorator)
@@ -41,7 +42,7 @@ storiesOf('Feedback / Modal', module)
               title="Nice Modal Title"
               footer={
                 <React.Fragment>
-                  <Button tone="light">Cancel</Button>
+                  <Button tone={Tone.Light}>Cancel</Button>
                   <Button>Save</Button>
                 </React.Fragment>
               }
@@ -80,7 +81,7 @@ storiesOf('Feedback / Modal', module)
                   onOk: action('ok'),
                   onCancel: action('cancel'),
                   okText: 'Delete me',
-                  okTone: 'danger',
+                  okTone: Tone.Danger,
                   cancelText: 'Erhm no',
                 })
               }

@@ -4,6 +4,7 @@ import IconNavigateBefore from '../general/icon/IconNavigateBefore';
 import IconNavigateNext from '../general/icon/IconNavigateNext';
 import styled from '../styled-components';
 import { t } from 'i18next';
+import { Tone } from '../PropTypes';
 
 const PageCount = styled.div`
   margin-right: 4px;
@@ -35,7 +36,7 @@ export default class PaginationControls extends React.Component<
         <Button
           onClick={this.props.handlePrevious}
           disabled={!this.props.hasPreviousPage}
-          tone="primary"
+          tone={Tone.Primary}
         >
           <IconNavigateBefore />
           {this.props.previousText === undefined
@@ -52,7 +53,7 @@ export default class PaginationControls extends React.Component<
         <Button
           onClick={this.props.handleNext}
           disabled={!this.props.hasNextPage}
-          tone="primary"
+          tone={Tone.Primary}
         >
           {this.props.nextText === undefined
             ? t('pagination.nextText')

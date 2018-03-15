@@ -8,7 +8,7 @@ import { Text } from '../../general/typography/Text';
 import { defaultConfig, ThemeInterface } from '../../config';
 import { ThemeProvider } from '../../styled-components';
 import { getTheme } from '../../VolstTheme';
-import { TonePropType } from '../../PropTypes';
+import { Tone } from '../../PropTypes';
 
 export interface ConfirmSharedProps {
   onOk: () => void;
@@ -16,7 +16,7 @@ export interface ConfirmSharedProps {
   title: string;
   content?: string;
   okText?: string;
-  okTone?: TonePropType;
+  okTone?: Tone;
   cancelText?: string;
 }
 
@@ -56,7 +56,7 @@ const ConfirmModal: React.SFC<ConfirmModalProps> = ({
       theme={defaultConfig}
       footer={
         <React.Fragment>
-          <Button tone="light" onClick={handleCancel}>
+          <Button tone={Tone.Light} onClick={handleCancel}>
             {cancelText || t('form.cancelButton')}
           </Button>
           <Button tone={okTone} onClick={handleOk}>

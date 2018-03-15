@@ -6,6 +6,7 @@ import CenterDecorator from '../../storybook/CenterDecorator';
 import { Row, Col } from '../layout/Grid';
 import TextInput from '../dataEntry/TextInput';
 import { Button } from '../general/Button';
+import { Tone } from '../PropTypes';
 
 storiesOf('Layout / ActionBar', module)
   .addDecorator(CenterDecorator)
@@ -14,7 +15,7 @@ storiesOf('Layout / ActionBar', module)
     withInfo()(() => {
       return (
         <ActionBar>
-          <Button tone="light">Cancel</Button>
+          <Button tone={Tone.Light}>Cancel</Button>
           <Button>Save</Button>
         </ActionBar>
       );
@@ -27,7 +28,7 @@ storiesOf('Layout / ActionBar', module)
         <ActionBar>
           <Row middle="xs">
             <Col xs={6}>
-              <TextInput />
+              <TextInput name="text" />
             </Col>
             <Col xs={6}>
               <Button>Button</Button>

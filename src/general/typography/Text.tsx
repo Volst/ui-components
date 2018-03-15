@@ -5,10 +5,10 @@ import {
   StyledComponentClass,
   ThemeInterface,
 } from '../../styled-components';
-import { TonePropType } from '../../PropTypes';
+import { Tone } from '../../PropTypes';
 
 export interface TextProps extends ThemeProps {
-  tone?: TonePropType;
+  tone?: Tone;
   bold?: boolean;
   italic?: boolean;
   small?: boolean;

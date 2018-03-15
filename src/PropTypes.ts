@@ -6,10 +6,11 @@ export type OptionsPropType = {
   options?: OptionsPropType;
 }[];
 
-export type TonePropType =
-  | 'primary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'light'
-  | 'dark';
+export enum Tone {
+  Primary = 'primary',
+  Success = 'success',
+  Warning = 'warning',
+  Danger = 'danger',
+  Light = 'light',
+  Dark = 'dark',
+}
