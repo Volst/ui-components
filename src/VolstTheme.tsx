@@ -5,7 +5,7 @@ import * as RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
 import * as RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
 import * as RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
 import { defaultConfig, themeOverrides, ThemeInterface } from './config';
-import { mapValues } from 'lodash';
+import { mapValues, Dictionary } from 'lodash';
 
 const injectGlobalStyles = (theme: ThemeInterface) => injectGlobal`
   @font-face {

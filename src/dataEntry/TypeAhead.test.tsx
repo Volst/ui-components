@@ -2,17 +2,25 @@ import { addFlatIndexToOptions } from './TypeAhead';
 
 test('addFlatIndexToOptions', () => {
   const options = [
-    { value: 'a' },
-    { value: 'b', options: [{ value: 'c' }, { value: 'd' }] },
-    { value: 'e' },
+    { value: 'a', label: 'A' },
+    {
+      value: 'b',
+      label: 'B',
+      options: [{ value: 'c', label: 'C' }, { value: 'd', label: 'D' }],
+    },
+    { value: 'e', label: 'E' },
   ];
   const newOptions = addFlatIndexToOptions(options);
   expect(newOptions).toEqual([
-    { value: 'a', index: 0 },
+    { value: 'a', label: 'A', index: 0 },
     {
       value: 'b',
-      options: [{ value: 'c', index: 1 }, { value: 'd', index: 2 }],
+      label: 'B',
+      options: [
+        { value: 'c', label: 'C', index: 1 },
+        { value: 'd', label: 'D', index: 2 },
+      ],
     },
-    { value: 'e', index: 3 },
+    { value: 'e', label: 'E', index: 3 },
   ]);
 });
