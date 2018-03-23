@@ -5,13 +5,16 @@ import {
   ThemeInterface,
 } from '../styled-components';
 import { setLightness } from 'polished';
-import onClickOutside from 'react-onclickoutside';
+import onClickOutside, {
+  OnClickOutProps,
+  InjectedOnClickOutProps,
+} from 'react-onclickoutside';
 
 const RelativeWrapper = styled.div`
   position: relative;
 `;
 
-export interface DropdownProps {
+export interface DropdownProps extends InjectedOnClickOutProps {
   overlay: React.ReactElement<any>;
   opened?: boolean;
   onChange?: (value: boolean) => void;
@@ -53,7 +56,7 @@ class MyDropdown extends React.Component<DropdownProps, { opened: boolean }> {
   }
 }
 
-export const Dropdown: React.SFC<DropdownProps> = onClickOutside(MyDropdown);
+export const Dropdown = onClickOutside(MyDropdown);
 Dropdown.displayName = 'Dropdown';
 
 export const DropdownOverlay = styled.div`

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styled } from '../../styled-components';
 import { tint } from 'polished';
-import { Scrollbars } from 'react-custom-scrollbars';
+import Scrollbars from 'react-custom-scrollbars';
 
 export type AvailableTones = 'primary';
 

@@ -80,20 +80,19 @@ export default class NumberInput extends React.PureComponent<
     this.props.onBlur(this.props.name, this.parseValue(e));
   };
 
-  getMask(props) {
-    return createNumberMask(
-      pick(
-        props,
-        'prefix',
-        'suffix',
-        'includeThousandsSeparator',
-        'thousandsSeparatorSymbol',
-        'allowDecimal',
-        'allowNegative',
-        'decimalSymbol',
-        'decimalLimit'
-      )
+  getMask(props: NumberInputProps) {
+    const options = pick(
+      props,
+      'prefix',
+      'suffix',
+      'includeThousandsSeparator',
+      'thousandsSeparatorSymbol',
+      'allowDecimal',
+      'allowNegative',
+      'decimalSymbol',
+      'decimalLimit'
     );
+    return createNumberMask(options);
   }
 
   render() {

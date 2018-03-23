@@ -78,7 +78,7 @@ const StyledInput = styled(TextInput)`
 `;
 
 // Poor man's filtering.
-export function fuzzySearch(options, inputValue) {
+export function fuzzySearch(options: OptionsPropType, inputValue?: string) {
   return options.filter(o =>
     o.label.toLowerCase().includes((inputValue || '').toLowerCase())
   );
@@ -137,7 +137,7 @@ export default class FancySelect extends React.PureComponent<
     );
   };
 
-  itemToString(item) {
+  itemToString(item: any) {
     if (item == null) {
       return '';
     }

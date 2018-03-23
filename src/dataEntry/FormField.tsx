@@ -51,7 +51,7 @@ const ErrorTooltip = styled.div`
   }
 `;
 
-function validationErrorMapper(errorCode) {
+function validationErrorMapper(errorCode?: string) {
   // Fallback to untranslated error message.
   // Forcing to String is important, since the error code Binder uses when a field is null, is `null` (not as string).
   return t([`form.validationErrors.${String(errorCode)}`, String(errorCode)]);

@@ -4,9 +4,12 @@ import Dropdown from './Dropdown';
 import { Container, MultiPickButton } from './styles';
 import KeyboardArrowDown from '../../general/icon/IconKeyboardArrowDown';
 import { ValuePropType, OptionsPropType } from '../../PropTypes';
-import onClickOutside from 'react-onclickoutside';
+import onClickOutside, {
+  OnClickOutProps,
+  InjectedOnClickOutProps,
+} from 'react-onclickoutside';
 
-interface MultiPickProps {
+export interface MultiPickProps extends InjectedOnClickOutProps {
   options: OptionsPropType;
   value: ValuePropType[];
   searchAppearsAfterCount: number;
@@ -62,7 +65,7 @@ class MultiPick extends React.Component<MultiPickProps, MultiPickState> {
     });
   };
 
-  filterData(data, searchValue) {
+  filterData(data: OptionsPropType, searchValue: string) {
     if (searchValue !== '') {
       return data.filter(item => {
         return item.label.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0;

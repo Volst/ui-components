@@ -6,9 +6,23 @@ const period = '.';
 const minus = '-';
 const minusRegExp = /-/;
 const nonDigitsRegExp = /\D+/g;
-const number = 'number';
+const numberType = 'number';
 const digitRegExp = /\d/;
 const caretTrap = '[]';
+
+export interface NumberMaskOptions {
+  prefix?: string;
+  suffix?: string;
+  includeThousandsSeparator?: boolean;
+  thousandsSeparatorSymbol?: string;
+  allowDecimal?: boolean;
+  decimalSymbol?: string;
+  decimalLimit?: number;
+  requireDecimal?: boolean;
+  allowNegative?: boolean;
+  allowLeadingZeroes?: boolean;
+  integerLimit?: number;
+}
 
 export default function createNumberMask({
   prefix = dollarSign,
@@ -22,13 +36,13 @@ export default function createNumberMask({
   allowNegative = false,
   allowLeadingZeroes = false,
   integerLimit = null,
-} = {}) {
+}: NumberMaskOptions = {}) {
   const prefixLength = (prefix && prefix.length) || 0;
   const suffixLength = (suffix && suffix.length) || 0;
   const thousandsSeparatorSymbolLength =
     (thousandsSeparatorSymbol && thousandsSeparatorSymbol.length) || 0;
 
-  function numberMask(rawValue = emptyString) {
+  function numberMask(rawValue: string = emptyString) {
     const rawValueLength = rawValue.length;
 
     if (
@@ -87,7 +101,7 @@ export default function createNumberMask({
       }
     }
 
-    if (integerLimit && typeof integerLimit === number) {
+    if (integerLimit && typeof integerLimit === numberType) {
       const thousandsSeparatorRegex =
         thousandsSeparatorSymbol === '.'
           ? '[.]'
@@ -130,7 +144,7 @@ export default function createNumberMask({
       }
 
       if (fraction) {
-        if (typeof decimalLimit === number) {
+        if (typeof decimalLimit === numberType) {
           fraction = fraction.slice(0, decimalLimit);
         }
 
@@ -170,13 +184,13 @@ export default function createNumberMask({
   return numberMask;
 }
 
-function convertToMask(strNumber) {
+function convertToMask(strNumber: string) {
   return strNumber
     .split(emptyString)
     .map(char => (digitRegExp.test(char) ? digitRegExp : char));
 }
 
 // http://stackoverflow.com/a/10899795/604296
-function addThousandsSeparator(n, thousandsSeparatorSymbol) {
+function addThousandsSeparator(n: string, thousandsSeparatorSymbol: string) {
   return n.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparatorSymbol);
 }

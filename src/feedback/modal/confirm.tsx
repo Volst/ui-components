@@ -20,9 +20,13 @@ export interface ConfirmSharedProps {
   cancelText?: string;
 }
 
+export interface CloseProps {
+  triggerCancel: boolean;
+}
+
 export interface ConfirmModalProps extends ConfirmSharedProps {
   visible: boolean;
-  close: ({ triggerCancel: boolean }) => void;
+  close: (options: CloseProps) => void;
 }
 
 export interface ConfirmFunctionProps extends ConfirmSharedProps {
@@ -75,29 +79,29 @@ export default function confirm({
   theme = {},
   ...config
 }: ConfirmFunctionProps) {
-  let div = document.createElement('div');
+  const div = document.createElement('div');
   document.body.appendChild(div);
+  const { onCancel, ...renderConfig } = config;
 
-  function close(...args) {
+  function close(options: CloseProps) {
     render({
-      ...config,
+      ...renderConfig,
       close,
       visible: false,
-      afterClose: () => destroy(...args),
+      afterClose: () => destroy(options),
     });
   }
-  function destroy(...args) {
+  function destroy(options: CloseProps) {
     const unmountResult = ReactDOM.unmountComponentAtNode(div);
     if (unmountResult && div.parentNode) {
       div.parentNode.removeChild(div);
     }
-    const triggerCancel =
-      args && args.length && args.some(param => param && param.triggerCancel);
+    const triggerCancel = !!options && options.triggerCancel;
     if (config.onCancel && triggerCancel) {
       config.onCancel();
     }
   }
-  function render(props) {
+  function render(props: ConfirmModalProps) {
     // Since we are rendering a separate DOM we also need to initialize the ThemeProvider again.
     // Unfortunately there is no way to get the `theme` object, so the user needs to manually pass it.
     ReactDOM.render(
@@ -107,7 +111,7 @@ export default function confirm({
       div
     );
   }
-  render({ ...config, visible: true, close });
+  render({ ...renderConfig, visible: true, close });
   return {
     destroy: close,
   };

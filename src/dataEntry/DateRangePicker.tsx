@@ -10,8 +10,8 @@ import DatePickerWrapper from './DatePickerWrapper';
 import DayPicker from 'react-day-picker';
 import { ThemeInterface } from '../config';
 
-function toDate(moment) {
-  return moment ? moment.toDate() : undefined;
+function toDate(momentDate?: moment.Moment): Date | undefined {
+  return momentDate ? momentDate.toDate() : undefined;
 }
 
 interface CombinedInputProps extends ThemeProps {
@@ -80,8 +80,8 @@ class DateRangePicker extends React.Component<
 
   handleChange = day => {
     const range = DayPicker.DateUtils.addDayToRange(day, {
-      from: toDate(this.props.startDate),
-      to: toDate(this.props.endDate),
+      from: toDate(this.props.startDate)!,
+      to: toDate(this.props.endDate)!,
     });
     this.props.onChange(this.props.name, {
       startDate: range.from ? moment(range.from) : null,
@@ -149,10 +149,10 @@ class DateRangePicker extends React.Component<
               disabledDays={this.props.disabledDays}
               onWeekClick={this.handleWeekClick}
               selectedDays={[
-                _startDate,
+                _startDate!,
                 {
-                  from: _startDate,
-                  to: _endDate,
+                  from: _startDate!,
+                  to: _endDate!,
                 },
               ]}
             />

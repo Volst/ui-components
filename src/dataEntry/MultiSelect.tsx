@@ -218,7 +218,7 @@ export default class MultiSelect extends React.PureComponent<
     );
   };
 
-  itemToString(item) {
+  itemToString(item: any) {
     if (item == null) {
       return '';
     }

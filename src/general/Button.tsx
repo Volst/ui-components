@@ -4,21 +4,23 @@ import {
   css,
   StyledComponentClass,
   ThemeInterface,
+  ThemeProps,
 } from '../styled-components';
 import { Link as RouterLink } from 'react-router-dom';
 import { darken, tint, rgba } from 'polished';
 import { readableColor } from '../config';
 import { Tone } from '../PropTypes';
 import { showLoaderCss } from '../feedback/Loader';
+import { LocationDescriptor } from 'history';
 
-function insertSpanForTextNodes(child) {
+function insertSpanForTextNodes(child: React.ReactChild) {
   if (typeof child === 'string') {
     return <span>{child}</span>;
   }
   return child;
 }
 
-function getProps(props) {
+function getProps(props: any) {
   // I really really do not like this hack, but we can't pass made-up properties
   // to DOM elements without React giving a warning.
   const {
@@ -38,19 +40,22 @@ function getProps(props) {
   return newProps;
 }
 
-function getTextColor(props, backgroundColor) {
+function getTextColor(
+  props: ButtonProps & ThemeProps,
+  backgroundColor: string
+) {
   if (props.link) {
     return backgroundColor;
   }
   if (props.ghost) {
-    const color = props.tone ? backgroundColor : props.theme.textColor;
+    const color = props.tone ? backgroundColor : props.theme!.textColor;
     return props.disabled ? tint(0.3, color) : color;
   }
   return readableColor(backgroundColor);
 }
 
 export interface ButtonProps {
-  onClick?: (e) => void;
+  onClick?: (e: MouseEvent) => void;
   link?: boolean;
   ghost?: boolean;
   fullWidth?: boolean;
@@ -211,7 +216,7 @@ export const ExternalLink = styled(InnerExternalLink).attrs({
 ExternalLink.displayName = 'ExternalLink';
 
 export interface LinkProps extends ButtonProps {
-  to?: string;
+  to: LocationDescriptor;
 }
 
 const InnerLink: React.SFC<LinkProps> = props => {

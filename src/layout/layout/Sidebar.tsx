@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled, ThemeProps } from '../../styled-components';
-import { Scrollbars } from 'react-custom-scrollbars';
+import Scrollbars from 'react-custom-scrollbars';
 
 interface StyledAsideProps extends ThemeProps {
   medium?: boolean;

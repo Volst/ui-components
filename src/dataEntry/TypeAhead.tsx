@@ -22,9 +22,9 @@ export interface TypeAheadProps {
 
 // Options can be nested, but nested options should still have a unique index.
 // I'm sure there is a beter way, but I don't see it for now.
-export function addFlatIndexToOptions(options) {
+export function addFlatIndexToOptions(options: OptionsPropType) {
   let myIndex = -1;
-  function maybeAddIndex(option, index) {
+  function maybeAddIndex(option: any, index: number) {
     return option.options
       ? {
           ...option,
@@ -53,7 +53,13 @@ export default class TypeAhead extends React.PureComponent<TypeAheadProps> {
     }
   };
 
-  renderItem({ item, getItemProps, selectedItem, highlightedIndex, nested }) {
+  renderItem({
+    item,
+    getItemProps,
+    selectedItem,
+    highlightedIndex,
+    nested,
+  }: any) {
     if (item.options) {
       return (
         <React.Fragment key={item.value}>

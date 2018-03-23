@@ -20,7 +20,7 @@ class MaskedDateInput extends React.PureComponent {
     inputDateFormat: PropTypes.string,
   };
 
-  private input: MaskedInput;
+  private input: any = null;
 
   focus = () => {
     this.input.inputElement.focus();
@@ -32,7 +32,7 @@ class MaskedDateInput extends React.PureComponent {
 
   // In our config we have a date format like "dd-mm-yyyy". We need to translate this to an input mask like this;
   // [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-  getMaskBasedOnDateFormat(dateFormat) {
+  getMaskBasedOnDateFormat(dateFormat: string) {
     return dateFormat.split('').map(char => {
       if (/[a-z]/i.test(char)) {
         return /\d/;

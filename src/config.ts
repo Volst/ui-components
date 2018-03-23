@@ -59,8 +59,8 @@ export const themeOverrides = {
 
 // This uses YIQ to  calculate the color contrast.
 // Same calculation as Bootstrap uses, seems to work better than polished's `readableColor()`
-export function readableColor(color) {
+export function readableColor(color: string) {
   const { red, green, blue } = parseToRgb(color);
-  var yiq = (red * 299 + green * 587 + blue * 114) / 1000;
+  const yiq = (red * 299 + green * 587 + blue * 114) / 1000;
   return yiq >= 150 ? '#111' : '#fff';
 }

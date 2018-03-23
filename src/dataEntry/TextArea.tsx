@@ -97,7 +97,7 @@ export default class TextArea extends React.PureComponent<TextAreaProps, {}> {
 
   onChange = e => {
     if (!this.props.onChange) return;
-    let value = e.target.value;
+    const value = e.target.value;
     this.props.onChange(this.props.name, value);
   };
 
