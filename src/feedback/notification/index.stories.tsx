@@ -2,7 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import FullDecorator from '../../../storybook/FullDecorator';
-import NotificationStack from './Stack';
+import NotificationStack, { NotificationProps } from './Stack';
 import { action } from '@storybook/addon-actions';
 import { State } from 'react-powerplug';
 
@@ -58,7 +58,7 @@ storiesOf('Feedback / Notification', module)
       <State initial={{ notifications }}>
         {({ state, setState }) => (
           <NotificationStack
-            notifications={state.notifications}
+            notifications={state.notifications as NotificationProps[]}
             onDismiss={notification => {
               const newNotifications = state.notifications.slice();
               newNotifications.splice(
