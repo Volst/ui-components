@@ -67,6 +67,7 @@ export interface NavItemProps {
   to: string;
   onClick?: () => void;
   activePath?: string;
+  exact?: boolean;
 }
 
 export default class NavItem extends React.Component<NavItemProps, {}> {
@@ -83,6 +84,7 @@ export default class NavItem extends React.Component<NavItemProps, {}> {
         className="nav-item"
         activeClassName="active"
         isActive={activePath ? this.checkActive : undefined}
+        exact={this.props.exact}
       >
         {this.props.title}
       </StyledNavLink>

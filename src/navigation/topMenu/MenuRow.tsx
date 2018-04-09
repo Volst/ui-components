@@ -41,13 +41,13 @@ export default styled.div`
   ${(props: MenuRowProps) =>
     (props.inContent || '') &&
     `
-        margin: -20px -20px 0 -20px;
-        border-bottom: 1px solid ${props.theme!.borderColor};
-        .nav-item:after {
-            content: '';
-        }
-        .nav-item:before {
-            border-bottom-color: ${darken(0.1, props.theme!.borderColor)};
-        }
+      margin: -20px -20px 0 -20px;
+      border-bottom: 1px solid ${props.theme!.borderColor};
+      .nav-item:after {
+        content: '';
+      }
+      .nav-item:before {
+        border-bottom-color: ${darken(0.1, props.theme!.borderColor)};
+      }
     `};
 `;
