@@ -9,7 +9,7 @@ const Container = styled.div`
   justify-content: space-between;
   white-space: nowrap;
   overflow: hidden;
-  line-height: 1.45;
+  line-height: 1.5;
 `;
 
 const StyledLabel = styled.label`
