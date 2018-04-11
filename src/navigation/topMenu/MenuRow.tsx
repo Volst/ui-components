@@ -5,10 +5,14 @@ import {
   StyledComponentClass,
   ThemeInterface,
 } from '../../styled-components';
-import { darken } from 'polished';
+import { darken, rgba } from 'polished';
+import { Tone } from '../..';
+import { readableColor } from '../../config';
 
 export interface MenuRowProps extends ThemeProps {
   inContent?: boolean;
+  tone?: Tone;
+  arrowTone?: Tone;
 }
 
 export default styled.div`
@@ -22,21 +26,30 @@ export default styled.div`
     height: 10px;
   }
 
-  &:nth-child(even) {
-    background: ${props => props.theme.darkColor};
-    color: white;
+  ${(props: MenuRowProps) => {
+    const bgColor = props.tone
+      ? props.theme![`${props.tone}Color`]
+      : props.theme!.componentBackground;
+    const textColor = readableColor(bgColor);
+    const arrowColor = props.arrowTone
+      ? props.theme![`${props.arrowTone}Color`]
+      : props.theme!.componentBackground;
+    return `
+      background: ${bgColor};
+      color: ${textColor};
 
-    .nav-item {
-      &:hover,
-      &:focus {
-        background: rgba(255, 255, 255, 0.1);
-      }
+      .nav-item {
+        &:hover,
+        &:focus {
+          background: ${rgba(textColor, 0.1)};
+        }
 
-      &:before {
-        border-bottom-color: #fff;
+        &:before {
+          border-bottom-color: ${arrowColor};
+        }
       }
-    }
-  }
+    `;
+  }};
 
   ${(props: MenuRowProps) =>
     (props.inContent || '') &&

@@ -15,16 +15,17 @@ import Content from '../../layout/layout/Content';
 import AppContainer from '../../layout/layout/AppContainer';
 import Center from '../../general/typography/Center';
 import { Text } from '../../general/typography/Text';
+import { Tone } from '../..';
 
 storiesOf('Navigation / TopMenu', module)
   .addDecorator(FullDecorator)
   .add(
-    'two levels',
+    'one level',
     withInfo()(() => {
       return (
         <TopMenu>
-          <MenuRow>
-            <Logo>TMS</Logo>
+          <MenuRow tone={Tone.Dark}>
+            <Logo>Volst</Logo>
             <NavMenu>
               <NavItem
                 title="Orders"
@@ -45,7 +46,38 @@ storiesOf('Navigation / TopMenu', module)
               to="/account"
             />
           </MenuRow>
-          <MenuRow>
+        </TopMenu>
+      );
+    })
+  )
+  .add(
+    'two levels',
+    withInfo()(() => {
+      return (
+        <TopMenu>
+          <MenuRow arrowTone={Tone.Dark}>
+            <Logo>Volst</Logo>
+            <NavMenu>
+              <NavItem
+                title="Orders"
+                to="/orders/planning"
+                activePath="/orders"
+              />
+              <NavItem title="Settings" to="/settings" />
+            </NavMenu>
+            <NavItem
+              title={
+                <Center>
+                  <Text compact>Name</Text>
+                  <Text small compact>
+                    Company
+                  </Text>
+                </Center>
+              }
+              to="/account"
+            />
+          </MenuRow>
+          <MenuRow tone={Tone.Dark}>
             <Route
               path="/orders"
               render={() => [
@@ -72,8 +104,8 @@ storiesOf('Navigation / TopMenu', module)
       return (
         <AppContainer>
           <TopMenu>
-            <MenuRow>
-              <Logo>TMS</Logo>
+            <MenuRow arrowTone={Tone.Dark}>
+              <Logo>Volst</Logo>
               <NavMenu>
                 <NavItem
                   title="Orders"
@@ -82,7 +114,7 @@ storiesOf('Navigation / TopMenu', module)
                 />
               </NavMenu>
             </MenuRow>
-            <MenuRow>
+            <MenuRow tone={Tone.Dark}>
               <NavItem
                 title="Invoices"
                 to="/orders/invoices/due"
@@ -109,8 +141,8 @@ storiesOf('Navigation / TopMenu', module)
     withInfo()(() => {
       return (
         <TopMenu>
-          <MenuRow>
-            <Logo>TMS</Logo>
+          <MenuRow arrowTone={Tone.Dark}>
+            <Logo>Volst</Logo>
             <NavMenu>
               <NavItem
                 title="Orders"
@@ -122,7 +154,7 @@ storiesOf('Navigation / TopMenu', module)
             </NavMenu>
             <NavItem title="Account" to="/account" />
           </MenuRow>
-          <MenuRow>
+          <MenuRow tone={Tone.Dark}>
             <Route
               path="/orders"
               render={() => [
