@@ -1,4 +1,5 @@
 import { injectGlobal, keyframes } from '../../styled-components';
+import { ThemeInterface } from '../../config';
 
 const rcDialogZoomIn = keyframes`
   0% {
@@ -39,7 +40,7 @@ const rcDialogFadeOut = keyframes`
   }
 `;
 
-export default theme => injectGlobal`
+export default (theme: ThemeInterface) => injectGlobal`
   .rc-dialog {
     position: relative;
     width: auto;
@@ -55,7 +56,7 @@ export default theme => injectGlobal`
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1050;
+    z-index: ${theme.zIndexModal};
     -webkit-overflow-scrolling: touch;
     outline: 0;
     padding: 10px;
@@ -153,7 +154,7 @@ export default theme => injectGlobal`
     background-color: #373737;
     background-color: rgba(55, 55, 55, 0.6);
     height: 100%;
-    z-index: 1050;
+    z-index: ${theme.zIndexModal};
   }
   .rc-dialog-mask-hidden {
     display: none;
