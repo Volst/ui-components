@@ -32,7 +32,7 @@ const StyledLoader = styled.div`
   width: 18px;
   height: 18px;
   margin: 5px;
-  transition: 200ms all linear;
+  transition: box-shadow 200ms linear;
   ${(props: StyledLoaderProps) => (props.show || '') && showLoaderCss};
 `;
 
