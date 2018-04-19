@@ -11,4 +11,16 @@ storiesOf('Feedback / Loader', module)
     withInfo()(() => {
       return <Loader show />;
     })
+  )
+  .add(
+    'delay',
+    withInfo()(() => {
+      return <Loader delay show />;
+    })
+  )
+  .add(
+    'custom delay',
+    withInfo()(() => {
+      return <Loader delay={1000} show />;
+    })
   );
