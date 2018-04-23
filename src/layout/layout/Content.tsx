@@ -26,12 +26,13 @@ interface MainProps {
   blur?: boolean;
   center?: boolean;
   small?: boolean;
+  compact?: boolean;
 }
 
 const Main = styled.main`
   margin: 0 auto;
   max-width: ${props => (props.small ? '400px' : '1500px')};
-  padding: 25px;
+  padding: ${props => (props.compact ? '0 25px' : '25px')};
   ${(props: MainProps) =>
     (props.blur || '') &&
     `
@@ -56,11 +57,17 @@ export interface ContentProps {
   blur?: boolean;
   tone?: AvailableTones;
   small?: boolean;
+  compact?: boolean;
 }
 
 const Content: React.SFC<ContentProps> = props => (
   <StyledScrollbars tone={props.tone}>
-    <Main center={props.center} blur={props.blur} small={props.small}>
+    <Main
+      center={props.center}
+      blur={props.blur}
+      small={props.small}
+      compact={props.compact}
+    >
       {props.children}
     </Main>
   </StyledScrollbars>
