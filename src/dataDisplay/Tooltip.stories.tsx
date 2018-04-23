@@ -11,7 +11,10 @@ storiesOf('Data Display / Tooltip', module)
     'standard',
     withInfo()(() => {
       return (
-        <Tooltip message="Hey, I am a message from a tooltip" direction="se">
+        <Tooltip
+          message="Hey, I am a message from a tooltip"
+          direction="bottom"
+        >
           <IconInfo />
         </Tooltip>
       );

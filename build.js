@@ -22,6 +22,7 @@ const external = [
   'i18next',
   'rc-dialog',
   'rc-util/lib/Dom/addEventListener',
+  'rc-tooltip',
   'react-day-picker/DayPickerInput',
   'react-day-picker/moment',
   'react-day-picker',
