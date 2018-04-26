@@ -19,6 +19,7 @@ export interface TooltipProps {
     | 'bottomLeft'
     | 'bottomRight';
   theme: ThemeInterface;
+  mouseLeaveDelay?: number;
 }
 const globalStyles = (theme: ThemeInterface) => injectGlobal`
   .rc-tooltip {
@@ -159,6 +160,7 @@ class Tooltip extends React.Component<TooltipProps, {}> {
       <RTooltip
         placement={this.props.direction || 'bottom'}
         overlay={<span>{this.props.message}</span>}
+        mouseLeaveDelay={this.props.mouseLeaveDelay || 0}
       >
         {children}
       </RTooltip>
