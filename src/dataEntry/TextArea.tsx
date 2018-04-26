@@ -67,7 +67,7 @@ const StyledAutoTextarea = (StyledTextarea as any).withComponent(
 
 export interface TextAreaProps {
   onChange?: (name: string, value: string) => void;
-  onBlur?: () => void;
+  onBlur?: (name: string, value: string) => void;
   onFocus?: () => void;
   placeholder?: string;
   name: string;
@@ -97,8 +97,12 @@ export default class TextArea extends React.PureComponent<TextAreaProps, {}> {
 
   onChange = e => {
     if (!this.props.onChange) return;
-    const value = e.target.value;
-    this.props.onChange(this.props.name, value);
+    this.props.onChange(this.props.name, e.target.value);
+  };
+
+  onBlur = e => {
+    if (!this.props.onBlur) return;
+    this.props.onBlur(this.props.name, e.target.value);
   };
 
   render() {
@@ -114,7 +118,7 @@ export default class TextArea extends React.PureComponent<TextAreaProps, {}> {
       hasError: this.props.hasError || this.context.formFieldHasError,
       placeholder: this.props.placeholder,
       onChange: this.onChange,
-      onBlur: this.props.onBlur,
+      onBlur: this.onBlur,
       onFocus: this.props.onFocus,
       className: this.props.className,
       spellCheck: this.props.spellCheck === false ? false : undefined,
