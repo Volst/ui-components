@@ -96,6 +96,7 @@ storiesOf('General / Typography', module)
           <Text>
             An inline code block: <Code>An inline code block.</Code>
           </Text>
+          <Subheading underline>A subheading with an underline</Subheading>
         </div>
       );
     })
