@@ -2,13 +2,13 @@ To get started, clone this repository and run `yarn install`.
 
 After that, you can run Storybook with `yarn start`. In your browser, open `http://localhost:9001`. Storybook is an UI development environment; you can see all components separately here and visually test them.
 
-The components you see in Storybook are generated from `*.stories.js` files in the `src/` directory.
+The components you see in Storybook are generated from `*.stories.tsx` files in the `src/` directory.
 
 ## Adding a feature
 
-Every component should have a `.stories.js` file. For components that do not make sense on it's own (e.g. `src/layout/*.js`), you could make an `index.stories.js` file (e.g. `src/layout/index.stories.js`).
+Every component should have a `.stories.tsx` file. For components that do not make sense on it's own (e.g. `src/layout/*.tsx`), you could make an `index.stories.tsx` file (e.g. `src/layout/index.stories.tsx`).
 
-When adding a feature, whether that is a whole component or a prop, please make sure to add/update the respective `stories.js` file.
+When adding a feature, whether that is a whole component or a prop, please make sure to add/update the respective `stories.tsx` file.
 You can add a new story to the file for each prop or combine a couple of different props in one story.
 
 ## Publishing changes
