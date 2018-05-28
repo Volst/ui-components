@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
   styled,
   ThemeProps,
-  StyledComponentClass,
+  StyledComponent,
   ThemeInterface,
 } from '../styled-components';
 import AutoTextarea from 'react-textarea-autosize';

@@ -6,7 +6,7 @@ import styled from '../styled-components';
 import { t } from 'i18next';
 import { Tone } from '../PropTypes';
 
-const PageCount = styled.div`
+const PageCount = styled('div')`
   margin-right: 4px;
   padding: 0 8px;
   display: inline-block;

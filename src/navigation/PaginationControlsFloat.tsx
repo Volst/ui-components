@@ -8,16 +8,16 @@ import { Tone } from '../PropTypes';
 import { PaginationControlsProps } from './PaginationControls';
 
 interface StyledButtonProps extends ButtonProps {
-  roundedright?: string;
+  roundedRight?: boolean;
 }
 
-const StyledButton = styled(Button)`
+const StyledButton = styled<StyledButtonProps, {}>(Button)`
   margin: 0;
-  border-radius: ${(props: StyledButtonProps) =>
-    props.roundedright ? '0 4px 4px 0' : '4px 0 0 4px'};
+  border-radius: ${props =>
+    props.roundedRight ? '0 4px 4px 0' : '4px 0 0 4px'};
 `;
 
-const PageCount = styled.div`
+const PageCount = styled('div')`
   flex: 1;
   margin-left: -4px;
   padding: 0 8px;
@@ -30,17 +30,17 @@ interface PaginationWrapperProps {
   bottom: string;
 }
 
-const PaginationWrapper = styled.div`
+const PaginationWrapper = styled<PaginationWrapperProps, 'div'>('div')`
   width: 150px;
   background: #fff;
   border-radius: 4px;
   display: flex;
   position: fixed;
   z-index: 10;
-  bottom: ${(props: PaginationWrapperProps) => props.bottom};
+  bottom: ${props => props.bottom};
 `;
 
-const PaginationPlaceholder = styled.div`
+const PaginationPlaceholder = styled('div')`
   width: 150px;
   margin-left: calc(50% - 75px);
   height: 38px;
@@ -70,7 +70,7 @@ export default class PaginationControlsFloat extends React.Component<
           <StyledButton
             onClick={this.props.handleNext}
             disabled={!this.props.hasNextPage}
-            roundedright="true"
+            roundedRight
           >
             <IconNavigateNext />
           </StyledButton>

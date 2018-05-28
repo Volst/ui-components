@@ -111,7 +111,7 @@ function getBackgroundColor(props: StyledItemProps) {
   }
 }
 
-const StyledItem = styled.div`
+const StyledItem = styled<StyledItemProps, 'div'>('div')`
   width: 250px;
   padding: 10px 40px 10px 14px;
   color: ${props => readableColor(getBackgroundColor(props))};

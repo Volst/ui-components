@@ -4,7 +4,7 @@ import Downshift from 'downshift';
 import {
   styled,
   ThemeProps,
-  StyledComponentClass,
+  StyledComponent,
   ThemeInterface,
 } from '../styled-components';
 import { setLightness } from 'polished';
@@ -17,12 +17,12 @@ import { Button } from '../general/Button';
 import { ValuePropType, OptionsPropType } from '../PropTypes';
 import { rgba } from 'polished';
 
-export const DropdownContainer = styled.div`
+export const DropdownContainer = styled('div')`
   position: relative;
   width: 100%;
 `;
 
-export const Dropdown = styled.div`
+export const Dropdown = styled('div')`
   width: 100%;
   border: 1px solid ${props => rgba(props.theme.primaryColor, 0.75)};
   border-top-color: ${props => props.theme.borderColor};
@@ -34,7 +34,7 @@ export const Dropdown = styled.div`
   z-index: ${props => props.theme.zIndexFancySelectDropdown};
 `;
 
-export const DropdownToggle = styled.div`
+export const DropdownToggle = styled('div')`
   position: absolute;
   top: 50%;
   right: 0;
@@ -47,8 +47,8 @@ export interface DropdownItemProps extends ThemeProps {
   nested?: boolean;
 }
 
-export const DropdownItem = styled.div`
-  ${(props: DropdownItemProps) => {
+export const DropdownItem = styled<DropdownItemProps, 'div'>('div')`
+  ${props => {
     const background = props.highlighted
       ? setLightness(0.93, props.theme!.primaryColor)
       : props.theme!.componentBackground;
@@ -65,7 +65,7 @@ export const DropdownItem = styled.div`
   text-overflow: ellipsis;
 `;
 
-export const DropdownGroupLabel = styled.div`
+export const DropdownGroupLabel = styled('div')`
   background: ${props => props.theme.componentBackground};
   font-weight: bold;
   color: ${props => readableColor(props.theme.componentBackground)};

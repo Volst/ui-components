@@ -1,10 +1,12 @@
 import * as React from 'react';
-import * as styledComponents from 'styled-components';
-import {
-  ThemedStyledComponentsModule,
-  StyledFunction,
-  StyledComponentClass,
-} from 'styled-components';
+import eStyled, {
+  css,
+  injectGlobal,
+  keyframes,
+  ThemedReactEmotionInterface,
+  StyledComponent,
+} from 'react-emotion';
+import { ThemeProvider, withTheme } from 'emotion-theming';
 
 import { ThemeInterface } from './config';
 
@@ -12,27 +14,17 @@ interface ThemeProps {
   theme?: ThemeInterface;
 }
 
-const {
-  default: styled,
-  css,
-  injectGlobal,
-  keyframes,
-  ThemeProvider,
-} = styledComponents as ThemedStyledComponentsModule<ThemeInterface>;
-
-// Just re-exporting withTheme like the other variables above doesn't work, so we ignore this one.
-const withTheme = styledComponents.withTheme;
+const styled = eStyled as ThemedReactEmotionInterface<ThemeInterface>;
 
 export {
+  styled,
   css,
   injectGlobal,
   keyframes,
+  ThemeProps,
+  StyledComponent,
+  ThemeInterface,
   ThemeProvider,
   withTheme,
-  styled,
-  ThemeProps,
-  StyledFunction,
-  StyledComponentClass,
-  ThemeInterface,
 };
 export default styled;

@@ -5,7 +5,7 @@ import { Tone } from '../PropTypes';
 import KeyboardArrowDown from '../general/icon/IconKeyboardArrowDown';
 import KeyboardArrowUp from '../general/icon/IconKeyboardArrowUp';
 
-const StyledContainer = styled.div`
+const StyledContainer = styled('div')`
   background-color: ${props => props.theme.lightColor};
   border-radius: 4px;
   margin-bottom: 10px;
@@ -14,10 +14,10 @@ const StyledContainer = styled.div`
 interface StyledContentProps {
   background?: string;
 }
-const StyledContent = styled.div`
+const StyledContent = styled<StyledContentProps, 'div'>('div')`
   padding: 10px;
 
-  ${(props: StyledContentProps) =>
+  ${props =>
     props.background
       ? `
         background: ${props.background};
@@ -26,12 +26,12 @@ const StyledContent = styled.div`
       : ''};
 `;
 
-const StyledTitle = styled.div`
+const StyledTitle = styled('div')`
   flex: 1;
   padding: 10px;
 `;
 
-const StyledTitleContainer = styled.div`
+const StyledTitleContainer = styled('div')`
   position: relative;
   display: flex;
   align-items: center;

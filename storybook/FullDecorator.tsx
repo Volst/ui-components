@@ -1,9 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled from 'react-emotion';
 import PageBootstrap from './PageBootstrap';
 
 // Ugly hacks because Storybook inserts two divs between the <body> and our React component root
-const Wrapper = styled.div`
+const Wrapper = styled('div')`
   height: 100%;
 
   > div,

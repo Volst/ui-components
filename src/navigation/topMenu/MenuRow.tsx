@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   styled,
   ThemeProps,
-  StyledComponentClass,
+  StyledComponent,
   ThemeInterface,
 } from '../../styled-components';
 import { darken, rgba } from 'polished';
@@ -15,7 +15,7 @@ export interface MenuRowProps extends ThemeProps {
   arrowTone?: Tone;
 }
 
-export default styled.div`
+export default styled<MenuRowProps, 'div'>('div')`
   height: 35px;
   display: flex;
   align-items: stretch;
@@ -26,7 +26,7 @@ export default styled.div`
     height: 10px;
   }
 
-  ${(props: MenuRowProps) => {
+  ${props => {
     const bgColor = props.tone
       ? props.theme![`${props.tone}Color`]
       : props.theme!.componentBackground;
@@ -51,7 +51,7 @@ export default styled.div`
     `;
   }};
 
-  ${(props: MenuRowProps) =>
+  ${props =>
     (props.inContent || '') &&
     `
       margin: -20px -20px 0 -20px;

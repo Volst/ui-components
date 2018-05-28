@@ -47,7 +47,7 @@ export default class NotificationStack extends React.Component<
   }
 }
 
-const StackWrapper = styled.div`
+const StackWrapper = styled('div')`
   position: fixed;
   top: 20px;
   z-index: ${props => props.theme.zIndexNotificationStack};

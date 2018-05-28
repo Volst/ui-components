@@ -4,21 +4,13 @@ import { styled, ThemeProps } from '../styled-components';
 import { t } from 'i18next';
 import { OptionsPropType } from '../PropTypes';
 
-interface StyledSelectProps
-  extends ThemeProps,
-    React.SelectHTMLAttributes<HTMLSelectElement> {
+interface StyledSelectProps extends ThemeProps {
   autoWidth?: boolean;
   hasError?: boolean;
 }
 
-const InnerSelect: React.SFC<StyledSelectProps> = ({
-  autoWidth,
-  hasError,
-  ...props
-}) => <select {...props} />;
-
-const StyledSelect = styled(InnerSelect)`
-  width: ${(props: StyledSelectProps) => (props.autoWidth ? 'auto' : '100%')};
+const StyledSelect = styled<StyledSelectProps, 'select'>('select')`
+  width: ${props => (props.autoWidth ? 'auto' : '100%')};
   height: 30px;
   font-size: 14px;
   color: ${props => props.theme.textColor};
@@ -37,8 +29,7 @@ const StyledSelect = styled(InnerSelect)`
 
   &:focus {
     border: 1px solid
-      ${(props: StyledSelectProps) =>
-        (!props.hasError || '') && props.theme!.primaryColor};
+      ${props => (!props.hasError || '') && props.theme!.primaryColor};
   }
 
   &:disabled {

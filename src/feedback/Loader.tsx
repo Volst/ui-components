@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   styled,
   keyframes,
-  StyledComponentClass,
+  StyledComponent,
   ThemeInterface,
 } from '../styled-components';
 
@@ -28,12 +28,12 @@ export interface StyledLoaderProps {
 }
 
 // Duplicated width+height to prevent jumping when loader is not shown.
-const StyledLoader = styled.div`
+const StyledLoader = styled<StyledLoaderProps, 'div'>('div')`
   width: 18px;
   height: 18px;
   margin: 5px;
   transition: box-shadow 200ms linear;
-  ${(props: StyledLoaderProps) => (props.show || '') && showLoaderCss};
+  ${props => (props.show || '') && showLoaderCss};
 `;
 
 export interface LoaderProps {

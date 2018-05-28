@@ -29,11 +29,11 @@ interface MainProps {
   compact?: boolean;
 }
 
-const Main = styled.main`
+const Main = styled<MainProps, 'main'>('main')`
   margin: 0 auto;
   max-width: ${props => (props.small ? '400px' : '1500px')};
   padding: ${props => (props.compact ? '0 25px' : '25px')};
-  ${(props: MainProps) =>
+  ${props =>
     (props.blur || '') &&
     `
       filter: blur(2px) grayscale(40%);

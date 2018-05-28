@@ -9,13 +9,12 @@ interface StyledDivProps extends ThemeProps {
   focus?: boolean;
 }
 
-const StyledDiv = styled.div`
+const StyledDiv = styled<StyledDivProps, 'div'>('div')`
   -webkit-touch-callout: none;
   user-select: none;
   display: flex;
   align-items: stretch;
-  flex-direction: ${(props: StyledDivProps) =>
-    props.vertical ? 'column' : 'row'};
+  flex-direction: ${props => (props.vertical ? 'column' : 'row')};
   flex-wrap: nowrap;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -32,13 +31,13 @@ interface OptionProps {
   vertical?: boolean;
 }
 
-const Option = styled.div`
+const Option = styled<OptionProps, 'div'>('div')`
   flex: 1;
   display: flex;
   justify-content: center;
 
   &:first-child > label {
-    ${(props: OptionProps) =>
+    ${props =>
       props.vertical
         ? `
           border-top-left-radius: 4px;
@@ -71,10 +70,9 @@ interface StyledLabelProps extends ThemeProps {
   disabled?: boolean;
 }
 
-const StyledLabel = styled.label`
+const StyledLabel = styled<StyledLabelProps, 'label'>('label')`
   flex: 1;
-  cursor: ${(props: StyledLabelProps) =>
-    props.disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   padding: 5px;
   text-align: center;
   border: 1px solid ${props => props.theme.borderColor};
@@ -100,12 +98,12 @@ interface StyledInputProps extends ThemeProps {
   disabled?: boolean;
 }
 
-const StyledInput = styled.input`
+const StyledInput = styled<StyledInputProps, 'input'>('input')`
   position: fixed;
   left: -999999px;
   opacity: 0;
   &:checked + label {
-    ${(props: StyledInputProps) => {
+    ${props => {
       const background = props.disabled
         ? props.theme!.borderColor
         : props.theme!.primaryColor;

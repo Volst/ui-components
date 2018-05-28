@@ -1,13 +1,13 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled from 'react-emotion';
 import PageBootstrap from './PageBootstrap';
 
-const Background = styled.div`
+const Background = styled('div')`
   background: #f9f9f9;
   width: 100%;
   height: 100%;
 `;
-const Wrapper = styled.div`
+const Wrapper = styled('div')`
   background: ${props => props.theme.bodyBackground || '#fff'};
   width: 350px;
   padding: 30px;

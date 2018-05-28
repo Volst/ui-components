@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '../styled-components';
 
-const StyledDiv = styled.div`
+const StyledDiv = styled('div')`
   margin: 10px 0;
   width: 100%;
   display: flex;

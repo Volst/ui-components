@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   styled,
-  StyledComponentClass,
+  StyledComponent,
   ThemeInterface,
 } from '../../styled-components';
 import { NavLink, NavLinkProps } from 'react-router-dom';

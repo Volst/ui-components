@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   styled,
   css,
-  StyledComponentClass,
+  StyledComponent,
   ThemeInterface,
   ThemeProps,
 } from '../styled-components';
@@ -21,18 +21,7 @@ function insertSpanForTextNodes(child: React.ReactChild) {
 }
 
 function getProps(props: any) {
-  // I really really do not like this hack, but we can't pass made-up properties
-  // to DOM elements without React giving a warning.
-  const {
-    ghost,
-    link,
-    fullWidth,
-    tone,
-    children,
-    small,
-    loading,
-    ...newProps
-  } = props;
+  const { ...newProps } = props;
   newProps.children = React.Children.map(
     props.children,
     insertSpanForTextNodes
@@ -66,8 +55,8 @@ export interface ButtonProps {
   tabIndex?: number;
 }
 
-const styles = css`
-  display: ${(props: ButtonProps) => (props.link ? 'inline' : 'inline-flex')};
+const StyledButton = styled<ButtonProps, 'button'>('button')`
+  display: ${props => (props.link ? 'inline' : 'inline-flex')};
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -107,8 +96,9 @@ const styles = css`
   `};
 
   ${props => {
-    const backgroundColor =
-      props.theme[`${props.tone || 'buttonPrimary'}Color`];
+    const backgroundColor = props.theme![
+      `${props.tone || 'buttonPrimary'}Color`
+    ];
     const textColor = getTextColor(props, backgroundColor);
 
     if (props.link)
@@ -187,48 +177,35 @@ export interface FullButtonProps extends ButtonProps {
 }
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
-const InnerButton: React.SFC<FullButtonProps> = props => (
-  <button type="button" {...getProps(props)} />
+export const Button: React.SFC<FullButtonProps> = props => (
+  <StyledButton button="button" disabled={props.loading} {...getProps(props)} />
 );
-export const Button = styled(InnerButton).attrs({
-  disabled: props => props.disabled || props.loading,
-})`
-  ${styles};
-`;
 Button.displayName = 'Button';
 
 export interface ExternalLinkProps extends ButtonProps {
   href?: string;
 }
 
-const InnerExternalLink: React.SFC<ExternalLinkProps> = props => {
-  if (props.disabled) {
-    return <button {...getProps(props)} />;
-  }
-  return <a {...getProps(props)} />;
-};
+const StyledExternalLink = StyledButton.withComponent('a');
 
-export const ExternalLink = styled(InnerExternalLink).attrs({
-  disabled: props => props.disabled || props.loading,
-})`
-  ${styles};
-`;
+export const ExternalLink: React.SFC<ExternalLinkProps> = props => {
+  if (props.disabled) {
+    return <StyledButton {...getProps(props)} />;
+  }
+  return <StyledExternalLink {...getProps(props)} />;
+};
 ExternalLink.displayName = 'ExternalLink';
 
 export interface LinkProps extends ButtonProps {
   to: LocationDescriptor;
 }
 
-const InnerLink: React.SFC<LinkProps> = props => {
-  if (props.disabled) {
-    return <button {...getProps(props)} />;
-  }
-  return <RouterLink {...getProps(props)} />;
-};
+const StyledLink = StyledButton.withComponent(RouterLink as any);
 
-export const Link = styled(InnerLink).attrs({
-  disabled: props => props.disabled || props.loading,
-})`
-  ${styles};
-`;
+export const Link: React.SFC<LinkProps> = props => {
+  if (props.disabled) {
+    return <StyledButton {...getProps(props)} />;
+  }
+  return <StyledLink {...getProps(props)} />;
+};
 Link.displayName = 'Link';

@@ -24,7 +24,7 @@ interface InputValueWrapperProps extends ThemeProps {
 }
 
 // This should look like <TextInput /> as much as possible.
-const InputValueWrapper = styled.div`
+const InputValueWrapper = styled<InputValueWrapperProps, 'div'>('div')`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -35,7 +35,7 @@ const InputValueWrapper = styled.div`
   border-radius: 4px;
   outline: 0;
 
-  ${(props: InputValueWrapperProps) =>
+  ${props =>
     (props.disabled || '') &&
     `
       background: ${props.theme!.disabledColor};
@@ -65,9 +65,8 @@ interface TagValueProps extends ThemeProps {
   disabled?: boolean;
 }
 
-const TagValue = styled.div`
-  background: ${(props: TagValueProps) =>
-    props.disabled ? '#aaa' : props.theme!.primaryColor};
+const TagValue = styled<TagValueProps, 'div'>('div')`
+  background: ${props => (props.disabled ? '#aaa' : props.theme!.primaryColor)};
   color: ${props => readableColor(props.theme!.primaryColor)};
   padding: 3px 5px;
   border-radius: 2px;
@@ -77,7 +76,7 @@ const TagValue = styled.div`
   max-width: 100%;
 `;
 
-const TagText = styled.div`
+const TagText = styled('div')`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -99,7 +98,7 @@ const Input = styled(AutosizeInput)`
 `;
 
 // TODO: I got lazy
-const CloseButton = styled.span`
+const CloseButton = styled('span')`
   cursor: pointer;
   margin-left: 4px;
 `;

@@ -4,14 +4,15 @@ const typescript = require('rollup-plugin-typescript2');
 process.env.NODE_ENV = 'production';
 
 const external = [
-  'styled-components',
+  'emotion',
+  'emotion-theming',
+  'react-emotion',
   'react',
   'react-dom',
   'prop-types',
   'polished',
   'moment',
   'react-custom-scrollbars',
-  'react-styled-flexboxgrid',
   'react-router-dom',
   'react-text-mask',
   'react-input-autosize',

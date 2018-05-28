@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import ActionBar from './ActionBar';
 import CenterDecorator from '../../storybook/CenterDecorator';
-import { Row, Col } from '../layout/Grid';
+import { Row, Col } from '../layout/grid';
 import TextInput from '../dataEntry/TextInput';
 import { Button } from '../general/Button';
 import { Tone } from '../PropTypes';

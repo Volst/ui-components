@@ -12,17 +12,17 @@ interface FieldProps {
   noPadding?: boolean;
 }
 
-const Field = styled.div`
+const Field = styled<FieldProps, 'div'>('div')`
   width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
-  padding: ${(props: FieldProps) => (props.noPadding ? `0` : '0 0 15px')};
+  padding: ${props => (props.noPadding ? `0` : '0 0 15px')};
 `;
 
 // TODO: This tooltip should definitely be its own component
-const ErrorTooltip = styled.div`
+const ErrorTooltip = styled('div')`
   position: absolute;
   top: 100%;
   font-size: 14px;

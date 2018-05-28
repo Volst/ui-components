@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import { styled } from '../styled-components';
 
-const StyledForm = styled.form`
+const StyledForm = styled('form')`
   display: inherit;
   flex-grow: 1;
   flex-direction: inherit;

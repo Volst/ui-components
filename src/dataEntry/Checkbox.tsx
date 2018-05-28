@@ -5,17 +5,16 @@ interface StyledLabelProps {
   disabled: boolean;
 }
 
-const StyledLabel = styled.label`
+const StyledLabel = styled<StyledLabelProps, 'label'>('label')`
   width: 100%;
   display: block;
   margin-bottom: 3px;
-  cursor: ${(props: StyledLabelProps) =>
-    props.disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   display: flex;
   word-break: break-word;
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled('input')`
   margin-right: 5px;
 `;
 

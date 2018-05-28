@@ -1,16 +1,12 @@
 import * as React from 'react';
-import {
-  styled,
-  StyledComponentClass,
-  ThemeInterface,
-} from '../styled-components';
+import { styled, StyledComponent, ThemeInterface } from '../styled-components';
 import { setLightness } from 'polished';
 import onClickOutside, {
   OnClickOutProps,
   InjectedOnClickOutProps,
 } from 'react-onclickoutside';
 
-const RelativeWrapper = styled.div`
+const RelativeWrapper = styled('div')`
   position: relative;
 `;
 
@@ -59,13 +55,13 @@ class MyDropdown extends React.Component<DropdownProps, { opened: boolean }> {
 export const Dropdown = onClickOutside(MyDropdown);
 Dropdown.displayName = 'Dropdown';
 
-export const DropdownOverlay = styled.div`
+export const DropdownOverlay = styled('div')`
   position: absolute;
   z-index: ${props => props.theme.zIndexDropdownMenu};
   margin-top: 2px;
 `;
 
-export const DropdownMenu = styled.div`
+export const DropdownMenu = styled('div')`
   background: ${props => props.theme.componentBackground};
   border-radius: 5px;
   display: flex;
@@ -74,7 +70,7 @@ export const DropdownMenu = styled.div`
   overflow: hidden;
 `;
 
-export const DropdownItem = styled.div`
+export const DropdownItem = styled('div')`
   padding: 10px 15px;
   color: ${props => props.theme.textColor};
   cursor: pointer;

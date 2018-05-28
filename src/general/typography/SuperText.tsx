@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   styled,
-  StyledComponentClass,
+  StyledComponent,
   ThemeInterface,
 } from '../../styled-components';
 
@@ -10,12 +10,12 @@ export interface SuperTextProps {
   compact?: boolean;
 }
 
-const SuperText = styled.h3`
+const SuperText = styled<SuperTextProps, 'h3'>('h3')`
   font-weight: bold;
   text-transform: uppercase;
   font-size: 16px;
   margin: ${props => (props.compact ? '0' : '20px 0 7px 0')};
-  color: ${(props: SuperTextProps) => props.color || ''};
+  color: ${props => props.color || ''};
 `;
 SuperText.displayName = 'SuperText';
 

@@ -2,20 +2,20 @@ import * as React from 'react';
 import {
   styled,
   ThemeProps,
-  StyledComponentClass,
+  StyledComponent,
   ThemeInterface,
 } from '../../styled-components';
 import TextInput from '../TextInput';
 import { setLightness } from 'polished';
 import { Button, FullButtonProps } from '../../general/Button';
 
-export const Container = styled.div`
+export const Container = styled('div')`
   width: 100%;
   position: relative;
   box-sizing: border-box;
 `;
 
-export const Dropdown = styled.div`
+export const Dropdown = styled('div')`
   box-sizing: inherit;
   position: absolute;
   width: 100%;
@@ -34,7 +34,7 @@ export interface DropdownItemProps extends ThemeProps {
   checked: boolean;
 }
 
-export const DropdownItem = styled.label`
+export const DropdownItem = styled<DropdownItemProps, 'label'>('label')`
   box-sizing: inherit;
   width: 100%;
   display: block;
@@ -45,17 +45,17 @@ export const DropdownItem = styled.label`
     background: #ddd;
   }
 
-  background: ${(props: DropdownItemProps) =>
+  background: ${props =>
     props.checked ? setLightness(0.93, props.theme!.primaryColor) : ''};
 `;
 
-export const DropdownActionBar = styled.div`
+export const DropdownActionBar = styled('div')`
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 `;
 
-export const DropdownList = styled.div`
+export const DropdownList = styled('div')`
   height: 180px;
   overflow-y: scroll;
   margin: 0 -10px;

@@ -43,7 +43,7 @@ export { default as Content } from './layout/layout/Content';
 export { default as ContentContainer } from './layout/layout/ContentContainer';
 export { default as Sidebar } from './layout/layout/Sidebar';
 export { default as Toolbar } from './layout/layout/Toolbar';
-export { Row, Col, Grid } from './layout/Grid';
+export { Row, Col, Grid } from './layout/grid';
 export { default as ActionBar } from './layout/ActionBar';
 
 export { default as Loader } from './feedback/Loader';

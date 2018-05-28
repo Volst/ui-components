@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styled } from '../styled-components';
 
-const Bubble = styled.sup`
+const Bubble = styled('sup')`
   background: ${props => props.theme.dangerColor};
   position: absolute;
   min-width: 16px;
@@ -18,7 +18,7 @@ const Bubble = styled.sup`
   font-weight: bold;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled('div')`
   position: relative;
   display: inline-block;
 `;

@@ -6,8 +6,8 @@ interface StyledAsideProps extends ThemeProps {
   medium?: boolean;
 }
 
-const StyledAside = styled.aside`
-  ${(props: StyledAsideProps) => {
+const StyledAside = styled<StyledAsideProps, 'aside'>('aside')`
+  ${props => {
     const width = props.medium ? 450 : 350;
     return `
       width: ${width}px;
@@ -37,7 +37,7 @@ const StyledAside = styled.aside`
   }};
 `;
 
-const Content = styled.div`
+const Content = styled('div')`
   padding: 25px;
 `;
 

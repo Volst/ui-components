@@ -1,11 +1,7 @@
 import * as React from 'react';
-import {
-  styled,
-  StyledComponentClass,
-  ThemeInterface,
-} from '../styled-components';
+import { styled, StyledComponent, ThemeInterface } from '../styled-components';
 
-const Icon = styled.svg`
+const Icon = styled('svg')`
   display: inline-block;
   fill: currentColor;
   height: ${props => props.height || 18}px;

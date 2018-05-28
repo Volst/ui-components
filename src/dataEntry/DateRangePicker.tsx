@@ -18,7 +18,7 @@ interface CombinedInputProps extends ThemeProps {
   hasError?: boolean;
 }
 
-const CombinedInput = styled.div`
+const CombinedInput = styled<CombinedInputProps, 'div'>('div')`
   height: 30px;
   display: flex;
   background: ${props => props.theme.componentBackground};
@@ -27,7 +27,7 @@ const CombinedInput = styled.div`
   font-size: 14px;
   align-items: center;
 
-  ${(props: CombinedInputProps) =>
+  ${props =>
     props.hasError
       ? `
       border-color: ${props.theme!.dangerColor};
@@ -36,7 +36,7 @@ const CombinedInput = styled.div`
       : ''};
 `;
 
-const CombinedInputItem = styled.div`
+const CombinedInputItem = styled('div')`
   flex: 1;
   display: flex;
   padding-left: 10px;
