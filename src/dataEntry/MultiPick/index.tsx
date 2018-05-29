@@ -9,10 +9,10 @@ import onClickOutside, {
   InjectedOnClickOutProps,
 } from 'react-onclickoutside';
 
-export interface MultiPickProps extends InjectedOnClickOutProps {
+export interface MultiPickProps {
   options: OptionsPropType;
   value: ValuePropType[];
-  searchAppearsAfterCount: number;
+  searchAppearsAfterCount?: number;
   searchPlaceholder?: string;
   selectedText?: string;
   selectAllText?: string;
@@ -27,11 +27,10 @@ interface MultiPickState {
   searchValue: string;
 }
 
-class MultiPick extends React.Component<MultiPickProps, MultiPickState> {
-  static defaultProps: Partial<MultiPickProps> = {
-    searchAppearsAfterCount: 5,
-  };
-
+class MultiPick extends React.Component<
+  MultiPickProps & InjectedOnClickOutProps,
+  MultiPickState
+> {
   state = {
     opened: false,
     searchValue: '',
@@ -75,10 +74,12 @@ class MultiPick extends React.Component<MultiPickProps, MultiPickState> {
   }
 
   renderDropdown = () => {
+    const searchAppearsAfterCount = this.props.searchAppearsAfterCount || 5;
     if (this.state.opened) {
       return (
         <Dropdown
           {...this.props}
+          searchAppearsAfterCount={searchAppearsAfterCount}
           filteredOptions={this.filterData(
             this.props.options,
             this.state.searchValue

@@ -72,7 +72,7 @@ storiesOf('Data Entry / MultiPick', module)
             value={state.value}
             searchAppearsAfterCount={5}
             onChange={value => {
-              this.setState({ value });
+              setState({ value });
               action('change');
             }}
           />

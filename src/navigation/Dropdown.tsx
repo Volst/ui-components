@@ -10,13 +10,16 @@ const RelativeWrapper = styled('div')`
   position: relative;
 `;
 
-export interface DropdownProps extends InjectedOnClickOutProps {
+export interface DropdownProps {
   overlay: React.ReactElement<any>;
   opened?: boolean;
   onChange?: (value: boolean) => void;
 }
 
-class MyDropdown extends React.Component<DropdownProps, { opened: boolean }> {
+class MyDropdown extends React.Component<
+  DropdownProps & InjectedOnClickOutProps,
+  { opened: boolean }
+> {
   state = {
     opened: false,
   };

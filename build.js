@@ -40,7 +40,11 @@ rollup
   .rollup({
     input: './src/index.ts',
     external,
-    plugins: [typescript()],
+    plugins: [
+      typescript({
+        tsconfig: 'tsconfig.build.json',
+      }),
+    ],
   })
   .then(bundle => {
     bundle.write({

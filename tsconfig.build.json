@@ -1,10 +1,11 @@
 {
   "extends": "./tsconfig.base",
   "compilerOptions": {
+    "outDir": "dist"
   },
   "include": [
-    "src/**/*",
-    "storybook/**/*",
+    "src/index.ts",
+    "src/PropTypes.ts",
     "types.d.ts"
   ]
 }

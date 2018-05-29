@@ -18,9 +18,9 @@ storiesOf('Navigation / PaginationControls', module)
     withInfo()(() => {
       return (
         <PaginationControls
-          previousText={null}
-          nextText={null}
-          ofText={'/'}
+          previousText=""
+          nextText=""
+          ofText="/"
           currentPage={1}
           totalPages={42}
           hasNextPage
