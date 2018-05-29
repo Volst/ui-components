@@ -64,7 +64,7 @@ export interface SingleDatePickerProps {
   hasError?: boolean;
   showWeekNumbers?: boolean;
   disabledDays?: any; // TODO add proper validation; it can be either an object or a function.
-  theme: ThemeInterface;
+  theme?: ThemeInterface;
 }
 
 class SingleDatePicker extends React.PureComponent<SingleDatePickerProps, {}> {
@@ -85,7 +85,7 @@ class SingleDatePicker extends React.PureComponent<SingleDatePickerProps, {}> {
 
   getChildContext() {
     return {
-      inputDateFormat: this.props.theme.dateFormat,
+      inputDateFormat: this.props.theme!.dateFormat,
     };
   }
 
@@ -99,7 +99,7 @@ class SingleDatePicker extends React.PureComponent<SingleDatePickerProps, {}> {
 
   render() {
     const { value } = this.props;
-    const dateFormat = this.props.theme.dateFormat;
+    const dateFormat = this.props.theme!.dateFormat;
     const formattedValue = value ? value.format(dateFormat) : '';
     // TODO: currently you cannot use most props you might need from the react-day-picker component
     const dayPickerProps = {

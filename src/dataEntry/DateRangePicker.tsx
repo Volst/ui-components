@@ -59,7 +59,7 @@ export interface DateRangePickerProps {
   disabledDays?: any; // TODO add proper validation; it can be either an object or a function.
   hasError?: boolean;
   placeholder?: string;
-  theme: ThemeInterface;
+  theme?: ThemeInterface;
 }
 
 class DateRangePicker extends React.Component<
@@ -120,12 +120,12 @@ class DateRangePicker extends React.Component<
         >
           <CombinedInputItem onClick={onClick}>
             {startDate
-              ? startDate.format(theme.dateFormat)
+              ? startDate.format(theme!.dateFormat)
               : this.props.placeholder || t('form.dateRangePlaceholder')}
           </CombinedInputItem>
           <IconNavigateNext width="22" height="22" />
           <CombinedInputItem onClick={onClick}>
-            {endDate && endDate.format(theme.dateFormat)}
+            {endDate && endDate.format(theme!.dateFormat)}
           </CombinedInputItem>
           <Button
             ghost

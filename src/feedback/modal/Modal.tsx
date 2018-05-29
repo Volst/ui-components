@@ -18,7 +18,7 @@ export interface ModalProps {
   width?: string;
   title?: string | React.ReactNode;
   footer?: React.ReactNode;
-  theme: ThemeInterface;
+  theme?: ThemeInterface;
 }
 
 class Modal extends React.Component<ModalProps, {}> {
@@ -26,7 +26,7 @@ class Modal extends React.Component<ModalProps, {}> {
     // Terrible hack, but I did not yet find a prop way to defer loading
     // the global styles for rc-dialog.
     if (!globalInserted) {
-      globalStyles(this.props.theme);
+      globalStyles(this.props.theme!);
       globalInserted = true;
     }
   }

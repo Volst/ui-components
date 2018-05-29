@@ -18,7 +18,7 @@ export interface TooltipProps {
     | 'topRight'
     | 'bottomLeft'
     | 'bottomRight';
-  theme: ThemeInterface;
+  theme?: ThemeInterface;
   mouseLeaveDelay?: number;
 }
 const globalStyles = (theme: ThemeInterface) => injectGlobal`
@@ -145,11 +145,11 @@ const globalStyles = (theme: ThemeInterface) => injectGlobal`
 let globalInserted = false;
 
 class Tooltip extends React.Component<TooltipProps, {}> {
-  componentWillMount() {
+  componentDidMount() {
     // Terrible hack, but I did not yet find a prop way to defer loading
     // the global styles for rc-dialog.
     if (!globalInserted) {
-      globalStyles(this.props.theme);
+      globalStyles(this.props.theme!);
       globalInserted = true;
     }
   }
