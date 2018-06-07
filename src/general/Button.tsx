@@ -178,7 +178,7 @@ export interface FullButtonProps extends ButtonProps {
 
 // `type="submit"` is a nasty default and we forget all the time to set this to type="button" manually...
 export const Button: React.SFC<FullButtonProps> = props => (
-  <StyledButton button="button" disabled={props.loading} {...getProps(props)} />
+  <StyledButton type="button" disabled={props.loading} {...getProps(props)} />
 );
 Button.displayName = 'Button';
 
