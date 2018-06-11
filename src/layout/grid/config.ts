@@ -22,8 +22,9 @@ export const BASE_CONF = {
 const configCache: any[] = [];
 const makeCacheId = props =>
   JSON.stringify((props.theme && props.theme[THEME_CONF]) || {});
-const resolveConfig = props => {
-  const themeConf = (props.theme && props.theme[THEME_CONF]) || {};
+// _media and _props are underscored because of a very very weird bug in uglify-es where it confuses these variables with something else
+const resolveConfig = _props => {
+  const themeConf = (_props.theme && _props.theme[THEME_CONF]) || {};
 
   const conf = {
     ...BASE_CONF,
@@ -38,9 +39,9 @@ const resolveConfig = props => {
     },
   };
 
-  conf.media = Object.keys(conf.breakpoints).reduce((media, breakpoint) => {
+  conf.media = Object.keys(conf.breakpoints).reduce((_media, breakpoint) => {
     const breakpointWidth = conf.breakpoints[breakpoint];
-    media[breakpoint] = makeMedia(
+    _media[breakpoint] = makeMedia(
       [
         conf.mediaQuery,
         breakpointWidth !== 0 && `(min-width: ${breakpointWidth}em)`,
@@ -48,7 +49,7 @@ const resolveConfig = props => {
         .filter(Boolean)
         .join(' and ')
     );
-    return media;
+    return _media;
   }, {});
 
   return conf;
