@@ -14,7 +14,7 @@ export { default as LabelText } from './dataEntry/LabelText';
 export { default as RadioButtons } from './dataEntry/RadioButtons';
 export { default as RadioList } from './dataEntry/RadioList';
 export { default as Checkbox } from './dataEntry/Checkbox';
-export { default as TextInput } from './dataEntry/TextInput';
+export { default as TextInput, StyledInput } from './dataEntry/TextInput';
 export { default as NumberInput } from './dataEntry/NumberInput';
 export { default as TimeInput } from './dataEntry/TimeInput';
 export { default as TextArea } from './dataEntry/TextArea';
