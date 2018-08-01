@@ -12,6 +12,7 @@ const StyledForm = styled('form')`
 
 export interface FormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  disableSubmitOnEnter?: boolean;
 }
 
 export default class Form extends React.Component<FormProps, {}> {
@@ -19,8 +20,8 @@ export default class Form extends React.Component<FormProps, {}> {
     onSubmit: PropTypes.func.isRequired,
   };
 
-  // Submit with ctrl+s or <cmd/windows>+s
-  handleKeydown = e => {
+  handleKeydown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    // Submit with ctrl+s or <cmd/windows>+s
     if (e.ctrlKey || e.metaKey) {
       switch (String.fromCharCode(e.which).toLowerCase()) {
         case 's':
@@ -30,15 +31,11 @@ export default class Form extends React.Component<FormProps, {}> {
           break;
       }
     }
+
+    if (this.props.disableSubmitOnEnter && e.keyCode === 13) {
+      e.preventDefault();
+    }
   };
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeydown, false);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeydown);
-  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -46,6 +43,12 @@ export default class Form extends React.Component<FormProps, {}> {
   };
 
   render() {
-    return <StyledForm {...this.props} onSubmit={this.handleSubmit} />;
+    return (
+      <StyledForm
+        {...this.props}
+        onSubmit={this.handleSubmit}
+        onKeyDown={this.handleKeydown}
+      />
+    );
   }
 }
