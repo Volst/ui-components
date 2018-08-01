@@ -77,6 +77,7 @@ export interface TextInputProps {
   onChange?: (name: string, value: string) => void;
   onBlur?: (name: string, value: string) => void;
   onFocus?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   name: string;
   disabled?: boolean;
@@ -139,6 +140,7 @@ export default class TextInput extends React.PureComponent<TextInputProps, {}> {
       onChange: this.onChange,
       onBlur: this.onBlur,
       onFocus: this.props.onFocus,
+      onKeyDown: this.props.onKeyDown,
       autoFocus: this.props.autoFocus,
       hasError: this.props.hasError || this.context.formFieldHasError,
       className: this.props.className,
