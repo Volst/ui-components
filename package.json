@@ -72,8 +72,7 @@
     "react-onclickoutside": "^6.6.0",
     "react-text-mask": "^5.0.2",
     "react-textarea-autosize": "^6.0.0",
-    "text-mask-addons": "^3.7.0",
-    "typeface-roboto": "^0.0.54"
+    "text-mask-addons": "^3.7.0"
   },
   "engines": {
     "node": ">=4"

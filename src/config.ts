@@ -39,7 +39,8 @@ export const defaultConfig: ThemeInterface = {
   disabledColor: '#f9f9f9',
   componentBackground: '#fff',
   bodyBackground: '#fff',
-  fontFamily: 'Roboto, Arial, sans-serif',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif',
   dateFormat: 'DD-MM-YYYY',
   zIndexNotificationStack: 1010,
   zIndexModal: 1000,

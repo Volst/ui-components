@@ -1,34 +1,9 @@
 import * as React from 'react';
 import { ThemeProvider, injectGlobal } from './styled-components';
-import * as RobotoLight from 'typeface-roboto/files/roboto-latin-300.woff2';
-import * as RobotoRegular from 'typeface-roboto/files/roboto-latin-400.woff2';
-import * as RobotoMedium from 'typeface-roboto/files/roboto-latin-500.woff2';
-import * as RobotoBold from 'typeface-roboto/files/roboto-latin-700.woff2';
 import { defaultConfig, themeOverrides, ThemeInterface } from './config';
 import { mapValues, Dictionary } from 'lodash';
 
 const injectGlobalStyles = (theme: ThemeInterface) => injectGlobal`
-  @font-face {
-    font-family: 'Roboto';
-    src: url('${RobotoLight}');
-    font-weight: 300;
-  }
-  @font-face {
-    font-family: 'Roboto';
-    src: url('${RobotoRegular}');
-    font-weight: 400;
-  }
-  @font-face {
-    font-family: 'Roboto';
-    src: url('${RobotoMedium}');
-    font-weight: 500;
-  }
-  @font-face {
-    font-family: 'Roboto';
-    src: url('${RobotoBold}');
-    font-weight: 700;
-  }
-
   html {
     box-sizing: border-box;
     background: ${theme.bodyBackground};
