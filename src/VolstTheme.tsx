@@ -83,7 +83,8 @@ export default class VolstTheme extends React.Component<VolstThemeProps, {}> {
   static defaultProps = {
     theme: {},
   };
-  componentDidMount() {
+  constructor(props: VolstThemeProps) {
+    super(props);
     injectGlobalStyles(getTheme(this.props.theme));
   }
   render() {
