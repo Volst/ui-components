@@ -18,7 +18,7 @@
     "preversion": "npm run -s lint && NODE_ENV=production npm run -s build && npm test && npm run -s deploy-storybook",
     "build": "rm -rf dist/** && node build.js",
     "precommit": "lint-staged",
-    "build-storybook": "NODE_ENV=production build-storybook -c storybook -o .out",
+    "build-storybook": "NODE_ENV=production build-storybook -c storybook -o .out -s storybook/public",
     "deploy-storybook": "storybook-to-ghpages -c storybook",
     "ci": "npm run -s build && npm test"
   },
