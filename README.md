@@ -53,3 +53,4 @@ Please read the [contributing](./CONTRIBUTING.md) guide.
 - [Elemental UI](http://elemental-ui.com/)
 - [Material UI](http://www.material-ui.com/)
 - [Semantic UI React](http://react.semantic-ui.com/introduction)
+- [Blueprint](https://blueprintjs.com/)
