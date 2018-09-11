@@ -42,12 +42,12 @@ export const defaultConfig: ThemeInterface = {
   fontFamily:
     '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif',
   dateFormat: 'DD-MM-YYYY',
-  zIndexNotificationStack: 1010,
-  zIndexModal: 1000,
   zIndexDropdownMenu: 420,
   zIndexFancySelectDropdown: 420,
-  zIndexTooltip: 100,
-  zIndexSingleDatePickerOverlay: 100,
+  zIndexModal: 1000,
+  zIndexNotificationStack: 1010,
+  zIndexSingleDatePickerOverlay: 1020,
+  zIndexTooltip: 1020,
 };
 
 // overrideProp : fallbackProp
