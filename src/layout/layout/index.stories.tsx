@@ -37,10 +37,10 @@ storiesOf('Layout / Layout', module)
         <AppContainer>
           <Body>
             <ContentContainer>
-              <Content small>
+              <Content size="small">
                 <p>
                   Some small content text inputs etc. should not look to wide
-                  when using this small prop.
+                  when using the size prop set to 'small'.
                 </p>
                 <TextInput name="foo" value="" />
                 <ActionBar>
@@ -53,5 +53,30 @@ storiesOf('Layout / Layout', module)
           </Body>
         </AppContainer>
       );
-    })
+    }).add(
+      'full sized content',
+      withInfo()(() => {
+        return (
+          <AppContainer>
+            <Body>
+              <ContentContainer>
+                <Content size="full">
+                  <p>
+                    Pages with big tables should use all space available, also
+                    on big screens. Setting the size-prop to 'full' will enable
+                    this by removing the max-width of this container.
+                  </p>
+                  <TextInput name="foo" value="" />
+                  <ActionBar>
+                    <Button>Save</Button>
+                  </ActionBar>
+                </Content>
+                <Sidebar>This is the sidebar.</Sidebar>
+              </ContentContainer>
+              <Toolbar>Toolbar.</Toolbar>
+            </Body>
+          </AppContainer>
+        );
+      })
+    )
   );

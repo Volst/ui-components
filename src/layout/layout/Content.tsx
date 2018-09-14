@@ -25,13 +25,22 @@ const StyledScrollbars = styled(InnerScrollbars)`
 interface MainProps {
   blur?: boolean;
   center?: boolean;
-  small?: boolean;
+  size?: 'small' | 'medium' | 'full';
   compact?: boolean;
 }
 
 const Main = styled<MainProps, 'main'>('main')`
   margin: 0 auto;
-  max-width: ${props => (props.small ? '400px' : '1500px')};
+  max-width: ${props => {
+    switch (props.size) {
+      case 'small':
+        return '400px';
+      case 'full':
+        return 'none';
+      default:
+        return '1500px';
+    }
+  }};
   padding: ${props => (props.compact ? '0 25px' : '25px')};
   ${props =>
     (props.blur || '') &&
@@ -52,12 +61,8 @@ const Main = styled<MainProps, 'main'>('main')`
     `};
 `;
 
-export interface ContentProps {
-  center?: boolean;
-  blur?: boolean;
+export interface ContentProps extends MainProps {
   tone?: AvailableTones;
-  small?: boolean;
-  compact?: boolean;
 }
 
 const Content: React.SFC<ContentProps> = props => (
@@ -65,7 +70,7 @@ const Content: React.SFC<ContentProps> = props => (
     <Main
       center={props.center}
       blur={props.blur}
-      small={props.small}
+      size={props.size}
       compact={props.compact}
     >
       {props.children}
