@@ -53,9 +53,11 @@ storiesOf('Layout / Layout', module)
           </Body>
         </AppContainer>
       );
-    }).add(
-      'full sized content',
-      withInfo()(() => {
+    })
+  )
+  .add(
+    'full size content',
+    withInfo()(() => {
         return (
           <AppContainer>
             <Body>
