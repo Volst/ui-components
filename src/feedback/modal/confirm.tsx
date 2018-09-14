@@ -76,7 +76,7 @@ const ConfirmModal: React.SFC<ConfirmModalProps> = ({
 };
 
 export default function confirm({
-  theme = {},
+  theme = defaultConfig,
   ...config
 }: ConfirmFunctionProps) {
   const div = document.createElement('div');
