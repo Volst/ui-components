@@ -16,69 +16,62 @@ storiesOf('Layout / Layout', module)
   .addDecorator(FullDecorator)
   .add(
     'standard',
-    withInfo()(() => {
-      return (
-        <AppContainer>
-          <Body>
-            <ContentContainer>
-              <Content>Some content.</Content>
-              <Sidebar>This is the sidebar.</Sidebar>
-            </ContentContainer>
-            <Toolbar>Toolbar.</Toolbar>
-          </Body>
-        </AppContainer>
-      );
-    })
+    withInfo()(() => (
+      <AppContainer>
+        <Body>
+          <ContentContainer>
+            <Content>Some content.</Content>
+            <Sidebar>This is the sidebar.</Sidebar>
+          </ContentContainer>
+          <Toolbar>Toolbar.</Toolbar>
+        </Body>
+      </AppContainer>
+    ))
   )
   .add(
     'small content',
-    withInfo()(() => {
-      return (
-        <AppContainer>
-          <Body>
-            <ContentContainer>
-              <Content size="small">
-                <p>
-                  Some small content text inputs etc. should not look to wide
-                  when using the size prop set to 'small'.
-                </p>
-                <TextInput name="foo" value="" />
-                <ActionBar>
-                  <Button>Save</Button>
-                </ActionBar>
-              </Content>
-              <Sidebar>This is the sidebar.</Sidebar>
-            </ContentContainer>
-            <Toolbar>Toolbar.</Toolbar>
-          </Body>
-        </AppContainer>
-      );
-    })
+    withInfo()(() => (
+      <AppContainer>
+        <Body>
+          <ContentContainer>
+            <Content size="small">
+              <p>
+                Some small content text inputs etc. should not look to wide when
+                using the size prop set to 'small'.
+              </p>
+              <TextInput name="foo" value="" />
+              <ActionBar>
+                <Button>Save</Button>
+              </ActionBar>
+            </Content>
+            <Sidebar>This is the sidebar.</Sidebar>
+          </ContentContainer>
+          <Toolbar>Toolbar.</Toolbar>
+        </Body>
+      </AppContainer>
+    ))
   )
   .add(
     'full size content',
-    withInfo()(() => {
-        return (
-          <AppContainer>
-            <Body>
-              <ContentContainer>
-                <Content size="full">
-                  <p>
-                    Pages with big tables should use all space available, also
-                    on big screens. Setting the size-prop to 'full' will enable
-                    this by removing the max-width of this container.
-                  </p>
-                  <TextInput name="foo" value="" />
-                  <ActionBar>
-                    <Button>Save</Button>
-                  </ActionBar>
-                </Content>
-                <Sidebar>This is the sidebar.</Sidebar>
-              </ContentContainer>
-              <Toolbar>Toolbar.</Toolbar>
-            </Body>
-          </AppContainer>
-        );
-      })
-    )
+    withInfo()(() => (
+      <AppContainer>
+        <Body>
+          <ContentContainer>
+            <Content size="full">
+              <p>
+                Pages with big tables should use all space available, also on
+                big screens. Setting the size-prop to 'full' will enable this by
+                removing the max-width of this container.
+              </p>
+              <TextInput name="foo" value="" />
+              <ActionBar>
+                <Button>Save</Button>
+              </ActionBar>
+            </Content>
+            <Sidebar>This is the sidebar.</Sidebar>
+          </ContentContainer>
+          <Toolbar>Toolbar.</Toolbar>
+        </Body>
+      </AppContainer>
+    ))
   );
