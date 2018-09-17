@@ -35,7 +35,7 @@ export default function createNumberMask({
   requireDecimal = false,
   allowNegative = false,
   allowLeadingZeroes = false,
-  integerLimit = null,
+  integerLimit,
 }: NumberMaskOptions = {}) {
   const prefixLength = (prefix && prefix.length) || 0;
   const suffixLength = (suffix && suffix.length) || 0;
