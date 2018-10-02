@@ -30,6 +30,7 @@ const globalStyles = (theme: ThemeInterface) => injectGlobal`
     font-size: 12px;
     line-height: 1.5;
     opacity: 0.9;
+    max-width: 300px;
   }
   .rc-tooltip-hidden {
     display: none;
