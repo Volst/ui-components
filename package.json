@@ -91,7 +91,7 @@
     "@volst/tslint-config": "^0.2.1",
     "emotion": "9.1.3",
     "fork-ts-checker-webpack-plugin": "^0.4.0",
-    "husky": "^0.14.1",
+    "husky": "^1.1.0",
     "i18next": "^11.3.2",
     "jest": "^23.0.1",
     "lint-staged": "^7.0.0",
