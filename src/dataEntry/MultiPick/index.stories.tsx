@@ -31,6 +31,26 @@ const MORE_DATA = [
     value: 5,
     label: 'Monkeys',
   },
+  {
+    value: 6,
+    label: 'Apes',
+  },
+  {
+    value: 7,
+    label: 'Zebras',
+  },
+  {
+    value: 8,
+    label: 'Birds',
+  },
+  {
+    value: 9,
+    label: 'Dogs',
+  },
+  {
+    value: 10,
+    label: 'Cats',
+  },
 ];
 
 storiesOf('Data Entry / MultiPick', module)

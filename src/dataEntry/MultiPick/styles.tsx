@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { rgba } from 'polished';
 import {
   styled,
   ThemeProps,
@@ -21,7 +22,9 @@ export const Dropdown = styled('div')`
   width: 100%;
   background: #fff;
   border: 1px solid #ccc;
-  padding: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 10px 10px 0;
   margin-top: 10px;
   z-index: ${props => props.theme.zIndexDropdownMenu};
 `;
@@ -57,7 +60,6 @@ export const DropdownActionBar = styled('div')`
 
 export const DropdownList = styled('div')`
   height: 180px;
-  overflow-y: scroll;
   margin: 0 -10px;
 `;
 

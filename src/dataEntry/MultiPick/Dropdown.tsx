@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { t } from 'i18next';
-
+import Scrollbars from 'react-custom-scrollbars';
 import {
   Dropdown,
   DropdownList,
@@ -104,7 +104,9 @@ export default class MultipickDropdown extends React.Component<
           </Button>
         </DropdownActionBar>
         <DropdownList>
-          {this.props.filteredOptions.map(this.renderItem)}
+          <Scrollbars>
+            {this.props.filteredOptions.map(this.renderItem)}
+          </Scrollbars>
         </DropdownList>
       </Dropdown>
     );
