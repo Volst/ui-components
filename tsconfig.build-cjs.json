@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.build-es",
+  "compilerOptions": {
+    "outDir": "dist/cjs",
+    "declaration": false,
+    "esModuleInterop": true,
+    "module": "commonjs"
+  }
+}

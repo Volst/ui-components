@@ -4,9 +4,9 @@
   "license": "ISC",
   "author": "Kees Kluskens <kees@volst.nl>",
   "description": "React component library for Volst",
-  "module": "dist/volst-ui-components.es.js",
-  "main": "dist/volst-ui-components.cjs.js",
-  "typings": "dist/src/index.d.ts",
+  "module": "dist/es/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/es/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/Volst/ui-components.git"
@@ -16,7 +16,7 @@
     "lint": "tslint -p .",
     "test": "jest",
     "preversion": "npm run -s lint && NODE_ENV=production npm run -s build && npm test && npm run -s deploy-storybook",
-    "build": "rm -rf dist/** && node build.js",
+    "build": "rm -rf dist/** && tsc -p tsconfig.build-es.json && tsc -p tsconfig.build-cjs.json",
     "precommit": "lint-staged",
     "build-storybook": "NODE_ENV=production build-storybook -c storybook -o .out -s storybook/public",
     "deploy-storybook": "storybook-to-ghpages -c storybook",
