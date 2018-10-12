@@ -9,7 +9,7 @@ import { State } from 'react-powerplug';
 const SOME_DATA = [
   {
     value: 1,
-    label: 'Dinosaurus',
+    label: 'Dinosaurs',
   },
   {
     value: 2,
@@ -49,7 +49,7 @@ const MORE_DATA = [
   },
   {
     value: 10,
-    label: 'Cats',
+    label: 'Micropachycephalosaurus hongtuyanensis',
   },
 ];
 
@@ -95,6 +95,24 @@ storiesOf('Data Entry / MultiPick', module)
               setState({ value });
               action('change');
             }}
+          />
+        )}
+      </State>
+    );
+  })
+  .add('with custom width', () => {
+    return (
+      <State initial={{ value: [] }}>
+        {({ state, setState }) => (
+          <MultiPick
+            options={MORE_DATA}
+            value={state.value}
+            searchAppearsAfterCount={5}
+            onChange={value => {
+              setState({ value });
+              action('change');
+            }}
+            width="500px"
           />
         )}
       </State>

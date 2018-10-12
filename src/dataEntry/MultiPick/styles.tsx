@@ -16,10 +16,15 @@ export const Container = styled('div')`
   box-sizing: border-box;
 `;
 
-export const Dropdown = styled('div')`
+export interface DropdownProps extends ThemeProps {
+  width?: string;
+}
+
+export const Dropdown = styled<DropdownProps, 'div'>('div')`
   box-sizing: inherit;
   position: absolute;
-  width: 100%;
+  min-width: 100%;
+  max-width: ${({ width }) => width};
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -52,10 +57,14 @@ export const DropdownItem = styled<DropdownItemProps, 'label'>('label')`
     props.checked ? setLightness(0.93, props.theme!.primaryColor) : ''};
 `;
 
-export const DropdownActionBar = styled('div')`
+export interface DropdownActionBarProps extends ThemeProps {
+  extraPadding?: boolean;
+}
+
+export const DropdownActionBar = styled<DropdownActionBarProps, 'div'>('div')`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: ${({ extraPadding }) => (extraPadding ? '10' : '6')}px;
 `;
 
 export const DropdownList = styled('div')`
@@ -64,5 +73,5 @@ export const DropdownList = styled('div')`
 `;
 
 export const DropdownSearch = styled(TextInput as any)`
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 `;

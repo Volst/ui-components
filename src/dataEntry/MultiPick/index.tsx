@@ -20,6 +20,7 @@ export interface MultiPickProps {
   noneSelectedText?: string;
   onChange: (value: ValuePropType[]) => void;
   disabled?: boolean;
+  width?: string;
 }
 
 interface MultiPickState {

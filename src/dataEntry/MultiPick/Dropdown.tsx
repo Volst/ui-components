@@ -23,6 +23,7 @@ export interface MultipickDropdownProps {
   searchPlaceholder?: string;
   selectAllText?: string;
   selectNoneText?: string;
+  width?: string;
 }
 
 export default class MultipickDropdown extends React.Component<
@@ -91,11 +92,14 @@ export default class MultipickDropdown extends React.Component<
       selectAllText,
       selectNoneText,
       searchAppearsAfterCount,
+      width,
     } = this.props;
+    const hasSearch = options.length >= searchAppearsAfterCount;
+
     return (
-      <Dropdown>
-        {options.length >= searchAppearsAfterCount ? this.renderSearch() : null}
-        <DropdownActionBar>
+      <Dropdown width={width}>
+        {hasSearch && this.renderSearch()}
+        <DropdownActionBar extraPadding={hasSearch}>
           <Button onClick={this.selectAll} tone={Tone.Light}>
             {selectAllText || t('form.multiPick.selectAllButton')}
           </Button>
