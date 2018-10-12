@@ -1,6 +1,6 @@
 {
   "name": "@volst/ui-components",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "license": "ISC",
   "author": "Kees Kluskens <kees@volst.nl>",
   "description": "React component library for Volst",
