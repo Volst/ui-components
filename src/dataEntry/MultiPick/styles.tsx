@@ -24,7 +24,7 @@ export const Dropdown = styled<DropdownProps, 'div'>('div')`
   box-sizing: inherit;
   position: absolute;
   min-width: 100%;
-  max-width: ${({ width }) => width};
+  width: ${({ width }) => width};
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
