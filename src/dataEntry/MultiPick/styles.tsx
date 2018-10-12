@@ -30,7 +30,8 @@ export const Dropdown = styled<DropdownProps, 'div'>('div')`
   border-radius: 4px;
   overflow: hidden;
   padding: 10px 10px 0;
-  margin-top: 10px;
+  margin-top: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   z-index: ${props => props.theme.zIndexDropdownMenu};
 `;
 
